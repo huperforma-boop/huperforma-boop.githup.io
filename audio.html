@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ÚMIT | Аудио Плеер</title>
+    <title>ÚMIT | Аудио Плеер (Неон)</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Montserrat:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -14,10 +14,13 @@
             --dark-bg: #000000;
             --main-neon: #00FFFF; /* Көк акцент */
             --secondary-neon: #FF00FF; /* Күлгін акцент */
-            --light-text: #E0FFFF; /* Ашық мәтін */
+            --light-text: #E0FFFF; 
             --player-bg: #151515; 
             --list-bg: #0a0a0a;
-            --lyrics-bg: rgba(0, 255, 255, 0.1); /* Мәтінге арналған фон */
+            --lyrics-bg: rgba(0, 255, 255, 0.1); 
+            --neon-shadow-heavy: 0 0 10px var(--main-neon), 0 0 25px rgba(0, 255, 255, 0.5);
+            --neon-shadow-light: 0 0 5px var(--main-neon);
+            --progress-width: 0%; /* JS арқылы басқарылатын айнымалы */
         }
 
         /* НЕГІЗГІ СТИЛЬДЕР */
@@ -37,7 +40,7 @@
             margin: 30px auto;
             padding: 0 0 50px 0;
         }
-        
+
         .back-link {
             display: inline-block;
             margin-bottom: 20px;
@@ -46,7 +49,7 @@
             font-size: 1em;
             transition: color 0.2s;
         }
-
+        
         /* 💡 НЕОН АНИМАЦИЯНЫҢ КЛЮЧТІК КАДРЛАРЫ */
         @keyframes pulseNeon {
             0% { box-shadow: 0 0 5px var(--main-neon); }
@@ -54,23 +57,24 @@
             100% { box-shadow: 0 0 5px var(--main-neon); }
         }
 
-        /* 🎧 НЕГІЗГІ ПЛЕЕР */
+        /* 🎧 НЕГІЗГІ ПЛЕЕР (НЕОН КҮШЕЙТІЛДІ) */
         .main-player-card {
             background-color: var(--player-bg);
-            border: 1px solid var(--main-neon);
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+            border: 2px solid var(--main-neon); 
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.8), 0 0 40px rgba(0, 255, 255, 0.4); 
             border-radius: 12px;
             padding: 25px;
             text-align: center;
             margin-bottom: 30px;
             position: relative;
-            animation: pulseNeon 4s infinite alternate ease-in-out; /* Плеерге неон анимация */
+            animation: pulseNeon 4s infinite alternate ease-in-out; 
         }
-        
+
         .cover-art {
             width: 180px; height: 180px; border-radius: 50%; margin: 0 auto 30px auto; overflow: hidden;
             display: flex; justify-content: center; align-items: center; font-size: 3em; color: var(--main-neon);
             background-color: #333;
+            box-shadow: 0 0 15px var(--secondary-neon); 
         }
         
         .controls {
@@ -80,10 +84,70 @@
         .control-btn {
             background: none; border: none; color: var(--light-text); cursor: pointer;
             font-size: 1.5em; padding: 10px; transition: color 0.2s ease, transform 0.2s ease;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); 
         }
         
+        .control-btn:hover {
+            color: var(--main-neon);
+            transform: scale(1.1);
+            text-shadow: var(--neon-shadow-heavy);
+        }
+
         .control-btn.main-play {
-            font-size: 2.5em; color: var(--main-neon);
+            font-size: 2.5em; 
+            color: var(--main-neon);
+            text-shadow: var(--neon-shadow-heavy);
+        }
+
+        /* 🎵 ПРОГРЕСС ЖОЛАҒЫ (ДОРОЖКА) */
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0 10px 0;
+            padding: 0 10px;
+        }
+
+        .time-display {
+            font-size: 0.9em;
+            color: var(--main-neon);
+            text-shadow: var(--neon-shadow-light);
+            width: 50px; 
+            text-align: center;
+        }
+
+        #progress-bar {
+            flex-grow: 1;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 0 5px var(--main-neon) inset; 
+            transition: all 0.2s ease;
+        }
+
+        /* Прогресс жолағының толтырылған бөлігі (Chrome/Safari) */
+        #progress-bar::-webkit-slider-runnable-track {
+            background: linear-gradient(to right, var(--main-neon) var(--progress-width, 0%), rgba(255, 255, 255, 0.1) var(--progress-width, 0%));
+            border-radius: 4px;
+            transition: all 0.1s ease;
+        }
+        
+        /* Прогресс жолағының тырмауы (Chrome/Safari) */
+        #progress-bar::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--secondary-neon); 
+            cursor: pointer;
+            border: 2px solid var(--light-text);
+            box-shadow: 0 0 10px var(--secondary-neon), 0 0 20px rgba(255, 0, 255, 0.7); 
+            margin-top: -3.5px; 
+            transition: all 0.2s ease;
         }
 
         /* 🎶 ПЛЕЙЛИСТ */
@@ -99,19 +163,15 @@
             border-radius: 4px;
             flex-wrap: wrap; 
         }
-        
-        .playlist-item:hover {
-            background-color: #1a1a1a;
-        }
 
         .playlist-item.playing {
             background-color: rgba(0, 255, 255, 0.15);
             border-left: 5px solid var(--main-neon);
             color: var(--main-neon);
             font-weight: bold;
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); /* Белсенді элементке неон әсер */
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); 
         }
-        
+
         .item-actions {
             display: flex;
             gap: 15px;
@@ -129,10 +189,6 @@
             transition: background-color 0.3s;
         }
         
-        .lyrics-toggle-btn:hover {
-            background-color: var(--main-neon);
-        }
-
         /* МӘТІН БЛОГЫНЫҢ ПЛАВНЫЙ АНИМАЦИЯСЫ */
         .lyrics-content {
             background-color: var(--lyrics-bg);
@@ -146,7 +202,6 @@
             
             max-height: 0;
             overflow: hidden;
-            /* ПЛАВНЫЙ (біркелкі) АНИМАЦИЯ */
             transition: max-height 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), padding 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
             white-space: pre-wrap; 
             text-align: justify;
@@ -177,6 +232,9 @@
                 justify-content: flex-end; 
                 margin-top: 10px;
             }
+            .time-display {
+                width: 40px; 
+            }
         }
     </style>
 </head>
@@ -200,7 +258,10 @@
             <audio id="global-audio-player" src="" preload="metadata"></audio>
             
             <div class="progress-container">
-                </div>
+                <span id="current-time" class="time-display">0:00</span>
+                <input type="range" id="progress-bar" value="0" min="0" max="100" step="0.1">
+                <span id="duration" class="time-display">0:00</span>
+            </div>
             
             <div class="controls">
                 <button class="control-btn" onclick="skipTime(-10)"><i class="fas fa-backward"></i></button>
@@ -332,28 +393,38 @@
 
     <script>
         // ===================================================
-        // АУДИО ПЛЕЕР ЖӘНЕ МӘТІН ФУНКЦИЯЛАРЫ
+        // АУДИО ПЛЕЕР ЖӘНЕ ПРОГРЕСС ЖОЛАҒЫ ФУНКЦИЯЛАРЫ
         // ===================================================
 
         const audioPlayer = document.getElementById('global-audio-player');
         const playBtn = document.getElementById('main-play-btn');
         const playIcon = playBtn.querySelector('i');
         const playlistItems = document.querySelectorAll('.playlist-item');
+        const progressBar = document.getElementById('progress-bar');
+        const currentTimeDisplay = document.getElementById('current-time');
+        const durationDisplay = document.getElementById('duration');
         let currentTrackIndex = -1; 
         
-        // Аудио деректері
+        // Аудио деректері (Файл атаулары дұрыс болуы тиіс)
         const tracks = [
             { title: "1. Orta júz", src: "orta_juz_audio.mp3" },
             { title: "2. Jarylǵap batyr", src: "jarylgap_batyr_audio.mp3" },
             { title: "3. Тегімнің рухы", src: "tegimnin_ruhy_audio.mp3" }
         ];
 
+        // Уақытты форматтау
         function formatTime(seconds) {
             const min = Math.floor(seconds / 60);
             const sec = Math.floor(seconds % 60);
             return `${min}:${sec < 10 ? '0' : ''}${sec}`;
         }
         
+        // CSS айнымалысын жаңарту (Прогресс жолағының түсін өзгерту үшін)
+        function updateProgressStyle(percent) {
+            document.documentElement.style.setProperty('--progress-width', `${percent}%`);
+        }
+
+        // Тректі жүктеу
         function loadTrack(index) {
             if (index === currentTrackIndex) {
                 togglePlay();
@@ -372,6 +443,7 @@
             playIcon.className = 'fas fa-pause';
         }
         
+        // Ойнату/Кідірту
         function togglePlay() {
             if (currentTrackIndex === -1) {
                 loadTrack(0); 
@@ -386,6 +458,7 @@
             }
         }
         
+        // 10 секунд алға/артқа жылжыту
         function skipTime(time) {
             if (currentTrackIndex !== -1) {
                 audioPlayer.currentTime += time;
@@ -401,7 +474,44 @@
             });
         });
         
-        // Трек ұзақтықтарын көрсету
+        // 🎧 Аудио оқиғалары
+        
+        // Трек ұзақтығы дайын болғанда
+        audioPlayer.addEventListener('loadedmetadata', () => {
+            progressBar.max = audioPlayer.duration;
+            durationDisplay.textContent = formatTime(audioPlayer.duration);
+        });
+
+        // Уақытты жаңарту (дорожканы жылжыту)
+        audioPlayer.addEventListener('timeupdate', () => {
+            if (!audioPlayer.seeking && audioPlayer.duration) {
+                const currentTime = audioPlayer.currentTime;
+                const duration = audioPlayer.duration;
+                
+                progressBar.value = currentTime;
+                currentTimeDisplay.textContent = formatTime(currentTime);
+
+                // Прогресс жолағының түсін жаңарту
+                const percent = (currentTime / duration) * 100;
+                updateProgressStyle(percent);
+            }
+        });
+
+        // Трек аяқталғанда
+        audioPlayer.addEventListener('ended', () => {
+            playIcon.className = 'fas fa-play';
+            const nextIndex = (currentTrackIndex + 1) % tracks.length;
+            loadTrack(nextIndex);
+        });
+
+        // Дорожканы қолмен жылжыту (СЕЕК)
+        progressBar.addEventListener('input', () => {
+            const seekTime = parseFloat(progressBar.value);
+            audioPlayer.currentTime = seekTime;
+            currentTimeDisplay.textContent = formatTime(seekTime);
+        });
+
+        // Трек ұзақтықтарын көрсету (плейлист үшін)
         tracks.forEach((track, index) => {
             const tempAudio = new Audio(track.src);
             tempAudio.addEventListener('loadedmetadata', () => {
@@ -411,6 +521,11 @@
                 }
             }, { once: true });
         });
+
+
+        // ===================================================
+        // 📜 МӘТІН (LYRICS) ФУНКЦИЯСЫ
+        // ===================================================
 
         function toggleLyrics(button) {
             const lyricsIndex = button.getAttribute('data-lyrics-index');
@@ -438,7 +553,7 @@
                 button.textContent = 'Текст';
             }
         }
-        // (toggleFavorite функциясы тек HTML-де ғана бар, бірақ JavaScript-те іске асырылмаған)
+
     </script>
 
 </body>
