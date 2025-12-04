@@ -3,25 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Úmit | Қабыкенов Сағыныш (NEON Edition)</title>
+    <title>Úmit | Қабыкенов Сағыныш (Толық Домалақ)</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
-        /* НЕОН ТҮСТЕРІ */
+        /* НЕГІЗГІ ТҮСТЕР */
         :root {
-            --dark-bg: #000000;
-            --neon-blue: #00FFFF;
-            --neon-pink: #FF00FF;
-            --text-light: #EEEEEE;
+            --dark-bg: #111;
+            --main-accent: #FF9900; 
+            --light-text: #FFFFFF;
+            --section-bg: #FFFFFF;
+            --box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            --round-radius: 12px;
         }
 
         /* НЕГІЗГІ СТИЛЬДЕР */
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             background-color: var(--dark-bg); 
-            color: var(--text-light);
+            color: #333;
             margin: 0;
             padding: 0;
             line-height: 1.6;
@@ -31,205 +33,294 @@
             width: 90%;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px 0 50px 0;
+            padding: 0 0 50px 0;
         }
         
-        h1, h2, h3 {
-            font-family: 'Orbitron', sans-serif;
-            text-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue);
+        /* БАС ТАҚЫРЫП СТИЛДЕРІ (ӨЗГЕРІССІЗ) */
+        .header {
+            background-image: url('header_bg.jpg'); 
+            background-size: cover;
+            background-position: center;
+            padding: 150px 0 80px 0;
+            text-align: center;
+            color: var(--light-text);
+            position: relative;
+            z-index: 1;
         }
 
-        /* БАС ТАҚЫРЫП (HEADER) ТҮЗЕТУ: Жоғарыдағы орынды дұрыстау */
-        .header {
-            background-color: #111111;
-            padding: 60px 0; /* padding-ті сақтау, бірақ позицияны дұрыстау */
-            text-align: center;
-            border-bottom: 2px solid var(--neon-blue); 
-            box-shadow: 0 0 20px var(--neon-blue);
-            /* Жылжып кетпес үшін қосымша ережелер */
-            position: relative; 
-            z-index: 10;
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: -1;
         }
 
         .header h1 {
             font-size: 5em;
             margin: 0;
-            color: var(--neon-pink);
-            text-shadow: 0 0 7px var(--neon-pink), 0 0 15px var(--neon-pink);
+            font-weight: 900;
+            text-shadow: 2px 2px 5px #000;
+            color: var(--main-accent);
         }
 
         .header p {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--neon-blue);
-            text-shadow: 0 0 5px var(--neon-blue);
+            font-size: 1.5em;
+            font-weight: 400;
+            margin-top: 10px;
+            text-shadow: 1px 1px 3px #000;
         }
         
+        /* БӨЛІМДЕР ТАҚЫРЫБЫ */
         .section-title {
             text-align: center;
             margin: 60px 0 40px 0;
         }
 
         .section-title h2 {
-            font-size: 2.5em;
-            border-bottom: 3px solid var(--neon-pink);
+            font-size: 2.2em;
+            color: var(--dark-bg);
+            background-color: var(--light-text);
+            padding: 10px 20px;
             display: inline-block;
-            padding-bottom: 5px;
+            border: 2px solid var(--main-accent);
+            text-transform: uppercase;
         }
         
-        .video-grid {
+        /* ВИДЕО ЖӘНЕ АУДИО ГРИДТЕРІ */
+        .video-grid, .audio-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Домалақтарға орын беру үшін minmax 280px */
+            gap: 30px;
+            padding: 20px 0;
+            justify-items: center; /* Ортаға орналастыру */
         }
-
+        
+        /* ВИДЕО БЛОГЫ: ТОЛЫҚ ДОМАЛАҚ ФОРМА */
         .video-item {
-            background-color: #1a1a1a;
-            border: 2px solid var(--neon-blue);
-            box-shadow: 0 0 10px var(--neon-blue);
-            overflow: hidden;
-            transition: all 0.4s ease-in-out;
-            text-decoration: none;
-            display: block;
-        }
-
-        .video-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px var(--neon-pink);
-            border-color: var(--neon-pink);
-        }
-
-        .video-item h3 {
-            color: var(--neon-blue);
-            background-color: #333333;
-            padding: 15px;
+            width: 280px; /* Домалақтың өлшемі (квадрат) */
+            height: 280px; /* Домалақтың өлшемі (квадрат) */
+            padding: 0;
             margin: 0;
-            font-size: 1.2em;
-            text-align: center;
-        }
-
-        .video-thumbnail {
-            position: relative;
-            width: 100%;
-            padding-bottom: 56.25%;
+            background-color: var(--dark-bg);
+            border-radius: 50%; /* ТОЛЫҚ ДОМАЛАҚ ҚЫЛДЫҚ */
+            border: 5px solid var(--main-accent); /* Әдемі шеңбер */
+            box-shadow: var(--box-shadow);
             overflow: hidden;
-            background-size: cover;
-            background-position: center;
+            text-decoration: none;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-        }
-
-        .play-icon {
-            font-size: 4.5em;
-            color: rgba(255, 255, 255, 0.7);
-            position: absolute;
-            transition: color 0.3s;
-            text-shadow: 0 0 15px var(--neon-blue);
+            position: relative;
+            
+            /* АНИМАЦИЯ */
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out, border-color 0.3s ease;
         }
         
-        .video-item:hover .play-icon {
-            color: var(--neon-pink);
-            text-shadow: 0 0 15px var(--neon-pink);
+        .video-item:hover {
+            transform: scale(1.05); /* Кішкене үлкейту */
+            border-color: var(--light-text);
+        }
+        
+        .video-item h3 {
+            /* Домалақтың үстіңгі бөлігіндегі жартылай мөлдір жазу */
+            background-color: rgba(17, 17, 17, 0.7); 
+            position: absolute; 
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 10px 0;
+            margin: 0;
+            color: var(--light-text);
+            font-size: 1.1em;
+            text-shadow: 1px 1px 2px #000;
+            border-radius: 50% 50% 0 0; /* Үстіңгі бұрыштарды домалақ қылу */
+            text-transform: uppercase;
+            z-index: 5;
+        }
+        
+        /* СУРЕТ-СІЛТЕМЕ (THUMBNAIL) - Домалақ блокқа толтыру */
+        .video-thumbnail {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding-bottom: 0;
+            z-index: 1; /* Атауынан төмен тұруы үшін */
+        }
+        
+        .play-icon {
+            position: relative;
+            z-index: 10;
         }
 
-        /* АВТОР БӨЛІМІ - ТЕК АТЫ ЖӘНЕ СІЛТЕМЕЛЕР */
+        /* АУДИО БЛОГЫ (ДӨҢГЕЛЕКТЕНГЕН КӨРІНІС) */
+        .audio-item {
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--section-bg);
+            border: 1px solid #DDD;
+            border-radius: var(--round-radius); 
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+             /* АНИМАЦИЯ */
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s ease;
+        }
+        
+        .audio-item h3 {
+             background-color: var(--main-accent);
+             color: var(--dark-bg);
+        }
+
+        /* АВТОР БӨЛІМІ (ДӨҢГЕЛЕКТЕНГЕН) */
         .author-info {
-            background-color: #111;
-            border: 2px solid var(--neon-pink);
-            box-shadow: 0 0 15px var(--neon-pink);
-            border-radius: 5px;
-            padding: 40px;
-            margin-top: 80px;
+            background-color: var(--section-bg);
+            border: 1px solid var(--main-accent);
+            border-radius: var(--round-radius);
+            box-shadow: var(--box-shadow);
+            padding: 30px;
+            margin-top: 60px;
             text-align: center;
+            
+            /* АВТОР БЛОГЫНА АНИМАЦИЯ */
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s; 
         }
+        
+        /* ... қалған стильдер (ӨЗГЕРІССІЗ) ... */
+        
+        .container:hover .video-item,
+        .container:hover .audio-item,
+        .container:hover .author-info {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .video-item:nth-child(1), .audio-item:nth-child(1) { transition-delay: 0.0s; }
+        .video-item:nth-child(2), .audio-item:nth-child(2) { transition-delay: 0.1s; }
+        .video-item:nth-child(3), .audio-item:nth-child(3) { transition-delay: 0.2s; }
+        .video-item:nth-child(4), .audio-item:nth-child(4) { transition-delay: 0.3s; }
 
-        .author-info h2 {
-            color: var(--neon-blue);
-            font-size: 2.5em; /* Шрифтті үлкейту */
-            margin-bottom: 30px;
-            text-shadow: 0 0 10px var(--neon-blue);
-        }
-        /* Бұрынғы P тегіндегі мәтін енді жоқ */
-
-        .social-links a {
-            color: var(--neon-blue);
-            font-size: 3em;
-            margin: 0 20px;
-            transition: color 0.3s ease;
-        }
-
-        .social-links a:hover {
-            color: var(--neon-pink);
-            text-shadow: 0 0 10px var(--neon-pink);
-        }
 
         .footer {
-            background-color: #000000;
-            color: #555;
-            text-align: center;
-            padding: 25px 0;
+            background-image: url('footer_bg.jpg'); 
+            background-size: cover;
+            background-position: center;
+            padding: 80px 0 40px 0;
             margin-top: 50px;
-            font-size: 0.9em;
-            border-top: 1px dashed var(--neon-blue);
+            color: var(--light-text);
+            position: relative;
+            z-index: 1;
         }
         
-        /* МОБИЛЬДІК ЫҢҒАЙЛЫЛЫҚ (Сақталған және Тексерілген) */
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6); 
+            z-index: -1;
+        }
+        
+        .footer p {
+            text-shadow: 1px 1px 3px #000;
+        }
+
         @media (max-width: 768px) {
+            .video-grid, .audio-grid {
+                 /* Мобильді режимде бір қатарда бір элементтен ғана болады */
+                grid-template-columns: 1fr; 
+            }
+            .video-item {
+                width: 90%; /* Мобильде толық енге жақын болуы үшін */
+                height: auto;
+                padding-bottom: 90%; /* Квадрат форманы сақтау үшін */
+                margin: 0 auto;
+            }
             .header h1 {
                 font-size: 3em;
             }
             .section-title h2 {
-                font-size: 2em;
-            }
-            .author-info h2 {
-                font-size: 2em;
-            }
-            .social-links a {
-                font-size: 2.5em;
+                font-size: 1.5em;
             }
         }
     </style>
 </head>
 <body>
-
+    
     <div class="header">
         <h1>ÚMIT</h1>
-        <p>Шығармашылық Портфолио</p>
+        <p>Қабыкенов Сағыныштың Шығармашылық Портфолиосы</p>
     </div>
 
     <div class="container">
         
         <div class="section-title">
-            <h2>📀 Бейне Өлеңдер Жинағы (Көру үшін басыңыз)</h2>
+            <h2>Бейне Өлеңдер Жинағы</h2>
         </div>
         
         <div class="video-grid">
             
-            <a href="https://youtu.be/hXudqOz6LHg" target="_blank" class="video-item">
+            <a href="https://youtu.be/hXudqOz6LHg?si=9H62e1I29gK--gsH" target="_blank" class="video-item">
                 <h3>Orta júz</h3>
                 <div class="video-thumbnail" style="background-image: url('orta_juz.jpg');">
                     <i class="fas fa-play play-icon"></i>
                 </div>
             </a>
 
-            <a href="https://youtube.com/shorts/R9gMs1rpRSg?feature=share" target="_blank" class="video-item">
+            <a href="https://youtube.com/shorts/R9gMs1rpRSg?si=d-Y0RQjeRdXCDdXy" target="_blank" class="video-item">
                 <h3>Jarylǵap batyr</h3>
                 <div class="video-thumbnail" style="background-image: url('jarylgap_batyr.jpg');">
                      <i class="fas fa-play play-icon"></i>
                 </div>
             </a>
 
-            <a href="https://youtube.com/shorts/1fsjEGisgVk?feature=share" target="_blank" class="video-item">
-                <h3>Tegimniń rýhy</h3>
+            <a href="https://youtube.com/shorts/1fsjEGisgVk?si=QV_IbO7mV7Dcu7lP" target="_blank" class="video-item">
+                <h3>Тегімнің рухы</h3>
                 <div class="video-thumbnail" style="background-image: url('tegimnin_ruhy.jpg');">
                      <i class="fas fa-play play-icon"></i>
                 </div>
             </a>
             
         </div>
+
+        <div class="section-title">
+            <h2>Музыкалық Күйлер (Жай Ғана Аудио)</h2>
+        </div>
+        
+        <div class="audio-grid">
+            
+            <div class="audio-item">
+                <h3>(Жақын арада: 1-ші Күй)</h3>
+            </div>
+            
+            <div class="audio-item">
+                <h3>(Жақын арада: 2-ші Күй)</h3>
+            </div>
+            
+            <div class="audio-item">
+                <h3>(Жақын арада: 3-ші Күй)</h3>
+            </div>
+            
+        </div>
         
         <div class="author-info">
             <h2>Қабыкенов Сағыныш</h2>
+            
             <div class="social-links">
                 <a href="https://www.tiktok.com/@huawei.kz1?_r=1&_t=ZM-91vWOUJnp9f" target="_blank" aria-label="TikTok">
                     <i class="fab fa-tiktok"></i>
@@ -244,7 +335,7 @@
     </div>
 
     <div class="footer">
-        <p>CREATIVE CASE | 2025. Барлық құқықтар қорғалған.</p>
+        <p>Úmit Портфолио | 2025. Барлық құқықтар қорғалған.</p>
     </div>
 
 </body>
