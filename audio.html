@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ÚMIT | Аудио Плеер</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Montserrat:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* НЕГІЗГІ ТҮСТЕР */
+        :root {
+            --dark-bg: #000000;
+            --main-neon: #00FFFF; /* Көк неон */
+            --secondary-neon: #FF00FF; /* Күлгін неон */
+            --light-text: #E0FFFF; /* Ашық мәтін */
+            --box-bg: rgba(10, 25, 40, 0.5); 
+            --round-radius: 8px; 
+            --shadow-3d-base: 0 0 10px var(--main-neon);
+            --shadow-3d-glow: 0 0 25px rgba(0, 255, 255, 0.5);
+            --progress-track: #222;
+            --progress-fill: var(--main-neon);
+        }
+
+        /* НЕГІЗГІ СТИЛЬДЕР */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark-bg); 
+            color: var(--light-text);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            flex-grow: 1;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 30px 0;
+        }
+        
+        .header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5em;
+            color: var(--main-neon);
+            text-shadow: var(--shadow-3d-glow);
+            border-bottom: 2px solid var(--secondary-neon);
+            padding-bottom: 10px;
+        }
+
+        /* АРТҚА ҚАЙТУ СІЛТЕМЕСІ */
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            text-decoration: none;
+            color: var(--secondary-neon);
+            font-size: 1.1em;
+            transition: text-shadow 0.2s;
+        }
+
+        .back-link:hover {
+            text-shadow: 0 0 8px var(--secondary-neon);
+        }
+
+        /* АУДИО ПЛЕЕР СТИЛІ */
+        .audio-player-container {
+            background-color: var(--box-bg);
+            border: 2px solid var(--secondary-neon);
+            border-radius: var(--round-radius); 
+            box-shadow: 0 0 15px var(--secondary-neon), 0 0 30px rgba(255, 0, 255, 0.5); 
+            padding: 25px;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease;
+        }
+
+        .audio-player-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 18px var(--main-neon), 0 0 40px rgba(0, 255, 255, 0.7);
+        }
+
+        .audio-player-container h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--main-neon);
+            text-shadow: 0 0 5px var(--main-neon);
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            text-align: center;
+        }
+        
+        /* КОНТРОЛЛЕРЛЕР БЛОГЫ */
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+            margin-top: 15px;
+        }
+
+        .control-btn {
+            background: none;
+            border: none;
+            color: var(--light-text);
+            cursor: pointer;
+            font-size: 1.8em;
+            padding: 10px;
+            transition: color 0.2s ease, text-shadow 0.2s ease, transform 0.2s ease;
+            text-shadow: 0 0 10px var(--main-neon);
+        }
+        
+        .control-btn:hover {
+            color: var(--secondary-neon);
+            text-shadow: 0 0 15px var(--secondary-neon);
+            transform: scale(1.1);
+        }
+
+        .control-btn.main-play {
+            font-size: 2.5em;
+        }
+        
+        /* ПРОГРЕСС ЖОЛАҒЫ (ДОРОЖКА) */
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .progress-time {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85em;
+            color: var(--light-text);
+        }
+
+        .progress-bar-wrap {
+            flex-grow: 1;
+            height: 10px;
+            background-color: var(--progress-track);
+            border-radius: 5px;
+            cursor: pointer;
+            position: relative;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+        
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: var(--progress-fill);
+            border-radius: 5px;
+            box-shadow: 0 0 8px var(--progress-fill);
+            transition: width 0.1s linear;
+        }
+
+        /* ТАНДАУЛЫ ИКОНКАСЫ */
+        .favorite-btn {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.3s;
+        }
+
+        .favorite-btn:hover {
+            color: var(--secondary-neon);
+        }
+
+        .favorite-btn.active-favorite {
+            color: #FFD700; /* Алтын сары */
+            text-shadow: 0 0 10px #FFD700;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Артқа Қайту (Негізгі Бет)
+        </a>
+
+        <div class="header">
+            <h1>Аудио Өлеңдер Плеері</h1>
+        </div>
+        
+        <div class="audio-player-container">
+            <h3>1. Orta júz</h3>
+            <span class="favorite-btn" onclick="toggleFavorite(this)"><i class="far fa-heart"></i></span>
+            
+            <audio id="audio1" src="orta_juz_audio.mp3" preload="metadata"></audio>
+            
+            <div class="progress-container">
+                <div class="progress-time current-time">0:00</div>
+                <div class="progress-bar-wrap" data-audio-id="audio1">
+                    <div class="progress-bar"></div>
+                </div>
+                <div class="progress-time duration">0:00</div>
+            </div>
+            
+            <div class="controls">
+                <button class="control-btn" onclick="skipTime('audio1', -10)"><i class="fas fa-undo"></i></button>
+                <button class="control-btn main-play" onclick="togglePlay('audio1', this)">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="control-btn" onclick="skipTime('audio1', 10)"><i class="fas fa-redo"></i></button>
+            </div>
+        </div>
+        
+        <div class="audio-player-container">
+            <h3>2. Jarylǵap batyr</h3>
+            <span class="favorite-btn" onclick="toggleFavorite(this)"><i class="far fa-heart"></i></span>
+            
+            <audio id="audio2" src="jarylgap_batyr_audio.mp3" preload="metadata"></audio>
+            
+            <div class="progress-container">
+                <div class="progress-time current-time">0:00</div>
+                <div class="progress-bar-wrap" data-audio-id="audio2">
+                    <div class="progress-bar"></div>
+                </div>
+                <div class="progress-time duration">0:00</div>
+            </div>
+            
+            <div class="controls">
+                <button class="control-btn" onclick="skipTime('audio2', -10)"><i class="fas fa-undo"></i></button>
+                <button class="control-btn main-play" onclick="togglePlay('audio2', this)">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="control-btn" onclick="skipTime('audio2', 10)"><i class="fas fa-redo"></i></button>
+            </div>
+        </div>
+        
+        <div class="audio-player-container">
+            <h3>3. Тегімнің рухы</h3>
+            <span class="favorite-btn" onclick="toggleFavorite(this)"><i class="far fa-heart"></i></span>
+            
+            <audio id="audio3" src="tegimnin_ruhy_audio.mp3" preload="metadata"></audio>
+            
+            <div class="progress-container">
+                <div class="progress-time current-time">0:00</div>
+                <div class="progress-bar-wrap" data-audio-id="audio3">
+                    <div class="progress-bar"></div>
+                </div>
+                <div class="progress-time duration">0:00</div>
+            </div>
+            
+            <div class="controls">
+                <button class="control-btn" onclick="skipTime('audio3', -10)"><i class="fas fa-undo"></i></button>
+                <button class="control-btn main-play" onclick="togglePlay('audio3', this)">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="control-btn" onclick="skipTime('audio3', 10)"><i class="fas fa-redo"></i></button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // ===================================================
+        // ЖАҢА АУДИО ПЛЕЕР ФУНКЦИЯЛАРЫ
+        // ===================================================
+
+        const allAudios = document.querySelectorAll('audio');
+        let currentPlaying = null; // Қазір ойнап тұрған аудионы бақылау үшін
+
+        /** Уақытты MM:SS форматына түрлендіру */
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = Math.floor(seconds % 60);
+            const paddedSeconds = String(remainingSeconds).padStart(2, '0');
+            return `${minutes}:${paddedSeconds}`;
+        }
+
+        /**
+         * Аудионы ойнатуды немесе тоқтатуды ауыстырады
+         */
+        function togglePlay(audioId, button) {
+            const audio = document.getElementById(audioId);
+            const icon = button.querySelector('i');
+            
+            // Егер басқа аудио ойнап тұрса, оны тоқтату
+            if (currentPlaying && currentPlaying !== audio) {
+                currentPlaying.pause();
+                const playingButton = document.querySelector(`#${currentPlaying.id}`).closest('.audio-player-container').querySelector('.main-play');
+                playingButton.querySelector('i').className = 'fas fa-play';
+            }
+
+            if (audio.paused) {
+                audio.play();
+                icon.className = 'fas fa-pause';
+                currentPlaying = audio;
+            } else {
+                audio.pause();
+                icon.className = 'fas fa-play';
+                currentPlaying = null;
+            }
+        }
+        
+        /**
+         * Уақытты кері/алға (10 секундқа) жылжыту
+         */
+        function skipTime(audioId, time) {
+            const audio = document.getElementById(audioId);
+            audio.currentTime += time;
+        }
+
+        /**
+         * Таңдаулы батырмасының күйін ауыстырады
+         */
+        function toggleFavorite(button) {
+            const icon = button.querySelector('i');
+            button.classList.toggle('active-favorite');
+            
+            if (icon.classList.contains('far')) {
+                icon.className = 'fas fa-heart';
+            } else {
+                icon.className = 'far fa-heart';
+            }
+        }
+
+        // ===================================================
+        // PROGRESS BAR ЖӘНЕ УАҚЫТТЫ ЖАҢАРТУ
+        // ===================================================
+
+        allAudios.forEach(audio => {
+            const container = audio.closest('.audio-player-container');
+            const progressBarWrap = container.querySelector('.progress-bar-wrap');
+            const progressBar = container.querySelector('.progress-bar');
+            const currentTimeDisplay = container.querySelector('.current-time');
+            const durationDisplay = container.querySelector('.duration');
+            const playButton = container.querySelector('.main-play');
+            const playIcon = playButton.querySelector('i');
+
+            // 1. Аудио жүктелгенде жалпы ұзақтығын көрсету
+            audio.addEventListener('loadedmetadata', () => {
+                durationDisplay.textContent = formatTime(audio.duration);
+            });
+
+            // 2. Аудио ойнап жатқанда прогресс пен уақытты жаңарту
+            audio.addEventListener('timeupdate', () => {
+                const percentage = (audio.currentTime / audio.duration) * 100;
+                progressBar.style.width = `${percentage}%`;
+                currentTimeDisplay.textContent = formatTime(audio.currentTime);
+            });
+
+            // 3. Аудио аяқталғанда (End of Track)
+            audio.addEventListener('ended', () => {
+                playIcon.className = 'fas fa-play';
+                currentPlaying = null;
+            });
+            
+            // 4. Прогресс жолағын басқанда/жылжытқанда
+            progressBarWrap.addEventListener('click', (e) => {
+                const rect = progressBarWrap.getBoundingClientRect();
+                const clickPosition = e.clientX - rect.left;
+                const percentage = clickPosition / rect.width;
+                
+                audio.currentTime = audio.duration * percentage;
+            });
+        });
+    </script>
+
+</body>
+</html>
