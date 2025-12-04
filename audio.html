@@ -20,7 +20,6 @@
             --lyrics-bg: rgba(0, 255, 255, 0.1); 
             --neon-shadow-heavy: 0 0 10px var(--main-neon), 0 0 25px rgba(0, 255, 255, 0.5);
             --neon-shadow-light: 0 0 5px var(--main-neon);
-            --progress-width: 0%; 
         }
 
         /* НЕГІЗГІ СТИЛЬДЕР */
@@ -41,6 +40,15 @@
             padding: 0 0 50px 0;
         }
 
+        .header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2em;
+            color: var(--main-neon);
+            text-align: center;
+            text-shadow: var(--neon-shadow-light);
+            margin-bottom: 30px;
+        }
+
         .back-link {
             display: inline-block;
             margin-bottom: 20px;
@@ -48,9 +56,9 @@
             color: var(--secondary-neon);
             font-size: 1em;
             transition: color 0.2s;
+            text-shadow: 0 0 5px rgba(255, 0, 255, 0.5);
         }
         
-        /* 💡 NEON ANIMATSIYANYŃ KLYÝSHTIK KADRLARY */
         @keyframes pulseNeon {
             0% { box-shadow: 0 0 5px var(--main-neon); }
             50% { box-shadow: 0 0 10px var(--main-neon), 0 0 20px rgba(0, 255, 255, 0.4); }
@@ -75,6 +83,13 @@
             display: flex; justify-content: center; align-items: center; font-size: 3em; color: var(--main-neon);
             background-color: #333;
             box-shadow: 0 0 15px var(--secondary-neon); 
+        }
+
+        #current-track-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5em;
+            color: var(--secondary-neon);
+            text-shadow: 0 0 8px var(--secondary-neon);
         }
         
         .controls {
@@ -121,13 +136,14 @@
             -webkit-appearance: none;
             appearance: none;
             height: 8px;
-            background: rgba(255, 255, 255, 0.1);
+            /* **Жаңа: Фон түсін орнату** */
+            background: rgba(255, 255, 255, 0.1); 
             border-radius: 4px;
             cursor: pointer;
             box-shadow: 0 0 5px var(--main-neon) inset; 
             transition: all 0.2s ease;
         }
-
+        
         /* Progress jolaǵynyń tyrmaýy (Chrome/Safari) */
         #progress-bar::-webkit-slider-thumb {
             -webkit-appearance: none;
@@ -144,6 +160,14 @@
         }
 
         /* 🎶 PLEILIST */
+        .playlist-title {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--light-text);
+            font-size: 1.2em;
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+
         .playlist-item {
             display: flex;
             align-items: center;
@@ -155,6 +179,11 @@
             cursor: pointer;
             border-radius: 4px;
             flex-wrap: wrap; 
+            transition: background-color 0.2s;
+        }
+
+        .playlist-item:hover {
+             background-color: #1a1a1a;
         }
 
         .playlist-item.playing {
@@ -164,7 +193,7 @@
             font-weight: bold;
             box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); 
         }
-        
+
         /* ------------------------------------- */
         /* 🔍 IZDEÝ JOLAǴYNYŃ STILI */
         /* ------------------------------------- */
@@ -182,16 +211,9 @@
             border-radius: 8px;
             font-size: 1em;
             box-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
-            transition: all 0.3s ease;
             box-sizing: border-box; 
         }
         
-        #playlist-search:focus {
-            outline: none;
-            border-color: var(--main-neon);
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
-        }
-
         .search-icon {
             position: absolute;
             right: 15px;
@@ -245,7 +267,7 @@
             padding: 20px; 
         }
 
-        /* MÁTINNIŃ FORMATTALÝYN TÚZETÝ (Absazs máselesin sheshedi) */
+        /* MÁTINNIŃ FORMATTALÝYN TÚZETÝ */
         .lyrics-content p {
             margin: 0;
             margin-bottom: 1em;
@@ -316,6 +338,7 @@
                 <input type="text" id="playlist-search" placeholder="Óleń ataýyn izdew..." onkeyup="filterPlaylist()">
                 <i class="fas fa-search search-icon"></i>
             </div>
+            
             <div class="playlist-item" data-index="0">
                 <div class="item-info">
                     <i class="fas fa-music"></i>
@@ -372,7 +395,7 @@
 
                         Еsіmіńdі аıtуp, urаnуńdу shаqurаmуz,
                         Jаrуlǵаp ruhby – bіzdіń máńgіlік аsуl nаmуsymyz!
-                        Ulу dаlаnуń dаńqun, Qаrакеrеıdіń qаhаryn,
+                        Uly dаlаnуń dаńqun, Qаrакеrеıdіń qаhаryn,
                         Umуttyrmаı jаlǵаstyrу – bіzdіń pаryzymyz!
                     </p>
                     <p class="author-sign">~ Qabykenov Saǵynysh</p>
@@ -418,11 +441,11 @@
                         Qаzіrgі kún – Nаımаnnуń qоs qаnаty,
                         Áкеmnіń jаlǵаsy, еkі ulуnуń tаlаbу.
                         Quаnysh – úlкеnіm, tеgіn bіlgеn pаrаsаt,
-                        Аl mеn – Sаǵynуsh, ruhbty kóкkе qаrаt!
+                        Аl mеn – Sаǵynуsh, ruhby kóкkе qаrаt!
 
                         Mеn – tек qаnа bіr аdаm еmеs, bіr tаrıhpyn,
                         Аtаmnуń аmаnаtyn, bаtyrdуń аıbуnуn sаqtаımуn.
-                        Nаımаn Qаrакеrеı urpаǵу, mаqtаnуshym – tеgіm,
+                        Nаımаn Qаrакеrеı urpаǵу, mаqtаnуshym – tеgі,
                         Jеtі аtаmdу аıtu – mеnіń DNA-kоdym!
                     </p>
                     <p class="author-sign">~ Qabykenov Saǵynysh</p>
@@ -434,7 +457,7 @@
 
     <script>
         // ===================================================
-        // AÝDIO PLEER JÁNE PROGRESS JOLAǴY FUNKSIYALARY (Ózgerissiz)
+        // AÝDIO PLEER JÁNE PROGRESS JOLAǴY FUNKSIYALARY
         // ===================================================
 
         const audioPlayer = document.getElementById('global-audio-player');
@@ -444,32 +467,157 @@
         const progressBar = document.getElementById('progress-bar');
         const currentTimeDisplay = document.getElementById('current-time');
         const durationDisplay = document.getElementById('duration');
-        let currentTrackIndex = -1; 
+        const trackTitleDisplay = document.getElementById('current-track-title');
+        let currentTrackIndex = -1; // -1 = ештеңе жүктелмеген
         
+        // 💡 Аудио файлдардың атаулары. Егер олар басқа папкада болса, src жолдарын өзгертіңіз!
         const tracks = [
-            { title: "1. Orta júz", src: "orta_juz_audio.mp3" },
-            { title: "2. Jarylǵap batyr", src: "jarylgap_batyr_audio.mp3" },
+            { title: "1. Orta júz", src: "orta_juz_audio.mp3" }, 
+            { title: "2. Jarylǵap batyr", src: "jarylgap_batyr_audio.mp3" }, 
             { title: "3. Tegimniń rýhy", src: "tegimnin_ruhy_audio.mp3" } 
         ];
 
-        function formatTime(seconds) { /* ... */ }
-        function updateProgressStyle(percent) { /* ... */ }
-        function loadTrack(index) { /* ... */ }
-        function togglePlay() { /* ... */ }
-        function skipTime(time) { /* ... */ }
-        
-        playlistItems.forEach((item, index) => { /* ... */ });
-        audioPlayer.addEventListener('loadedmetadata', () => { /* ... */ });
-        audioPlayer.addEventListener('timeupdate', () => { /* ... */ });
-        audioPlayer.addEventListener('ended', () => { /* ... */ });
-        progressBar.addEventListener('input', () => { /* ... */ });
-        tracks.forEach((track, index) => { /* ... */ });
+        /**
+         * Уақытты (секунд) "М:СС" форматына түрлендіреді.
+         */
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return "0:00";
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        /**
+         * Progress bar-дың стилін (боялған бөлігін) жаңартады.
+         */
+        function updateProgressStyle(percent) {
+            progressBar.style.background = `linear-gradient(to right, var(--secondary-neon) ${percent}%, rgba(255, 255, 255, 0.1) ${percent}%)`;
+        }
+
+        /**
+         * Жаңа тректі жүктейді және ойнатуға дайындайды.
+         */
+        function loadTrack(index) {
+            if (index < 0 || index >= tracks.length) return;
+
+            // Егер сол трек қайта басылса, ойнату/кідірту функциясын шақырамыз
+            if (index === currentTrackIndex) {
+                togglePlay();
+                return;
+            }
+
+            currentTrackIndex = index;
+            const track = tracks[index];
+
+            // 1. Плеерді жаңарту
+            trackTitleDisplay.textContent = track.title;
+            audioPlayer.src = track.src;
+            audioPlayer.load(); // Аудионы жүктеуді бастайды
+
+            // 2. Кластарды жаңарту
+            playlistItems.forEach(item => item.classList.remove('playing'));
+            playlistItems[index].classList.add('playing');
+
+            // 3. Ойнату (Autoplay мәселесін ескере отырып)
+            const playPromise = audioPlayer.play();
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    playIcon.className = 'fas fa-pause';
+                }).catch(error => {
+                    // Autoplay бұғатталса, тек play белгішесін көрсетеміз
+                    console.log("Autoplay blocked. Press play button.");
+                    playIcon.className = 'fas fa-play';
+                });
+            }
+        }
+
+        /**
+         * Ойнату мен кідіртуді ауыстырады.
+         */
+        function togglePlay() {
+            if (currentTrackIndex === -1) {
+                // Егер ештеңе таңдалмаса, бірінші тректі жүктейміз
+                loadTrack(0);
+                return;
+            }
+            
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+                playIcon.className = 'fas fa-pause';
+            } else {
+                audioPlayer.pause();
+                playIcon.className = 'fas fa-play';
+            }
+        }
+
+        /**
+         * Уақытты алға немесе артқа өткізеді.
+         */
+        function skipTime(time) {
+            audioPlayer.currentTime += time;
+        }
+
+        // ===================================================
+        // ОҚИҒА ТЫҢДАУШЫЛАРЫ (EVENT LISTENERS)
+        // ===================================================
+
+        // 1. Плейлист элементтерін басу
+        playlistItems.forEach((item, index) => {
+            item.addEventListener('click', (e) => {
+                // Егер "Мәтін" батырмасын басқан болса, ештеңе істемейміз
+                if (e.target.classList.contains('lyrics-toggle-btn')) {
+                    return;
+                }
+                loadTrack(index);
+            });
+        });
+
+        // 2. Аудио жүктелгенде жалпы ұзақтығын жаңарту
+        audioPlayer.addEventListener('loadedmetadata', () => {
+            durationDisplay.textContent = formatTime(audioPlayer.duration);
+            progressBar.max = audioPlayer.duration;
+            
+            // Плейлисттегі ұзақтықтарды жаңарту
+            if (currentTrackIndex !== -1) {
+                playlistItems[currentTrackIndex].querySelector('.item-duration').textContent = durationDisplay.textContent;
+            } else {
+                // Барлық элементтердің ұзақтығын алғаш жүктеу (әдетте бұл автоматты түрде істемейді, бірақ көрсету үшін)
+                tracks.forEach((track, index) => {
+                    // Бұл жерде тек 0:00 болып қала береді, себебі барлық аудио бірден жүктелмейді
+                    // Нақты ұзақтығын алу үшін, әр тректі жеке жүктеу керек, бұл сайтты баяулатады.
+                });
+            }
+        });
+
+        // 3. Ойнату уақыты өзгергенде прогресс жолағын жаңарту
+        audioPlayer.addEventListener('timeupdate', () => {
+            const currentTime = audioPlayer.currentTime;
+            const duration = audioPlayer.duration;
+            
+            // Progress bar және уақыт дисплейін жаңарту
+            progressBar.value = currentTime;
+            currentTimeDisplay.textContent = formatTime(currentTime);
+
+            const progressPercent = (currentTime / duration) * 100;
+            updateProgressStyle(progressPercent);
+        });
+
+        // 4. Трек аяқталғанда келесі трекке өту
+        audioPlayer.addEventListener('ended', () => {
+            const nextIndex = (currentTrackIndex + 1) % tracks.length; 
+            loadTrack(nextIndex);
+        });
+
+        // 5. Progress bar-ды қолмен жылжыту
+        progressBar.addEventListener('change', () => {
+            audioPlayer.currentTime = progressBar.value;
+        });
 
 
         // ===================================================
-        // 🔍 PLEILISTTI SÚZÝ FUNKSIYASY
+        // 🔍 PLEILISTTI SÚZÝ JÁNE 📜 MÁTIN (LYRICS) FUNKSIYALARY
         // ===================================================
-        
+
         function filterPlaylist() {
             const searchInput = document.getElementById('playlist-search').value.toLowerCase();
             
@@ -479,18 +627,13 @@
                     const title = titleElement.textContent.toLowerCase();
                     
                     if (title.includes(searchInput)) {
-                        item.classList.remove('hidden'); // Kórsetý
+                        item.classList.remove('hidden'); 
                     } else {
-                        item.classList.add('hidden'); // Jasyrý
+                        item.classList.add('hidden'); 
                     }
                 }
             });
         }
-
-
-        // ===================================================
-        // 📜 MÁTIN (LYRICS) FUNKSIYASY
-        // ===================================================
 
         function toggleLyrics(button) {
             const lyricsIndex = button.getAttribute('data-lyrics-index');
