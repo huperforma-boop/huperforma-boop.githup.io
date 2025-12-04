@@ -189,7 +189,7 @@
             transition: background-color 0.3s;
         }
         
-        /* МӘТІН БЛОГЫНЫҢ ПЛАВНЫЙ АНИМАЦИЯСЫ */
+        /* 📝 МӘТІН БЛОГЫНЫҢ ТҮЗЕТІЛГЕН СТИЛІ */
         .lyrics-content {
             background-color: var(--lyrics-bg);
             color: var(--light-text);
@@ -203,8 +203,10 @@
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), padding 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
-            white-space: pre-wrap; 
-            text-align: justify;
+            
+            /* МӘТІННІҢ МОБИЛЬДІК БҰЗЫЛУЫН ТҮЗЕТУ */
+            white-space: pre-wrap; /* Өлең шумақтарының форматталуын сақтау */
+            word-break: break-word; /* Ұзын сөздерді экранға сыйғызу */
         }
 
         .lyrics-content.open {
@@ -216,10 +218,11 @@
             margin: 0;
             margin-bottom: 1em;
             font-size: 0.9em;
+            text-align: left !important; /* Мәтінді сол жаққа теңестіру */
         }
         
         .lyrics-content .author-sign {
-            text-align: right;
+            text-align: right !important; /* Автордың атын оң жаққа жылжыту */
             color: var(--secondary-neon);
             font-style: italic;
             margin-top: 15px;
