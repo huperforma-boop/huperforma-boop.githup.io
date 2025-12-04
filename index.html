@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Úmit | Қабыкенов Сағыныш (Толық Домалақ)</title>
+    <title>Úmit | Қабыкенов Сағыныш (Скролл Анимациясы)</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
+    <script src="https://unpkg.com/scrollreveal"></script>
+
     <style>
         /* НЕГІЗГІ ТҮСТЕР */
         :root {
@@ -16,7 +18,7 @@
             --light-text: #FFFFFF;
             --section-bg: #FFFFFF;
             --box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-            --round-radius: 12px;
+            --round-radius: 12px; 
         }
 
         /* НЕГІЗГІ СТИЛЬДЕР */
@@ -27,6 +29,7 @@
             margin: 0;
             padding: 0;
             line-height: 1.6;
+            overflow-x: hidden; /* Көлденең айналдыруды өшіру */
         }
 
         .container {
@@ -93,75 +96,72 @@
         /* ВИДЕО ЖӘНЕ АУДИО ГРИДТЕРІ */
         .video-grid, .audio-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Домалақтарға орын беру үшін minmax 280px */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
             padding: 20px 0;
-            justify-items: center; /* Ортаға орналастыру */
         }
         
-        /* ВИДЕО БЛОГЫ: ТОЛЫҚ ДОМАЛАҚ ФОРМА */
+        /* ВИДЕО БЛОГЫ: ДӨҢГЕЛЕНГЕН ТӨРТБҰРЫШ */
         .video-item {
-            width: 280px; /* Домалақтың өлшемі (квадрат) */
-            height: 280px; /* Домалақтың өлшемі (квадрат) */
-            padding: 0;
-            margin: 0;
-            background-color: var(--dark-bg);
-            border-radius: 50%; /* ТОЛЫҚ ДОМАЛАҚ ҚЫЛДЫҚ */
-            border: 5px solid var(--main-accent); /* Әдемі шеңбер */
+            background-color: var(--section-bg);
+            border: 1px solid #DDD;
+            border-radius: var(--round-radius); 
             box-shadow: var(--box-shadow);
             overflow: hidden;
             text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            display: block;
             position: relative;
-            
-            /* АНИМАЦИЯ */
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out, border-color 0.3s ease;
+            /* ScrollReveal қолданғандықтан, CSS-тегі opacity/transform-ды алып тастадық */
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
         }
-        
+
         .video-item:hover {
-            transform: scale(1.05); /* Кішкене үлкейту */
-            border-color: var(--light-text);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 153, 0, 0.4);
+            border-color: var(--main-accent);
         }
         
         .video-item h3 {
-            /* Домалақтың үстіңгі бөлігіндегі жартылай мөлдір жазу */
-            background-color: rgba(17, 17, 17, 0.7); 
-            position: absolute; 
-            top: 0;
-            left: 0;
-            right: 0;
-            padding: 10px 0;
+            color: var(--dark-bg);
+            background-color: var(--main-accent);
+            padding: 15px;
             margin: 0;
-            color: var(--light-text);
             font-size: 1.1em;
-            text-shadow: 1px 1px 2px #000;
-            border-radius: 50% 50% 0 0; /* Үстіңгі бұрыштарды домалақ қылу */
+            font-weight: 700;
+            text-align: center;
             text-transform: uppercase;
-            z-index: 5;
+            border-radius: 0 0 calc(var(--round-radius) - 2px) calc(var(--round-radius) - 2px); 
         }
         
-        /* СУРЕТ-СІЛТЕМЕ (THUMBNAIL) - Домалақ блокқа толтыру */
+        /* СУРЕТ-СІЛТЕМЕ (THUMBNAIL) - 16:9 ФОРМАТЫ */
         .video-thumbnail {
-            position: absolute;
-            top: 0;
-            left: 0;
+            position: relative;
             width: 100%;
-            height: 100%;
-            padding-bottom: 0;
-            z-index: 1; /* Атауынан төмен тұруы үшін */
+            padding-bottom: 56.25%; 
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-top-left-radius: var(--round-radius); 
+            border-top-right-radius: var(--round-radius);
         }
         
         .play-icon {
-            position: relative;
-            z-index: 10;
+            font-size: 4.5em;
+            color: rgba(255, 255, 255, 0.9);
+            position: absolute;
+            transition: color 0.3s;
+            text-shadow: 0 0 15px rgba(0, 0, 0, 0.9);
+        }
+        
+        .video-item:hover .play-icon {
+            color: var(--main-accent);
         }
 
-        /* АУДИО БЛОГЫ (ДӨҢГЕЛЕКТЕНГЕН КӨРІНІС) */
+        /* АУДИО БЛОГЫ */
         .audio-item {
             min-height: 150px;
             display: flex;
@@ -172,10 +172,7 @@
             border-radius: var(--round-radius); 
             box-shadow: var(--box-shadow);
             overflow: hidden;
-             /* АНИМАЦИЯ */
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s ease;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
         }
         
         .audio-item h3 {
@@ -183,7 +180,7 @@
              color: var(--dark-bg);
         }
 
-        /* АВТОР БӨЛІМІ (ДӨҢГЕЛЕКТЕНГЕН) */
+        /* АВТОР БӨЛІМІ */
         .author-info {
             background-color: var(--section-bg);
             border: 1px solid var(--main-accent);
@@ -192,28 +189,12 @@
             padding: 30px;
             margin-top: 60px;
             text-align: center;
-            
-            /* АВТОР БЛОГЫНА АНИМАЦИЯ */
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s; 
+            transition: box-shadow 0.3s ease;
         }
         
-        /* ... қалған стильдер (ӨЗГЕРІССІЗ) ... */
-        
-        .container:hover .video-item,
-        .container:hover .audio-item,
-        .container:hover .author-info {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .video-item:nth-child(1), .audio-item:nth-child(1) { transition-delay: 0.0s; }
-        .video-item:nth-child(2), .audio-item:nth-child(2) { transition-delay: 0.1s; }
-        .video-item:nth-child(3), .audio-item:nth-child(3) { transition-delay: 0.2s; }
-        .video-item:nth-child(4), .audio-item:nth-child(4) { transition-delay: 0.3s; }
+        /* ... қалған стильдер (аудио, автор, фон) өзгеріссіз қалады ... */
 
-
+        /* АЯҚТАЛУ БӨЛІМІ (ӨЗГЕРІССІЗ) */
         .footer {
             background-image: url('footer_bg.jpg'); 
             background-size: cover;
@@ -240,16 +221,13 @@
             text-shadow: 1px 1px 3px #000;
         }
 
+        /* МОБИЛЬДІК ЫҢҒАЙЛЫЛЫҚ (ӨЗГЕРІССІЗ) */
         @media (max-width: 768px) {
             .video-grid, .audio-grid {
-                 /* Мобильді режимде бір қатарда бір элементтен ғана болады */
-                grid-template-columns: 1fr; 
+                 grid-template-columns: 1fr; 
             }
-            .video-item {
-                width: 90%; /* Мобильде толық енге жақын болуы үшін */
-                height: auto;
-                padding-bottom: 90%; /* Квадрат форманы сақтау үшін */
-                margin: 0 auto;
+            .header {
+                padding: 100px 0 60px 0;
             }
             .header h1 {
                 font-size: 3em;
@@ -269,27 +247,27 @@
 
     <div class="container">
         
-        <div class="section-title">
+        <div class="section-title reveal-top">
             <h2>Бейне Өлеңдер Жинағы</h2>
         </div>
         
         <div class="video-grid">
             
-            <a href="https://youtu.be/hXudqOz6LHg?si=9H62e1I29gK--gsH" target="_blank" class="video-item">
+            <a href="https://youtu.be/hXudqOz6LHg?si=9H62e1I29gK--gsH" target="_blank" class="video-item scroll-reveal-item">
                 <h3>Orta júz</h3>
                 <div class="video-thumbnail" style="background-image: url('orta_juz.jpg');">
                     <i class="fas fa-play play-icon"></i>
                 </div>
             </a>
 
-            <a href="https://youtube.com/shorts/R9gMs1rpRSg?si=d-Y0RQjeRdXCDdXy" target="_blank" class="video-item">
+            <a href="https://youtube.com/shorts/R9gMs1rpRSg?si=d-Y0RQjeRdXCDdXy" target="_blank" class="video-item scroll-reveal-item">
                 <h3>Jarylǵap batyr</h3>
                 <div class="video-thumbnail" style="background-image: url('jarylgap_batyr.jpg');">
                      <i class="fas fa-play play-icon"></i>
                 </div>
             </a>
 
-            <a href="https://youtube.com/shorts/1fsjEGisgVk?si=QV_IbO7mV7Dcu7lP" target="_blank" class="video-item">
+            <a href="https://youtube.com/shorts/1fsjEGisgVk?si=QV_IbO7mV7Dcu7lP" target="_blank" class="video-item scroll-reveal-item">
                 <h3>Тегімнің рухы</h3>
                 <div class="video-thumbnail" style="background-image: url('tegimnin_ruhy.jpg');">
                      <i class="fas fa-play play-icon"></i>
@@ -298,27 +276,27 @@
             
         </div>
 
-        <div class="section-title">
+        <div class="section-title reveal-top">
             <h2>Музыкалық Күйлер (Жай Ғана Аудио)</h2>
         </div>
         
         <div class="audio-grid">
             
-            <div class="audio-item">
+            <div class="audio-item scroll-reveal-item">
                 <h3>(Жақын арада: 1-ші Күй)</h3>
             </div>
             
-            <div class="audio-item">
+            <div class="audio-item scroll-reveal-item">
                 <h3>(Жақын арада: 2-ші Күй)</h3>
             </div>
             
-            <div class="audio-item">
+            <div class="audio-item scroll-reveal-item">
                 <h3>(Жақын арада: 3-ші Күй)</h3>
             </div>
             
         </div>
         
-        <div class="author-info">
+        <div class="author-info scroll-reveal-item">
             <h2>Қабыкенов Сағыныш</h2>
             
             <div class="social-links">
@@ -337,6 +315,30 @@
     <div class="footer">
         <p>Úmit Портфолио | 2025. Барлық құқықтар қорғалған.</p>
     </div>
+
+    <script>
+        // ScrollReveal-ді инициализациялау
+        ScrollReveal({ 
+            distance: '50px', // Элементтің төменнен 50px жылжуы
+            duration: 1200,   // Анимация уақыты (1.2 секунд)
+            easing: 'cubic-bezier(0.645, 0.045, 0.355, 1)', // Тегіс анимация
+            interval: 50,     // Бір элементтен кейінгі екінші элементтің пайда болу аралығы (50ms)
+            reset: false      // Әр айналдырғанда қайта көрсетуді өшіру
+        });
+
+        // 1. Барлық бейне және аудио элементтерін астыдан жоғарыға қарай көрсету
+        ScrollReveal().reveal('.scroll-reveal-item', { 
+            origin: 'bottom', // Анимация төменнен басталады
+        });
+
+        // 2. Бөлім тақырыптарын (Бейне Өлеңдер, Музыкалық Күйлер) жоғарыдан көрсету
+        ScrollReveal().reveal('.section-title', { 
+            origin: 'top', // Анимация жоғарыдан басталады
+            distance: '30px',
+            delay: 100,
+        });
+
+    </script>
 
 </body>
 </html>
