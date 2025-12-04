@@ -42,7 +42,6 @@
         }
         
         .header {
-            /* background-image: url('header_bg.jpg'); */
             padding: 100px 0 60px 0;
             text-align: center;
             position: relative;
@@ -86,7 +85,6 @@
             text-shadow: 0 0 5px var(--main-neon);
         }
         
-        /* ВИДЕО ЖӘНЕ АВТОР БЛОКТАРЫ СТИЛІН ҚАЛДЫРАМЫЗ */
         .video-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -101,12 +99,6 @@
             box-shadow: var(--shadow-3d-base), var(--shadow-3d-glow); 
             overflow: hidden;
             transition: all 0.3s ease; 
-        }
-
-        .video-item:hover, .author-info:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 0 10px var(--secondary-neon), 0 0 30px rgba(255, 0, 255, 0.7);
-            border-color: var(--secondary-neon);
         }
         
         .video-item h3 {
@@ -138,11 +130,9 @@
             font-size: 4.5em;
             color: rgba(255, 255, 255, 0.9);
             position: absolute; 
-            transition: color 0.3s;
             text-shadow: 0 0 20px var(--main-neon);
         }
 
-        /* ӨЛЕҢ МӘТІНІ БЛОГЫ */
         .poem-grid {
             display: flex;
             flex-direction: column; 
@@ -169,15 +159,7 @@
             padding-bottom: 5px;
         }
 
-        .poem-item p {
-            white-space: pre-wrap;
-            font-size: 0.95em;
-            color: var(--light-text);
-            margin-bottom: 1em;
-        }
-
-
-        /* ЖАҢА АУДИО БӨЛІМ СІЛТЕМЕСІНІҢ СТИЛІ */
+        /* ЖАҢА АУДИО СІЛТЕМЕ БӨЛІМІНІҢ СТИЛІ */
         .audio-link-box {
             text-align: center;
             padding: 50px;
@@ -185,20 +167,11 @@
             max-width: 800px;
             display: block; 
             text-decoration: none; 
-            
             background-color: rgba(40, 40, 0, 0.5); 
             border: 3px solid #FFFF00; 
             border-radius: var(--round-radius);
             box-shadow: 0 0 15px #FFFF00, 0 0 40px rgba(255, 255, 0, 0.9);
-            
             transition: all 0.4s ease;
-        }
-
-        .audio-link-box:hover {
-            transform: scale(1.03); 
-            background-color: rgba(60, 60, 0, 0.7);
-            box-shadow: 0 0 20px var(--main-neon), 0 0 50px rgba(0, 255, 255, 0.9); 
-            border-color: var(--main-neon);
         }
 
         .audio-link-box h3 {
@@ -216,36 +189,6 @@
             text-shadow: 0 0 15px #FFFF00;
         }
 
-        /* "Жақында қосылады" блогының стилі */
-        .coming-soon-box {
-            text-align: center;
-            padding: 30px;
-            margin: 40px auto;
-            cursor: pointer;
-            max-width: 800px;
-            background-color: rgba(40, 0, 40, 0.5); 
-            border: 3px solid var(--secondary-neon);
-            border-radius: var(--round-radius);
-            box-shadow: 0 0 15px var(--secondary-neon), 0 0 40px rgba(255, 0, 255, 0.9);
-            transition: all 0.4s ease;
-        }
-
-        .coming-soon-box:hover {
-            transform: scale(1.03); 
-            background-color: rgba(60, 0, 60, 0.7);
-            box-shadow: 0 0 20px var(--main-neon), 0 0 50px rgba(0, 255, 255, 0.9); 
-            border-color: var(--main-neon);
-        }
-
-        .coming-soon-box h3 {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--light-text);
-            text-shadow: 0 0 5px var(--secondary-neon);
-            font-size: 1.8em;
-            margin-top: 15px;
-            margin-bottom: 10px;
-        }
-        
         /* БАЙЛАНЫС ФОРМАСЫ СТИЛІ */
         .contact-form-container {
             padding: 40px;
@@ -258,12 +201,6 @@
             transition: all 0.3s ease;
         }
 
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-        /* ... [қалған байланыс формасы стильдері] ... */
-        
         /* АВТОР БӨЛІМІ */
         .author-info h2 {
             font-family: 'Orbitron', sans-serif;
@@ -289,6 +226,68 @@
             text-align: center;
         }
         
+        /* ==================================== */
+        /* 📱 МОБИЛЬДІК БЕЙІМДІЛІК (RESPONSIVE) */
+        /* ==================================== */
+        @media (max-width: 768px) {
+            
+            .header {
+                padding: 60px 0 30px 0;
+            }
+
+            .header h1 {
+                font-size: 2.5em; /* Бас тақырыпты кішірейту */
+            }
+            
+            .top-left-title {
+                left: 20px;
+                font-size: 1.2em;
+            }
+
+            .section-title h2 {
+                font-size: 1.6em; /* Бөлім тақырыптарын кішірейту */
+                padding: 5px 10px;
+            }
+
+            .video-grid {
+                 grid-template-columns: 1fr; /* Ұялы телефонда бір колонка */
+                 gap: 20px;
+            }
+
+            .video-item h3 {
+                font-size: 1em;
+                padding: 10px;
+            }
+
+            .poem-item {
+                padding: 15px;
+            }
+            
+            .poem-item p {
+                font-size: 0.9em;
+            }
+
+            .audio-link-box {
+                padding: 30px;
+            }
+
+            .audio-link-box h3 {
+                font-size: 1.5em;
+            }
+
+            .audio-link-box .fa-music {
+                font-size: 2.5em;
+            }
+
+            .contact-form-container {
+                padding: 20px;
+            }
+
+            .social-links a {
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -494,12 +493,10 @@
             reset: false       
         });
 
-        // Элементтерді көрсету
         ScrollReveal().reveal('.scroll-reveal-item', { 
             origin: 'bottom', 
         });
 
-        // Бөлім тақырыптарын көрсету
         ScrollReveal().reveal('.section-title', { 
             origin: 'top', 
             distance: '40px',
