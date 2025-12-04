@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Úmit | Қабыкенов Сағыныш</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght=700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
-        /* НЕГІЗГІ ТҮСТЕР: Ақ (#FFFFFF), Қара (#000000), Алтын (#FFD700) */
-        
+        /* НЕГІЗГІ СТИЛЬДЕР */
         body {
             font-family: 'Montserrat', sans-serif;
             background-color: #F8F8F8;
@@ -68,6 +67,8 @@
             overflow: hidden;
             transition: all 0.4s ease-in-out;
             cursor: pointer;
+            text-decoration: none; /* Ссылки үшін */
+            display: block; /* Ссылки блоктық элемент болуы үшін */
         }
         
         .video-item:hover {
@@ -83,24 +84,39 @@
             background-color: #FFD700;
             font-weight: 700;
             text-transform: uppercase;
+            text-align: center;
         }
 
-        .video-player {
+        .video-thumbnail {
             position: relative;
             width: 100%;
-            padding-bottom: 56.25%; 
-            height: 0;
+            padding-bottom: 56.25%; /* 16:9 қатынасы */
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
         }
 
-        .video-player iframe {
+        /* ОЙНАТУ БЕЛГІШЕСІ */
+        .play-icon {
+            font-size: 4em;
+            color: rgba(255, 255, 255, 0.85); /* Ақ, мөлдірлеу */
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: color 0.3s;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+        }
+        
+        .video-item:hover .play-icon {
+            color: #FFD700; /* Үстіне апарғанда алтын түске өзгереді */
         }
 
+        /* АВТОР ЖӘНЕ СІЛТЕМЕЛЕР */
         .author-info {
             background-color: #111;
             color: #FFFFFF;
@@ -139,6 +155,33 @@
             margin-top: 50px;
             font-size: 0.9em;
         }
+
+        /* ============================== */
+        /* МОБИЛЬДІК ЫҢҒАЙЛЫЛЫҚ (MEDIA QUERIES) */
+        /* 600px-тен кіші экрандар үшін ережелер */
+        @media (max-width: 600px) {
+            .author-header h1 {
+                font-size: 2.5em;
+            }
+            
+            .video-section h2 {
+                font-size: 1.8em;
+            }
+            
+            .author-info p {
+                font-size: 1.2em;
+            }
+
+            .social-links a {
+                font-size: 2em;
+            }
+            
+            /* Бейне элементтерін бір бағанға қою қажет емес, өйткені grid-auto-fit оны өзі реттейді */
+            /* Бірақ мобильді құрылғыда аралықты (gap) азайтуға болады */
+            .video-grid {
+                gap: 15px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -154,26 +197,26 @@
             
             <div class="video-grid">
                 
-                <div class="video-item">
+                <a href="https://youtu.be/hXudqOz6LHg" target="_blank" class="video-item">
                     <h3>Orta júz</h3>
-                    <div class="video-player">
-                        <iframe src="https://youtu.be/hXudqOz6LHg" allowfullscreen></iframe>
+                    <div class="video-thumbnail" style="background-image: url('orta_juz.jpg');">
+                        <i class="fas fa-play play-icon"></i>
                     </div>
-                </div>
+                </a>
 
-                <div class="video-item">
+                <a href="https://youtube.com/shorts/R9gMs1rpRSg?feature=share" target="_blank" class="video-item">
                     <h3>Jarylǵap batyr</h3>
-                    <div class="video-player">
-                        <iframe src="https://youtube.com/shorts/R9gMs1rpRSg?feature=share" allowfullscreen></iframe>
+                    <div class="video-thumbnail" style="background-image: url('jarylgap_batyr.jpg');">
+                         <i class="fas fa-play play-icon"></i>
                     </div>
-                </div>
+                </a>
 
-                <div class="video-item">
+                <a href="https://youtube.com/shorts/1fsjEGisgVk?feature=share" target="_blank" class="video-item">
                     <h3>Tegimniń rýhy</h3>
-                    <div class="video-player">
-                        <iframe src="https://youtube.com/shorts/1fsjEGisgVk?feature=share" allowfullscreen></iframe>
+                    <div class="video-thumbnail" style="background-image: url('tegimnin_ruhy.jpg');">
+                         <i class="fas fa-play play-icon"></i>
                     </div>
-                </div>
+                </a>
                 
             </div>
             
