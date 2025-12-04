@@ -21,6 +21,8 @@
             --round-radius: 8px; 
             --shadow-3d-base: 0 0 10px var(--main-neon);
             --shadow-3d-glow: 0 0 25px rgba(0, 255, 255, 0.5);
+            --audio-neon: #FFFF00; 
+            --akem-neon: #FF4500; /* Қызыл-қызғылт сары неон (Әкем бөлімі үшін) */
         }
 
         /* НЕГІЗГІ СТИЛЬДЕР */
@@ -85,6 +87,7 @@
             text-shadow: 0 0 5px var(--main-neon);
         }
         
+        /* БЕЙНЕ БЛОКТАРЫ */
         .video-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -92,13 +95,21 @@
             padding: 20px 0;
         }
         
-        .video-item, .author-info {
+        .video-item {
             background-color: var(--box-bg);
             border: 2px solid var(--main-neon);
             border-radius: var(--round-radius); 
             box-shadow: var(--shadow-3d-base), var(--shadow-3d-glow); 
             overflow: hidden;
             transition: all 0.3s ease; 
+            text-decoration: none; 
+            color: inherit;
+        }
+
+        .video-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 0 10px var(--secondary-neon), 0 0 30px rgba(255, 0, 255, 0.7);
+            border-color: var(--secondary-neon);
         }
         
         .video-item h3 {
@@ -124,42 +135,18 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            min-height: 150px; 
         }
 
         .play-icon {
             font-size: 4.5em;
             color: rgba(255, 255, 255, 0.9);
             position: absolute; 
+            transition: color 0.3s;
             text-shadow: 0 0 20px var(--main-neon);
         }
 
-        .poem-grid {
-            display: flex;
-            flex-direction: column; 
-            gap: 20px;
-            padding: 20px 0;
-        }
-
-        .poem-item {
-            background-color: var(--box-bg);
-            border: 2px solid var(--secondary-neon); 
-            border-radius: var(--round-radius);
-            padding: 25px;
-            box-shadow: 0 0 10px var(--secondary-neon), 0 0 25px rgba(255, 0, 255, 0.5);
-            transition: all 0.3s ease;
-        }
-
-        .poem-item h3 {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--main-neon);
-            text-shadow: 0 0 5px var(--main-neon);
-            margin-top: 0;
-            margin-bottom: 10px;
-            border-bottom: 1px dashed var(--light-text);
-            padding-bottom: 5px;
-        }
-
-        /* ЖАҢА АУДИО СІЛТЕМЕ БӨЛІМІНІҢ СТИЛІ */
+        /* АУДИО СІЛТЕМЕ */
         .audio-link-box {
             text-align: center;
             padding: 50px;
@@ -168,16 +155,16 @@
             display: block; 
             text-decoration: none; 
             background-color: rgba(40, 40, 0, 0.5); 
-            border: 3px solid #FFFF00; 
+            border: 3px solid var(--audio-neon); 
             border-radius: var(--round-radius);
-            box-shadow: 0 0 15px #FFFF00, 0 0 40px rgba(255, 255, 0, 0.9);
+            box-shadow: 0 0 15px var(--audio-neon), 0 0 40px rgba(255, 255, 0, 0.7);
             transition: all 0.4s ease;
         }
 
         .audio-link-box h3 {
             font-family: 'Orbitron', sans-serif;
             color: var(--light-text);
-            text-shadow: 0 0 5px #FFFF00;
+            text-shadow: 0 0 5px var(--audio-neon);
             font-size: 2em;
             margin-top: 15px;
             margin-bottom: 10px;
@@ -185,15 +172,57 @@
 
         .audio-link-box .fa-music {
             font-size: 3.5em;
-            color: #FFFF00;
-            text-shadow: 0 0 15px #FFFF00;
+            color: var(--audio-neon);
+            text-shadow: 0 0 15px var(--audio-neon);
+        }
+        
+        /* 💡 НЕОН АНИМАЦИЯНЫҢ КЛЮЧТІК КАДРЛАРЫ */
+        @keyframes glowing {
+            0% { box-shadow: 0 0 5px var(--akem-neon), 0 0 10px var(--akem-neon); }
+            50% { box-shadow: 0 0 20px var(--akem-neon), 0 0 40px rgba(255, 69, 0, 0.8), 0 0 50px rgba(255, 255, 255, 0.1); }
+            100% { box-shadow: 0 0 5px var(--akem-neon), 0 0 10px var(--akem-neon); }
         }
 
-        /* БАЙЛАНЫС ФОРМАСЫ СТИЛІ */
+        /* ӘКЕҢІЗДІҢ ӨЛЕҢДЕРІ БӨЛІМІ (НЕОНМЕН ЖОНДЕЛГЕН) */
+        .coming-soon-box {
+             text-align: center;
+            padding: 30px;
+            margin: 40px auto;
+            cursor: pointer;
+            max-width: 800px;
+            background-color: rgba(40, 0, 0, 0.5); 
+            border: 3px solid var(--akem-neon);
+            border-radius: var(--round-radius);
+            
+            animation: glowing 3s infinite alternate ease-in-out; 
+            transition: all 0.4s ease;
+        }
+        
+        .coming-soon-box:hover {
+            transform: scale(1.02);
+            border-color: var(--secondary-neon);
+        }
+
+        .coming-soon-box h3 {
+             color: var(--akem-neon);
+             text-shadow: 0 0 8px var(--akem-neon);
+             font-family: 'Orbitron', sans-serif;
+             margin: 15px 0;
+        }
+
+        .coming-soon-box .fas {
+             font-size: 3em;
+             color: var(--akem-neon);
+             text-shadow: 0 0 15px var(--akem-neon);
+        }
+        
+        /* БАЙЛАНЫС ЖӘНЕ АВТОР БӨЛІМДЕРІ */
         .contact-form-container {
             padding: 40px;
             margin-top: 50px;
-            text-align: center;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
             background-color: var(--box-bg);
             border: 2px solid var(--secondary-neon);
             border-radius: var(--round-radius);
@@ -201,92 +230,69 @@
             transition: all 0.3s ease;
         }
 
-        /* АВТОР БӨЛІМІ */
-        .author-info h2 {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--secondary-neon);
-            text-shadow: 0 0 5px var(--secondary-neon);
-            margin-bottom: 25px;
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
         }
-
+        
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--main-neon);
+            background-color: #0d0d1a;
+            color: var(--light-text);
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .submit-btn {
+            background-color: var(--main-neon);
+            color: var(--dark-bg);
+            border: none;
+            padding: 12px 25px;
+            font-size: 1.1em;
+            font-family: 'Orbitron', sans-serif;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        
+        .author-info {
+            background-color: var(--box-bg);
+            border: 2px solid var(--main-neon); 
+            border-radius: var(--round-radius); 
+            box-shadow: var(--shadow-3d-base), var(--shadow-3d-glow); 
+            padding: 40px;
+            margin-top: 50px;
+            text-align: center;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
         .social-links a {
             color: var(--main-neon);
             font-size: 2.5em;
             margin: 0 15px;
-            text-shadow: 0 0 10px var(--main-neon);
+            text-shadow: 0 0 10px var(--main-neon); 
             transition: color 0.3s ease, text-shadow 0.3s ease;
         }
         
-        .footer {
-            background-color: #050505;
-            border-top: 1px solid var(--box-bg);
-            padding: 40px 0;
-            margin-top: 50px;
-            color: #666;
-            text-align: center;
+        .social-links a:hover {
+             color: var(--secondary-neon);
+             text-shadow: 0 0 15px var(--secondary-neon), 0 0 30px rgba(255, 0, 255, 0.7);
         }
         
-        /* ==================================== */
-        /* 📱 МОБИЛЬДІК БЕЙІМДІЛІК (RESPONSIVE) */
-        /* ==================================== */
+        /* МОБИЛЬДІК БЕЙІМДІЛІК (Responsive) */
         @media (max-width: 768px) {
-            
-            .header {
-                padding: 60px 0 30px 0;
-            }
-
-            .header h1 {
-                font-size: 2.5em; /* Бас тақырыпты кішірейту */
-            }
-            
-            .top-left-title {
-                left: 20px;
-                font-size: 1.2em;
-            }
-
-            .section-title h2 {
-                font-size: 1.6em; /* Бөлім тақырыптарын кішірейту */
-                padding: 5px 10px;
-            }
-
-            .video-grid {
-                 grid-template-columns: 1fr; /* Ұялы телефонда бір колонка */
-                 gap: 20px;
-            }
-
-            .video-item h3 {
-                font-size: 1em;
-                padding: 10px;
-            }
-
-            .poem-item {
-                padding: 15px;
-            }
-            
-            .poem-item p {
-                font-size: 0.9em;
-            }
-
-            .audio-link-box {
-                padding: 30px;
-            }
-
-            .audio-link-box h3 {
-                font-size: 1.5em;
-            }
-
-            .audio-link-box .fa-music {
-                font-size: 2.5em;
-            }
-
-            .contact-form-container {
-                padding: 20px;
-            }
-
-            .social-links a {
-                font-size: 2em;
-                margin: 0 10px;
-            }
+            .header h1 { font-size: 2.5em; }
+            .top-left-title { left: 20px; font-size: 1.2em; }
+            .section-title h2 { font-size: 1.6em; padding: 5px 10px; }
+            .video-grid { grid-template-columns: 1fr; gap: 20px; }
+            .video-item h3 { font-size: 1em; padding: 10px; }
+            .contact-form-container, .author-info { padding: 20px; margin-top: 30px; }
         }
     </style>
 </head>
@@ -306,124 +312,26 @@
         </div>
         
         <div class="video-grid">
-            
             <a href="https://youtu.be/hXudqOz6LHg?si=9H62eI29gK--gsH" target="_blank" class="video-item scroll-reveal-item">
                 <h3>Orta júz</h3>
                 <div class="video-thumbnail" style="background-image: url('orta_juz.jpg');">
                     <i class="fas fa-play play-icon"></i>
                 </div>
             </a>
-
             <a href="https://youtube.com/shorts/R9gMs1rpRSg?si=d-Y0RQjeRdXCDdXy" target="_blank" class="video-item scroll-reveal-item">
                 <h3>Jarylǵap batyr</h3>
                 <div class="video-thumbnail" style="background-image: url('jarylgap_batyr.jpg');">
                     <i class="fas fa-play play-icon"></i>
                 </div>
             </a>
-
             <a href="https://youtube.com/shorts/1fsjEGisgVk?si=QV_IbO7mV7Dcu7lP" target="_blank" class="video-item scroll-reveal-item">
                 <h3>Тегімнің рухы</h3>
                 <div class="video-thumbnail" style="background-image: url('tegimnin_ruhy.jpg');">
                     <i class="fas fa-play play-icon"></i>
                 </div>
             </a>
-            
         </div>
         
-        <div class="section-title reveal-top">
-            <h2>Өлең Мәтіндері</h2>
-        </div>
-        
-        <div class="poem-grid">
-            
-            <div class="poem-item scroll-reveal-item">
-                <h3>Тегімнің рухы</h3>
-                <p>
-                    Қазақпыз, тамырымыз – Алаштан нәр алған,
-                    Үш жүзге бөлінген ұлы далам, сары алқам.
-                    Менің тегім – Орта жүз, айбынды найзасы,
-                    Жарқ еткен жалынды жүрек, қазақтың дара ұлы!
-                    Ұраным – Қаптағай, төбемде тұрған ту,
-                    Мен Найман Қаракерей, тегімді танып ұғу.
-                    Тізбегім он алты ата, керуендей созылған,
-                    Өмірге жалғасып, көкжиектен озылған!
-
-                    Ең алғаш – Байторы, тарихтың тереңінде,
-                    Келеді – Айрам, ұлы ісімен елінде.
-                    Сосын – Жанқұлы, тасқа басқан мөрі,
-                    Қожамбет, Айт – ұрпақтың биік төрі.
-                    Одан соң – Жәлмембет, әділдік ұраны,
-                    Құдыс пен Байшора, шежіренің құраны.
-
-                    Арада жарқ еткен Жарылғап батыр атам –
-                    Қазақтың намысы үшін қылышын сілтеген.
-                    Есімі елдің аузында, дастандарға арқау,
-                    Осы текті жалғастыру – менің ұлы антым!
-
-
-                    Шұқын, Үкі, Қонарбай – тарихтың кезеңі,
-                    Рамазан – із қалдырған өмірдің өзегі.
-                    Атам – Қабыкен, ақылшым, тіреуім,
-                    Әкем – Төреғали, ерлікпен жүремін.
-                    Қазіргі күн – Найманның қос қанаты,
-                    Әкемнің жалғасы, екі ұлының талабы.
-                    Қуаныш – үлкенім, тегін білген парасат,
-                    Ал мен – Сағыныш, рухты көкке қарат!
-
-                    Мен – тек қана бір адам емес, бір тарихпын,
-                    Атамның аманатын, батырдың айбынын сақтаймын.
-                    Найман Қаракерей ұрпағы, мақтанышым – тегім,
-                    Жеті атамды айту – менің DNA-кодым!
-                </p>
-                <p style="text-align: right; margin-top: 10px; color: var(--secondary-neon);">~ Қабыкенов Сағыныш</p>
-            </div>
-            
-            <div class="poem-item scroll-reveal-item">
-                <h3>Jarylǵap batyr</h3>
-                <p>
-                    Қазақтың ұлы аты – Қаракерей ұраны,
-                    Жоңғар шапқыншылығында тасқа басқан мұраны.
-                    Көкжалдай өршіл рухты, есімі – Жарылғап,
-                    Қырық жорық, қанды ұрыс – тарихында аңыз боп қалған.
-
-                    Бұқар жырау толғаған: "Кернейде – Жарылғап!"
-                    Ту ұстаған батыр деп, қатарынан қалдырмаған бағалап.
-                    Қабанбай, Бөгенбаймен бірге қанын төккен,
-                    Қас батырдың қадірін Қазақ елі сепкен.
-                    Он алты жасында Қазыбек биден бата алған,
-                    "Тархан" атағын Қытайдан да алып таңғалтқан.
-                    Бұл – аңыз емес, жазылған тарихи дерек,
-                    Ерлігі – үлкен даланың жадында тұрған тірек.
-
-                    Жарылғап! Жарылғап! Қанды жорықтардағы темір!
-                    Қалба-Шаған шайқасында жеңді кебін қалмақты салып өмір.
-                    Ол – Найманның нұры, рухы биік, ақылы да дана,
-                    Аруағы қара бүркіт боп, қол бастаған дара!
-
-                    Айласы асқан батыр, тек қана күшпен емес,
-                    Абылай ханның қасында ақылға салып іс істеген.
-                    Хантау жорығында Бетбақ арқылы қол бастап,
-                    Қонтайшыны қоршап, қазаққа келтірген бостандық.
-                    Байғозы батырмен бірге, барлаушы боп алда жүрген,
-                    "Көзге түспей, шөлдетпей" – деп, екі кепілдік берген.
-                    Бұл – Жарылғаптың әскери тактикасы,
-                    Қайрат пен ақылды ұштастырған нағыз сақшысы.
-
-                    Енді біл! Сенің тегіңде осындай көкжал бар!
-                    Қараке тамырынан өсіп-өнген үлгі алар.
-                    Оның әрбір ерлігі – ұрпаққа өшпес мұра,
-                    Жарылғап батырды білу – қазаққа ұлы шара!
-
-
-                    Есіміңді айтып, ұраныңды шақырамыз,
-                    Жарылғап рухы – біздің мәңгілік асыл намысымыз!
-                    Ұлы даланың даңқын, Қаракерейдің қаһарын,
-                    Ұмыттырмай жалғастыру – біздің парызымыз!
-                </p>
-                <p style="text-align: right; margin-top: 10px; color: var(--secondary-neon);">~ Қабыкенов Сағыныш</p>
-            </div>
-            
-        </div>
         <div class="section-title reveal-top">
             <h2>Аудио Өлеңдер Жинағы</h2>
         </div>
@@ -431,8 +339,9 @@
         <a href="audio.html" class="audio-link-box scroll-reveal-item">
             <i class="fas fa-music"></i>
             <h3>Музыкалық Плеерге Өту</h3>
-            <p>Жаңа дизайндағы аудио өлеңдерді тыңдау үшін басыңыз.</p>
+            <p>Жаңа дизайндағы аудио өлеңдерді мәтіндерімен бірге тыңдау үшін басыңыз.</p>
         </a>
+        
         <div class="section-title reveal-top">
             <h2>МЕНІҢ ӘКЕМ РАМАЗАНОВ ТӨРЕҒАЛИДЫҢ ӨЛЕҢДЕРІ</h2>
         </div>
@@ -442,6 +351,7 @@
             <h3>Бұл бөлім Жақында Қосылады!</h3>
             <p>Жаңа шығармашылық жұмыстар мен өлеңдерді бірінші болып көру үшін біздің жаңалықтарымызды қадағалаңыз.</p>
         </div>
+        
         <div class="section-title reveal-top">
             <h2>Бізбен Байланыс</h2>
         </div>
@@ -463,6 +373,7 @@
                 <button type="submit" class="submit-btn">Хабарлама жіберу</button>
             </form>
         </div>
+        
         <div class="author-info scroll-reveal-item">
             <h2>Қабыкенов Сағыныш</h2>
             
@@ -484,25 +395,10 @@
     </div>
 
     <script>
-        // ScrollReveal-ді инициализациялау
-        ScrollReveal({ 
-            distance: '60px',
-            duration: 1500,
-            easing: 'cubic-bezier(0.645, 0.045, 0.355, 1)',
-            interval: 100,
-            reset: false       
-        });
-
-        ScrollReveal().reveal('.scroll-reveal-item', { 
-            origin: 'bottom', 
-        });
-
-        ScrollReveal().reveal('.section-title', { 
-            origin: 'top', 
-            distance: '40px',
-            delay: 300,
-            interval: 0, 
-        });
+        // ScrollReveal скрипті
+        ScrollReveal({ distance: '60px', duration: 1500, easing: 'cubic-bezier(0.645, 0.045, 0.355, 1)', interval: 100, reset: false });
+        ScrollReveal().reveal('.scroll-reveal-item', { origin: 'bottom' });
+        ScrollReveal().reveal('.section-title', { origin: 'top', distance: '40px', delay: 300, interval: 0 });
     </script>
 
 </body>
