@@ -57,7 +57,7 @@
             100% { box-shadow: 0 0 5px var(--main-neon); }
         }
 
-        /* 🎧 НЕГІЗГІ ПЛЕЕР (НЕОН КҮШЕЙТІЛДІ) */
+        /* 🎧 НЕГІЗГІ ПЛЕЕР */
         .main-player-card {
             background-color: var(--player-bg);
             border: 2px solid var(--main-neon); 
@@ -128,13 +128,6 @@
             transition: all 0.2s ease;
         }
 
-        /* Прогресс жолағының толтырылған бөлігі (Chrome/Safari) */
-        #progress-bar::-webkit-slider-runnable-track {
-            background: linear-gradient(to right, var(--main-neon) var(--progress-width, 0%), rgba(255, 255, 255, 0.1) var(--progress-width, 0%));
-            border-radius: 4px;
-            transition: all 0.1s ease;
-        }
-        
         /* Прогресс жолағының тырмауы (Chrome/Safari) */
         #progress-bar::-webkit-slider-thumb {
             -webkit-appearance: none;
@@ -171,6 +164,48 @@
             font-weight: bold;
             box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); 
         }
+        
+        /* ------------------------------------- */
+        /* 🔍 ЖАҢА ҚОСЫМША: ІЗДЕУ ЖОЛАҒЫНЫҢ СТИЛІ */
+        /* ------------------------------------- */
+        .search-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        #playlist-search {
+            width: 100%;
+            padding: 12px 40px 12px 15px; 
+            border: 2px solid var(--secondary-neon);
+            background-color: #0d0d1a;
+            color: var(--light-text);
+            border-radius: 8px;
+            font-size: 1em;
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+            transition: all 0.3s ease;
+            box-sizing: border-box; 
+        }
+        
+        #playlist-search:focus {
+            outline: none;
+            border-color: var(--main-neon);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--secondary-neon);
+            font-size: 1.2em;
+        }
+
+        .playlist-item.hidden {
+            display: none;
+        }
+        /* ------------------------------------- */
+
 
         .item-actions {
             display: flex;
@@ -210,13 +245,13 @@
             padding: 20px; 
         }
 
-        /* МӘТІННІҢ ФОРМАТТАЛУЫН ТҮЗЕТУ */
+        /* МӘТІННІҢ ФОРМАТТАЛУЫН ТҮЗЕТУ (Абзас мәселесін шешеді) */
         .lyrics-content p {
             margin: 0;
             margin-bottom: 1em;
             font-size: 0.9em;
             text-align: left !important;
-            /* **НЕГІЗГІ ТҮЗЕТУЛЕР:** Шумақтардың бөлінуін және сөздердің тасымалдануын қамтамасыз ету */
+            /* НЕГІЗГІ ТҮЗЕТУЛЕР: Шумақтардың бөлінуін қамтамасыз етеді */
             white-space: pre-wrap; 
             word-break: break-word; 
         }
@@ -278,6 +313,10 @@
         <div class="playlist">
             <p class="playlist-title">Өлеңдер Тізімі:</p>
 
+            <div class="search-container">
+                <input type="text" id="playlist-search" placeholder="Өлең атауын іздеу..." onkeyup="filterPlaylist()">
+                <i class="fas fa-search search-icon"></i>
+            </div>
             <div class="playlist-item" data-index="0">
                 <div class="item-info">
                     <i class="fas fa-music"></i>
@@ -402,6 +441,7 @@
         const audioPlayer = document.getElementById('global-audio-player');
         const playBtn = document.getElementById('main-play-btn');
         const playIcon = playBtn.querySelector('i');
+        // playlistItems айнымалысы барлық плейлист элементтерін алады
         const playlistItems = document.querySelectorAll('.playlist-item');
         const progressBar = document.getElementById('progress-bar');
         const currentTimeDisplay = document.getElementById('current-time');
@@ -471,6 +511,7 @@
         // Плейлист элементтерін басу
         playlistItems.forEach((item, index) => {
             item.addEventListener('click', (e) => {
+                // Тек батырмаға басқанда ғана емес, элементтің кез келген жеріне басқанда ойнату
                 if (!e.target.classList.contains('lyrics-toggle-btn')) {
                     loadTrack(index);
                 }
@@ -478,14 +519,11 @@
         });
         
         // 🎧 Аудио оқиғалары
-        
-        // Трек ұзақтығы дайын болғанда
         audioPlayer.addEventListener('loadedmetadata', () => {
             progressBar.max = audioPlayer.duration;
             durationDisplay.textContent = formatTime(audioPlayer.duration);
         });
 
-        // Уақытты жаңарту (дорожканы жылжыту)
         audioPlayer.addEventListener('timeupdate', () => {
             if (!audioPlayer.seeking && audioPlayer.duration) {
                 const currentTime = audioPlayer.currentTime;
@@ -500,14 +538,12 @@
             }
         });
 
-        // Трек аяқталғанда
         audioPlayer.addEventListener('ended', () => {
             playIcon.className = 'fas fa-play';
             const nextIndex = (currentTrackIndex + 1) % tracks.length;
             loadTrack(nextIndex);
         });
 
-        // Дорожканы қолмен жылжыту (СЕЕК)
         progressBar.addEventListener('input', () => {
             const seekTime = parseFloat(progressBar.value);
             audioPlayer.currentTime = seekTime;
@@ -524,6 +560,28 @@
                 }
             }, { once: true });
         });
+
+
+        // ===================================================
+        // 🔍 ЖАҢА ҚОСЫМША: ПЛЕЙЛИСТТІ СҮЗУ ФУНКЦИЯСЫ
+        // ===================================================
+        
+        function filterPlaylist() {
+            const searchInput = document.getElementById('playlist-search').value.toLowerCase();
+            
+            playlistItems.forEach(item => {
+                const titleElement = item.querySelector('.item-info span');
+                if (titleElement) {
+                    const title = titleElement.textContent.toLowerCase();
+                    
+                    if (title.includes(searchInput)) {
+                        item.classList.remove('hidden'); // Көрсету
+                    } else {
+                        item.classList.add('hidden'); // Жасыру
+                    }
+                }
+            });
+        }
 
 
         // ===================================================
@@ -557,13 +615,12 @@
             }
         }
         
-        // Favorite/Like функциясы (қажет болмаса алып тастауға болады)
         function toggleFavorite() {
             const favBtn = document.getElementById('main-favorite-btn').querySelector('i');
             if (favBtn.classList.contains('far')) {
                 favBtn.classList.remove('far');
                 favBtn.classList.add('fas');
-                favBtn.style.color = 'var(--secondary-neon)'; // Жүрекшені бояу
+                favBtn.style.color = 'var(--secondary-neon)';
             } else {
                 favBtn.classList.remove('fas');
                 favBtn.classList.add('far');
