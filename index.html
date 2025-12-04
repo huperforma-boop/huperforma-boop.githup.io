@@ -66,7 +66,7 @@
             font-size: 1.8em;
             font-weight: 700;
             color: var(--secondary-neon);
-            text-shadow: var(--shadow-3d-base) var(--secondary-neon);
+            text-shadow: 0 0 10px var(--secondary-neon);
             z-index: 1000;
             text-transform: uppercase;
         }
@@ -104,6 +104,7 @@
             transition: all 0.3s ease; 
             text-decoration: none; 
             color: inherit;
+            display: block; 
         }
 
         .video-item:hover {
@@ -183,7 +184,7 @@
             100% { box-shadow: 0 0 5px var(--akem-neon), 0 0 10px var(--akem-neon); }
         }
 
-        /* ӘКЕҢІЗДІҢ ӨЛЕҢДЕРІ БӨЛІМІ (НЕОНМЕН ЖОНДЕЛГЕН) */
+        /* ӘКЕҢІЗДІҢ ӨЛЕҢДЕРІ БӨЛІМІ */
         .coming-soon-box {
              text-align: center;
             padding: 30px;
@@ -284,6 +285,15 @@
              color: var(--secondary-neon);
              text-shadow: 0 0 15px var(--secondary-neon), 0 0 30px rgba(255, 0, 255, 0.7);
         }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+            border-top: 1px solid #111;
+            font-size: 0.9em;
+            color: #555;
+        }
         
         /* МОБИЛЬДІК БЕЙІМДІЛІК (Responsive) */
         @media (max-width: 768px) {
@@ -325,7 +335,7 @@
                 </div>
             </a>
             <a href="https://youtube.com/shorts/1fsjEGisgVk?si=QV_IbO7mV7Dcu7lP" target="_blank" class="video-item scroll-reveal-item">
-                <h3>Тегімнің рухы</h3>
+                <h3>Tegimniń rýhy</h3> 
                 <div class="video-thumbnail" style="background-image: url('tegimnin_ruhy.jpg');">
                     <i class="fas fa-play play-icon"></i>
                 </div>
