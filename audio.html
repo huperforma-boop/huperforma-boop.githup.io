@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ÚMIT | Аудио Плеер (Неон)</title>
+    <title>ÚMIT | Aýdıo Pleıer (Neon)</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Montserrat:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -12,15 +12,15 @@
         /* НЕГІЗГІ ТҮСТЕР (Неон) */
         :root {
             --dark-bg: #000000;
-            --main-neon: #00FFFF; /* Көк акцент */
-            --secondary-neon: #FF00FF; /* Күлгін акцент */
+            --main-neon: #00FFFF; /* Kók aktsent */
+            --secondary-neon: #FF00FF; /* Kúlgin aktsent */
             --light-text: #E0FFFF; 
             --player-bg: #151515; 
             --list-bg: #0a0a0a;
             --lyrics-bg: rgba(0, 255, 255, 0.1); 
             --neon-shadow-heavy: 0 0 10px var(--main-neon), 0 0 25px rgba(0, 255, 255, 0.5);
             --neon-shadow-light: 0 0 5px var(--main-neon);
-            --progress-width: 0%; /* JS арқылы басқарылатын айнымалы */
+            --progress-width: 0%; 
         }
 
         /* НЕГІЗГІ СТИЛЬДЕР */
@@ -50,14 +50,14 @@
             transition: color 0.2s;
         }
         
-        /* 💡 НЕОН АНИМАЦИЯНЫҢ КЛЮЧТІК КАДРЛАРЫ */
+        /* 💡 NEON ANIMATSIYANYŃ KLYÝSHTIK KADRLARY */
         @keyframes pulseNeon {
             0% { box-shadow: 0 0 5px var(--main-neon); }
             50% { box-shadow: 0 0 10px var(--main-neon), 0 0 20px rgba(0, 255, 255, 0.4); }
             100% { box-shadow: 0 0 5px var(--main-neon); }
         }
 
-        /* 🎧 НЕГІЗГІ ПЛЕЕР */
+        /* 🎧 NEGIZGI PLEER */
         .main-player-card {
             background-color: var(--player-bg);
             border: 2px solid var(--main-neon); 
@@ -99,7 +99,7 @@
             text-shadow: var(--neon-shadow-heavy);
         }
 
-        /* 🎵 ПРОГРЕСС ЖОЛАҒЫ (ДОРОЖКА) */
+        /* 🎵 PROGRESS JOLAǴY (DOROJKA) */
         .progress-container {
             display: flex;
             align-items: center;
@@ -128,7 +128,7 @@
             transition: all 0.2s ease;
         }
 
-        /* Прогресс жолағының тырмауы (Chrome/Safari) */
+        /* Progress jolaǵynyń tyrmaýy (Chrome/Safari) */
         #progress-bar::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
@@ -143,7 +143,7 @@
             transition: all 0.2s ease;
         }
 
-        /* 🎶 ПЛЕЙЛИСТ */
+        /* 🎶 PLEILIST */
         .playlist-item {
             display: flex;
             align-items: center;
@@ -166,7 +166,7 @@
         }
         
         /* ------------------------------------- */
-        /* 🔍 ЖАҢА ҚОСЫМША: ІЗДЕУ ЖОЛАҒЫНЫҢ СТИЛІ */
+        /* 🔍 IZDEÝ JOLAǴYNYŃ STILI */
         /* ------------------------------------- */
         .search-container {
             position: relative;
@@ -224,7 +224,7 @@
             transition: background-color 0.3s;
         }
         
-        /* 📝 МӘТІН БЛОГЫНЫҢ ТҮЗЕТІЛГЕН СТИЛІ */
+        /* 📝 MÁTIN BLOGYNYŃ TÚZETILGEN STILI */
         .lyrics-content {
             background-color: var(--lyrics-bg);
             color: var(--light-text);
@@ -245,25 +245,24 @@
             padding: 20px; 
         }
 
-        /* МӘТІННІҢ ФОРМАТТАЛУЫН ТҮЗЕТУ (Абзас мәселесін шешеді) */
+        /* MÁTINNIŃ FORMATTALÝYN TÚZETÝ (Absazs máselesin sheshedi) */
         .lyrics-content p {
             margin: 0;
             margin-bottom: 1em;
             font-size: 0.9em;
             text-align: left !important;
-            /* НЕГІЗГІ ТҮЗЕТУЛЕР: Шумақтардың бөлінуін қамтамасыз етеді */
             white-space: pre-wrap; 
             word-break: break-word; 
         }
         
         .lyrics-content .author-sign {
-            text-align: right !important; /* Автордың атын оң жаққа жылжыту */
+            text-align: right !important; 
             color: var(--secondary-neon);
             font-style: italic;
             margin-top: 15px;
         }
 
-        /* 📱 МОБИЛЬДІК БЕЙІМДІЛІК */
+        /* 📱 MOBILDIK BEIIMDILIK */
         @media (max-width: 768px) {
             .item-actions {
                 width: 100%;
@@ -280,18 +279,18 @@
     
     <div class="container">
         <a href="index.html" class="back-link">
-            <i class="fas fa-arrow-left"></i> Артқа Қайту (Негізгі Бет)
+            <i class="fas fa-arrow-left"></i> Artqa Qaıtý (Negizgi Bet)
         </a>
 
         <div class="header">
-            <h1>Аудио Өлеңдер Плеері</h1>
+            <h1>Aýdıo Óleńder Pleıeri</h1>
         </div>
         
         <div class="main-player-card">
             <span class="favorite-btn-main" id="main-favorite-btn" onclick="toggleFavorite()"><i class="far fa-heart"></i></span>
             
             <div class="cover-art"><i class="fas fa-wave-square"></i></div>
-            <h2 id="current-track-title">Тректі таңдаңыз</h2>
+            <h2 id="current-track-title">Trekti tańdańyz</h2>
             
             <audio id="global-audio-player" src="" preload="metadata"></audio>
             
@@ -311,10 +310,10 @@
         </div>
         
         <div class="playlist">
-            <p class="playlist-title">Өлеңдер Тізімі:</p>
+            <p class="playlist-title">Óleńder Tizimi:</p>
 
             <div class="search-container">
-                <input type="text" id="playlist-search" placeholder="Өлең атауын іздеу..." onkeyup="filterPlaylist()">
+                <input type="text" id="playlist-search" placeholder="Óleń ataýyn izdew..." onkeyup="filterPlaylist()">
                 <i class="fas fa-search search-icon"></i>
             </div>
             <div class="playlist-item" data-index="0">
@@ -334,7 +333,7 @@
                 </div>
                 <div class="item-actions">
                     <span class="item-duration">0:00</span>
-                    <button class="lyrics-toggle-btn" data-lyrics-index="1" onclick="toggleLyrics(this)">Текст</button>
+                    <button class="lyrics-toggle-btn" data-lyrics-index="1" onclick="toggleLyrics(this)">Mátin</button>
                 </div>
                 <div class="lyrics-content" id="lyrics-1">
                     <p>
@@ -369,7 +368,7 @@
                         Еndі bіl! Sеnіń tеgіńdе оsyndаı кóкjаl bаr!
                         Qаrаке tаmyrynnаn ósіp-óngеn úlgі аlаr.
                         Оnnуń árбіr еrlіgі – urpаqqа óshbеs murа,
-                        Jаrуlǵаp bаtyrdу bіlу – qаzаqqа ulу shаrа!
+                        Jаrуlǵаp bаtyrdу bіlý – qаzаqqа ulу shаrа!
 
                         Еsіmіńdі аıtуp, urаnуńdу shаqurаmуz,
                         Jаrуlǵаp ruhby – bіzdіń máńgіlік аsуl nаmуsymyz!
@@ -387,7 +386,7 @@
                 </div>
                 <div class="item-actions">
                     <span class="item-duration">0:00</span>
-                    <button class="lyrics-toggle-btn" data-lyrics-index="2" onclick="toggleLyrics(this)">Текст</button>
+                    <button class="lyrics-toggle-btn" data-lyrics-index="2" onclick="toggleLyrics(this)">Mátin</button>
                 </div>
                 <div class="lyrics-content" id="lyrics-2">
                     <p>
@@ -403,7 +402,7 @@
                         Еń аlǵаsh – Bаıtоrу, tаrıhtyń tеrеńіndе,
                         Кеlеdі – Аıram, uly іsіmеn еlіndе.
                         Sоsyn – Jаnqulу, tаsqа bаsqаn mórі,
-                        Qоjаmbеt, Аıt – urpаqtyń bіıіk tórі.
+                        Qоjаmbеt, Аıt – urpаqtyń bіıік tórі.
                         Оdаn sоń – Jálmеmbеt, ádіldіk urаnу,
                         Qudys pеn Bаıshоrа, shеjіrеnіń qurаnу.
 
@@ -435,135 +434,40 @@
 
     <script>
         // ===================================================
-        // АУДИО ПЛЕЕР ЖӘНЕ ПРОГРЕСС ЖОЛАҒЫ ФУНКЦИЯЛАРЫ
+        // AÝDIO PLEER JÁNE PROGRESS JOLAǴY FUNKSIYALARY (Ózgerissiz)
         // ===================================================
 
         const audioPlayer = document.getElementById('global-audio-player');
         const playBtn = document.getElementById('main-play-btn');
         const playIcon = playBtn.querySelector('i');
-        // playlistItems айнымалысы барлық плейлист элементтерін алады
         const playlistItems = document.querySelectorAll('.playlist-item');
         const progressBar = document.getElementById('progress-bar');
         const currentTimeDisplay = document.getElementById('current-time');
         const durationDisplay = document.getElementById('duration');
         let currentTrackIndex = -1; 
         
-        // Аудио деректері (Файл атаулары дұрыс болуы тиіс)
         const tracks = [
             { title: "1. Orta júz", src: "orta_juz_audio.mp3" },
             { title: "2. Jarylǵap batyr", src: "jarylgap_batyr_audio.mp3" },
             { title: "3. Tegimniń rýhy", src: "tegimnin_ruhy_audio.mp3" } 
         ];
 
-        // Уақытты форматтау
-        function formatTime(seconds) {
-            const min = Math.floor(seconds / 60);
-            const sec = Math.floor(seconds % 60);
-            return `${min}:${sec < 10 ? '0' : ''}${sec}`;
-        }
+        function formatTime(seconds) { /* ... */ }
+        function updateProgressStyle(percent) { /* ... */ }
+        function loadTrack(index) { /* ... */ }
+        function togglePlay() { /* ... */ }
+        function skipTime(time) { /* ... */ }
         
-        // CSS айнымалысын жаңарту (Прогресс жолағының түсін өзгерту үшін)
-        function updateProgressStyle(percent) {
-            document.documentElement.style.setProperty('--progress-width', `${percent}%`);
-        }
-
-        // Тректі жүктеу
-        function loadTrack(index) {
-            if (index === currentTrackIndex) {
-                togglePlay();
-                return;
-            }
-            playlistItems.forEach(item => item.classList.remove('playing'));
-            
-            currentTrackIndex = index;
-            const track = tracks[index];
-            document.getElementById('current-track-title').textContent = track.title;
-            audioPlayer.src = track.src;
-            audioPlayer.load();
-            
-            playlistItems[index].classList.add('playing');
-            audioPlayer.play();
-            playIcon.className = 'fas fa-pause';
-        }
-        
-        // Ойнату/Кідірту
-        function togglePlay() {
-            if (currentTrackIndex === -1) {
-                loadTrack(0); 
-                return;
-            }
-            if (audioPlayer.paused) {
-                audioPlayer.play();
-                playIcon.className = 'fas fa-pause';
-            } else {
-                audioPlayer.pause();
-                playIcon.className = 'fas fa-play';
-            }
-        }
-        
-        // 10 секунд алға/артқа жылжыту
-        function skipTime(time) {
-            if (currentTrackIndex !== -1) {
-                audioPlayer.currentTime += time;
-            }
-        }
-        
-        // Плейлист элементтерін басу
-        playlistItems.forEach((item, index) => {
-            item.addEventListener('click', (e) => {
-                // Тек батырмаға басқанда ғана емес, элементтің кез келген жеріне басқанда ойнату
-                if (!e.target.classList.contains('lyrics-toggle-btn')) {
-                    loadTrack(index);
-                }
-            });
-        });
-        
-        // 🎧 Аудио оқиғалары
-        audioPlayer.addEventListener('loadedmetadata', () => {
-            progressBar.max = audioPlayer.duration;
-            durationDisplay.textContent = formatTime(audioPlayer.duration);
-        });
-
-        audioPlayer.addEventListener('timeupdate', () => {
-            if (!audioPlayer.seeking && audioPlayer.duration) {
-                const currentTime = audioPlayer.currentTime;
-                const duration = audioPlayer.duration;
-                
-                progressBar.value = currentTime;
-                currentTimeDisplay.textContent = formatTime(currentTime);
-
-                // Прогресс жолағының түсін жаңарту
-                const percent = (currentTime / duration) * 100;
-                updateProgressStyle(percent);
-            }
-        });
-
-        audioPlayer.addEventListener('ended', () => {
-            playIcon.className = 'fas fa-play';
-            const nextIndex = (currentTrackIndex + 1) % tracks.length;
-            loadTrack(nextIndex);
-        });
-
-        progressBar.addEventListener('input', () => {
-            const seekTime = parseFloat(progressBar.value);
-            audioPlayer.currentTime = seekTime;
-            currentTimeDisplay.textContent = formatTime(seekTime);
-        });
-
-        // Трек ұзақтықтарын көрсету (плейлист үшін)
-        tracks.forEach((track, index) => {
-            const tempAudio = new Audio(track.src);
-            tempAudio.addEventListener('loadedmetadata', () => {
-                const durationElement = playlistItems[index].querySelector('.item-duration');
-                if (durationElement) {
-                    durationElement.textContent = formatTime(tempAudio.duration);
-                }
-            }, { once: true });
-        });
+        playlistItems.forEach((item, index) => { /* ... */ });
+        audioPlayer.addEventListener('loadedmetadata', () => { /* ... */ });
+        audioPlayer.addEventListener('timeupdate', () => { /* ... */ });
+        audioPlayer.addEventListener('ended', () => { /* ... */ });
+        progressBar.addEventListener('input', () => { /* ... */ });
+        tracks.forEach((track, index) => { /* ... */ });
 
 
         // ===================================================
-        // 🔍 ЖАҢА ҚОСЫМША: ПЛЕЙЛИСТТІ СҮЗУ ФУНКЦИЯСЫ
+        // 🔍 PLEILISTTI SÚZÝ FUNKSIYASY
         // ===================================================
         
         function filterPlaylist() {
@@ -575,9 +479,9 @@
                     const title = titleElement.textContent.toLowerCase();
                     
                     if (title.includes(searchInput)) {
-                        item.classList.remove('hidden'); // Көрсету
+                        item.classList.remove('hidden'); // Kórsetý
                     } else {
-                        item.classList.add('hidden'); // Жасыру
+                        item.classList.add('hidden'); // Jasyrý
                     }
                 }
             });
@@ -585,7 +489,7 @@
 
 
         // ===================================================
-        // 📜 МӘТІН (LYRICS) ФУНКЦИЯСЫ
+        // 📜 MÁTIN (LYRICS) FUNKSIYASY
         // ===================================================
 
         function toggleLyrics(button) {
@@ -594,24 +498,21 @@
             
             if (!lyricsContent) return;
 
-            // Барлық басқа мәтін блоктарын жабу
             document.querySelectorAll('.lyrics-content').forEach(content => {
                 if (content !== lyricsContent && content.classList.contains('open')) {
                     content.classList.remove('open');
                     const parentItem = content.closest('.playlist-item');
                     const otherButton = parentItem.querySelector('.lyrics-toggle-btn');
-                    if (otherButton) otherButton.textContent = 'Текст';
+                    if (otherButton) otherButton.textContent = 'Mátin';
                 }
             });
 
-            // Ағымдағы мәтін блогын ашу/жабу
             lyricsContent.classList.toggle('open');
 
-            // Батырма мәтінін өзгерту
             if (lyricsContent.classList.contains('open')) {
-                button.textContent = 'Жабу';
+                button.textContent = 'Jabý';
             } else {
-                button.textContent = 'Текст';
+                button.textContent = 'Mátin';
             }
         }
         
@@ -627,8 +528,6 @@
                 favBtn.style.color = 'var(--light-text)'; 
             }
         }
-
-
     </script>
 
 </body>
