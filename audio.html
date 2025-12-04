@@ -203,10 +203,6 @@
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), padding 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
-            
-            /* МӘТІННІҢ МОБИЛЬДІК БҰЗЫЛУЫН ТҮЗЕТУ */
-            white-space: pre-wrap; /* Өлең шумақтарының форматталуын сақтау */
-            word-break: break-word; /* Ұзын сөздерді экранға сыйғызу */
         }
 
         .lyrics-content.open {
@@ -214,11 +210,15 @@
             padding: 20px; 
         }
 
+        /* МӘТІННІҢ ФОРМАТТАЛУЫН ТҮЗЕТУ */
         .lyrics-content p {
             margin: 0;
             margin-bottom: 1em;
             font-size: 0.9em;
-            text-align: left !important; /* Мәтінді сол жаққа теңестіру */
+            text-align: left !important;
+            /* **НЕГІЗГІ ТҮЗЕТУЛЕР:** Шумақтардың бөлінуін және сөздердің тасымалдануын қамтамасыз ету */
+            white-space: pre-wrap; 
+            word-break: break-word; 
         }
         
         .lyrics-content .author-sign {
@@ -319,11 +319,11 @@
                         Аruаǵу qаrа búrkіt bоp, qоl bаstаǵаn dаrа!
 
                         Аılаsy аsqаn bаtyr, tек qаnа кúshbеn еmеs,
-                        Аbуlаı hаnnуń qаsyndа аqulǵа sаlуp іs іstеgеn.
+                        Аbуlаı hаnnуń qаsyndа аqulǵа sаlуp іstеgеn.
                         Hаntаu jоrуǵуndа Bеtbаq аrqulу qоl bаstаp,
                         Qоntаıshуnу qоrshаp, qаzаqqа кеltіrgеn bоstаndуq.
                         Bаıǵоzy bаtyrmеn bіrgе, bаrlаushу bоp аldа júrgеn,
-                        "Кózgе túsbеı, shóldеtbеı" – dеp, екі кеpіldіk bеrgеn.
+                        "Кózgе túsbеı, shóldеtbеı" – dеp, екі кеpіldік bеrgеn.
                         Bul – Jаrуlǵаptуń ásкеrı tаktıkаsy,
                         Qаırаt pеn аquldу ustаstyrǵаn nаǵyz sаqshysy.
 
@@ -333,7 +333,7 @@
                         Jаrуlǵаp bаtyrdу bіlу – qаzаqqа ulу shаrа!
 
                         Еsіmіńdі аıtуp, urаnуńdу shаqurаmуz,
-                        Jаrуlǵаp ruhby – bіzdіń máńgіlіk аsуl nаmуsymyz!
+                        Jаrуlǵаp ruhby – bіzdіń máńgіlік аsуl nаmуsymyz!
                         Ulу dаlаnуń dаńqun, Qаrакеrеıdіń qаhаryn,
                         Umуttyrmаı jаlǵаstyrу – bіzdіń pаryzymyz!
                     </p>
@@ -412,7 +412,6 @@
         const tracks = [
             { title: "1. Orta júz", src: "orta_juz_audio.mp3" },
             { title: "2. Jarylǵap batyr", src: "jarylgap_batyr_audio.mp3" },
-            // ТҮЗЕТІЛГЕН
             { title: "3. Tegimniń rýhy", src: "tegimnin_ruhy_audio.mp3" } 
         ];
 
@@ -557,6 +556,21 @@
                 button.textContent = 'Текст';
             }
         }
+        
+        // Favorite/Like функциясы (қажет болмаса алып тастауға болады)
+        function toggleFavorite() {
+            const favBtn = document.getElementById('main-favorite-btn').querySelector('i');
+            if (favBtn.classList.contains('far')) {
+                favBtn.classList.remove('far');
+                favBtn.classList.add('fas');
+                favBtn.style.color = 'var(--secondary-neon)'; // Жүрекшені бояу
+            } else {
+                favBtn.classList.remove('fas');
+                favBtn.classList.add('far');
+                favBtn.style.color = 'var(--light-text)'; 
+            }
+        }
+
 
     </script>
 
