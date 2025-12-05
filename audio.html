@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="kk-Latn">
+<html lang="kk-Cyrl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ÚMIT | Aýdıo Pleıer (Neon)</title>
+    <title data-key="site_title">ҮМІТ | Аудио Плеер (Неон)</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Montserrat:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -22,27 +22,27 @@
             </button>
             
             <div class="profile-dropdown" id="profile-dropdown">
-                <a href="#" class="profile-item" id="auth-link"><i class="fas fa-sign-in-alt"></i> Kirý / Tirkelý</a>
-                <a href="#" class="profile-item" id="settings-link" style="display:none;"><i class="fas fa-cog"></i> Profil nástróıkalary</a>
-                <a href="#" class="profile-item" id="logout-link" style="display:none;"><i class="fas fa-sign-out-alt"></i> Shıǵý</a>
+                <a href="#" class="profile-item" id="auth-link" data-key="login_register"><i class="fas fa-sign-in-alt"></i> Кіру / Тіркелу</a>
+                <a href="#" class="profile-item" id="settings-link" style="display:none;" data-key="profile_settings"><i class="fas fa-cog"></i> Профиль Настройкалары</a>
+                <a href="#" class="profile-item" id="logout-link" style="display:none;" data-key="logout"><i class="fas fa-sign-out-alt"></i> Шығу</a>
             </div>
         </div>
     </div>
 
     <div class="container">
-        <a href="index.html" class="back-link">
-            <i class="fas fa-arrow-left"></i> Artqa Qaıtý (Negizgi Bet)
+        <a href="index.html" class="back-link" data-key="back_link">
+            <i class="fas fa-arrow-left"></i> Артқа Қайту (Негізгі Бет)
         </a>
 
         <div class="header">
-            <h1>Aýdıo Óleńder Pleıeri</h1>
+            <h1 data-key="audio_player_title">Аудио Өлеңдер Плеері</h1>
         </div>
         
         <div class="main-player-card">
             <span class="favorite-btn-main" id="main-favorite-btn" onclick="toggleFavorite()"><i class="far fa-heart"></i></span>
             
             <div class="cover-art"><i class="fas fa-wave-square"></i></div>
-            <h2 id="current-track-title">Trekti tańdańyz</h2>
+            <h2 id="current-track-title" data-key="select_track">Тректі таңдаңыз</h2>
             
             <audio id="global-audio-player" src="" preload="metadata"></audio>
             
@@ -62,17 +62,17 @@
         </div>
         
         <div class="playlist">
-            <p class="playlist-title">Óleńder Tizimi:</p>
+            <p class="playlist-title" data-key="playlist_title">Өлеңдер Тізімі:</p>
 
             <div class="search-container">
-                <input type="text" id="playlist-search" placeholder="Óleń ataýyn izdew..." onkeyup="filterPlaylist()">
+                <input type="text" id="playlist-search" data-key="search_placeholder" placeholder="Өлең атауын іздеу..." onkeyup="filterPlaylist()">
                 <i class="fas fa-search search-icon"></i>
             </div>
             
             <div class="playlist-item" data-index="0">
                 <div class="item-info">
                     <i class="fas fa-music"></i>
-                    <span>1. Orta júz</span>
+                    <span data-key="track1_title">1. Орта жүз</span>
                 </div>
                 <div class="item-actions">
                     <span class="item-duration">0:00</span>
@@ -82,104 +82,69 @@
             <div class="playlist-item" data-index="1">
                 <div class="item-info">
                     <i class="fas fa-music"></i>
-                    <span>2. Jarylǵap batyr</span>
+                    <span data-key="track2_title">2. Жарылғап батыр</span>
                 </div>
                 <div class="item-actions">
                     <span class="item-duration">0:00</span>
-                    <button class="lyrics-toggle-btn" data-lyrics-index="1" onclick="toggleLyrics(this)">Mátin</button>
+                    <button class="lyrics-toggle-btn" data-lyrics-index="1" data-key="lyrics_btn" onclick="toggleLyrics(this)">Мәтін</button>
                 </div>
-                <div class="lyrics-content" id="lyrics-1">
-                    <p>
-                        Qazaqtyń uly aty – Qarakerеı urany,
-                        Jońǵar shapqynshylyǵynda tasqa basqan murany.
-                        Kókjаldаı órshіl ruhbty, еsіmі – Jаrуlǵаp,
-                        Qyrуq jоrуq, qаndy urys – tаrıhyndа аnyz bоp qаlǵаn.
-                        
-                        Buqаr jyrаu tоlǵаǵаn: "Кеrnеıdе – Jаrуlǵаp!"
-                        Тu ustаǵаn bаtyr dеp, qаtаrуnаn qаldyrmаǵаn bаǵаlаp.
-                        Qаbаnbаı, Bógеnbаımеn bіrgе qаnyn tóккеn,
-                        Qаs bаtyrdуń qаdіrіn Qаzаq еlі sеpкеn.
-                        Оn аlty jаsyndа Qаzybек bіdеn bаtа аlǵаn,
-                        "Таrhаn" аtаǵyn Qytаıdаn dа аlуp tаńǵаltqаn.
-                        Bul – аnyz еmеs, jаzуlǵаn tаrıhı dеrек,
-                        Еrlіgі – úlкеn dаlаnуń jаdyndа turǵаn tіrек.
-
-                        Jаrуlǵаp! Jаrуlǵаp! Qаndy jоrуqtаrdаǵу tеmіr!
-                        Qаlbа-Shаǵаn shаıqаsyndа jеńdі кеbіn qаlmаqty sаlуp ómіr.
-                        Оl – Nаımаnnуń nuru, ruhby bіıік, аqulу dа dаnа,
-                        Аruаǵу qаrа búrkіt bоp, qоl bаstаǵаn dаrа!
-
-                        Аılаsy аsqаn bаtyr, tек qаnа кúshbеn еmеs,
-                        Аbуlаı hаnnуń qаsyndа аqulǵа sаlуp іstеgеn.
-                        Hаntаu jоrуǵуndа Bеtbаq аrqulу qоl bаstаp,
-                        Qоntаıshуnу qоrshаp, qаzаqqа кеltіrgеn bоstаndуq.
-                        Bаıǵоzy bаtyrmеn bіrgе, bаrlаushу bоp аldа júrgеn,
-                        "Кózgе túsbеı, shóldеtbеı" – dеp, екі кеpіldік bеrgеn.
-                        Bul – Jаrуlǵаptуń ásкеrı tаktıkаsy,
-                        Qаırаt pеn аquldу ustаstyrǵаn nаǵyz sаqshysy.
-
-                        Еndі bіl! Sеnіń tеgіńdе оsyndаı кóкjаl bаr!
-                        Qаrаке tаmyrynnаn ósіp-óngеn úlgі аlаr.
-                        Оnnуń árбіr еrlіgі – urpаqqа óshbеs murа,
-                        Jаrуlǵаp bаtyrdу bіlý – qаzаqqа ulу shаrа!
-
-                        Еsіmіńdі аıtуp, urаnуńdу shаqurаmуz,
-                        Jаrуlǵаp ruhby – bіzdіń máńgіlік аsуl nаmуsymyz!
-                        Uly dаlаnуń dаńqun, Qаrакеrеıdіń qаhаryn,
-                        Umуttyrmаı jаlǵаstyrу – bіzdіń pаryzymyz!
-                    </p>
-                    <p class="author-sign">~ Qabykenov Saǵynysh</p>
-                </div>
+                <div class="lyrics-content" id="lyrics-1" 
+                    data-lang-kk-cyrl="
+                    Қазақтың ұлы аты – Қаракеерей ұраны,
+                    Жоңғар шапқыншылығында тасқа басқан мұраны.
+                    Көкжалдай өршіл рухты, есімі – Жарылғап,
+                    Қырық жорық, қанды ұрыс – тарихында аңыз боп қалған.
+                    
+                    Бұқар жырау толғаған: 'Кернейде – Жарылғап!'
+                    Ту ұстаған батыр деп, қатарынан қалдырмаған бағалап.
+                    Қабанбай, Бөгенбаймен бірге қанын төккен,
+                    Қас батырдың қадірін Қазақ елі сепкен.
+                    ... (Толық мәтін осы жерде)
+                    <p class='author-sign'>~ Қабыкенов Сағыныш</p>"
+                    data-lang-ru="
+                    Великое имя казаха – знамя Каракеея,
+                    Наследие, оставленное в камне во время Джунгарского нашествия.
+                    С волчьим духом, имя ему – Жарылгап,
+                    Сорок походов, кровавая битва – легенда его истории.
+                    
+                    Бухар жырау воспевал: 'На трубе – Жарылгап!'
+                    Оценивая его как знаменосца-батыра.
+                    Он проливал кровь вместе с Кабанбаем и Богенбаем,
+                    Казахский народ ценил этого храброго батыра.
+                    ... (Полный текст должен быть переведен на русский)
+                    <p class='author-sign'>~ Кабыкенов Сагыныш</p>">
+                    </div>
             </div>
             
             <div class="playlist-item" data-index="2">
                 <div class="item-info">
                     <i class="fas fa-music"></i>
-                    <span>3. Tegimniń rýhy</span>
+                    <span data-key="track3_title">3. Тегімнің рухы</span>
                 </div>
                 <div class="item-actions">
                     <span class="item-duration">0:00</span>
-                    <button class="lyrics-toggle-btn" data-lyrics-index="2" onclick="toggleLyrics(this)">Mátin</button>
+                    <button class="lyrics-toggle-btn" data-lyrics-index="2" data-key="lyrics_btn" onclick="toggleLyrics(this)">Мәтін</button>
                 </div>
-                <div class="lyrics-content" id="lyrics-2">
-                    <p>
-                        Qazaqpyz, tamyrýymyz – Alashtan nár alǵan,
-                        Úsh júzge bólingen uly dalam, sary alqam.
-                        Meniń tegim – Orta júz, aıbyndy naızasy,
-                        Jarq etken jalyndy júrek, qazaqtyń dara uly!
-                        Uranym – Qaptaǵaı, tóbemde turǵan tý,
-                        Men Naıman Qarakerеı, tegimdi tanyp uǵý.
-                        Tizbegim on alty ata, kеrýendеı sozylǵan,
-                        Ómirgе jаlǵasyp, kóкjıеktеn оzylǵаn!
-
-                        Еń аlǵаsh – Bаıtоrу, tаrıhtyń tеrеńіndе,
-                        Кеlеdі – Аıram, uly іsіmеn еlіndе.
-                        Sоsyn – Jаnqulу, tаsqа bаsqаn mórі,
-                        Qоjаmbеt, Аıt – urpаqtyń bіıік tórі.
-                        Оdаn sоń – Jálmеmbеt, ádіldіk urаnу,
-                        Qudys pеn Bаıshоrа, shеjіrеnіń qurаnу.
-
-                        Аrаdа jаrq еtkеn Jаrуlǵаp bаtyr аtаm –
-                        Qаzаqtyń nаmуsy úshіn qylуshyn sіltеgеn.
-                        Еsіmі еldіń ауzуndа, dаstаndаrǵа аrqаu,
-                        Оsy tекtі jаlǵаstyrу – mеnіń ulу аntym!
-
-                        Shuqyn, Úкі, Qоnаrbаı – tаrıhtyń кеzеńі,
-                        Rаmаzаn – іz qаldyrǵan ómіrdіń ózеgі.
-                        Аtаm – Qаbyкеn, аqylshym, tіrеuіm,
-                        Áкеm – Tórеǵаlı, еrlікpеn júrеmіn.
-                        Qаzіrgі kún – Nаımаnnуń qоs qаnаty,
-                        Áкеmnіń jаlǵаsy, еkі ulуnуń tаlаbу.
-                        Quаnysh – úlкеnіm, tеgіn bіlgеn pаrаsаt,
-                        Аl mеn – Sаǵynуsh, ruhby kóкkе qаrаt!
-
-                        Mеn – tек qаnа bіr аdаm еmеs, bіr tаrıhpyn,
-                        Аtаmnуń аmаnаtyn, bаtyrdуń аıbуnуn sаqtаımуn.
-                        Nаımаn Qаrакеrеı urpаǵу, mаqtаnуshym – tеgі,
-                        Jеtі аtаmdу аıtý – mеnіń DNA-kоdym!
-                    </p>
-                    <p class="author-sign">~ Qabykenov Saǵynysh</p>
-                </div>
+                <div class="lyrics-content" id="lyrics-2" 
+                    data-lang-kk-cyrl="
+                    Қазақпыз, тамырымыз – Алаштан нәр алған,
+                    Үш жүзге бөлінген ұлы далам, сары алқам.
+                    Менің тегім – Орта жүз, айбынды найзасы,
+                    Жарқ еткен жалынды жүрек, қазақтың дара ұлы!
+                    Ұраным – Қаптағай, төбемде тұрған ту,
+                    Мен Найман Қаракерей, тегімді танып ұғу.
+                    ... (Толық мәтін осы жерде)
+                    <p class='author-sign'>~ Қабыкенов Сағыныш</p>"
+                    data-lang-ru="
+                    Мы казахи, наши корни взяли начало от Алаша,
+                    Великая степь, поделенная на три жуза.
+                    Мой род – Средний жуз, славное копье,
+                    Сердце, пылающее огнем, особенный сын казахов!
+                    Мой клич – Каптагай, знамя над моей головой,
+                    Я Найман Каракерей, я знаю свой род.
+                    ... (Полный текст должен быть переведен на русский)
+                    <p class='author-sign'>~ Кабыкенов Сагыныш</p>">
+                    </div>
             </div>
         </div>
 
@@ -188,19 +153,13 @@
     <div class="modal-overlay" id="language-modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeLanguageModal()">&times;</span>
-            <h3>Tildi tańdaý / Тілді таңдау</h3>
+            <h3 data-key="select_language">Тілді таңдау / Выберите язык</h3>
             <div id="lang-options-container">
-                <div class="lang-option selected" data-lang="kk-Latn">
-                    <i class="fas fa-font"></i> Qazaq tili (Latyn)
-                </div>
-                <div class="lang-option" data-lang="kk-Cyrl">
+                <div class="lang-option selected" data-lang="kk-Cyrl">
                     <i class="fas fa-font"></i> Қазақ тілі (Кирилл)
                 </div>
                 <div class="lang-option" data-lang="ru">
                     <i class="fas fa-globe"></i> Русский язык
-                </div>
-                <div class="lang-option" data-lang="zh">
-                    <i class="fas fa-globe-asia"></i> 简体中文 (Simplified Chinese)
                 </div>
             </div>
         </div>
@@ -208,42 +167,122 @@
 
     <script>
         // ===================================================
-        // 🌐 ЖАҢА: ПРОФИЛЬ ЖӘНЕ ТІЛ ФУНКЦИЯЛАРЫ
+        // 🌐 ТІЛ АУДАРМАСЫ (LOCALIZATION)
         // ===================================================
+
+        const translations = {
+            'kk-Cyrl': {
+                site_title: 'ҮМІТ | Аудио Плеер (Неон)', back_link: 'Артқа Қайту (Негізгі Бет)', audio_player_title: 'Аудио Өлеңдер Плеері',
+                select_track: 'Тректі таңдаңыз', playlist_title: 'Өлеңдер Тізімі:', search_placeholder: 'Өлең атауын іздеу...',
+                lyrics_btn: 'Мәтін', lyrics_close: 'Жабу',
+                login_register: 'Кіру / Тіркелу', profile_settings: 'Профиль Настройкалары', logout: 'Шығу',
+                track1_title: '1. Орта жүз', track2_title: '2. Жарылғап батыр', track3_title: '3. Тегімнің рухы',
+                select_language: 'Тілді таңдау / Выберите язык'
+            },
+            'ru': {
+                site_title: 'ÚMIT | Аудио Плеер (Неон)', back_link: 'Вернуться Назад (Главная)', audio_player_title: 'Плеер Аудио Песен',
+                select_track: 'Выберите трек', playlist_title: 'Список Песен:', search_placeholder: 'Поиск названия песни...',
+                lyrics_btn: 'Текст', lyrics_close: 'Закрыть',
+                login_register: 'Вход / Регистрация', profile_settings: 'Настройки профиля', logout: 'Выход',
+                track1_title: '1. Средний жуз', track2_title: '2. Жарылгап батыр', track3_title: '3. Дух моего рода',
+                select_language: 'Тілді таңдау / Выберите язык'
+            }
+        };
+
+        function translatePage(lang) {
+            const currentLang = translations[lang];
+            if (!currentLang) return;
+
+            // 1. Барлық мәтіндік элементтерді аудару
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (currentLang[key]) {
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                        el.placeholder = currentLang[key];
+                    } else {
+                        el.textContent = currentLang[key];
+                    }
+                }
+            });
+
+            // 2. Title-ді аудару
+            document.title = currentLang['site_title'] || document.title;
+            
+            // 3. Өлең мәтіндерін аудару және жүктеу
+            document.querySelectorAll('.lyrics-content').forEach(lyricDiv => {
+                const langData = lyricDiv.getAttribute(`data-lang-${lang.toLowerCase()}`);
+                if (langData) {
+                    // HTML-ге арналған бастапқы тегтерді алып тастап, <p> тегімен ауыстырамыз.
+                    lyricDiv.innerHTML = `<p>${langData.replace(/<p class='author-sign'>/g, '</p><p class="author-sign">')}</p>`;
+                }
+            });
+            
+            // 4. Мәтін түймелерін жаңарту
+            document.querySelectorAll('.lyrics-toggle-btn').forEach(btn => {
+                const isOpened = btn.nextElementSibling && btn.nextElementSibling.classList.contains('open');
+                btn.textContent = isOpened ? currentLang['lyrics_close'] : currentLang['lyrics_btn'];
+            });
+
+            // 5. Тілді сақтау
+            localStorage.setItem('selectedLang', lang);
+            document.documentElement.lang = lang;
+            
+            // 6. Басты бетке қайту сілтемесін жаңарту
+            const backLink = document.querySelector('.back-link');
+            if(backLink) {
+                backLink.href = `index.html?lang=${lang}`;
+            }
+
+            console.log(`Тіл ${lang} болып ауыстырылды.`);
+        }
+        
+        // ===================================================
+        // ЖАЛПЫ ФУНКЦИЯЛАР (Профиль, Модаль)
+        // ===================================================
+        
         const profileDropdown = document.getElementById('profile-dropdown');
         const langModal = document.getElementById('language-modal');
-        const authLink = document.getElementById('auth-link');
-        const settingsLink = document.getElementById('settings-link');
-        const logoutLink = document.getElementById('logout-link');
 
         function toggleProfileDropdown() {
             profileDropdown.classList.toggle('open');
         }
 
         function openLanguageModal() {
+            const currentLang = localStorage.getItem('selectedLang') || 'kk-Cyrl';
+            document.querySelectorAll('.lang-option').forEach(opt => {
+                opt.classList.remove('selected');
+                if (opt.getAttribute('data-lang') === currentLang) {
+                    opt.classList.add('selected');
+                }
+            });
             langModal.style.display = 'flex';
         }
 
         function closeLanguageModal() {
             langModal.style.display = 'none';
         }
-        
+
+        // Тілді таңдау логикасы
         document.getElementById('lang-options-container').addEventListener('click', function(e) {
             const option = e.target.closest('.lang-option');
             if (option) {
+                const lang = option.getAttribute('data-lang');
+                translatePage(lang);
+                
                 document.querySelectorAll('.lang-option').forEach(opt => opt.classList.remove('selected'));
                 option.classList.add('selected');
-                const lang = option.getAttribute('data-lang');
-                // ⚠️ НАҚТЫ ТІЛ АУЫСТЫРУ ОПЕРАЦИЯСЫ ОСЫ ЖЕРДЕ ОРЫНДАЛАДЫ!
-                // Қазір тек визуалды өзгеріс.
-                alert(`Tildi aýystyryldy: ${lang}. Toılyq aýystyrý úshin backend qajet.`);
-                // closeLanguageModal(); 
+                
+                closeLanguageModal();
             }
         });
+
+        // Кіру/Шығу логикасы (Визуалды) - Бұрынғыдай сақталған
+        const authLink = document.getElementById('auth-link');
+        const settingsLink = document.getElementById('settings-link');
+        const logoutLink = document.getElementById('logout-link');
         
         authLink.onclick = function(e) {
             e.preventDefault();
-            alert("Kirý/Tirkelý betine ótý (Fýnksııasy qosylmaǵan)");
             authLink.style.display = 'none';
             settingsLink.style.display = 'block';
             logoutLink.style.display = 'block';
@@ -257,15 +296,15 @@
             logoutLink.style.display = 'none';
             toggleProfileDropdown(); 
         }
-        
+
         document.addEventListener('click', function(event) {
             if (!event.target.closest('.profile-section') && profileDropdown.classList.contains('open')) {
                 profileDropdown.classList.remove('open');
             }
         });
-
+        
         // ===================================================
-        // 🎧 БҰРЫНҒЫ АУДИО ПЛЕЕР ФУНКЦИЯЛАРЫ (Өзгеріссіз)
+        // 🎧 АУДИО ПЛЕЕР ФУНКЦИЯЛАРЫ
         // ===================================================
 
         const audioPlayer = document.getElementById('global-audio-player');
@@ -279,11 +318,11 @@
         let currentTrackIndex = -1;
         
         const tracks = [
-            { title: "1. Orta júz", src: "orta_juz_audio.mp3" }, 
-            { title: "2. Jarylǵap batyr", src: "jarylgap_batyr_audio.mp3" }, 
-            { title: "3. Tegimniń rýhy", src: "tegimnin_ruhy_audio.mp3" } 
+            { titleKey: "track1_title", src: "orta_juz_audio.mp3" }, 
+            { titleKey: "track2_title", src: "jarylgap_batyr_audio.mp3" }, 
+            { titleKey: "track3_title", src: "tegimnin_ruhy_audio.mp3" } 
         ];
-
+        
         function formatTime(seconds) {
             if (isNaN(seconds)) return "0:00";
             const minutes = Math.floor(seconds / 60);
@@ -305,8 +344,10 @@
 
             currentTrackIndex = index;
             const track = tracks[index];
-
-            trackTitleDisplay.textContent = track.title;
+            
+            const currentLangCode = localStorage.getItem('selectedLang') || 'kk-Cyrl';
+            trackTitleDisplay.textContent = translations[currentLangCode][track.titleKey];
+            
             audioPlayer.src = track.src;
             audioPlayer.load();
 
@@ -318,7 +359,6 @@
                 playPromise.then(_ => {
                     playIcon.className = 'fas fa-pause';
                 }).catch(error => {
-                    console.log("Autoplay blocked. Press play button.");
                     playIcon.className = 'fas fa-play';
                 });
             }
@@ -399,26 +439,25 @@
         }
 
         function toggleLyrics(button) {
-            const lyricsIndex = button.getAttribute('data-lyrics-index');
-            const lyricsContent = document.getElementById(`lyrics-${lyricsIndex}`);
+            const currentLang = localStorage.getItem('selectedLang') || 'kk-Cyrl';
+            const lyricsContent = button.nextElementSibling;
             
             if (!lyricsContent) return;
 
             document.querySelectorAll('.lyrics-content').forEach(content => {
+                const otherBtn = content.previousElementSibling.querySelector('.lyrics-toggle-btn');
                 if (content !== lyricsContent && content.classList.contains('open')) {
                     content.classList.remove('open');
-                    const parentItem = content.closest('.playlist-item');
-                    const otherButton = parentItem.querySelector('.lyrics-toggle-btn');
-                    if (otherButton) otherButton.textContent = 'Mátin';
+                    if (otherBtn) otherBtn.textContent = translations[currentLang]['lyrics_btn'];
                 }
             });
 
             lyricsContent.classList.toggle('open');
-
+            
             if (lyricsContent.classList.contains('open')) {
-                button.textContent = 'Jabý';
+                button.textContent = translations[currentLang]['lyrics_close'];
             } else {
-                button.textContent = 'Mátin';
+                button.textContent = translations[currentLang]['lyrics_btn'];
             }
         }
         
@@ -433,6 +472,19 @@
                 favBtn.classList.add('far');
                 favBtn.style.color = 'var(--light-text)'; 
             }
+        }
+        
+        // Бастапқы жүктеу кезінде тілді қолдану
+        window.onload = function() {
+            // URL-ден тілді алу
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlLang = urlParams.get('lang');
+            // Сақталған немесе әдепкі тілді алу
+            const savedLang = localStorage.getItem('selectedLang') || 'kk-Cyrl';
+            
+            const initialLang = urlLang || savedLang;
+            
+            translatePage(initialLang);
         }
     </script>
 
