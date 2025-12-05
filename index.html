@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <link rel="stylesheet" href="style.css"> 
-
 </head>
 <body>
     
@@ -31,7 +30,7 @@
     
     <div class="container">
         
-        <div class="header">
+        <div class="header" style="text-align:center;">
             <h1 data-key="portfolio_title">CREATIVE PORTFOLIO</h1>
             <p data-key="portfolio_subtitle">Қабыкенов Сағыныштың Шығармашылық Жинағы</p>
         </div>
@@ -45,37 +44,56 @@
             <p style="font-size: 0.9em; color: #aaa;" data-key="player_description">Жаңа дизайндағы аудио өлеңдерді тыңдау үшін басыңыз.</p>
         </div>
         
-        <hr style="border: 1px solid rgba(255, 0, 255, 0.3); margin: 50px 0;">
+        <hr style="border: 1px solid rgba(0, 255, 255, 0.3); margin: 50px 0;">
 
         <h2 style="text-align:center; color: var(--main-neon);" data-key="video_collection_title">БЕЙНЕ ӨЛЕҢДЕР ЖИНАҒЫ</h2>
         <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 20px; margin-top: 30px;">
-            <div style="padding: 15px; border: 2px solid var(--secondary-neon); border-radius: 8px; text-align: center; background: #111;">
-                <a href="#" style="color: var(--light-text); text-decoration: none;" data-key="track1_title">Орта жүз</a>
-            </div>
-            <div style="padding: 15px; border: 2px solid var(--secondary-neon); border-radius: 8px; text-align: center; background: #111;">
-                <a href="#" style="color: var(--light-text); text-decoration: none;" data-key="track2_title">Жарылғап батыр</a>
-            </div>
-            <div style="padding: 15px; border: 2px solid var(--secondary-neon); border-radius: 8px; text-align: center; background: #111;">
-                <a href="#" style="color: var(--light-text); text-decoration: none;" data-key="track3_title">Тегімнің рухы</a>
-            </div>
+            
+            <a href="#" class="video-card">
+                <img src="orta_juz_audio.jpg" alt="Орта Жүз бейне мұқабасы">
+                <div class="card-content">
+                    <i class="fas fa-play-circle play-icon"></i>
+                    <h3 data-key="track1_title">ОРТА ЖҮЗ</h3>
+                </div>
+            </a>
+            
+            <a href="#" class="video-card">
+                <img src="jarylgap_batyr.jpg" alt="Жарылғап батыр бейне мұқабасы">
+                <div class="card-content">
+                    <i class="fas fa-play-circle play-icon"></i>
+                    <h3 data-key="track2_title">ЖАРЫЛҒАП БАТЫР</h3>
+                </div>
+            </a>
+            
+            <a href="#" class="video-card">
+                <img src="tegimnin_ruhy.jpg" alt="Тегімнің рухы бейне мұқабасы">
+                <div class="card-content">
+                    <i class="fas fa-play-circle play-icon"></i>
+                    <h3 data-key="track3_title">ТЕГІМНІҢ РУХЫ</h3>
+                </div>
+            </a>
         </div>
 
         <hr style="border: 1px solid rgba(255, 0, 255, 0.3); margin: 50px 0;">
 
-        <h2 style="text-align:center; color: var(--secondary-neon);" data-key="father_collection_title">МЕНІҢ ӘКЕМ РАМАЗАНОВ ТӨРЕҒАЛИДЫҢ ӨЛЕҢДЕРІ</h2>
-        <div style="text-align:center; margin-top: 30px; font-style: italic; font-size: 1.1em;">
-            <p><i class="fas fa-pencil-alt" style="color: var(--main-neon);"></i> <span data-key="coming_soon">Бұл бөлім Жақында Қосылады!</span></p>
-            <p style="font-size: 0.9em; color: #aaa;" data-key="coming_soon_desc">Жаңа шығармашылық жұмыстар мен өлеңдерді бірінші боп көру үшін біздің жаңалықтарымызды қадағалаңыз.</p>
+        <div class="contact-card" style="border-color: var(--main-neon);">
+            <h2 style="text-align:center; color: var(--secondary-neon);" data-key="father_collection_title">МЕНІҢ ӘКЕМ РАМАЗАНОВ ТӨРЕҒАЛИДЫҢ ӨЛЕҢДЕРІ</h2>
+            <div style="text-align:center; margin-top: 30px; font-style: italic; font-size: 1.1em;">
+                <p><i class="fas fa-pencil-alt" style="color: var(--main-neon);"></i> <span data-key="coming_soon">Бұл бөлім Жақында Қосылады!</span></p>
+                <p style="font-size: 0.9em; color: #aaa;" data-key="coming_soon_desc">Жаңа шығармашылық жұмыстар мен өлеңдерді бірінші боп көру үшін біздің жаңалықтарымызды қадағалаңыз.</p>
+            </div>
         </div>
         
-        <hr style="border: 1px solid rgba(255, 0, 255, 0.3); margin: 50px 0;">
+        <hr style="border: 1px solid rgba(0, 255, 255, 0.3); margin: 50px 0;">
 
-        <h2 style="text-align:center; color: var(--main-neon);" data-key="contact_title">БІЗБЕН БАЙЛАНЫС</h2>
-        <div style="padding: 20px; border: 2px solid var(--secondary-neon); border-radius: 12px; margin-top: 30px; text-align: center;">
-            <h3 data-key="my_name">Қабыкенов Сағыныш</h3>
-            <p style="font-size: 2em;">
-                <a href="#" style="color: var(--light-text); margin: 0 10px; text-decoration: none;"><i class="fab fa-tiktok"></i></a>
-            </p>
+        <div class="contact-card" style="border-color: var(--secondary-neon);">
+            <h2 style="text-align:center; color: var(--main-neon);" data-key="contact_title">БІЗБЕН БАЙЛАНЫС</h2>
+            <div style="margin-top: 30px; text-align: center;">
+                <h3 data-key="my_name" style="border:none;">Қабыкенов Сағыныш</h3>
+                <p style="font-size: 2em;">
+                    <a href="#" style="color: var(--light-text); margin: 0 10px; text-decoration: none;"><i class="fab fa-tiktok"></i></a>
+                </p>
+            </div>
         </div>
 
     </div>
@@ -96,10 +114,6 @@
     </div>
 
     <script>
-        // ===================================================
-        // 🌐 ТІЛ АУДАРМАСЫ (LOCALIZATION)
-        // ===================================================
-
         const translations = {
             'kk-Cyrl': {
                 site_title: 'ҮМІТ | Қабыкенов Сағыныш (3D Неон Стиль)',
@@ -109,7 +123,7 @@
                 video_collection_title: 'БЕЙНЕ ӨЛЕҢДЕР ЖИНАҒЫ', father_collection_title: 'МЕНІҢ ӘКЕМ РАМАЗАНОВ ТӨРЕҒАЛИДЫҢ ӨЛЕҢДЕРІ',
                 coming_soon: 'Бұл бөлім Жақында Қосылады!', coming_soon_desc: 'Жаңа шығармашылық жұмыстар мен өлеңдерді бірінші боп көру үшін біздің жаңалықтарымызды қадағалаңыз.',
                 contact_title: 'БІЗБЕН БАЙЛАНЫС', my_name: 'Қабыкенов Сағыныш',
-                track1_title: 'Орта жүз', track2_title: 'Жарылғап батыр', track3_title: 'Тегімнің рухы',
+                track1_title: 'ОРТА ЖҮЗ', track2_title: 'ЖАРЫЛҒАП БАТЫР', track3_title: 'ТЕГІМНІҢ РУХЫ',
                 select_language: 'Тілді таңдау / Выберите язык'
             },
             'ru': {
@@ -120,7 +134,7 @@
                 video_collection_title: 'КОЛЛЕКЦИЯ ВИДЕО ПЕСЕН', father_collection_title: 'ПЕСНИ МОЕГО ОТЦА РАМАЗАНОВА ТОРЕГАЛИ',
                 coming_soon: 'Этот раздел скоро добавится!', coming_soon_desc: 'Следите за нашими новостями, чтобы первыми увидеть новые творческие работы и стихи.',
                 contact_title: 'СВЯЗЬ С НАМИ', my_name: 'Кабыкенов Сагыныш',
-                track1_title: 'Средний жуз', track2_title: 'Жарылгап батыр', track3_title: 'Дух моего рода',
+                track1_title: 'СРЕДНИЙ ЖУЗ', track2_title: 'ЖАРЫЛГАП БАТЫР', track3_title: 'ДУХ МОЕГО РОДА',
                 select_language: 'Тілді таңдау / Выберите язык'
             }
         };
@@ -129,38 +143,23 @@
             const currentLang = translations[lang];
             if (!currentLang) return;
 
-            // 1. Барлық мәтіндік элементтерді аудару
             document.querySelectorAll('[data-key]').forEach(el => {
                 const key = el.getAttribute('data-key');
                 if (currentLang[key]) {
-                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-                        el.placeholder = currentLang[key];
-                    } else {
-                        el.textContent = currentLang[key];
-                    }
+                    el.textContent = currentLang[key];
                 }
             });
 
-            // 2. Title-ді аудару
             document.title = currentLang['site_title'] || document.title;
-            
-            // 3. Таңдалған тілді сақтау
             localStorage.setItem('selectedLang', lang);
             document.documentElement.lang = lang;
             
-            // 4. Плеер бетіне өту сілтемесін жаңарту
             const playerLink = document.querySelector('[data-key="go_to_player"]');
             if(playerLink) {
                  playerLink.href = `audio.html?lang=${lang}`;
             }
-
-            console.log(`Тіл ${lang} болып ауыстырылды.`);
         }
 
-        // ===================================================
-        // ЖАЛПЫ ФУНКЦИЯЛАР
-        // ===================================================
-        
         const profileDropdown = document.getElementById('profile-dropdown');
         const langModal = document.getElementById('language-modal');
         
@@ -169,7 +168,6 @@
         }
 
         function openLanguageModal() {
-            // Қазіргі таңдалған тілді модальда белгілеу
             const currentLang = localStorage.getItem('selectedLang') || 'kk-Cyrl';
             document.querySelectorAll('.lang-option').forEach(opt => {
                 opt.classList.remove('selected');
@@ -184,7 +182,6 @@
             langModal.style.display = 'none';
         }
 
-        // Тілді таңдау логикасы
         document.getElementById('lang-options-container').addEventListener('click', function(e) {
             const option = e.target.closest('.lang-option');
             if (option) {
@@ -198,46 +195,15 @@
             }
         });
 
-        // Бастапқы жүктеу кезінде тілді қолдану
         window.onload = function() {
-            // URL-ден тілді алу
             const urlParams = new URLSearchParams(window.location.search);
             const urlLang = urlParams.get('lang');
-            // Сақталған немесе әдепкі тілді алу
             const savedLang = localStorage.getItem('selectedLang') || 'kk-Cyrl';
             
             const initialLang = urlLang || savedLang;
             
             translatePage(initialLang);
         }
-
-        // Профиль кіру/шығу логикасы (Визуалды) - Бұрынғыдай сақталған
-        const authLink = document.getElementById('auth-link');
-        const settingsLink = document.getElementById('settings-link');
-        const logoutLink = document.getElementById('logout-link');
-        
-        authLink.onclick = function(e) {
-            e.preventDefault();
-            authLink.style.display = 'none';
-            settingsLink.style.display = 'block';
-            logoutLink.style.display = 'block';
-            toggleProfileDropdown(); 
-        }
-
-        logoutLink.onclick = function(e) {
-            e.preventDefault();
-            authLink.style.display = 'block';
-            settingsLink.style.display = 'none';
-            logoutLink.style.display = 'none';
-            toggleProfileDropdown(); 
-        }
-
-        document.addEventListener('click', function(event) {
-            if (!event.target.closest('.profile-section') && profileDropdown.classList.contains('open')) {
-                profileDropdown.classList.remove('open');
-            }
-        });
-
     </script>
 
 </body>
