@@ -3,86 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DATA STREAM | Qabykenov Saǵynysh (Cyberpunk Stili)</title>
+    <title>ДЕРЕК АҒЫНЫ | ҮМІТ</title>
     
-    <meta property="og:title" content="Qabykenov Saǵynyshtyń Creative Portfolio-sy | ÚMIT (DATA STREAM)" />
-    <meta property="og:description" content="Óleńder, beıne-ler jáne shyǵarmashylyq jumystar jınaǵy. AQP (Aqparattyq Qujyqat Proektisi)." />
-    <meta property="og:image" content="https://huperforma-boop.github.io/tegimnin_ruhy.jpg" /> 
-    <meta property="og:url" content="https://huperforma-boop.github.io/index.html" />
+    <meta property="og:title" content="Шығармашылық Портфолио | ҮМІТ (ДЕРЕК АҒЫНЫ)" />
+    <meta property="og:description" content="Өлеңдер, бейнелер және шығармашылық жұмыстар жинағы." />
     <meta property="og:type" content="website" />
     
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <script src="https://unpkg.com/scrollreveal"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-
     <style>
         /* НЕГІЗГІ ТҮСТЕР (CYBERPUNK) */
         :root {
-            --dark-bg: #0A0A1F; /* Өте қою көкшіл қара */
-            --cyber-red: #FF3366; /* Негізгі акцент (Қызыл/Қызғылт) */
-            --matrix-green: #33FFCC; /* Екінші акцент (Жасыл/Циан) */
+            --dark-bg: #0A0A1F; 
+            --cyber-red: #FF3366; 
+            --matrix-green: #33FFCC; 
             --light-text: #E0FFFF; 
-            --box-bg: rgba(18, 18, 40, 0.7); /* Жартылай мөлдір қою фон */
-            --round-radius: 4px; /* Тікбұрышты стиль */
+            --box-bg: rgba(18, 18, 40, 0.7); 
+            --round-radius: 4px; 
             --shadow-glitch: 0 0 5px var(--cyber-red), 0 0 10px rgba(255, 51, 102, 0.5);
             --border-glitch: 2px solid var(--matrix-green);
         }
 
         /* НЕГІЗГІ СТИЛЬДЕР */
         body {
-            font-family: 'Space Mono', monospace; /* Монопространстволы қаріп */
+            font-family: 'Space Mono', monospace; 
             background-color: var(--dark-bg); 
-            color: var(--matrix-green); /* Негізгі мәтін түсі */
-            margin: 0;
-            padding: 0;
+            color: var(--matrix-green); 
+            margin: 0; padding: 0;
             line-height: 1.6;
             overflow-x: hidden;
             position: relative;
         }
 
-        /* PARTICLE.JS БЛОГЫНЫҢ СТИЛІ */
+        /* Particle.js */
         #particles-js {
-            position: fixed; 
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
             z-index: -1; 
             background-color: var(--dark-bg);
         }
         
         .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px 0 50px 0;
-            position: relative; 
-            z-index: 1; 
+            width: 90%; max-width: 1200px;
+            margin: 0 auto; padding: 20px 0 50px 0;
+            position: relative; z-index: 1; 
         }
         
         .header {
+            /* Бос орын, бірақ төменгі бөлімдерден арақашықтықты сақтайды */
             padding: 100px 0 60px 0;
             text-align: center;
-            position: relative;
         }
         
         .header h1 {
-            font-family: 'Orbitron', sans-serif;
+            /* Тақырыпты жасыру, бірақ блоктың биіктігін сақтау */
             font-size: 4em;
             margin: 0;
-            font-weight: 900;
-            color: var(--cyber-red);
-            text-shadow: 0 0 15px rgba(255, 51, 102, 0.9), 0 0 30px rgba(255, 51, 102, 0.5);
-            letter-spacing: 5px;
+            visibility: hidden; 
+            height: 0; /* Бос болу үшін биіктігі 0-ге қойылды */
         }
 
         .top-left-title {
             position: absolute;
-            top: 20px;
-            left: 50px;
+            top: 20px; left: 50px;
             font-family: 'Orbitron', sans-serif;
             font-size: 1.8em;
             font-weight: 700;
@@ -109,7 +93,7 @@
             background-color: rgba(0, 0, 0, 0.5);
         }
         
-        /* ВИДЕО БЛОКТАРЫ (DATA BLOCK) */
+        /* ВИДЕО БЛОКТАРЫ */
         .video-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -122,13 +106,9 @@
             border: 1px solid var(--cyber-red);
             border-radius: var(--round-radius); 
             box-shadow: 0 0 15px var(--cyber-red); 
-            overflow: hidden;
             transition: all 0.3s ease; 
-            text-decoration: none; 
-            color: var(--light-text);
-            display: block; 
-            /* Жарық берілген бұрыш */
             border-left: 5px solid var(--matrix-green);
+            text-decoration: none; 
         }
 
         .video-item:hover {
@@ -148,7 +128,7 @@
             text-align: center;
             text-transform: uppercase;
         }
-        
+
         .video-thumbnail {
             position: relative;
             width: 100%;
@@ -169,8 +149,8 @@
             position: absolute; 
             text-shadow: 0 0 10px var(--cyber-red);
         }
-
-        /* АУДИО БЛОК (PROCESSOR) */
+        
+        /* АУДИО БЛОК */
         .audio-link-box {
             text-align: center;
             padding: 50px;
@@ -193,18 +173,9 @@
             margin-top: 15px;
             margin-bottom: 10px;
         }
-
-        .audio-link-box .fa-music {
-            font-size: 3.5em;
-            color: var(--cyber-red);
-            text-shadow: 0 0 15px var(--cyber-red);
-        }
         
-        /* ӘКЕҢІЗДІҢ ӨЛЕҢДЕРІ БӨЛІМІ (LEGACY DATA) */
-        @keyframes scanline {
-            0% { background-position: 0 0; }
-            100% { background-position: 0 100%; }
-        }
+        /* ӘКЕҢІЗДІҢ ӨЛЕҢДЕРІ БӨЛІМІ */
+        @keyframes scanline { 0% { background-position: 0 0; } 100% { background-position: 0 100%; } }
 
         .coming-soon-box {
             text-align: center;
@@ -215,42 +186,17 @@
             background-color: rgba(0, 40, 40, 0.5); 
             border: 3px solid var(--matrix-green);
             border-radius: var(--round-radius);
-            
-            /* Сканерлеу сызығының анимациясы */
             background-image: linear-gradient(rgba(0,0,0,0.1) 50%, rgba(51, 255, 204, 0.2) 50%);
             background-size: 100% 10px;
             animation: scanline 2s infinite linear;
-
             box-shadow: 0 0 15px var(--matrix-green); 
             transition: all 0.4s ease;
         }
         
-        .coming-soon-box:hover {
-            transform: scale(1.02);
-            border-color: var(--cyber-red);
-            box-shadow: 0 0 20px var(--cyber-red);
-        }
-
-        .coming-soon-box h3 {
-            color: var(--matrix-green);
-            text-shadow: 0 0 8px var(--matrix-green);
-            font-family: 'Orbitron', sans-serif;
-            margin: 15px 0;
-        }
-
-        .coming-soon-box .fas {
-            font-size: 3em;
-            color: var(--matrix-green);
-            text-shadow: 0 0 15px var(--matrix-green);
-        }
-        
         /* БАЙЛАНЫС ЖӘНЕ АВТОР БӨЛІМДЕРІ */
         .contact-form-container {
-            padding: 40px;
-            margin-top: 50px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
+            padding: 40px; margin-top: 50px;
+            max-width: 700px; margin-left: auto; margin-right: auto;
             background-color: var(--box-bg);
             border: 2px solid var(--cyber-red);
             border-radius: var(--round-radius);
@@ -258,8 +204,7 @@
         }
 
         .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 10px;
+            width: 100%; padding: 10px;
             border: 1px solid var(--matrix-green);
             background-color: #0d0d1a;
             color: var(--light-text);
@@ -278,7 +223,6 @@
             font-family: 'Orbitron', sans-serif;
             cursor: pointer;
             border-radius: 4px;
-            transition: background-color 0.3s, transform 0.3s;
             box-shadow: 0 0 10px var(--cyber-red);
         }
         
@@ -287,12 +231,9 @@
             border: 2px solid var(--matrix-green); 
             border-radius: var(--round-radius); 
             box-shadow: 0 0 15px var(--matrix-green); 
-            padding: 40px;
-            margin-top: 50px;
+            padding: 40px; margin-top: 50px;
             text-align: center;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
+            max-width: 700px; margin-left: auto; margin-right: auto;
         }
         
         .social-links a {
@@ -303,45 +244,52 @@
             transition: color 0.3s ease, text-shadow 0.3s ease;
         }
         
-        .social-links a:hover {
-            color: var(--matrix-green);
-            text-shadow: 0 0 15px var(--matrix-green);
+        /* 📱 МОБИЛЬДІК БЕЙІМДІЛІК (Responsive Design) */
+        @media (max-width: 768px) {
+            .header { padding: 60px 0 40px 0; }
+            .header h1 { font-size: 2.2em; letter-spacing: 3px; }
+            .top-left-title { left: 15px; top: 15px; font-size: 1em; }
+            .section-title { margin: 40px 0 20px 0; }
+            .section-title h2 { font-size: 1.3em; padding: 5px 10px; }
+            .video-grid { grid-template-columns: 1fr; gap: 15px; }
+            .video-item h3 { font-size: 0.9em; padding: 10px; }
+            .audio-link-box, .coming-soon-box, .contact-form-container, .author-info { padding: 20px; margin: 20px auto; }
+            .audio-link-box h3 { font-size: 1.4em; }
+            .social-links a { font-size: 2em; margin: 0 10px; }
         }
-
-        /* ... (Басқа стильдер өзгеріссіз) ... */
     </style>
 </head>
 <body>
     
     <div id="particles-js"></div>
 
-    <div class="top-left-title">ÚMIT | AQP</div>
+    <div class="top-left-title">ҮМІТ | АҚП</div>
 
     <div class="header">
-        <h1>DATA STREAM INITIATED</h1>
-        </div>
+        <h1></h1> 
+    </div>
 
     <div class="container">
         
         <div class="section-title reveal-top">
-            <h2>> BEIINE ÓLEŃDER JINAǴY</h2>
+            <h2>> БЕЙНЕ ӨЛЕҢДЕР ЖИНАҒЫ</h2>
         </div>
         
         <div class="video-grid">
             <a href="https://youtu.be/hXudqOz6LHg?si=9H62eI29gK--gsH" target="_blank" class="video-item scroll-reveal-item">
-                <h3>[PROTOCOL: ORTA JÚZ]</h3>
+                <h3>ОРТА ЖҮЗ</h3>
                 <div class="video-thumbnail" style="background-image: url('orta_juz.jpg');">
                     <i class="fas fa-play play-icon"></i>
                 </div>
             </a>
             <a href="https://youtube.com/shorts/R9gMs1rpRSg?si=d-Y0RQjeRdCDdXy" target="_blank" class="video-item scroll-reveal-item">
-                <h3>[PROTOCOL: JARYLǴAP BATYR]</h3>
+                <h3>ЖАРЫЛҒАП БАТЫР</h3>
                 <div class="video-thumbnail" style="background-image: url('jarylgap_batyr.jpg');">
                     <i class="fas fa-play play-icon"></i>
                 </div>
             </a>
             <a href="https://youtube.com/shorts/1fsjEGisgVk?si=QV_IbO7mV7Dcu7lP" target="_blank" class="video-item scroll-reveal-item">
-                <h3>[PROTOCOL: TEGIMNIŃ RÝHY]</h3> 
+                <h3>ТЕГІМНІҢ РУХЫ</h3> 
                 <div class="video-thumbnail" style="background-image: url('tegimnin_ruhy.jpg');">
                     <i class="fas fa-play play-icon"></i>
                 </div>
@@ -349,48 +297,49 @@
         </div>
         
         <div class="section-title reveal-top">
-            <h2>> AÝDÏO ÓLEŃDER JINAǴY (MUSIC CORE)</h2>
+            <h2>> АУДИО ӨЛЕҢДЕР ЖИНАҒЫ</h2>
         </div>
         
         <a href="audio.html" class="audio-link-box scroll-reveal-item">
             <i class="fas fa-music"></i>
-            <h3>[INITIATE AUDIO CORE]</h3>
-            <p>Jańa dızaındaǵy aýdıo óleńderdi mátinderimen birge tyńdaý úshin basyńyz.</p>
+            <h3>АУДИО ЯДРОНЫ ІСКЕ ҚОСУ</h3>
+            <p>Жаңа дизайндағы аудио өлеңдерді мәтіндерімен бірге тыңдау үшін басыңыз.</p>
         </a>
         
         <div class="section-title reveal-top">
-            <h2>> LEGACY DATA: RAMAZANOV T.</h2>
+            <h2>> АРХИВТІК ДЕРЕКТЕР: РАМАЗАНОВ Т.</h2>
         </div>
         
-        <div id="akem-olen-link" class="coming-soon-box scroll-reveal-item" onclick="alert('Meniń ákem Ramazanov Tóreǵalıdyń óleńderi jaqyn-da qosylady! Jükteý júrgizilýde...');">
-            <i class="fas fa-code-branch"></i> <h3>[JÚKTEÝ JÚRGIZILÝDE: 404 DATA NOT FOUND]</h3>
-            <p>Jańa shyǵarmashylyq jumystar men óleńderdi birinshi bolyp kórý úshin bizdiń jańalyqtarymyzdy qadaǵalańyz.</p>
+        <div id="akem-olen-link" class="coming-soon-box scroll-reveal-item" onclick="alert('Менің әкем Рамазанов Төреғалидың өлеңдері жақын-да қосылады! Жүктеу жүргізілуде...');">
+            <i class="fas fa-code-branch"></i>
+            <h3>[ЖҮКТЕУ ЖҮРГІЗІЛУДЕ: 404 ДЕРЕК ТАБЫЛМАДЫ]</h3>
+            <p>Жаңа шығармашылық жұмыстар мен өлеңдерді бірінші болып көру үшін біздің жаңалықтарымызды қадағалаңыз.</p>
         </div>
         
         <div class="section-title reveal-top">
-            <h2>> BAILANYS JÚIESI (CONTACT PROTOCOL)</h2>
+            <h2>> БАЙЛАНЫС ЖҮЙЕСІ (ХАТТАМА)</h2>
         </div>
 
         <div class="contact-form-container scroll-reveal-item">
             <form action="#" method="POST">
                 <div class="form-group">
-                    <label for="name">[INPUT NAME]:</label>
+                    <label for="name">АТЫҢЫЗДЫ ЕНГІЗУ:</label>
                     <input type="text" id="name" name="name" required>
                 </div>
                 <div class="form-group">
-                    <label for="email">[INPUT EMAIL]:</label>
+                    <label for="email">E-MAIL ЕНГІЗУ:</label>
                     <input type="email" id="email" name="email" required>
                 </div>
                 <div class="form-group">
-                    <label for="message">[INPUT MESSAGE]:</label>
+                    <label for="message">ХАБАРЛАМАНЫ ЕНГІЗУ:</label>
                     <textarea id="message" name="message" rows="5" required></textarea>
                 </div>
-                <button type="submit" class="submit-btn">[TRANSMIT DATA]</button>
+                <button type="submit" class="submit-btn">ДЕРЕКТЕРДІ ЖІБЕРУ</button>
             </form>
         </div>
         
         <div class="author-info scroll-reveal-item">
-            <h2>Qabykenov Saǵynysh | [CREATOR ID: QSYN.01]</h2>
+            <h2>Қабыкенов Сағыныш</h2>
             
             <div class="social-links">
                 <a href="https://www.tiktok.com/@huawei.kz1?_r=1&_t=ZM-91vWOUJnp9f" target="_blank" aria-label="TikTok">
@@ -406,101 +355,36 @@
     </div>
 
     <div class="footer">
-        <p>© 2025. ÚMIT AQP. Barlyq quqyqtar qorǵalǵan. [SYSTEM: ONLINE]</p>
+        <p>© 2025. ҮМІТ АҚП. Барлық құқықтар қорғалған.</p>
     </div>
 
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
     <script>
-        // ScrollReveal скрипті
+        // ScrollReveal
         ScrollReveal({ distance: '60px', duration: 1500, easing: 'cubic-bezier(0.645, 0.045, 0.355, 1)', interval: 100, reset: false });
         ScrollReveal().reveal('.scroll-reveal-item', { origin: 'bottom' });
         ScrollReveal().reveal('.section-title', { origin: 'top', distance: '40px', delay: 300, interval: 0 });
 
-        // Particle.js инициализациясы (Матрицалық жасыл және қызыл түстер)
+        // Particle.js
         particlesJS('particles-js', {
             "particles": {
-                "number": {
-                    "value": 100, // Бөлшектер санын көбейттік
-                    "density": {
-                        "enable": true,
-                        "value_area": 800
-                    }
-                },
-                "color": {
-                    // Жасыл (Matrix Green) және Қызыл (Cyber Red) түстердің қоспасы
-                    "value": ["#33FFCC", "#FF3366"] 
-                },
-                "shape": {
-                    "type": "star", // Жұлдыздар/Нүктелер
-                    "stroke": {
-                        "width": 0,
-                        "color": "#000000"
-                    }
-                },
-                "opacity": {
-                    "value": 0.6,
-                    "random": true,
-                    "anim": {
-                        "enable": true,
-                        "speed": 1.5,
-                        "opacity_min": 0.1,
-                        "sync": false
-                    }
-                },
-                "size": {
-                    "value": 2,
-                    "random": true,
-                    "anim": {
-                        "enable": false
-                    }
-                },
-                "line_linked": {
-                    "enable": true,
-                    "distance": 130,
-                    "color": "#33FFCC", // Жасыл желілер
-                    "opacity": 0.5,
-                    "width": 1
-                },
-                "move": {
-                    "enable": true,
-                    "speed": 1.5, 
-                    "direction": "none",
-                    "random": false,
-                    "straight": false,
-                    "out_mode": "out",
-                    "bounce": false,
-                    "attract": {
-                        "enable": false
-                    }
-                }
+                "number": { "value": 100, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": ["#33FFCC", "#FF3366"] },
+                "shape": { "type": "star" },
+                "opacity": { "value": 0.6, "random": true, "anim": { "enable": true, "speed": 1.5, "opacity_min": 0.1, "sync": false } },
+                "size": { "value": 2, "random": true, "anim": { "enable": false } },
+                "line_linked": { "enable": true, "distance": 130, "color": "#33FFCC", "opacity": 0.5, "width": 1 },
+                "move": { "enable": true, "speed": 1.5, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
             },
             "interactivity": {
                 "detect_on": "canvas",
-                "events": {
-                    "onhover": {
-                        "enable": true,
-                        "mode": "grab" // Қосылу эффектісі
-                    },
-                    "onclick": {
-                        "enable": true,
-                        "mode": "push" 
-                    },
-                    "resize": true
-                },
-                "modes": {
-                    "grab": {
-                        "distance": 140,
-                        "line_linked": {
-                            "opacity": 1
-                        }
-                    },
-                    "push": {
-                        "particles_nb": 4
-                    }
-                }
+                "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true },
+                "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, "push": { "particles_nb": 4 } }
             },
             "retina_detect": true
         });
-
     </script>
 
 </body>
