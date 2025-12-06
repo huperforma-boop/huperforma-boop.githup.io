@@ -23,6 +23,13 @@
             --round-radius: 4px; 
             --shadow-glitch: 0 0 5px var(--cyber-red), 0 0 10px rgba(255, 51, 102, 0.5);
             --border-glitch: 2px solid var(--matrix-green);
+            
+            /* Светлая тема (по умолчанию выключена) */
+            --light-bg: #F0F0F0;
+            --light-cyber-red: #CC0033;
+            --light-matrix-green: #00997A;
+            --light-dark-text: #1A1A2E;
+            --light-box-bg: rgba(220, 220, 255, 0.7);
         }
 
         /* НЕГІЗГІ СТИЛЬДЕР */
@@ -34,6 +41,103 @@
             line-height: 1.6;
             overflow-x: hidden;
             position: relative;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+        
+        /* Стили для светлой темы */
+        body.light-theme {
+            background-color: var(--light-bg);
+            color: var(--light-matrix-green);
+        }
+        
+        body.light-theme .top-left-title {
+            color: var(--light-matrix-green);
+            text-shadow: 0 0 8px rgba(0, 153, 122, 0.7);
+        }
+        
+        body.light-theme .section-title h2 {
+            color: var(--light-dark-text);
+            border-color: var(--light-matrix-green);
+            box-shadow: 0 0 5px var(--light-matrix-green), 0 0 10px rgba(0, 153, 122, 0.5);
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+        
+        body.light-theme .video-item {
+            background-color: var(--light-box-bg);
+            border-color: var(--light-cyber-red);
+            box-shadow: 0 0 15px rgba(204, 0, 51, 0.5);
+            border-left-color: var(--light-matrix-green);
+        }
+        
+        body.light-theme .video-item:hover {
+            box-shadow: 0 0 20px var(--light-matrix-green), 0 0 40px rgba(0, 153, 122, 0.5);
+            border-color: var(--light-matrix-green);
+        }
+        
+        body.light-theme .video-item h3 {
+            color: var(--light-bg);
+            background-color: var(--light-matrix-green);
+        }
+        
+        body.light-theme .play-icon {
+            color: var(--light-cyber-red);
+            text-shadow: 0 0 10px rgba(204, 0, 51, 0.7);
+        }
+        
+        body.light-theme .audio-link-box {
+            background-color: rgba(255, 200, 200, 0.7);
+            border-color: var(--light-cyber-red);
+            box-shadow: 0 0 15px var(--light-cyber-red), 0 0 40px rgba(204, 0, 51, 0.5);
+        }
+        
+        body.light-theme .audio-link-box h3 {
+            color: var(--light-dark-text);
+            text-shadow: 0 0 5px rgba(204, 0, 51, 0.5);
+        }
+        
+        body.light-theme .coming-soon-box {
+            background-color: rgba(200, 255, 240, 0.7);
+            border-color: var(--light-matrix-green);
+            background-image: linear-gradient(rgba(255,255,255,0.1) 50%, rgba(0, 153, 122, 0.2) 50%);
+            box-shadow: 0 0 15px var(--light-matrix-green);
+        }
+        
+        body.light-theme .contact-form-container,
+        body.light-theme .author-info {
+            background-color: var(--light-box-bg);
+            border-color: var(--light-cyber-red);
+            box-shadow: 0 0 10px rgba(204, 0, 51, 0.5);
+        }
+        
+        body.light-theme .form-group input,
+        body.light-theme .form-group textarea {
+            background-color: #FFFFFF;
+            color: var(--light-dark-text);
+            border-color: var(--light-matrix-green);
+            box-shadow: inset 0 0 5px rgba(0, 153, 122, 0.3);
+        }
+        
+        body.light-theme .submit-btn {
+            background-color: var(--light-cyber-red);
+            color: white;
+            box-shadow: 0 0 10px rgba(204, 0, 51, 0.7);
+        }
+        
+        body.light-theme .social-links a {
+            color: var(--light-cyber-red);
+            text-shadow: 0 0 10px rgba(204, 0, 51, 0.7);
+        }
+        
+        body.light-theme .theme-toggle-btn {
+            background-color: var(--light-box-bg);
+            border-color: var(--light-matrix-green);
+            color: var(--light-matrix-green);
+            box-shadow: 0 0 10px rgba(0, 153, 122, 0.5);
+        }
+        
+        body.light-theme .theme-toggle-btn:hover {
+            background-color: var(--light-matrix-green);
+            color: white;
         }
 
         /* Particle.js */
@@ -42,6 +146,11 @@
             width: 100%; height: 100%;
             z-index: -1; 
             background-color: var(--dark-bg);
+            transition: background-color 0.5s ease;
+        }
+        
+        body.light-theme #particles-js {
+            background-color: var(--light-bg);
         }
         
         .container {
@@ -51,17 +160,15 @@
         }
         
         .header {
-            /* Бос орын, бірақ төменгі бөлімдерден арақашықтықты сақтайды */
             padding: 100px 0 60px 0;
             text-align: center;
         }
         
         .header h1 {
-            /* Тақырыпты жасыру, бірақ блоктың биіктігін сақтау */
             font-size: 4em;
             margin: 0;
             visibility: hidden; 
-            height: 0; /* Бос болу үшін биіктігі 0-ге қойылды */
+            height: 0;
         }
 
         .top-left-title {
@@ -74,6 +181,7 @@
             text-shadow: 0 0 8px var(--matrix-green);
             z-index: 1000;
             text-transform: uppercase;
+            transition: all 0.5s ease;
         }
 
         .section-title {
@@ -91,6 +199,7 @@
             border: var(--border-glitch);
             box-shadow: var(--shadow-glitch);
             background-color: rgba(0, 0, 0, 0.5);
+            transition: all 0.5s ease;
         }
         
         /* ВИДЕО БЛОКТАРЫ */
@@ -109,6 +218,7 @@
             transition: all 0.3s ease; 
             border-left: 5px solid var(--matrix-green);
             text-decoration: none; 
+            cursor: pointer;
         }
 
         .video-item:hover {
@@ -127,6 +237,7 @@
             font-weight: 700;
             text-align: center;
             text-transform: uppercase;
+            transition: all 0.5s ease;
         }
 
         .video-thumbnail {
@@ -148,6 +259,7 @@
             color: var(--cyber-red);
             position: absolute; 
             text-shadow: 0 0 10px var(--cyber-red);
+            transition: all 0.5s ease;
         }
         
         /* АУДИО БЛОК */
@@ -163,6 +275,7 @@
             border-radius: var(--round-radius);
             box-shadow: 0 0 15px var(--cyber-red), 0 0 40px rgba(255, 51, 102, 0.7);
             transition: all 0.4s ease;
+            cursor: pointer;
         }
 
         .audio-link-box h3 {
@@ -172,6 +285,7 @@
             font-size: 2em;
             margin-top: 15px;
             margin-bottom: 10px;
+            transition: all 0.5s ease;
         }
         
         /* ӘКЕҢІЗДІҢ ӨЛЕҢДЕРІ БӨЛІМІ */
@@ -201,6 +315,7 @@
             border: 2px solid var(--cyber-red);
             border-radius: var(--round-radius);
             box-shadow: 0 0 10px var(--cyber-red);
+            transition: all 0.5s ease;
         }
 
         .form-group input, .form-group textarea {
@@ -212,6 +327,7 @@
             box-shadow: inset 0 0 5px rgba(51, 255, 204, 0.5);
             box-sizing: border-box;
             font-family: 'Space Mono', monospace;
+            transition: all 0.3s ease;
         }
         
         .submit-btn {
@@ -224,6 +340,7 @@
             cursor: pointer;
             border-radius: 4px;
             box-shadow: 0 0 10px var(--cyber-red);
+            transition: all 0.3s ease;
         }
         
         .author-info {
@@ -234,6 +351,7 @@
             padding: 40px; margin-top: 50px;
             text-align: center;
             max-width: 700px; margin-left: auto; margin-right: auto;
+            transition: all 0.5s ease;
         }
         
         .social-links a {
@@ -242,6 +360,159 @@
             margin: 0 15px;
             text-shadow: 0 0 10px var(--cyber-red); 
             transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+        
+        /* =============================================== */
+        /* ЖАҢА ТЕХНИКАЛЫҚ "ФИШКИ" СТИЛЬДЕРІ */
+        /* =============================================== */
+        
+        /* Экран загрузки */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000000;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Space Mono', monospace;
+            color: var(--matrix-green);
+            text-shadow: 0 0 5px var(--matrix-green);
+            overflow: hidden;
+        }
+        
+        .terminal-container {
+            width: 80%;
+            max-width: 800px;
+            padding: 20px;
+            border: 1px solid var(--matrix-green);
+            box-shadow: 0 0 20px var(--matrix-green);
+            background-color: rgba(0, 10, 10, 0.9);
+        }
+        
+        .terminal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--matrix-green);
+            padding-bottom: 10px;
+        }
+        
+        .terminal-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2em;
+            color: var(--matrix-green);
+        }
+        
+        .terminal-content {
+            font-family: 'Space Mono', monospace;
+            font-size: 1em;
+            line-height: 1.5;
+            height: 200px;
+            overflow-y: auto;
+        }
+        
+        .terminal-line {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .terminal-prompt {
+            color: var(--cyber-red);
+            margin-right: 10px;
+        }
+        
+        .terminal-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background-color: var(--matrix-green);
+            margin-left: 5px;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background-color: rgba(51, 255, 204, 0.2);
+            margin-top: 20px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background-color: var(--matrix-green);
+            box-shadow: 0 0 10px var(--matrix-green);
+            transition: width 2s ease;
+        }
+        
+        /* Кнопка переключения темы */
+        .theme-toggle-btn {
+            position: fixed;
+            top: 20px;
+            right: 50px;
+            z-index: 1000;
+            background-color: var(--box-bg);
+            border: 1px solid var(--matrix-green);
+            color: var(--matrix-green);
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(51, 255, 204, 0.3);
+        }
+        
+        .theme-toggle-btn:hover {
+            background-color: var(--matrix-green);
+            color: var(--dark-bg);
+            box-shadow: 0 0 15px var(--matrix-green);
+        }
+        
+        /* Интерактивные элементы для звуковых эффектов */
+        .sound-interactive {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sound-interactive::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(51, 255, 204, 0.2) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .sound-interactive:hover::before {
+            opacity: 1;
+        }
+        
+        .sound-interactive:active::before {
+            background: radial-gradient(circle at center, rgba(255, 51, 102, 0.3) 0%, transparent 70%);
+        }
+        
+        /* Аудио элементы (скрытые) */
+        .audio-fx {
+            display: none;
         }
         
         /* 📱 МОБИЛЬДІК БЕЙІМДІЛІК (Responsive Design) */
@@ -256,11 +527,58 @@
             .audio-link-box, .coming-soon-box, .contact-form-container, .author-info { padding: 20px; margin: 20px auto; }
             .audio-link-box h3 { font-size: 1.4em; }
             .social-links a { font-size: 2em; margin: 0 10px; }
+            .theme-toggle-btn { right: 15px; top: 15px; padding: 8px 12px; font-size: 0.8em; }
+            .terminal-container { width: 95%; }
         }
     </style>
 </head>
 <body>
     
+    <!-- Экран загрузки -->
+    <div id="splash-screen">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <div class="terminal-title">ҮМІТ ТЕРМИНАЛЫ | SYSTEM BOOT</div>
+                <div class="terminal-status">[INITIALIZING...]</div>
+            </div>
+            <div class="terminal-content" id="terminal-content">
+                <div class="terminal-line">
+                    <span class="terminal-prompt">></span> 
+                    <span class="terminal-text">ҮМІТ жүйесін инициализациялау...</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-prompt">></span> 
+                    <span class="terminal-text">Кибернеон желісін жүктеу...</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-prompt">></span> 
+                    <span class="terminal-text">Өлеңдер ядросын активтендіру...</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-prompt">></span> 
+                    <span class="terminal-text">Бейне мәліметтер банкін қосылу...</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-prompt">></span> 
+                    <span class="terminal-text">Қабыкенов Сағыныш идентификациясы...</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-prompt">></span> 
+                    <span class="terminal-text">Жүйе дайын.</span>
+                    <span class="terminal-cursor"></span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Кнопка переключения темы -->
+    <button class="theme-toggle-btn" id="theme-toggle">
+        <i class="fas fa-moon"></i> Тема
+    </button>
+
     <div id="particles-js"></div>
 
     <div class="top-left-title">ҮМІТ | АҚП</div>
@@ -276,19 +594,19 @@
         </div>
         
         <div class="video-grid">
-            <a href="https://youtu.be/hXudqOz6LHg?si=9H62eI29gK--gsH" target="_blank" class="video-item scroll-reveal-item">
+            <a href="https://youtu.be/hXudqOz6LHg?si=9H62eI29gK--gsH" target="_blank" class="video-item scroll-reveal-item sound-interactive">
                 <h3>ОРТА ЖҮЗ</h3>
                 <div class="video-thumbnail" style="background-image: url('orta_juz.jpg');">
                     <i class="fas fa-play play-icon"></i>
                 </div>
             </a>
-            <a href="https://youtube.com/shorts/R9gMs1rpRSg?si=d-Y0RQjeRdCDdXy" target="_blank" class="video-item scroll-reveal-item">
+            <a href="https://youtube.com/shorts/R9gMs1rpRSg?si=d-Y0RQjeRdCDdXy" target="_blank" class="video-item scroll-reveal-item sound-interactive">
                 <h3>ЖАРЫЛҒАП БАТЫР</h3>
                 <div class="video-thumbnail" style="background-image: url('jarylgap_batyr.jpg');">
                     <i class="fas fa-play play-icon"></i>
                 </div>
             </a>
-            <a href="https://youtube.com/shorts/1fsjEGisgVk?si=QV_IbO7mV7Dcu7lP" target="_blank" class="video-item scroll-reveal-item">
+            <a href="https://youtube.com/shorts/1fsjEGisgVk?si=QV_IbO7mV7Dcu7lP" target="_blank" class="video-item scroll-reveal-item sound-interactive">
                 <h3>ТЕГІМНІҢ РУХЫ</h3> 
                 <div class="video-thumbnail" style="background-image: url('tegimnin_ruhy.jpg');">
                     <i class="fas fa-play play-icon"></i>
@@ -300,7 +618,7 @@
             <h2>> АУДИО ӨЛЕҢДЕР ЖИНАҒЫ</h2>
         </div>
         
-        <a href="audio.html" class="audio-link-box scroll-reveal-item">
+        <a href="audio.html" class="audio-link-box scroll-reveal-item sound-interactive">
             <i class="fas fa-music"></i>
             <h3>АУДИО ЯДРОНЫ ІСКЕ ҚОСУ</h3>
             <p>Жаңа дизайндағы аудио өлеңдерді мәтіндерімен бірге тыңдау үшін басыңыз.</p>
@@ -310,7 +628,7 @@
             <h2>> АРХИВТІК ДЕРЕКТЕР: РАМАЗАНОВ Т.</h2>
         </div>
         
-        <div id="akem-olen-link" class="coming-soon-box scroll-reveal-item" onclick="alert('Менің әкем Рамазанов Төреғалидың өлеңдері жақын-да қосылады! Жүктеу жүргізілуде...');">
+        <div id="akem-olen-link" class="coming-soon-box scroll-reveal-item sound-interactive" onclick="showAlert()">
             <i class="fas fa-code-branch"></i>
             <h3>[ЖҮКТЕУ ЖҮРГІЗІЛУДЕ: 404 ДЕРЕК ТАБЫЛМАДЫ]</h3>
             <p>Жаңа шығармашылық жұмыстар мен өлеңдерді бірінші болып көру үшін біздің жаңалықтарымызды қадағалаңыз.</p>
@@ -321,20 +639,20 @@
         </div>
 
         <div class="contact-form-container scroll-reveal-item">
-            <form action="#" method="POST">
+            <form action="#" method="POST" id="contact-form">
                 <div class="form-group">
                     <label for="name">АТЫҢЫЗДЫ ЕНГІЗУ:</label>
-                    <input type="text" id="name" name="name" required>
+                    <input type="text" id="name" name="name" required class="sound-interactive">
                 </div>
                 <div class="form-group">
                     <label for="email">E-MAIL ЕНГІЗУ:</label>
-                    <input type="email" id="email" name="email" required>
+                    <input type="email" id="email" name="email" required class="sound-interactive">
                 </div>
                 <div class="form-group">
                     <label for="message">ХАБАРЛАМАНЫ ЕНГІЗУ:</label>
-                    <textarea id="message" name="message" rows="5" required></textarea>
+                    <textarea id="message" name="message" rows="5" required class="sound-interactive"></textarea>
                 </div>
-                <button type="submit" class="submit-btn">ДЕРЕКТЕРДІ ЖІБЕРУ</button>
+                <button type="submit" class="submit-btn sound-interactive">ДЕРЕКТЕРДІ ЖІБЕРУ</button>
             </form>
         </div>
         
@@ -342,11 +660,11 @@
             <h2>Қабыкенов Сағыныш</h2>
             
             <div class="social-links">
-                <a href="https://www.tiktok.com/@huawei.kz1?_r=1&_t=ZM-91vWOUJnp9f" target="_blank" aria-label="TikTok">
+                <a href="https://www.tiktok.com/@huawei.kz1?_r=1&_t=ZM-91vWOUJnp9f" target="_blank" aria-label="TikTok" class="sound-interactive">
                     <i class="fab fa-tiktok"></i>
                 </a>
                 
-                <a href="https://t.me/HUPERFORMA2024" target="_blank" aria-label="Telegram">
+                <a href="https://t.me/HUPERFORMA2024" target="_blank" aria-label="Telegram" class="sound-interactive">
                     <i class="fab fa-telegram-plane"></i>
                 </a>
             </div>
@@ -358,33 +676,337 @@
         <p>© 2025. ҮМІТ АҚП. Барлық құқықтар қорғалған.</p>
     </div>
 
+    <!-- Скрытые аудио элементы для звуковых эффектов -->
+    <audio id="click-sound" class="audio-fx" preload="auto">
+        <!-- Будем генерировать звук через JavaScript -->
+    </audio>
+    
+    <audio id="hover-sound" class="audio-fx" preload="auto">
+        <!-- Будем генерировать звук через JavaScript -->
+    </audio>
+
     <script src="https://unpkg.com/scrollreveal"></script>
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
     <script>
-        // ScrollReveal
-        ScrollReveal({ distance: '60px', duration: 1500, easing: 'cubic-bezier(0.645, 0.045, 0.355, 1)', interval: 100, reset: false });
-        ScrollReveal().reveal('.scroll-reveal-item', { origin: 'bottom' });
-        ScrollReveal().reveal('.section-title', { origin: 'top', distance: '40px', delay: 300, interval: 0 });
-
-        // Particle.js
-        particlesJS('particles-js', {
-            "particles": {
-                "number": { "value": 100, "density": { "enable": true, "value_area": 800 } },
-                "color": { "value": ["#33FFCC", "#FF3366"] },
-                "shape": { "type": "star" },
-                "opacity": { "value": 0.6, "random": true, "anim": { "enable": true, "speed": 1.5, "opacity_min": 0.1, "sync": false } },
-                "size": { "value": 2, "random": true, "anim": { "enable": false } },
-                "line_linked": { "enable": true, "distance": 130, "color": "#33FFCC", "opacity": 0.5, "width": 1 },
-                "move": { "enable": true, "speed": 1.5, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
-            },
-            "interactivity": {
-                "detect_on": "canvas",
-                "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true },
-                "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, "push": { "particles_nb": 4 } }
-            },
-            "retina_detect": true
+        // ===================================================
+        // СИСТЕМА ЗВУКОВЫХ ЭФФЕКТОВ
+        // ===================================================
+        
+        // Создаем аудиоконтекст для генерации звуков
+        let audioContext;
+        let isAudioEnabled = false;
+        
+        function initAudioSystem() {
+            if (!audioContext) {
+                try {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    isAudioEnabled = true;
+                    console.log("Аудиосистема инициализирована");
+                } catch (e) {
+                    console.error("Web Audio API не поддерживается:", e);
+                }
+            }
+        }
+        
+        // Включаем аудиосистему при первом взаимодействии пользователя
+        function enableAudio() {
+            if (!isAudioEnabled) {
+                initAudioSystem();
+                
+                // Воспроизводим тестовый звук для разблокировки аудио
+                if (audioContext && audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+            }
+        }
+        
+        // Функция для воспроизведения звука щелчка
+        function playClickSound() {
+            if (!isAudioEnabled) return;
+            
+            try {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = 800; // Частота в Гц
+                oscillator.type = 'sine'; // Тип волны
+                
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime); // Громкость
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1); // Плавное затухание
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.1); // Длительность 0.1 секунды
+            } catch (e) {
+                console.error("Ошибка воспроизведения звука:", e);
+            }
+        }
+        
+        // Функция для воспроизведения звука наведения
+        function playHoverSound() {
+            if (!isAudioEnabled) return;
+            
+            try {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = 1200; // Более высокий тон для наведения
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.05, audioContext.currentTime); // Тише, чем клик
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.05);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.05); // Короче, чем клик
+            } catch (e) {
+                console.error("Ошибка воспроизведения звука:", e);
+            }
+        }
+        
+        // Добавляем обработчики событий для интерактивных элементов
+        document.addEventListener('DOMContentLoaded', function() {
+            const interactiveElements = document.querySelectorAll('.sound-interactive');
+            
+            interactiveElements.forEach(element => {
+                // Звук при наведении
+                element.addEventListener('mouseenter', function() {
+                    playHoverSound();
+                });
+                
+                // Звук при клике
+                element.addEventListener('click', function(e) {
+                    playClickSound();
+                    enableAudio(); // Включаем аудиосистему при первом клике
+                });
+                
+                // Звук при фокусе (для доступности)
+                element.addEventListener('focus', function() {
+                    playHoverSound();
+                });
+            });
+            
+            // Включаем аудиосистему при любом взаимодействии с страницей
+            document.addEventListener('click', enableAudio);
+            document.addEventListener('keydown', enableAudio);
+            document.addEventListener('touchstart', enableAudio);
         });
+        
+        // ===================================================
+        // ЭКРАН ЗАГРУЗКИ
+        // ===================================================
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const splashScreen = document.getElementById('splash-screen');
+            const progressFill = document.getElementById('progress-fill');
+            const terminalContent = document.getElementById('terminal-content');
+            
+            // Анимация заполнения прогресс-бара
+            setTimeout(() => {
+                progressFill.style.width = '100%';
+            }, 100);
+            
+            // Анимация печати текста в терминале
+            const terminalLines = terminalContent.querySelectorAll('.terminal-text');
+            let lineIndex = 0;
+            
+            function typeWriter(line, element, callback) {
+                const text = line.textContent;
+                line.textContent = '';
+                line.style.opacity = '1';
+                
+                let charIndex = 0;
+                const typingSpeed = 30; // мс на символ
+                
+                function typeChar() {
+                    if (charIndex < text.length) {
+                        line.textContent += text.charAt(charIndex);
+                        charIndex++;
+                        setTimeout(typeChar, typingSpeed);
+                    } else if (callback) {
+                        setTimeout(callback, 300);
+                    }
+                }
+                
+                typeChar();
+            }
+            
+            function typeNextLine() {
+                if (lineIndex < terminalLines.length) {
+                    typeWriter(terminalLines[lineIndex], terminalLines[lineIndex], () => {
+                        lineIndex++;
+                        typeNextLine();
+                    });
+                }
+            }
+            
+            // Запускаем анимацию печати
+            setTimeout(() => {
+                typeNextLine();
+            }, 500);
+            
+            // Скрываем экран загрузки через 2.5 секунды
+            setTimeout(() => {
+                splashScreen.style.opacity = '0';
+                splashScreen.style.transition = 'opacity 0.5s ease';
+                
+                setTimeout(() => {
+                    splashScreen.style.display = 'none';
+                    
+                    // Инициализируем остальные системы после загрузки
+                    initParticles();
+                    initScrollReveal();
+                    initThemeSystem();
+                }, 500);
+            }, 2500);
+        });
+        
+        // ===================================================
+        // СИСТЕМА ПЕРЕКЛЮЧЕНИЯ ТЕМ
+        // ===================================================
+        
+        function initThemeSystem() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = themeToggle.querySelector('i');
+            
+            // Проверяем сохраненную тему в localStorage
+            const savedTheme = localStorage.getItem('umit-theme');
+            
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-theme');
+                themeIcon.className = 'fas fa-sun';
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i> Тема';
+            } else {
+                themeIcon.className = 'fas fa-moon';
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i> Тема';
+            }
+            
+            // Обработчик переключения темы
+            themeToggle.addEventListener('click', function() {
+                playClickSound();
+                
+                // Переключаем тему
+                document.body.classList.toggle('light-theme');
+                
+                // Обновляем иконку
+                if (document.body.classList.contains('light-theme')) {
+                    themeIcon.className = 'fas fa-sun';
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i> Тема';
+                    localStorage.setItem('umit-theme', 'light');
+                } else {
+                    themeIcon.className = 'fas fa-moon';
+                    themeToggle.innerHTML = '<i class="fas fa-moon"></i> Тема';
+                    localStorage.setItem('umit-theme', 'dark');
+                }
+                
+                // Перезапускаем частицы для новой темы
+                initParticles();
+            });
+        }
+        
+        // ===================================================
+        // СИСТЕМА ЧАСТИЦ (Particle.js)
+        // ===================================================
+        
+        function initParticles() {
+            // Уничтожаем старые частицы
+            if (window.pJSDom && window.pJSDom.length > 0) {
+                window.pJSDom[0].pJS.fn.vendors.destroypJS();
+                window.pJSDom = [];
+            }
+            
+            // Определяем цвета в зависимости от темы
+            const isLightTheme = document.body.classList.contains('light-theme');
+            const particleColor = isLightTheme ? ["#00997A", "#CC0033"] : ["#33FFCC", "#FF3366"];
+            const lineLinkedColor = isLightTheme ? "#00997A" : "#33FFCC";
+            
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": { "value": 100, "density": { "enable": true, "value_area": 800 } },
+                    "color": { "value": particleColor },
+                    "shape": { "type": "star" },
+                    "opacity": { "value": 0.6, "random": true, "anim": { "enable": true, "speed": 1.5, "opacity_min": 0.1, "sync": false } },
+                    "size": { "value": 2, "random": true, "anim": { "enable": false } },
+                    "line_linked": { 
+                        "enable": true, 
+                        "distance": 130, 
+                        "color": lineLinkedColor, 
+                        "opacity": isLightTheme ? 0.3 : 0.5, 
+                        "width": 1 
+                    },
+                    "move": { "enable": true, "speed": 1.5, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": { 
+                        "onhover": { "enable": true, "mode": "grab" }, 
+                        "onclick": { "enable": true, "mode": "push" }, 
+                        "resize": true 
+                    },
+                    "modes": { 
+                        "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, 
+                        "push": { "particles_nb": 4 } 
+                    }
+                },
+                "retina_detect": true
+            });
+        }
+        
+        // ===================================================
+        // ScrollReveal АНИМАЦИИ
+        // ===================================================
+        
+        function initScrollReveal() {
+            ScrollReveal({ 
+                distance: '60px', 
+                duration: 1500, 
+                easing: 'cubic-bezier(0.645, 0.045, 0.355, 1)', 
+                interval: 100, 
+                reset: false 
+            });
+            
+            ScrollReveal().reveal('.scroll-reveal-item', { origin: 'bottom' });
+            ScrollReveal().reveal('.section-title', { origin: 'top', distance: '40px', delay: 300, interval: 0 });
+        }
+        
+        // ===================================================
+        // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+        // ===================================================
+        
+        function showAlert() {
+            playClickSound();
+            alert('Менің әкем Рамазанов Төреғалидың өлеңдері жақын-да қосылады! Жүктеу жүргізілуде...');
+        }
+        
+        // Обработка формы
+        document.getElementById('contact-form')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            playClickSound();
+            
+            // Простая валидация
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            if (name && email && message) {
+                alert('Хабарлама жіберілді! Жауабыңызды электрондық пошта арқылы аласыз.');
+                this.reset();
+            } else {
+                alert('Барлық өрістерді толтырыңыз!');
+            }
+        });
+        
+        // Инициализация всех систем после полной загрузки страницы
+        window.addEventListener('load', function() {
+            // Аудиосистема уже инициализируется при взаимодействии
+            // Остальные системы инициализируются после загрузки экрана
+        });
+
     </script>
 
 </body>
