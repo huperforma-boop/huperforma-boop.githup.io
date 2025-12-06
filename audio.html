@@ -542,6 +542,24 @@
             box-shadow: 0 0 10px var(--main-neon);
         }
         
+        /* Стиль для новых треков */
+        .new-track-badge {
+            background-color: var(--secondary-neon);
+            color: var(--dark-bg);
+            font-size: 0.7em;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 10px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.8; }
+            50% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+        
         /* 📱 MOBILDIK BEIIMDILIK */
         @media (max-width: 768px) {
             .item-actions {
@@ -563,6 +581,11 @@
             }
             .tab-buttons {
                 flex-direction: column;
+            }
+            .new-track-badge {
+                display: block;
+                margin: 5px 0 0 0;
+                width: fit-content;
             }
         }
     </style>
@@ -681,7 +704,7 @@
         <!-- Табы для основного и избранного плейлистов -->
         <div class="tab-buttons">
             <button class="tab-btn active" onclick="showPlaylist('main')">
-                <i class="fas fa-list"></i> Negizgi Pleilist
+                <i class="fas fa-list"></i> Negizgi Pleilist (7 trek)
             </button>
             <button class="tab-btn" onclick="showPlaylist('favorites')">
                 <i class="fas fa-heart"></i> Maǵan Unadý ( <span id="favorites-count">0</span> )
@@ -706,7 +729,7 @@
                     <button class="favorite-btn" onclick="toggleFavoriteItem(0, event)">
                         <i class="far fa-heart"></i>
                     </button>
-                    <span class="item-duration">0:00</span>
+                    <span class="item-duration">3:49</span>
                 </div>
             </div>
             
@@ -719,7 +742,7 @@
                     <button class="favorite-btn" onclick="toggleFavoriteItem(1, event)">
                         <i class="far fa-heart"></i>
                     </button>
-                    <span class="item-duration">0:00</span>
+                    <span class="item-duration">2:34</span>
                     <button class="lyrics-toggle-btn" data-lyrics-index="1" onclick="toggleLyrics(this)">Mátin</button>
                 </div>
                 <div class="lyrics-content" id="lyrics-1">
@@ -775,7 +798,7 @@
                     <button class="favorite-btn" onclick="toggleFavoriteItem(2, event)">
                         <i class="far fa-heart"></i>
                     </button>
-                    <span class="item-duration">0:00</span>
+                    <span class="item-duration">2:16</span>
                     <button class="lyrics-toggle-btn" data-lyrics-index="2" onclick="toggleLyrics(this)">Mátin</button>
                 </div>
                 <div class="lyrics-content" id="lyrics-2">
@@ -811,50 +834,237 @@
                         Аl mеn – Sаǵynуsh, ruhby kóкkе qаrаt!
 
                         Mеn – tек qаnа bіr аdаm еmеs, bіr tаrıhpyn,
-                        Аtаmnуń аmаnаtyn, bаtyrdуń аıbуnуn sаqtаımуn.
+                        Аtаmnуń аmаnатыn, bаtyrdуń аıbуnуn sаqtаımуn.
                         Nаımаn Qаrакеrеı urpаǵу, mаqtаnуshym – tеgі,
                         Jеtі аtаmdу аıtu – mеnіń DNA-kоdym!
                     </p>
                     <p class="author-sign">~ Qabykenov Saǵynysh</p>
                 </div>
             </div>
-        </div>
-        
-        <!-- Плейлист "Мне нравится" -->
-        <div class="favorites-playlist" id="favorites-playlist">
-            <p class="playlist-title"><i class="fas fa-heart"></i> Maǵan Unadý Trekter:</p>
-            <div id="favorites-list">
-                <!-- Избранные треки будут добавлены сюда динамически -->
-            </div>
-            <p id="no-favorites-message" style="text-align: center; color: #aaa; padding: 20px; display: none;">
-                <i class="far fa-heart"></i><br>
-                Házirshe "Maǵan Unadý" pleilistı bоs. Trekterge <i class="fas fa-heart"></i> betinshe belgisin basyp qоsýǵyz.
-            </p>
-        </div>
-
-        <div class="contact-section">
-            <h2><i class="fas fa-envelope"></i> Bizben Baılanys</h2>
             
-            <form action="https://formspree.io/f/Huperforma@gmail.com" method="POST">
-                <div class="form-group">
-                    <label for="name">Aty-Jónińiz:</label>
-                    <input type="text" id="name" name="Aty-Jóni" required>
+            <!-- ЖАҢА ТРЕКТЕР (4 жаңа өлең) -->
+            <div class="playlist-item" data-index="3" data-title="Kalzhyr">
+                <div class="item-info">
+                    <i class="fas fa-music"></i>
+                    <span>4. Kalzhyr <span class="new-track-badge">JAŃA!</span></span>
                 </div>
-                <div class="form-group">
-                    <label for="email">E-mail:</label>
-                    <input type="email" id="email" name="E-mail" required>
+                <div class="item-actions">
+                    <button class="favorite-btn" onclick="toggleFavoriteItem(3, event)">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <span class="item-duration">2:36</span>
+                    <button class="lyrics-toggle-btn" data-lyrics-index="3" onclick="toggleLyrics(this)">Mátin</button>
                 </div>
-                <div class="form-group">
-                    <label for="message">Xabar:</label>
-                    <textarea id="message" name="Xabar" rows="5" required></textarea>
+                <div class="lyrics-content" id="lyrics-3">
+                    <p>
+                       Марқакөлдің жағасында, шығыс жақ – Күршім тауы көмкерген кең дала. 
+                       Жасыл төсін жамылған жер жұмақ, 
+                       Ол – Қалжырым, туған өлкем, ана! 
+                       Қалжыр өзен бұраңдаған ағысы,  
+                       Асау, долы суы сенің мағынаң. 
+                       Көңілге толған балдай тұнық сағынышы, 
+                       Балғын дәурен өткен жерім, сары далам.
+
+                       Ауыл – Қалжыр, нұрлы мекенім, 
+                       Тақиялы таулар тұрған қасыңда. 
+                       Әр тасыңда – ата-бабам мекені, 
+                       Жүрегімнің жылуысың осы маңда. 
+                       Оң жақ Қалжыр, Тақыр, Шеңгелдім, 
+                       Бірге өскен құрбы-құрдас, достарым. 
+                       Мейіріміңе бөлендім, тербелдім, 
+                       Шығысымның ай астындағы аспаны.
+
+                       Ерте таңда тұман басқан белдері, 
+                       Сиыр баққан, қой өрісі – ән қоныс. 
+                       Төрт түлік мал – несібесі елдердің, 
+                       Табиғаты – саф алтындай, жан тыныс. 
+                       Қалжырлықтар – еңбекқор, дарқан, ашық, 
+                       Ырыс берген, Марқакөлдің самалы. 
+                       Тіршілікте берекесі тасып, 
+                       Көңілдері – кең даладай паналы.
+
+                       Ауыл – Қалжыр, нұрлы мекенім, 
+                       Тақиялы таулар тұрған қасыңда. 
+                       Әр тасыңда – ата-бабам мекені, 
+                       Жүрегімнің жылуысың осы маңда. 
+                       Оң жақ Қалжыр, Тақыр, Шеңгелдім, 
+                       Бірге өскен құрбы-құрдас, достарым. 
+                       Мейіріміңе бөлендім, тербелдім, 
+                       Шығысымның ай астындағы аспаны.
+
+                       Уақыт зулап, өзгерсе де заман, 
+                       Өзгермейді туған жерге деген сүйіспендік. 
+                       Қайда жүрсем, мен сені аңсаған, 
+                       Көк туыңды көтеріп жүргендеймін!
+
+                       Ауыл – Қалжыр, нұрлы мекенім, 
+                       Тақиялы таулар тұрған қасыңда. 
+                       Әр тасыңда – ата-бабам мекені,
+                       Жүрегімнің жылуысың осы маңда. 
+                       Оң жақ Қалжыр, Тақыр, Шеңгелдім, 
+                       Бірге өскен құрбы-құрдас, достарым. 
+                       Мейіріміңе бөлендім, тербелдім,  
+                       Шығысымның ай астындағы аспаны.
+                    </p>
+                    <p class="author-sign">~ Qabykenov Saǵynysh</p>
                 </div>
-                <button type="submit" class="submit-btn">Xabardy Jiberý</button>
-            </form>
-            <p style="text-align: center; font-size: 0.8em; margin-top: 15px; color: #aaa;">
-                Xabarlar **Huperforma@gmail.com** pochtasyna Formspree arqyly jiberiledi.
-            </p>
-        </div>
-        </div>
+            </div>
+            
+            <div class="playlist-item" data-index="4" data-title="Kalzhyr2">
+                <div class="item-info">
+                    <i class="fas fa-music"></i>
+                    <span>5. Kalzhyr2 <span class="new-track-badge">JAŃA!</span></span>
+                </div>
+                <div class="item-actions">
+                    <button class="favorite-btn" onclick="toggleFavoriteItem(4, event)">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <span class="item-duration">2:19</span>
+                    <button class="lyrics-toggle-btn" data-lyrics-index="4" onclick="toggleLyrics(this)">Mátin</button>
+                </div>
+                <div class="lyrics-content" id="lyrics-4">
+                    <p>
+                       Марқакөлдің жағасында, шығыс жақ – Күршім тауы көмкерген кең дала. 
+                       Жасыл төсін жамылған жер жұмақ, 
+                       Ол – Қалжырым, туған өлкем, ана! 
+                       Қалжыр өзен бұраңдаған ағысы,  
+                       Асау, долы суы сенің мағынаң. 
+                       Көңілге толған балдай тұнық сағынышы, 
+                       Балғын дәурен өткен жерім, сары далам.
+
+                       Ауыл – Қалжыр, нұрлы мекенім, 
+                       Тақиялы таулар тұрған қасыңда. 
+                       Әр тасыңда – ата-бабам мекені, 
+                       Жүрегімнің жылуысың осы маңда. 
+                       Оң жақ Қалжыр, Тақыр, Шеңгелдім, 
+                       Бірге өскен құрбы-құрдас, достарым. 
+                       Мейіріміңе бөлендім, тербелдім, 
+                       Шығысымның ай астындағы аспаны.
+
+                       Ерте таңда тұман басқан белдері, 
+                       Сиыр баққан, қой өрісі – ән қоныс. 
+                       Төрт түлік мал – несібесі елдердің, 
+                       Табиғаты – саф алтындай, жан тыныс. 
+                       Қалжырлықтар – еңбекқор, дарқан, ашық, 
+                       Ырыс берген, Марқакөлдің самалы. 
+                       Тіршілікте берекесі тасып, 
+                       Көңілдері – кең даладай паналы.
+
+                       Ауыл – Қалжыр, нұрлы мекенім, 
+                       Тақиялы таулар тұрған қасыңда. 
+                       Әр тасыңда – ата-бабам мекені, 
+                       Жүрегімнің жылуысың осы маңда. 
+                       Оң жақ Қалжыр, Тақыр, Шеңгелдім, 
+                       Бірге өскен құрбы-құрдас, достарым. 
+                       Мейіріміңе бөлендім, тербелдім, 
+                       Шығысымның ай астындағы аспаны.
+
+                       Уақыт зулап, өзгерсе де заман, 
+                       Өзгермейді туған жерге деген сүйіспендік. 
+                       Қайда жүрсем, мен сені аңсаған, 
+                       Көк туыңды көтеріп жүргендеймін!
+
+                       Ауыл – Қалжыр, нұрлы мекенім, 
+                       Тақиялы таулар тұрған қасыңда. 
+                       Әр тасыңда – ата-бабам мекені,
+                       Жүрегімнің жылуысың осы маңда. 
+                       Оң жақ Қалжыр, Тақыр, Шеңгелдім, 
+                       Бірге өскен құрбы-құрдас, достарым. 
+                       Мейіріміңе бөлендім, тербелдім,  
+                       Шығысымның ай астындағы аспаны.
+
+                    </p>
+                    <p class="author-sign">~ Qabykenov Saǵynysh</p>
+                </div>
+            </div>
+            
+            <div class="playlist-item" data-index="5" data-title="Wedding_fog">
+                <div class="item-info">
+                    <i class="fas fa-music"></i>
+                    <span>6. Wedding_fog <span class="new-track-badge">JAŃA!</span></span>
+                </div>
+                <div class="item-actions">
+                    <button class="favorite-btn" onclick="toggleFavoriteItem(5, event)">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <span class="item-duration">2:43</span>
+                    <button class="lyrics-toggle-btn" data-lyrics-index="5" onclick="toggleLyrics(this)">Mátin</button>
+                </div>
+                <div class="lyrics-content" id="lyrics-5">
+                    <p>
+                       Скоро...               
+                    </p>
+                    <p class="author-sign">~ Qabykenov Saǵynysh</p>
+                </div>
+            </div>
+            
+            <div class="playlist-item" data-index="6" data-title="Wedding_fog2">
+                <div class="item-info">
+                    <i class="fas fa-music"></i>
+                    <span>7. Wedding_fog2 <span class="new-track-badge">JAŃA!</span></span>
+                </div>
+                <div class="item-actions">
+                    <button class="favorite-btn" onclick="toggleFavoriteItem(6, event)">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <span class="item-duration">2:14</span>
+                    <button class="lyrics-toggle-btn" data-lyrics-index="6" onclick="toggleLyrics(this)">Mátin</button>
+                </div>
+                <div class="lyrics-content" id="lyrics-6">
+                    <p>
+                        Қане, қане, биге тұр,
+                        Көңілді боп бір күліңіз.
+                        Жаңа әуен, жаңа ырғақ,
+                        Тойдың сәнін бізбен құрыңыз!
+                        Жастар билейді, ересектер де,
+                        Телефонды қой, тізеңді бүгіп ал!
+                        Бүгін – біздің күн, бүгін – той думан,
+                        Би алаңына тезірек, алға бас!
+                        (1-шумақ)
+                        Қаланың ырғағы жүректе,
+                        Әуен бізді шақырып тұр.
+                        Дәстүр менен жаңалықты
+                        Бүгін бірге қабыстырып тұр.
+                        Керемет киім, сәнді шаш үлгі,
+                        Жарқыраған жастардың күлкісі.
+                        Бұл кештің әрбір сәті – естелік,
+                        Билеуге дайын тұр ма әлде кім іші?
+                        (Қайырмасы)
+                        Қане, қане, биге тұр,
+                        Көңілді боп бір күліңіз.
+                        Жаңа әуен, жаңа ырғақ,
+                        Тойдың сәнін бізбен құрыңыз!
+                        Жастар билейді, ересектер де,
+                        Телефонды қой, тізеңді бүгіп ал!
+                        Бүгін – біздің күн, бүгін – той думан,
+                        Би алаңына тезірек, алға бас!
+                        (2-шумақ)
+                        Әлеуметтік желілер күте тұрсын,
+                        Қолды созып, ырғаққа ілес.
+                        Энергиямыз тасып-толсын,
+                        Жақсылыққа әрдайым тілес.
+                        Басқаларға қарамай-ақ қой,
+                        Өз стиліңмен жандыра биле.
+                        Жаңа заман, жаңа той,
+                        Музыканың лебімен сөйле.
+                       
+                        Қазіргі кез, ғаламтор заманы,
+                        Бірақ біз үшін – нағыз той бағалы!
+                        Достар, туыс, барлығымыз бір жерде,
+                        Бұл бақытты шақтың әр сағаты.
+                        (Қайырмасы)
+                        Қане, қане, биге тұр,
+                        Көңілді боп бір күліңіз.
+                        Жаңа әуен, жаңа ырғақ,
+                        Тойдың сәнін бізбен құрыңыз!
+                        Жастар билейді, ересектер де,
+                        Телефонды қой, тізеңді бүгіп ал!
+                        Бүгін – біздің күн, бүгін – той думан,
+                        Би алаңына тезірек, алға бас!                 
+                   </p>
+                    <p class="author-sign">~ Qabykenov Saǵynysh</p>
+                </div>
+          
 
     <script>
         // ===================================================
@@ -888,7 +1098,12 @@
         const tracks = [
             { title: "1. Orta júz", src: "orta_juz_audio.mp3", cover: "orta_juz.jpg", id: 0 }, 
             { title: "2. Jarylǵap batyr", src: "jarylgap_batyr_audio.mp3", cover: "jarylgap_batyr.jpg", id: 1 }, 
-            { title: "3. Tegimniń rýhy", src: "tegimnin_ruhy_audio.mp3", cover: "tegimnin_ruhy.jpg", id: 2 } 
+            { title: "3. Tegimniń rýhy", src: "tegimnin_ruhy_audio.mp3", cover: "tegimnin_ruhy.jpg", id: 2 },
+            // Жаңа 4 өлең:
+            { title: "4. Kalzhyr", src: "Kalzhyr.mp3", cover: "Kalzhyr.jpg", id: 3 },
+            { title: "5. Kalzhyr2", src: "Kalzhyr2.mp3", cover: "Kalzhyr2.jpg", id: 4 },
+            { title: "6. Wedding_fog", src: "Wedding_fog.mp3", cover: "Wedding_fog.jpg", id: 5 },
+            { title: "7. Wedding_fog2", src: "Wedding_fog2.mp3", cover: "Wedding_fog2.jpg", id: 6 }
         ];
 
         /**
@@ -1195,9 +1410,6 @@
             // Применяем фильтр к обложке для визуального эффекта
             coverImage.style.filter = filterValue;
             
-            // Также можно изменить звук через Web Audio API, но это сложнее
-            // Для простоты оставляем только визуальный эффект
-            
             console.log(`Эквалайзер установлен на: ${preset}`);
         }
         
@@ -1335,32 +1547,30 @@
                 item.innerHTML = `
                     <div class="item-info">
                         <i class="fas fa-heart" style="color: var(--secondary-neon);"></i>
-                        <span>${track.title}</span>
+                        <span>${track.title} ${index > 2 ? '<span class="new-track-badge">JAŃA!</span>' : ''}</span>
                     </div>
                     <div class="item-actions">
                         <button class="favorite-btn favorited" onclick="toggleFavoriteItem(${index}, event)">
                             <i class="fas fa-heart"></i>
                         </button>
                         <span class="item-duration">${getTrackDuration(index)}</span>
-                        ${index === 1 || index === 2 ? `<button class="lyrics-toggle-btn" data-lyrics-index="${index}" onclick="toggleLyrics(this)">Mátin</button>` : ''}
+                        <button class="lyrics-toggle-btn" data-lyrics-index="${index}" onclick="toggleLyrics(this)">Mátin</button>
                     </div>
-                    ${index === 1 || index === 2 ? `<div class="lyrics-content" id="favorites-lyrics-${index}" style="display: none;"></div>` : ''}
+                    <div class="lyrics-content" id="favorites-lyrics-${index}" style="display: none;"></div>
                 `;
                 
                 favoritesList.appendChild(item);
                 
                 // Копируем текст песен для избранных
-                if (index === 1 || index === 2) {
+                setTimeout(() => {
                     const originalLyrics = document.getElementById(`lyrics-${index}`);
                     if (originalLyrics) {
-                        setTimeout(() => {
-                            const favLyrics = document.getElementById(`favorites-lyrics-${index}`);
-                            if (favLyrics) {
-                                favLyrics.innerHTML = originalLyrics.innerHTML;
-                            }
-                        }, 100);
+                        const favLyrics = document.getElementById(`favorites-lyrics-${index}`);
+                        if (favLyrics) {
+                            favLyrics.innerHTML = originalLyrics.innerHTML;
+                        }
                     }
-                }
+                }, 100);
             });
         }
         
@@ -1370,8 +1580,7 @@
         function getTrackDuration(index) {
             if (index < 0 || index >= tracks.length) return "0:00";
             // В реальном приложении здесь нужно было бы загружать метаданные
-            // Для простоты возвращаем примерное время
-            const durations = ["2:45", "3:20", "2:58"];
+            const durations = ["2:45", "3:20", "2:58", "3:15", "4:02", "3:45", "3:30"];
             return durations[index] || "0:00";
         }
         
@@ -1406,7 +1615,8 @@
             item.addEventListener('click', (e) => {
                 if (e.target.classList.contains('lyrics-toggle-btn') || 
                     e.target.classList.contains('favorite-btn') ||
-                    e.target.closest('.favorite-btn')) {
+                    e.target.closest('.favorite-btn') ||
+                    e.target.classList.contains('new-track-badge')) {
                     return;
                 }
                 loadTrack(index);
@@ -1424,7 +1634,7 @@
                 
                 // Обновляем все длительности треков (для примера)
                 playlistItems.forEach((item, idx) => {
-                    const durations = ["2:45", "3:20", "2:58"];
+                    const durations = ["2:45", "3:20", "2:58", "3:15", "4:02", "3:45", "3:30"];
                     if (durations[idx]) {
                         item.querySelector('.item-duration').textContent = durations[idx];
                     }
