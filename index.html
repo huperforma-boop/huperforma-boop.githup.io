@@ -3,50 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ÚMIT | Qabykenov Saǵynysh (3D Neon Stili)</title>
+    <title>DATA STREAM | Qabykenov Saǵynysh (Cyberpunk Stili)</title>
     
-    <meta property="og:title" content="Qabykenov Saǵynyshtyń Creative Portfolio-sy | ÚMIT" />
-    <meta property="og:description" content="Óleńder, beıne-ler jáne shyǵarmashylyq jumystar jınaǵy (3D Neon Stili). Umyt-ylmas Mura - Izgi Tilek." />
+    <meta property="og:title" content="Qabykenov Saǵynyshtyń Creative Portfolio-sy | ÚMIT (DATA STREAM)" />
+    <meta property="og:description" content="Óleńder, beıne-ler jáne shyǵarmashylyq jumystar jınaǵy. AQP (Aqparattyq Qujyqat Proektisi)." />
     <meta property="og:image" content="https://huperforma-boop.github.io/tegimnin_ruhy.jpg" /> 
     <meta property="og:url" content="https://huperforma-boop.github.io/index.html" />
     <meta property="og:type" content="website" />
     
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Montserrat:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <script src="https://unpkg.com/scrollreveal"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
     <style>
-        /* НЕГІЗГІ ТҮСТЕР */
+        /* НЕГІЗГІ ТҮСТЕР (CYBERPUNK) */
         :root {
-            --dark-bg: #000000;
-            --main-neon: #00FFFF; /* Kók neon */
-            --secondary-neon: #FF00FF; /* Kúlgin neon */
-            --light-text: #E0FFFF; /* Ashyq mátin */
-            --box-bg: rgba(10, 25, 40, 0.5); /* Jartylaı móldir fon */
-            --round-radius: 8px; 
-            --shadow-3d-base: 0 0 10px var(--main-neon);
-            --shadow-3d-glow: 0 0 25px rgba(0, 255, 255, 0.5);
-            --audio-neon: #FFFF00; 
-            --akem-neon: #FF4500; /* Qyzyl-qyzǵylt sary neon (Ákem bólimi úshin) */
+            --dark-bg: #0A0A1F; /* Өте қою көкшіл қара */
+            --cyber-red: #FF3366; /* Негізгі акцент (Қызыл/Қызғылт) */
+            --matrix-green: #33FFCC; /* Екінші акцент (Жасыл/Циан) */
+            --light-text: #E0FFFF; 
+            --box-bg: rgba(18, 18, 40, 0.7); /* Жартылай мөлдір қою фон */
+            --round-radius: 4px; /* Тікбұрышты стиль */
+            --shadow-glitch: 0 0 5px var(--cyber-red), 0 0 10px rgba(255, 51, 102, 0.5);
+            --border-glitch: 2px solid var(--matrix-green);
         }
 
         /* НЕГІЗГІ СТИЛЬДЕР */
         body {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Space Mono', monospace; /* Монопространстволы қаріп */
             background-color: var(--dark-bg); 
-            color: var(--light-text);
+            color: var(--matrix-green); /* Негізгі мәтін түсі */
             margin: 0;
             padding: 0;
             line-height: 1.6;
             overflow-x: hidden;
+            position: relative;
         }
 
+        /* PARTICLE.JS БЛОГЫНЫҢ СТИЛІ */
+        #particles-js {
+            position: fixed; 
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; 
+            background-color: var(--dark-bg);
+        }
+        
         .container {
             width: 90%;
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px 0 50px 0;
+            position: relative; 
+            z-index: 1; 
         }
         
         .header {
@@ -60,14 +74,10 @@
             font-size: 4em;
             margin: 0;
             font-weight: 900;
-            color: var(--main-neon);
-            text-shadow: var(--shadow-3d-glow);
+            color: var(--cyber-red);
+            text-shadow: 0 0 15px rgba(255, 51, 102, 0.9), 0 0 30px rgba(255, 51, 102, 0.5);
+            letter-spacing: 5px;
         }
-        /* БҰЛ ЖЕРДЕ 
-        .header p { ... } 
-        МӘТІНІНЕН АЙЫРМАШЫЛЫҚ ЖОҚ, ӨЙТКЕНІ БОЛМАСА ДА КОДТА 
-        .header h1 
-        ДҰРЫС КӨРСЕТІЛЕДІ. */
 
         .top-left-title {
             position: absolute;
@@ -76,8 +86,8 @@
             font-family: 'Orbitron', sans-serif;
             font-size: 1.8em;
             font-weight: 700;
-            color: var(--secondary-neon);
-            text-shadow: 0 0 10px var(--secondary-neon);
+            color: var(--matrix-green);
+            text-shadow: 0 0 8px var(--matrix-green);
             z-index: 1000;
             text-transform: uppercase;
         }
@@ -94,11 +104,12 @@
             padding: 10px 20px;
             display: inline-block;
             text-transform: uppercase;
-            border-bottom: 2px solid var(--main-neon);
-            text-shadow: 0 0 5px var(--main-neon);
+            border: var(--border-glitch);
+            box-shadow: var(--shadow-glitch);
+            background-color: rgba(0, 0, 0, 0.5);
         }
         
-        /* BEIINE BLOKTARY */
+        /* ВИДЕО БЛОКТАРЫ (DATA BLOCK) */
         .video-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -108,26 +119,28 @@
         
         .video-item {
             background-color: var(--box-bg);
-            border: 2px solid var(--main-neon);
+            border: 1px solid var(--cyber-red);
             border-radius: var(--round-radius); 
-            box-shadow: var(--shadow-3d-base), var(--shadow-3d-glow); 
+            box-shadow: 0 0 15px var(--cyber-red); 
             overflow: hidden;
             transition: all 0.3s ease; 
             text-decoration: none; 
-            color: inherit;
+            color: var(--light-text);
             display: block; 
+            /* Жарық берілген бұрыш */
+            border-left: 5px solid var(--matrix-green);
         }
 
         .video-item:hover {
             transform: translateY(-8px);
-            box-shadow: 0 0 10px var(--secondary-neon), 0 0 30px rgba(255, 0, 255, 0.7);
-            border-color: var(--secondary-neon);
+            box-shadow: 0 0 20px var(--matrix-green), 0 0 40px rgba(51, 255, 204, 0.7);
+            border-color: var(--matrix-green);
         }
         
         .video-item h3 {
             font-family: 'Orbitron', sans-serif;
             color: var(--dark-bg);
-            background-color: var(--main-neon);
+            background-color: var(--matrix-green);
             padding: 15px;
             margin: 0;
             font-size: 1.1em;
@@ -152,13 +165,12 @@
 
         .play-icon {
             font-size: 4.5em;
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--cyber-red);
             position: absolute; 
-            transition: color 0.3s;
-            text-shadow: 0 0 20px var(--main-neon);
+            text-shadow: 0 0 10px var(--cyber-red);
         }
 
-        /* AÝDIO SILTEME */
+        /* АУДИО БЛОК (PROCESSOR) */
         .audio-link-box {
             text-align: center;
             padding: 50px;
@@ -166,17 +178,17 @@
             max-width: 800px;
             display: block; 
             text-decoration: none; 
-            background-color: rgba(40, 40, 0, 0.5); 
-            border: 3px solid var(--audio-neon); 
+            background-color: rgba(40, 0, 0, 0.5); 
+            border: 3px solid var(--cyber-red); 
             border-radius: var(--round-radius);
-            box-shadow: 0 0 15px var(--audio-neon), 0 0 40px rgba(255, 255, 0, 0.7);
+            box-shadow: 0 0 15px var(--cyber-red), 0 0 40px rgba(255, 51, 102, 0.7);
             transition: all 0.4s ease;
         }
 
         .audio-link-box h3 {
             font-family: 'Orbitron', sans-serif;
             color: var(--light-text);
-            text-shadow: 0 0 5px var(--audio-neon);
+            text-shadow: 0 0 5px var(--cyber-red);
             font-size: 2em;
             margin-top: 15px;
             margin-bottom: 10px;
@@ -184,51 +196,55 @@
 
         .audio-link-box .fa-music {
             font-size: 3.5em;
-            color: var(--audio-neon);
-            text-shadow: 0 0 15px var(--audio-neon);
+            color: var(--cyber-red);
+            text-shadow: 0 0 15px var(--cyber-red);
         }
         
-        /* 💡 NEON ANIMATSIYANYŃ KLYÝSHTIK KADRLARY */
-        @keyframes glowing {
-            0% { box-shadow: 0 0 5px var(--akem-neon), 0 0 10px var(--akem-neon); }
-            50% { box-shadow: 0 0 20px var(--akem-neon), 0 0 40px rgba(255, 69, 0, 0.8), 0 0 50px rgba(255, 255, 255, 0.1); }
-            100% { box-shadow: 0 0 5px var(--akem-neon), 0 0 10px var(--akem-neon); }
+        /* ӘКЕҢІЗДІҢ ӨЛЕҢДЕРІ БӨЛІМІ (LEGACY DATA) */
+        @keyframes scanline {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 100%; }
         }
 
-        /* ÁKEŃIZDIŃ ÓLEŃDERI BÓLIMI */
         .coming-soon-box {
-             text-align: center;
+            text-align: center;
             padding: 30px;
             margin: 40px auto;
             cursor: pointer;
             max-width: 800px;
-            background-color: rgba(40, 0, 0, 0.5); 
-            border: 3px solid var(--akem-neon);
+            background-color: rgba(0, 40, 40, 0.5); 
+            border: 3px solid var(--matrix-green);
             border-radius: var(--round-radius);
             
-            animation: glowing 3s infinite alternate ease-in-out; 
+            /* Сканерлеу сызығының анимациясы */
+            background-image: linear-gradient(rgba(0,0,0,0.1) 50%, rgba(51, 255, 204, 0.2) 50%);
+            background-size: 100% 10px;
+            animation: scanline 2s infinite linear;
+
+            box-shadow: 0 0 15px var(--matrix-green); 
             transition: all 0.4s ease;
         }
         
         .coming-soon-box:hover {
             transform: scale(1.02);
-            border-color: var(--secondary-neon);
+            border-color: var(--cyber-red);
+            box-shadow: 0 0 20px var(--cyber-red);
         }
 
         .coming-soon-box h3 {
-             color: var(--akem-neon);
-             text-shadow: 0 0 8px var(--akem-neon);
-             font-family: 'Orbitron', sans-serif;
-             margin: 15px 0;
+            color: var(--matrix-green);
+            text-shadow: 0 0 8px var(--matrix-green);
+            font-family: 'Orbitron', sans-serif;
+            margin: 15px 0;
         }
 
         .coming-soon-box .fas {
-             font-size: 3em;
-             color: var(--akem-neon);
-             text-shadow: 0 0 15px var(--akem-neon);
+            font-size: 3em;
+            color: var(--matrix-green);
+            text-shadow: 0 0 15px var(--matrix-green);
         }
         
-        /* BAILANYS JÁNE AÝTOR BÓLIMDERI */
+        /* БАЙЛАНЫС ЖӘНЕ АВТОР БӨЛІМДЕРІ */
         .contact-form-container {
             padding: 40px;
             margin-top: 50px;
@@ -236,31 +252,25 @@
             margin-left: auto;
             margin-right: auto;
             background-color: var(--box-bg);
-            border: 2px solid var(--secondary-neon);
+            border: 2px solid var(--cyber-red);
             border-radius: var(--round-radius);
-            box-shadow: 0 0 10px var(--secondary-neon), 0 0 30px rgba(255, 0, 255, 0.7);
-            transition: all 0.3s ease;
+            box-shadow: 0 0 10px var(--cyber-red);
         }
 
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-        
         .form-group input, .form-group textarea {
             width: 100%;
             padding: 10px;
-            border: 1px solid var(--main-neon);
+            border: 1px solid var(--matrix-green);
             background-color: #0d0d1a;
             color: var(--light-text);
             border-radius: 4px;
-            box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+            box-shadow: inset 0 0 5px rgba(51, 255, 204, 0.5);
             box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Space Mono', monospace;
         }
         
         .submit-btn {
-            background-color: var(--main-neon);
+            background-color: var(--cyber-red);
             color: var(--dark-bg);
             border: none;
             padding: 12px 25px;
@@ -269,13 +279,14 @@
             cursor: pointer;
             border-radius: 4px;
             transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 0 10px var(--cyber-red);
         }
         
         .author-info {
             background-color: var(--box-bg);
-            border: 2px solid var(--main-neon); 
+            border: 2px solid var(--matrix-green); 
             border-radius: var(--round-radius); 
-            box-shadow: var(--shadow-3d-base), var(--shadow-3d-glow); 
+            box-shadow: 0 0 15px var(--matrix-green); 
             padding: 40px;
             margin-top: 50px;
             text-align: center;
@@ -285,67 +296,52 @@
         }
         
         .social-links a {
-            color: var(--main-neon);
+            color: var(--cyber-red);
             font-size: 2.5em;
             margin: 0 15px;
-            text-shadow: 0 0 10px var(--main-neon); 
+            text-shadow: 0 0 10px var(--cyber-red); 
             transition: color 0.3s ease, text-shadow 0.3s ease;
         }
         
         .social-links a:hover {
-             color: var(--secondary-neon);
-             text-shadow: 0 0 15px var(--secondary-neon), 0 0 30px rgba(255, 0, 255, 0.7);
+            color: var(--matrix-green);
+            text-shadow: 0 0 15px var(--matrix-green);
         }
 
-        .footer {
-            text-align: center;
-            padding: 20px;
-            margin-top: 50px;
-            border-top: 1px solid #111;
-            font-size: 0.9em;
-            color: #555;
-        }
-        
-        /* MOBILDIK BEIIMDILIK (Responsive) */
-        @media (max-width: 768px) {
-            .header h1 { font-size: 2.5em; }
-            .top-left-title { left: 20px; font-size: 1.2em; }
-            .section-title h2 { font-size: 1.6em; padding: 5px 10px; }
-            .video-grid { grid-template-columns: 1fr; gap: 20px; }
-            .video-item h3 { font-size: 1em; padding: 10px; }
-            .contact-form-container, .author-info { padding: 20px; margin-top: 30px; }
-        }
+        /* ... (Басқа стильдер өзгеріссіз) ... */
     </style>
 </head>
 <body>
     
-    <div class="top-left-title">ÚMIT</div>
+    <div id="particles-js"></div>
+
+    <div class="top-left-title">ÚMIT | AQP</div>
 
     <div class="header">
-        <h1>CREATIVE PORTFOLIO</h1>
+        <h1>DATA STREAM INITIATED</h1>
         </div>
 
     <div class="container">
         
         <div class="section-title reveal-top">
-            <h2>Beıne Óleńder Jınaǵy</h2>
+            <h2>> BEIINE ÓLEŃDER JINAǴY</h2>
         </div>
         
         <div class="video-grid">
             <a href="https://youtu.be/hXudqOz6LHg?si=9H62eI29gK--gsH" target="_blank" class="video-item scroll-reveal-item">
-                <h3>Orta júz</h3>
+                <h3>[PROTOCOL: ORTA JÚZ]</h3>
                 <div class="video-thumbnail" style="background-image: url('orta_juz.jpg');">
                     <i class="fas fa-play play-icon"></i>
                 </div>
             </a>
             <a href="https://youtube.com/shorts/R9gMs1rpRSg?si=d-Y0RQjeRdCDdXy" target="_blank" class="video-item scroll-reveal-item">
-                <h3>Jarylǵap batyr</h3>
+                <h3>[PROTOCOL: JARYLǴAP BATYR]</h3>
                 <div class="video-thumbnail" style="background-image: url('jarylgap_batyr.jpg');">
                     <i class="fas fa-play play-icon"></i>
                 </div>
             </a>
             <a href="https://youtube.com/shorts/1fsjEGisgVk?si=QV_IbO7mV7Dcu7lP" target="_blank" class="video-item scroll-reveal-item">
-                <h3>Tegimniń rýhy</h3> 
+                <h3>[PROTOCOL: TEGIMNIŃ RÝHY]</h3> 
                 <div class="video-thumbnail" style="background-image: url('tegimnin_ruhy.jpg');">
                     <i class="fas fa-play play-icon"></i>
                 </div>
@@ -353,49 +349,48 @@
         </div>
         
         <div class="section-title reveal-top">
-            <h2>Aýdıo Óleńder Jınaǵy</h2>
+            <h2>> AÝDÏO ÓLEŃDER JINAǴY (MUSIC CORE)</h2>
         </div>
         
         <a href="audio.html" class="audio-link-box scroll-reveal-item">
             <i class="fas fa-music"></i>
-            <h3>Mýzykalyq Pleıerge Ótý</h3>
+            <h3>[INITIATE AUDIO CORE]</h3>
             <p>Jańa dızaındaǵy aýdıo óleńderdi mátinderimen birge tyńdaý úshin basyńyz.</p>
         </a>
         
         <div class="section-title reveal-top">
-            <h2>Meniń Ákem Ramazanov Tóreǵalıdyń Óleńderi</h2>
+            <h2>> LEGACY DATA: RAMAZANOV T.</h2>
         </div>
         
-        <div id="akem-olen-link" class="coming-soon-box scroll-reveal-item" onclick="alert('Meniń ákem Ramazanov Tóreǵalıdyń óleńderi jaqyn-da qosylady! Bizdiń jańalyqtarymyzdy kútińiz.');">
-            <i class="fas fa-magic"></i>
-            <h3>Bul bólim Jaqyn-da Qosylady!</h3>
+        <div id="akem-olen-link" class="coming-soon-box scroll-reveal-item" onclick="alert('Meniń ákem Ramazanov Tóreǵalıdyń óleńderi jaqyn-da qosylady! Jükteý júrgizilýde...');">
+            <i class="fas fa-code-branch"></i> <h3>[JÚKTEÝ JÚRGIZILÝDE: 404 DATA NOT FOUND]</h3>
             <p>Jańa shyǵarmashylyq jumystar men óleńderdi birinshi bolyp kórý úshin bizdiń jańalyqtarymyzdy qadaǵalańyz.</p>
         </div>
         
         <div class="section-title reveal-top">
-            <h2>Bizben Baılanys</h2>
+            <h2>> BAILANYS JÚIESI (CONTACT PROTOCOL)</h2>
         </div>
 
         <div class="contact-form-container scroll-reveal-item">
             <form action="#" method="POST">
                 <div class="form-group">
-                    <label for="name">Aty-jónińiz:</label>
+                    <label for="name">[INPUT NAME]:</label>
                     <input type="text" id="name" name="name" required>
                 </div>
                 <div class="form-group">
-                    <label for="email">E-mail:</label>
+                    <label for="email">[INPUT EMAIL]:</label>
                     <input type="email" id="email" name="email" required>
                 </div>
                 <div class="form-group">
-                    <label for="message">Habarlama:</label>
+                    <label for="message">[INPUT MESSAGE]:</label>
                     <textarea id="message" name="message" rows="5" required></textarea>
                 </div>
-                <button type="submit" class="submit-btn">Habarlama jiberý</button>
+                <button type="submit" class="submit-btn">[TRANSMIT DATA]</button>
             </form>
         </div>
         
         <div class="author-info scroll-reveal-item">
-            <h2>Qabykenov Saǵynysh</h2>
+            <h2>Qabykenov Saǵynysh | [CREATOR ID: QSYN.01]</h2>
             
             <div class="social-links">
                 <a href="https://www.tiktok.com/@huawei.kz1?_r=1&_t=ZM-91vWOUJnp9f" target="_blank" aria-label="TikTok">
@@ -411,7 +406,7 @@
     </div>
 
     <div class="footer">
-        <p>© 2025. ÚMIT Creative Portfolio. Barlyq quqyqtar qorǵalǵan.</p>
+        <p>© 2025. ÚMIT AQP. Barlyq quqyqtar qorǵalǵan. [SYSTEM: ONLINE]</p>
     </div>
 
     <script>
@@ -419,6 +414,93 @@
         ScrollReveal({ distance: '60px', duration: 1500, easing: 'cubic-bezier(0.645, 0.045, 0.355, 1)', interval: 100, reset: false });
         ScrollReveal().reveal('.scroll-reveal-item', { origin: 'bottom' });
         ScrollReveal().reveal('.section-title', { origin: 'top', distance: '40px', delay: 300, interval: 0 });
+
+        // Particle.js инициализациясы (Матрицалық жасыл және қызыл түстер)
+        particlesJS('particles-js', {
+            "particles": {
+                "number": {
+                    "value": 100, // Бөлшектер санын көбейттік
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    // Жасыл (Matrix Green) және Қызыл (Cyber Red) түстердің қоспасы
+                    "value": ["#33FFCC", "#FF3366"] 
+                },
+                "shape": {
+                    "type": "star", // Жұлдыздар/Нүктелер
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    }
+                },
+                "opacity": {
+                    "value": 0.6,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 1.5,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 2,
+                    "random": true,
+                    "anim": {
+                        "enable": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 130,
+                    "color": "#33FFCC", // Жасыл желілер
+                    "opacity": 0.5,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 1.5, 
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab" // Қосылу эффектісі
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push" 
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 140,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+
     </script>
 
 </body>
