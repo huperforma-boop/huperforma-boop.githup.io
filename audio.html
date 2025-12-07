@@ -69,7 +69,78 @@
             --neon-shadow-light: var(--neon-shadow-light);
         }
 
-        /* Языковая панель */
+        /* ===== АНИМИРОВАННЫЙ ФОН С ЧАСТИЦАМИ ===== */
+        #particles-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--main-neon);
+            opacity: 0.3;
+            animation: float 15s infinite linear;
+        }
+
+        .particle:nth-child(odd) {
+            background: var(--secondary-neon);
+            animation-duration: 20s;
+            animation-direction: reverse;
+        }
+
+        .particle:nth-child(3n) {
+            animation-duration: 25s;
+            opacity: 0.15;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(20px, 50px) rotate(90deg);
+            }
+            50% {
+                transform: translate(40px, 0) rotate(180deg);
+            }
+            75% {
+                transform: translate(20px, -50px) rotate(270deg);
+            }
+        }
+
+        /* Анимированный градиентный фон */
+        .gradient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(45deg, 
+                rgba(0, 0, 0, 0.95) 0%, 
+                rgba(10, 10, 30, 0.9) 25%, 
+                rgba(20, 0, 40, 0.85) 50%, 
+                rgba(0, 20, 40, 0.9) 75%, 
+                rgba(0, 0, 0, 0.95) 100%);
+            background-size: 400% 400%;
+            animation: gradientMove 30s ease infinite;
+            pointer-events: none;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* ===== Языковая панель ===== */
         .language-switcher {
             position: fixed;
             top: 15px;
@@ -110,7 +181,7 @@
             box-shadow: 0 0 10px var(--secondary-neon);
         }
 
-        /* Переключатель тем */
+        /* ===== Переключатель тем ===== */
         .theme-switcher {
             position: fixed;
             top: 15px;
@@ -200,7 +271,7 @@
             border-bottom: none;
         }
 
-        /* НЕГІЗГІ СТИЛЬДЕР */
+        /* ===== НЕГІЗГІ СТИЛЬДЕР ===== */
         body {
             font-family: 'Montserrat', sans-serif;
             background-color: var(--dark-bg); 
@@ -211,6 +282,7 @@
             min-height: 100vh;
             transition: all 0.5s ease;
             -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
         }
 
         .container {
@@ -218,6 +290,8 @@
             max-width: 900px;
             margin: 80px auto 30px;
             padding: 0 0 50px 0;
+            position: relative;
+            z-index: 1;
         }
 
         .header h1 {
@@ -228,6 +302,19 @@
             text-shadow: var(--neon-shadow-light);
             margin-bottom: 30px;
             transition: all 0.5s ease;
+            position: relative;
+        }
+
+        .header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--main-neon), transparent);
+            border-radius: 3px;
         }
 
         .back-link {
@@ -245,6 +332,8 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            position: relative;
+            z-index: 2;
         }
         
         .back-link:hover {
@@ -254,11 +343,11 @@
         
         @keyframes pulseNeon {
             0% { box-shadow: 0 0 5px var(--main-neon); }
-            50% { box-shadow: 0 0 10px var(--main-neon), 0 0 20px rgba(0, 255, 255, 0.4); }
+            50% { box-shadow: 0 0 15px var(--main-neon), 0 0 30px rgba(0, 255, 255, 0.4); }
             100% { box-shadow: 0 0 5px var(--main-neon); }
         }
 
-        /* 🎧 ОСНОВНОЙ ПЛЕЕР */
+        /* ===== ОСНОВНОЙ ПЛЕЕР ===== */
         .main-player-card {
             background-color: var(--player-bg);
             border: 2px solid var(--main-neon); 
@@ -270,6 +359,8 @@
             position: relative;
             animation: pulseNeon 4s infinite alternate ease-in-out; 
             transition: all 0.5s ease;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .cover-art {
@@ -284,8 +375,24 @@
             font-size: 3em; 
             color: var(--main-neon);
             background-color: #333;
-            box-shadow: 0 0 20px var(--secondary-neon); 
+            box-shadow: 0 0 30px var(--secondary-neon); 
             border: 3px solid var(--main-neon);
+            position: relative;
+        }
+
+        .cover-art::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         .cover-art img {
@@ -293,10 +400,12 @@
             height: 100%;
             object-fit: cover;
             transition: transform 0.3s ease;
+            position: relative;
+            z-index: 1;
         }
         
         .cover-art img.active {
-            animation: rotateCover 10s linear infinite;
+            animation: rotateCover 20s linear infinite;
         }
         
         @keyframes rotateCover {
@@ -330,7 +439,7 @@
             cursor: pointer;
             font-size: 1.3em; 
             padding: 12px; 
-            transition: color 0.2s ease, transform 0.2s ease;
+            transition: all 0.2s ease;
             text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); 
             min-width: 50px;
             min-height: 50px;
@@ -339,6 +448,27 @@
             justify-content: center;
             border-radius: 50%;
             background: rgba(255,255,255,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .control-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: var(--main-neon);
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s;
+        }
+        
+        .control-btn:hover::before {
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
         }
         
         .control-btn:hover {
@@ -356,7 +486,74 @@
             min-height: 70px;
         }
 
-        /* 🎵 ПРОГРЕСС БАР */
+        /* ===== КНОПКА "ПОДЕЛИТЬСЯ" ===== */
+        .share-btn-main {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            font-size: 1.8em;
+            color: var(--light-text);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .share-btn-main:hover {
+            background: rgba(255,255,255,0.1);
+            transform: scale(1.1);
+            color: var(--secondary-neon);
+        }
+        
+        .share-btn-main.active {
+            color: var(--secondary-neon);
+            text-shadow: 0 0 15px var(--secondary-neon);
+            animation: pulseShare 2s infinite;
+        }
+        
+        @keyframes pulseShare {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .favorite-btn-main {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            font-size: 1.8em;
+            color: var(--light-text);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .favorite-btn-main:hover {
+            background: rgba(255,255,255,0.1);
+            transform: scale(1.1);
+        }
+        
+        .favorite-btn-main.favorited {
+            color: var(--secondary-neon);
+            text-shadow: 0 0 15px var(--secondary-neon);
+        }
+
+        /* ===== ПРОГРЕСС БАР ===== */
         .progress-container {
             display: flex;
             align-items: center;
@@ -385,6 +582,7 @@
             cursor: pointer;
             box-shadow: 0 0 5px var(--main-neon) inset; 
             transition: all 0.2s ease;
+            overflow: hidden;
         }
         
         #progress-bar::-webkit-slider-thumb {
@@ -401,7 +599,7 @@
             transition: all 0.2s ease;
         }
         
-        /* 🔊 Громкость */
+        /* ===== Громкость ===== */
         .volume-container {
             display: flex;
             align-items: center;
@@ -435,7 +633,7 @@
             border: 1px solid var(--dark-bg);
         }
 
-        /* 🎶 ПЛЕЙЛИСТ */
+        /* ===== ПЛЕЙЛИСТ ===== */
         .playlist-title {
             font-family: 'Orbitron', sans-serif;
             color: var(--light-text);
@@ -444,6 +642,18 @@
             margin-bottom: 20px;
             padding-bottom: 10px;
             border-bottom: 2px solid var(--main-neon);
+            position: relative;
+        }
+
+        .playlist-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100px;
+            height: 2px;
+            background: var(--secondary-neon);
+            border-radius: 2px;
         }
 
         .playlist-item {
@@ -459,6 +669,23 @@
             flex-wrap: wrap; 
             transition: all 0.3s ease;
             min-height: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .playlist-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transition: left 0.5s;
+        }
+
+        .playlist-item:hover::before {
+            left: 100%;
         }
 
         .playlist-item:hover {
@@ -476,7 +703,7 @@
             transform: scale(1.02);
         }
 
-        /* 🔍 ПОИСК */
+        /* ===== ПОИСК ===== */
         .search-container {
             position: relative;
             margin-bottom: 25px;
@@ -544,6 +771,26 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .lyrics-toggle-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s;
+        }
+        
+        .lyrics-toggle-btn:hover::before {
+            width: 300px;
+            height: 300px;
         }
         
         .lyrics-toggle-btn:hover {
@@ -559,7 +806,7 @@
             text-align: center;
         }
 
-        /* 📝 ТЕКСТ ПЕСНИ */
+        /* ===== ТЕКСТ ПЕСНИ ===== */
         .lyrics-content {
             background-color: var(--lyrics-bg);
             color: var(--light-text);
@@ -598,7 +845,7 @@
             border-top: 1px solid rgba(255,255,255,0.2);
         }
 
-        /* Избранное */
+        /* ===== Избранное ===== */
         .favorite-btn {
             background: none;
             border: none;
@@ -613,6 +860,26 @@
             align-items: center;
             justify-content: center;
             border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .favorite-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,0,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s;
+        }
+        
+        .favorite-btn:hover::before {
+            width: 100%;
+            height: 100%;
         }
         
         .favorite-btn:hover {
@@ -625,36 +892,7 @@
             text-shadow: 0 0 10px var(--secondary-neon);
         }
         
-        .favorite-btn-main {
-            position: absolute;
-            top: 25px;
-            right: 25px;
-            font-size: 1.8em;
-            color: var(--light-text);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 10;
-            background: rgba(0,0,0,0.3);
-            padding: 10px;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .favorite-btn-main:hover {
-            background: rgba(255,255,255,0.1);
-            transform: scale(1.1);
-        }
-        
-        .favorite-btn-main.favorited {
-            color: var(--secondary-neon);
-            text-shadow: 0 0 15px var(--secondary-neon);
-        }
-        
-        /* Плейлист "Мне нравится" */
+        /* ===== Плейлист "Мне нравится" ===== */
         .favorites-playlist {
             margin-top: 30px;
             display: none;
@@ -689,6 +927,26 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tab-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(0,255,255,0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.4s, height 0.4s;
+        }
+        
+        .tab-btn:hover::before {
+            width: 300px;
+            height: 300px;
         }
         
         .tab-btn:hover {
@@ -704,7 +962,7 @@
             transform: scale(1.05);
         }
         
-        /* Стиль для новых треков */
+        /* ===== Стиль для новых треков ===== */
         .new-track-badge {
             background-color: var(--secondary-neon);
             color: var(--dark-bg);
@@ -723,7 +981,7 @@
             100% { opacity: 0.8; transform: scale(1); }
         }
 
-        /* Сообщение когда нет избранных */
+        /* ===== Сообщение когда нет избранных ===== */
         #no-favorites-message {
             text-align: center;
             color: var(--secondary-neon);
@@ -740,7 +998,205 @@
             opacity: 0.7;
         }
 
-        /* МОБИЛЬНАЯ ВЕРСИЯ */
+        /* ===== УВЕДОМЛЕНИЯ И СООБЩЕНИЯ ===== */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--player-bg);
+            border: 1px solid var(--main-neon);
+            color: var(--light-text);
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: var(--neon-shadow-heavy);
+            z-index: 10000;
+            transform: translateX(150%);
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            max-width: 350px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .notification-icon {
+            font-size: 1.5em;
+            color: var(--secondary-neon);
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            color: var(--light-text);
+            font-size: 1.2em;
+            cursor: pointer;
+            padding: 0;
+            margin-left: 15px;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .notification-close:hover {
+            opacity: 1;
+        }
+
+        /* ===== МОДАЛЬНОЕ ОКНО ПОДЕЛИТЬСЯ ===== */
+        .share-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .share-modal.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .share-modal-content {
+            background: var(--player-bg);
+            border: 2px solid var(--main-neon);
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: var(--neon-shadow-heavy);
+            position: relative;
+            animation: scaleIn 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .share-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .share-modal-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5em;
+            color: var(--main-neon);
+            text-shadow: var(--neon-shadow-light);
+            margin: 0;
+        }
+
+        .share-modal-close {
+            background: none;
+            border: none;
+            color: var(--light-text);
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .share-modal-close:hover {
+            background: rgba(255,255,255,0.1);
+            color: var(--secondary-neon);
+        }
+
+        .share-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .share-option {
+            background: var(--list-bg);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 20px 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .share-option:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: var(--main-neon);
+            transform: translateY(-5px);
+        }
+
+        .share-option i {
+            font-size: 2em;
+            color: var(--main-neon);
+        }
+
+        .share-option span {
+            font-size: 0.9em;
+            color: var(--light-text);
+        }
+
+        .share-link-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .share-link-input {
+            flex-grow: 1;
+            padding: 12px 15px;
+            background: var(--list-bg);
+            border: 1px solid var(--secondary-neon);
+            border-radius: 8px;
+            color: var(--light-text);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .copy-link-btn {
+            background: var(--secondary-neon);
+            color: var(--dark-bg);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .copy-link-btn:hover {
+            background: var(--main-neon);
+            transform: scale(1.05);
+        }
+
+        /* ===== МОБИЛЬНАЯ ВЕРСИЯ ===== */
         @media (max-width: 768px) {
             .container {
                 margin-top: 100px;
@@ -883,12 +1339,19 @@
                 width: fit-content;
             }
             
-            .favorite-btn-main {
+            .favorite-btn-main, .share-btn-main {
                 top: 20px;
-                right: 20px;
                 width: 45px;
                 height: 45px;
                 font-size: 1.5em;
+            }
+            
+            .favorite-btn-main {
+                right: 20px;
+            }
+            
+            .share-btn-main {
+                left: 20px;
             }
             
             .search-container {
@@ -897,7 +1360,44 @@
             
             #playlist-search {
                 padding: 14px 40px 14px 15px;
-                font-size: 16px; /* Для iOS */
+                font-size: 16px;
+            }
+            
+            /* Мобильная адаптация для модального окна */
+            .share-modal-content {
+                padding: 20px;
+                width: 95%;
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+            
+            .share-options {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .share-option {
+                padding: 15px 10px;
+            }
+            
+            .share-link-container {
+                flex-direction: column;
+            }
+            
+            .notification {
+                left: 15px;
+                right: 15px;
+                max-width: none;
+                bottom: 15px;
+            }
+            
+            /* Уменьшаем количество частиц на мобильных */
+            .particle {
+                display: none;
+            }
+            
+            .particle:nth-child(-n+10) {
+                display: block;
             }
         }
 
@@ -948,6 +1448,10 @@
             .lyrics-content p {
                 font-size: 0.95em;
             }
+            
+            .share-options {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* Предотвращение увеличения текста в iOS */
@@ -960,6 +1464,65 @@
 </head>
 <body>
     
+    <!-- Анимированный фон -->
+    <div class="gradient-bg"></div>
+    <div id="particles-bg"></div>
+    
+    <!-- Уведомления -->
+    <div class="notification" id="notification">
+        <div class="notification-content">
+            <i class="fas fa-check-circle notification-icon"></i>
+            <span id="notification-text">Уведомление</span>
+            <button class="notification-close" onclick="hideNotification()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Модальное окно "Поделиться" -->
+    <div class="share-modal" id="share-modal">
+        <div class="share-modal-content">
+            <div class="share-modal-header">
+                <h3 class="share-modal-title" data-lang-key="shareTitle">Поделиться треком</h3>
+                <button class="share-modal-close" onclick="closeShareModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="share-options">
+                <div class="share-option" onclick="shareVia('whatsapp')">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>WhatsApp</span>
+                </div>
+                <div class="share-option" onclick="shareVia('telegram')">
+                    <i class="fab fa-telegram"></i>
+                    <span>Telegram</span>
+                </div>
+                <div class="share-option" onclick="shareVia('facebook')">
+                    <i class="fab fa-facebook"></i>
+                    <span>Facebook</span>
+                </div>
+                <div class="share-option" onclick="shareVia('twitter')">
+                    <i class="fab fa-twitter"></i>
+                    <span>Twitter</span>
+                </div>
+                <div class="share-option" onclick="shareVia('copy')">
+                    <i class="fas fa-link"></i>
+                    <span data-lang-key="copyLink">Копировать ссылку</span>
+                </div>
+                <div class="share-option" onclick="shareVia('embed')">
+                    <i class="fas fa-code"></i>
+                    <span data-lang-key="embedCode">Код для вставки</span>
+                </div>
+            </div>
+            
+            <div class="share-link-container">
+                <input type="text" class="share-link-input" id="share-link-input" readonly value="Ссылка появится здесь">
+                <button class="copy-link-btn" onclick="copyShareLink()" data-lang-key="copy">Копировать</button>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <!-- Переключатель тем -->
         <div class="theme-switcher">
@@ -1002,7 +1565,13 @@
         </div>
         
         <div class="main-player-card">
-            <span class="favorite-btn-main" id="main-favorite-btn" onclick="toggleFavorite()"><i class="far fa-heart"></i></span>
+            <span class="share-btn-main" id="main-share-btn" onclick="openShareModal()" title="Поделиться">
+                <i class="fas fa-share-alt"></i>
+            </span>
+            
+            <span class="favorite-btn-main" id="main-favorite-btn" onclick="toggleFavorite()">
+                <i class="far fa-heart"></i>
+            </span>
             
             <div class="cover-art">
                 <img id="track-cover" src="" alt="Track Cover" style="display: none;">
@@ -1437,7 +2006,7 @@
 
     <script>
         // ===================================================
-        // ПЕРЕКЛЮЧЕНИЕ ЯЗЫКА И ТЕМ (ОПТИМИЗИРОВАНО)
+        // ПЕРЕКЛЮЧЕНИЕ ЯЗЫКА И ТЕМ
         // ===================================================
         
         const translations = {
@@ -1465,7 +2034,14 @@
                 "themeNeon": "Неон",
                 "themeLight": "Светлая",
                 "themeRetro": "Ретро",
-                "themeGreen": "Зеленая"
+                "themeGreen": "Зеленая",
+                "shareTitle": "Трекпен бөлісу",
+                "copyLink": "Сілтемені көшіру",
+                "embedCode": "Енгізу коды",
+                "copy": "Көшіру",
+                "linkCopied": "Сілтеме көшірілді!",
+                "shareSuccess": "Трек сілтемесі сәтті бөлісілді!",
+                "shareError": "Бөлісу қатесі. Өзіңіз көшіріп алыңыз."
             },
             ru: {
                 "title": "Аудио Плеер Стихов",
@@ -1491,7 +2067,14 @@
                 "themeNeon": "Неон",
                 "themeLight": "Светлая",
                 "themeRetro": "Ретро",
-                "themeGreen": "Зеленая"
+                "themeGreen": "Зеленая",
+                "shareTitle": "Поделиться треком",
+                "copyLink": "Копировать ссылку",
+                "embedCode": "Код для вставки",
+                "copy": "Копировать",
+                "linkCopied": "Ссылка скопирована!",
+                "shareSuccess": "Ссылка на трек успешно отправлена!",
+                "shareError": "Ошибка отправки. Скопируйте ссылку вручную."
             }
         };
 
@@ -1653,15 +2236,174 @@
             }
         }
 
-        // Закрытие при скролле на мобильных
-        window.addEventListener('scroll', function() {
-            if (isThemeDropdownOpen) {
-                closeThemeDropdown();
+        // ===================================================
+        // АНИМИРОВАННЫЙ ФОН С ЧАСТИЦАМИ
+        // ===================================================
+        
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles-bg');
+            const particleCount = window.innerWidth <= 768 ? 20 : 40;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Случайный размер от 2 до 6px
+                const size = Math.random() * 4 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Случайная позиция
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Случайная задержка анимации
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                
+                // Случайная прозрачность
+                particle.style.opacity = Math.random() * 0.3 + 0.1;
+                
+                particlesContainer.appendChild(particle);
             }
-        }, { passive: true });
+        }
+        
+        // Обновление частиц при изменении размера окна
+        function updateParticles() {
+            const particlesContainer = document.getElementById('particles-bg');
+            particlesContainer.innerHTML = '';
+            createParticles();
+        }
 
         // ===================================================
-        // АУДИО ПЛЕЕР (ОПТИМИЗИРОВАН ДЛЯ МОБИЛЬНЫХ)
+        // ФУНКЦИЯ "ПОДЕЛИТЬСЯ"
+        // ===================================================
+        
+        function openShareModal() {
+            if (currentTrackIndex === -1) {
+                showNotification(currentLanguage === 'kk' ? 'Алдымен трек таңдаңыз!' : 'Сначала выберите трек!');
+                return;
+            }
+            
+            const modal = document.getElementById('share-modal');
+            modal.classList.add('show');
+            
+            // Обновляем ссылку для текущего трека
+            const track = tracks[currentTrackIndex];
+            const shareUrl = generateShareUrl(track);
+            document.getElementById('share-link-input').value = shareUrl;
+            
+            // Анимация кнопки
+            const shareBtn = document.getElementById('main-share-btn');
+            shareBtn.classList.add('active');
+            setTimeout(() => {
+                shareBtn.classList.remove('active');
+            }, 1000);
+        }
+        
+        function closeShareModal() {
+            const modal = document.getElementById('share-modal');
+            modal.classList.remove('show');
+        }
+        
+        function generateShareUrl(track) {
+            const baseUrl = window.location.origin + window.location.pathname;
+            return `${baseUrl}?track=${track.id}&title=${encodeURIComponent(track.title)}`;
+        }
+        
+        function shareVia(platform) {
+            const track = tracks[currentTrackIndex];
+            const shareUrl = generateShareUrl(track);
+            const shareText = currentLanguage === 'kk' 
+                ? `"${track.title}" өлеңін тыңдаңыз - UMIT Аудио Плеєрі`
+                : `Слушайте трек "${track.title}" в UMIT Audio Player`;
+            
+            switch(platform) {
+                case 'whatsapp':
+                    window.open(`https://wa.me/?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`, '_blank');
+                    break;
+                    
+                case 'telegram':
+                    window.open(`https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`, '_blank');
+                    break;
+                    
+                case 'facebook':
+                    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, '_blank');
+                    break;
+                    
+                case 'twitter':
+                    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`, '_blank');
+                    break;
+                    
+                case 'copy':
+                    copyShareLink();
+                    break;
+                    
+                case 'embed':
+                    const embedCode = `<iframe src="${shareUrl}" width="100%" height="400" frameborder="0" allow="autoplay"></iframe>`;
+                    navigator.clipboard.writeText(embedCode).then(() => {
+                        showNotification(currentLanguage === 'kk' ? 'Код көшірілді!' : 'Код скопирован!');
+                    });
+                    break;
+            }
+            
+            if (platform !== 'copy' && platform !== 'embed') {
+                showNotification(translations[currentLanguage].shareSuccess);
+                closeShareModal();
+            }
+        }
+        
+        function copyShareLink() {
+            const shareInput = document.getElementById('share-link-input');
+            shareInput.select();
+            shareInput.setSelectionRange(0, 99999);
+            
+            navigator.clipboard.writeText(shareInput.value).then(() => {
+                showNotification(translations[currentLanguage].linkCopied);
+                const copyBtn = document.querySelector('.copy-link-btn');
+                const originalText = copyBtn.textContent;
+                copyBtn.textContent = currentLanguage === 'kk' ? '✓ Көшірілді' : '✓ Скопировано';
+                
+                setTimeout(() => {
+                    copyBtn.textContent = originalText;
+                }, 2000);
+            }).catch(() => {
+                // Fallback для старых браузеров
+                document.execCommand('copy');
+                showNotification(translations[currentLanguage].linkCopied);
+            });
+        }
+        
+        // Закрытие модального окна при клике вне
+        document.getElementById('share-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeShareModal();
+            }
+        });
+
+        // ===================================================
+        // УВЕДОМЛЕНИЯ
+        // ===================================================
+        
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notification-text');
+            
+            notificationText.textContent = message;
+            notification.classList.add('show');
+            
+            // Автоматическое скрытие через 4 секунды
+            setTimeout(() => {
+                hideNotification();
+            }, 4000);
+        }
+        
+        function hideNotification() {
+            const notification = document.getElementById('notification');
+            notification.classList.remove('show');
+        }
+
+        // ===================================================
+        // АУДИО ПЛЕЕР
         // ===================================================
 
         const audioPlayer = document.getElementById('global-audio-player');
@@ -1854,8 +2596,14 @@
             
             if (index === -1) {
                 favorites.push(trackId);
+                showNotification(currentLanguage === 'kk' 
+                    ? 'Өлең "Маған ұнайды" тізіміне қосылды!' 
+                    : 'Трек добавлен в "Мне нравится"!');
             } else {
                 favorites.splice(index, 1);
+                showNotification(currentLanguage === 'kk' 
+                    ? 'Өлең "Маған ұнайды" тізімінен жойылды!' 
+                    : 'Трек удален из "Мне нравится"!');
             }
             
             localStorage.setItem('audioPlayerFavorites', JSON.stringify(favorites));
@@ -1880,8 +2628,14 @@
             
             if (index === -1) {
                 favorites.push(trackId);
+                showNotification(currentLanguage === 'kk' 
+                    ? 'Өлең "Маған ұнайды" тізіміне қосылды!' 
+                    : 'Трек добавлен в "Мне нравится"!');
             } else {
                 favorites.splice(index, 1);
+                showNotification(currentLanguage === 'kk' 
+                    ? 'Өлең "Маған ұнайды" тізімінен жойылды!' 
+                    : 'Трек удален из "Мне нравится"!');
             }
             
             localStorage.setItem('audioPlayerFavorites', JSON.stringify(favorites));
@@ -2044,6 +2798,49 @@
         }
 
         // ===================================================
+        // ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ
+        // ===================================================
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Создаем частицы
+            createParticles();
+            
+            // Загружаем язык
+            const savedLang = localStorage.getItem('language') || 'kk';
+            const langBtn = document.querySelector(`.lang-btn[onclick*="${savedLang}"]`);
+            if (langBtn) {
+                switchLanguage(savedLang);
+            }
+            
+            // Загружаем тему
+            const savedTheme = localStorage.getItem('theme') || 'neon';
+            const themeOption = document.querySelector(`.theme-option[onclick*="${savedTheme}"]`);
+            if (themeOption) {
+                const event = { target: themeOption };
+                switchTheme(savedTheme);
+            }
+            
+            updateFavoriteItems();
+            updateFavoritesPlaylist();
+            updateProgressStyle(0);
+
+            // На мобильных добавляем обработчик для предотвращения масштабирования
+            if (window.innerWidth <= 768) {
+                document.addEventListener('touchmove', function(e) {
+                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                        return;
+                    }
+                    if (e.scale !== 1) {
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+            }
+        });
+
+        // Обновление частиц при изменении размера окна
+        window.addEventListener('resize', updateParticles);
+
+        // ===================================================
         // ОБРАБОТЧИКИ СОБЫТИЙ
         // ===================================================
 
@@ -2110,39 +2907,6 @@
         
         volumeSlider.addEventListener('input', () => {
              audioPlayer.volume = volumeSlider.value;
-        });
-
-        document.addEventListener('DOMContentLoaded', () => {
-            // Загружаем язык
-            const savedLang = localStorage.getItem('language') || 'kk';
-            const langBtn = document.querySelector(`.lang-btn[onclick*="${savedLang}"]`);
-            if (langBtn) {
-                switchLanguage(savedLang);
-            }
-            
-            // Загружаем тему
-            const savedTheme = localStorage.getItem('theme') || 'neon';
-            const themeOption = document.querySelector(`.theme-option[onclick*="${savedTheme}"]`);
-            if (themeOption) {
-                const event = { target: themeOption };
-                switchTheme(savedTheme);
-            }
-            
-            updateFavoriteItems();
-            updateFavoritesPlaylist();
-            updateProgressStyle(0);
-
-            // На мобильных добавляем обработчик для предотвращения масштабирования
-            if (window.innerWidth <= 768) {
-                document.addEventListener('touchmove', function(e) {
-                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
-                        return;
-                    }
-                    if (e.scale !== 1) {
-                        e.preventDefault();
-                    }
-                }, { passive: false });
-            }
         });
 
         // ===================================================
@@ -2226,11 +2990,20 @@
                 playNext();
             } else if (e.code === 'ArrowLeft') {
                 playPrevious();
+            } else if (e.code === 'KeyS' && e.ctrlKey) {
+                e.preventDefault();
+                openShareModal();
             }
         });
+
+        // Закрытие при скролле на мобильных
+        window.addEventListener('scroll', function() {
+            if (isThemeDropdownOpen) {
+                closeThemeDropdown();
+            }
+        }, { passive: true });
 
     </script>
 
 </body>
 </html>
-
