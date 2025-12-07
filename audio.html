@@ -2,10 +2,10 @@
 <html lang="kk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>UMIT | Аудио Плеер (Неон)</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Montserrat:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
@@ -71,24 +71,31 @@
 
         /* Языковая панель */
         .language-switcher {
-            position: absolute;
-            top: 20px;
-            right: 20px;
+            position: fixed;
+            top: 15px;
+            right: 15px;
             z-index: 1000;
             display: flex;
-            gap: 10px;
+            gap: 8px;
         }
 
         .lang-btn {
             background: rgba(0, 0, 0, 0.7);
             border: 1px solid var(--main-neon);
             color: var(--light-text);
-            padding: 8px 15px;
-            border-radius: 4px;
+            padding: 10px 15px;
+            border-radius: 20px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 0.9em;
             font-family: 'Montserrat', sans-serif;
+            min-height: 44px;
+            min-width: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .lang-btn:hover {
@@ -105,9 +112,9 @@
 
         /* Переключатель тем */
         .theme-switcher {
-            position: absolute;
-            top: 20px;
-            left: 20px;
+            position: fixed;
+            top: 15px;
+            left: 15px;
             z-index: 1000;
         }
 
@@ -115,15 +122,19 @@
             background: rgba(0, 0, 0, 0.7);
             border: 1px solid var(--main-neon);
             color: var(--light-text);
-            padding: 8px 12px;
-            border-radius: 4px;
+            padding: 10px 15px;
+            border-radius: 20px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 0.9em;
             font-family: 'Montserrat', sans-serif;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
+            min-height: 44px;
+            min-width: 44px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .theme-btn:hover {
@@ -137,31 +148,41 @@
 
         .theme-dropdown {
             display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            margin-top: 5px;
+            position: fixed;
+            top: 65px;
+            left: 15px;
             background: var(--player-bg);
             border: 1px solid var(--main-neon);
-            border-radius: 4px;
-            min-width: 150px;
-            box-shadow: var(--neon-shadow-heavy);
+            border-radius: 12px;
+            min-width: 180px;
+            max-width: calc(100vw - 30px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             z-index: 1001;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            overflow: hidden;
         }
 
         .theme-dropdown.show {
             display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .theme-option {
-            padding: 10px 15px;
+            padding: 15px 20px;
             color: var(--light-text);
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 50px;
         }
 
         .theme-option:hover {
@@ -189,12 +210,13 @@
             line-height: 1.6;
             min-height: 100vh;
             transition: all 0.5s ease;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .container {
             width: 95%;
             max-width: 900px;
-            margin: 30px auto;
+            margin: 80px auto 30px;
             padding: 0 0 50px 0;
         }
 
@@ -210,12 +232,24 @@
 
         .back-link {
             display: inline-block;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             text-decoration: none;
             color: var(--secondary-neon);
             font-size: 1em;
             transition: color 0.2s;
             text-shadow: 0 0 5px rgba(255, 0, 255, 0.5);
+            padding: 10px 15px;
+            border-radius: 8px;
+            background: rgba(0,0,0,0.2);
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .back-link:hover {
+            background: rgba(255, 0, 255, 0.1);
+            transform: translateX(-5px);
         }
         
         @keyframes pulseNeon {
@@ -229,7 +263,7 @@
             background-color: var(--player-bg);
             border: 2px solid var(--main-neon); 
             box-shadow: var(--neon-shadow-heavy);
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 25px;
             text-align: center;
             margin-bottom: 30px;
@@ -239,17 +273,25 @@
         }
 
         .cover-art {
-            width: 180px; height: 180px; border-radius: 50%; margin: 0 auto 30px auto; overflow: hidden;
-            display: flex; justify-content: center; align-items: center; font-size: 3em; color: var(--main-neon);
+            width: 200px; 
+            height: 200px; 
+            border-radius: 50%; 
+            margin: 0 auto 30px auto; 
+            overflow: hidden;
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            font-size: 3em; 
+            color: var(--main-neon);
             background-color: #333;
-            box-shadow: 0 0 15px var(--secondary-neon); 
+            box-shadow: 0 0 20px var(--secondary-neon); 
+            border: 3px solid var(--main-neon);
         }
 
         .cover-art img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            box-shadow: 0 0 5px var(--main-neon);
             transition: transform 0.3s ease;
         }
         
@@ -267,29 +309,51 @@
             font-size: 1.5em;
             color: var(--secondary-neon);
             text-shadow: 0 0 8px var(--secondary-neon);
+            margin: 15px 0;
+            padding: 0 10px;
+            word-break: break-word;
         }
         
         .controls {
-            display: flex; justify-content: center; gap: 15px; margin-top: 15px;
+            display: flex; 
+            justify-content: center; 
+            gap: 15px; 
+            margin: 25px 0 15px;
             align-items: center;
+            flex-wrap: wrap;
         }
         
         .control-btn {
-            background: none; border: none; color: var(--light-text); cursor: pointer;
-            font-size: 1.3em; padding: 10px; transition: color 0.2s ease, transform 0.2s ease;
+            background: none; 
+            border: none; 
+            color: var(--light-text); 
+            cursor: pointer;
+            font-size: 1.3em; 
+            padding: 12px; 
+            transition: color 0.2s ease, transform 0.2s ease;
             text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); 
+            min-width: 50px;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
         }
         
         .control-btn:hover {
             color: var(--main-neon);
             transform: scale(1.1);
             text-shadow: var(--neon-shadow-heavy);
+            background: rgba(255,255,255,0.1);
         }
 
         .control-btn.main-play {
             font-size: 2.5em; 
             color: var(--main-neon);
             text-shadow: var(--neon-shadow-heavy);
+            min-width: 70px;
+            min-height: 70px;
         }
 
         /* 🎵 ПРОГРЕСС БАР */
@@ -299,14 +363,16 @@
             gap: 10px;
             margin: 20px 0 10px 0;
             padding: 0 10px;
+            width: 100%;
         }
 
         .time-display {
             font-size: 0.9em;
             color: var(--main-neon);
             text-shadow: var(--neon-shadow-light);
-            width: 50px; 
+            width: 55px; 
             text-align: center;
+            font-family: 'Montserrat', monospace;
         }
 
         #progress-bar {
@@ -324,14 +390,14 @@
         #progress-bar::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 15px;
-            height: 15px;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
             background: var(--secondary-neon); 
             cursor: pointer;
             border: 2px solid var(--light-text);
             box-shadow: 0 0 10px var(--secondary-neon), 0 0 20px rgba(255, 0, 255, 0.7); 
-            margin-top: -3.5px; 
+            margin-top: -6px; 
             transition: all 0.2s ease;
         }
         
@@ -340,13 +406,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            margin-top: 10px;
+            gap: 12px;
+            margin-top: 15px;
             color: var(--secondary-neon);
+            padding: 0 10px;
         }
 
         #volume-slider {
-            width: 100px;
+            width: 120px;
             -webkit-appearance: none;
             appearance: none;
             height: 6px;
@@ -359,8 +426,8 @@
         #volume-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 12px;
-            height: 12px;
+            width: 16px;
+            height: 16px;
             border-radius: 50%;
             background: var(--main-neon);
             cursor: pointer;
@@ -372,27 +439,32 @@
         .playlist-title {
             font-family: 'Orbitron', sans-serif;
             color: var(--light-text);
-            font-size: 1.2em;
+            font-size: 1.3em;
             margin-top: 20px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--main-neon);
         }
 
         .playlist-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 15px 10px;
-            margin-bottom: 5px;
+            padding: 18px 15px;
+            margin-bottom: 8px;
             background-color: var(--list-bg);
-            border-bottom: 1px solid #222;
+            border: 1px solid rgba(255,255,255,0.1);
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 10px;
             flex-wrap: wrap; 
-            transition: background-color 0.2s;
+            transition: all 0.3s ease;
+            min-height: 60px;
         }
 
         .playlist-item:hover {
              background-color: rgba(255, 255, 255, 0.05);
+             transform: translateX(5px);
+             border-color: var(--main-neon);
         }
 
         .playlist-item.playing {
@@ -401,29 +473,38 @@
             color: var(--main-neon);
             font-weight: bold;
             box-shadow: var(--neon-shadow-light); 
+            transform: scale(1.02);
         }
 
         /* 🔍 ПОИСК */
         .search-container {
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         #playlist-search {
             width: 100%;
-            padding: 12px 40px 12px 15px; 
+            padding: 15px 45px 15px 20px; 
             border: 2px solid var(--secondary-neon);
             background-color: rgba(0, 0, 0, 0.3);
             color: var(--light-text);
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 1em;
             box-shadow: var(--neon-shadow-light);
             box-sizing: border-box; 
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        #playlist-search:focus {
+            outline: none;
+            border-color: var(--main-neon);
+            box-shadow: 0 0 15px var(--main-neon);
         }
         
         .search-icon {
             position: absolute;
-            right: 15px;
+            right: 20px;
             top: 50%;
             transform: translateY(-50%);
             color: var(--secondary-neon);
@@ -434,30 +515,57 @@
             display: none;
         }
         
+        .item-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+            min-width: 0;
+        }
+        
         .item-actions {
             display: flex;
             gap: 15px;
             align-items: center;
+            flex-wrap: wrap;
         }
         
         .lyrics-toggle-btn {
             background-color: var(--secondary-neon);
             color: var(--dark-bg);
             border: none;
-            padding: 5px 10px;
-            border-radius: 4px;
+            padding: 8px 15px;
+            border-radius: 20px;
             font-size: 0.9em;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
+            font-weight: 600;
+            min-height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
+        .lyrics-toggle-btn:hover {
+            background-color: var(--main-neon);
+            transform: scale(1.05);
+        }
+        
+        .item-duration {
+            color: var(--main-neon);
+            font-family: 'Montserrat', monospace;
+            font-size: 0.9em;
+            min-width: 45px;
+            text-align: center;
+        }
+
         /* 📝 ТЕКСТ ПЕСНИ */
         .lyrics-content {
             background-color: var(--lyrics-bg);
             color: var(--light-text);
             padding: 0 20px; 
-            border-radius: 8px;
-            margin-top: 10px;
+            border-radius: 12px;
+            margin-top: 15px;
             border: 1px solid var(--main-neon);
             box-shadow: var(--neon-shadow-light);
             max-height: 0;
@@ -467,23 +575,27 @@
 
         .lyrics-content.open {
             max-height: 2000px; 
-            padding: 20px; 
+            padding: 25px; 
         }
 
         .lyrics-content p {
             margin: 0;
-            margin-bottom: 1em;
-            font-size: 0.9em;
+            margin-bottom: 1.2em;
+            font-size: 1em;
             text-align: left !important;
             white-space: pre-wrap; 
             word-break: break-word; 
+            line-height: 1.8;
         }
         
         .lyrics-content .author-sign {
             text-align: right !important; 
             color: var(--secondary-neon);
             font-style: italic;
-            margin-top: 15px;
+            margin-top: 20px;
+            font-weight: 600;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.2);
         }
 
         /* Избранное */
@@ -492,13 +604,20 @@
             border: none;
             color: var(--light-text);
             cursor: pointer;
-            font-size: 1.2em;
+            font-size: 1.3em;
             transition: all 0.2s ease;
-            padding: 5px;
+            padding: 8px;
+            min-width: 44px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
         }
         
         .favorite-btn:hover {
             transform: scale(1.1);
+            background: rgba(255,255,255,0.1);
         }
         
         .favorite-btn.favorited {
@@ -508,13 +627,26 @@
         
         .favorite-btn-main {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 1.5em;
+            top: 25px;
+            right: 25px;
+            font-size: 1.8em;
             color: var(--light-text);
             cursor: pointer;
             transition: all 0.3s ease;
             z-index: 10;
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .favorite-btn-main:hover {
+            background: rgba(255,255,255,0.1);
+            transform: scale(1.1);
         }
         
         .favorite-btn-main.favorited {
@@ -534,23 +666,34 @@
         
         .tab-buttons {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
         }
         
         .tab-btn {
             background-color: var(--player-bg);
-            border: 1px solid var(--main-neon);
+            border: 2px solid var(--main-neon);
             color: var(--light-text);
-            padding: 10px 20px;
-            border-radius: 4px;
+            padding: 12px 25px;
+            border-radius: 25px;
             cursor: pointer;
             transition: all 0.2s ease;
             font-size: 1em;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            flex: 1;
+            min-width: 150px;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
         
         .tab-btn:hover {
             background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
         }
         
         .tab-btn.active {
@@ -558,6 +701,7 @@
             color: var(--dark-bg);
             font-weight: bold;
             box-shadow: var(--neon-shadow-light);
+            transform: scale(1.05);
         }
         
         /* Стиль для новых треков */
@@ -565,57 +709,251 @@
             background-color: var(--secondary-neon);
             color: var(--dark-bg);
             font-size: 0.7em;
-            padding: 2px 8px;
-            border-radius: 10px;
+            padding: 3px 10px;
+            border-radius: 12px;
             margin-left: 10px;
             font-weight: bold;
             animation: pulse 2s infinite;
+            display: inline-block;
         }
         
         @keyframes pulse {
-            0% { opacity: 0.8; }
-            50% { opacity: 1; }
-            100% { opacity: 0.8; }
+            0% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+            100% { opacity: 0.8; transform: scale(1); }
+        }
+
+        /* Сообщение когда нет избранных */
+        #no-favorites-message {
+            text-align: center;
+            color: var(--secondary-neon);
+            padding: 40px 20px;
+            background: var(--list-bg);
+            border-radius: 12px;
+            border: 2px dashed var(--main-neon);
+            margin: 20px 0;
+        }
+
+        #no-favorites-message i {
+            font-size: 3em;
+            margin-bottom: 20px;
+            opacity: 0.7;
         }
 
         /* МОБИЛЬНАЯ ВЕРСИЯ */
         @media (max-width: 768px) {
-            .item-actions {
-                width: 100%;
-                justify-content: flex-end; 
-                margin-top: 10px;
+            .container {
+                margin-top: 100px;
+                width: 92%;
+                padding-bottom: 30px;
             }
-            .time-display {
-                width: 40px; 
+            
+            .header h1 {
+                font-size: 1.6em;
+                margin-bottom: 20px;
             }
+            
+            .theme-switcher {
+                top: 15px;
+                left: 15px;
+            }
+            
+            .theme-btn {
+                padding: 10px;
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            .theme-btn span {
+                display: none;
+            }
+            
+            .theme-dropdown {
+                top: 60px;
+                left: 15px;
+                right: 15px;
+                max-width: calc(100vw - 30px);
+            }
+            
+            .theme-option {
+                padding: 18px 20px;
+                font-size: 1.1em;
+            }
+            
+            .language-switcher {
+                top: 15px;
+                right: 15px;
+                gap: 5px;
+            }
+            
+            .lang-btn {
+                padding: 10px 12px;
+                font-size: 0.85em;
+                min-width: auto;
+            }
+            
+            .back-link {
+                margin-bottom: 20px;
+                padding: 12px;
+                font-size: 0.95em;
+            }
+            
+            .main-player-card {
+                padding: 20px;
+                border-radius: 15px;
+                margin-bottom: 25px;
+            }
+            
+            .cover-art {
+                width: 180px;
+                height: 180px;
+                margin-bottom: 25px;
+            }
+            
+            #current-track-title {
+                font-size: 1.3em;
+            }
+            
             .controls {
                 gap: 10px;
+                margin: 20px 0 10px;
             }
+            
+            .control-btn {
+                padding: 10px;
+                min-width: 45px;
+                min-height: 45px;
+                font-size: 1.2em;
+            }
+            
+            .control-btn.main-play {
+                font-size: 2.2em;
+                min-width: 65px;
+                min-height: 65px;
+            }
+            
+            .progress-container {
+                gap: 8px;
+                margin: 15px 0 8px;
+            }
+            
+            .time-display {
+                width: 45px;
+                font-size: 0.85em;
+            }
+            
+            .volume-container {
+                margin-top: 12px;
+            }
+            
             .tab-buttons {
                 flex-direction: column;
+                gap: 10px;
             }
+            
+            .tab-btn {
+                min-width: 100%;
+                padding: 15px 20px;
+                font-size: 0.95em;
+            }
+            
+            .playlist-item {
+                padding: 15px 12px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .item-actions {
+                width: 100%;
+                justify-content: space-between;
+                margin-top: 15px;
+                padding-top: 15px;
+                border-top: 1px solid rgba(255,255,255,0.1);
+            }
+            
+            .lyrics-toggle-btn {
+                padding: 10px 20px;
+                font-size: 0.9em;
+                min-height: 40px;
+            }
+            
             .new-track-badge {
-                display: block;
                 margin: 5px 0 0 0;
+                display: block;
                 width: fit-content;
             }
-            .language-switcher {
-                position: static;
-                text-align: center;
+            
+            .favorite-btn-main {
+                top: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+                font-size: 1.5em;
+            }
+            
+            .search-container {
                 margin-bottom: 20px;
-                justify-content: center;
             }
-            .theme-switcher {
-                position: static;
-                margin-bottom: 20px;
-                text-align: center;
+            
+            #playlist-search {
+                padding: 14px 40px 14px 15px;
+                font-size: 16px; /* Для iOS */
             }
-            .theme-btn {
-                margin: 0 auto;
+        }
+
+        /* Для очень маленьких экранов */
+        @media (max-width: 480px) {
+            .container {
+                margin-top: 90px;
             }
-            .theme-dropdown {
-                left: 50%;
-                transform: translateX(-50%);
+            
+            .header h1 {
+                font-size: 1.4em;
+            }
+            
+            .theme-btn, .lang-btn {
+                padding: 8px;
+                min-height: 40px;
+                min-width: 40px;
+            }
+            
+            .cover-art {
+                width: 160px;
+                height: 160px;
+                font-size: 2.5em;
+            }
+            
+            #current-track-title {
+                font-size: 1.2em;
+            }
+            
+            .control-btn.main-play {
+                font-size: 2em;
+                min-width: 60px;
+                min-height: 60px;
+            }
+            
+            .playlist-title {
+                font-size: 1.2em;
+            }
+            
+            .lyrics-content {
+                padding: 0 15px;
+            }
+            
+            .lyrics-content.open {
+                padding: 20px;
+            }
+            
+            .lyrics-content p {
+                font-size: 0.95em;
+            }
+        }
+
+        /* Предотвращение увеличения текста в iOS */
+        @media screen and (max-width: 768px) {
+            input, textarea, select {
+                font-size: 16px !important;
             }
         }
     </style>
@@ -625,7 +963,7 @@
     <div class="container">
         <!-- Переключатель тем -->
         <div class="theme-switcher">
-            <button class="theme-btn" onclick="toggleThemeDropdown()">
+            <button class="theme-btn" onclick="toggleThemeDropdown(event)">
                 <i class="fas fa-palette theme-icon"></i>
                 <span id="current-theme-name" data-lang-key="themeNeon">Неон</span>
             </button>
@@ -890,7 +1228,7 @@
                 Шығысымның ай астындағы аспаны.
 
                 Уақыт өзгерсе де заман, 
-                Өзгермейді туған жерге деген сүйіспеншілік. 
+                Өзгермейді туған жерге деген сүйіспеншілік.
                 Қайда жүрсем, мен сені аңсаған, 
                 Көк туыңды көтеріп жүргендеймін!
 
@@ -1087,7 +1425,7 @@
         <!-- Плейлист "Мне нравится" -->
         <div class="favorites-playlist" id="favorites-playlist">
             <p class="playlist-title" data-lang-key="favoritesList">Маған Ұнайды Өлеңдер:</p>
-            <div id="no-favorites-message" style="text-align: center; color: var(--secondary-neon); padding: 20px;">
+            <div id="no-favorites-message" style="text-align: center; color: var(--secondary-neon); padding: 40px 20px;">
                 <i class="far fa-heart" style="font-size: 2em; margin-bottom: 10px;"></i>
                 <p data-lang-key="noFavorites">Есту жолағыңыз бос. Бірінші рет "Жүрек" түймесін басып, өлеңді сайлаңыз.</p>
             </div>
@@ -1098,7 +1436,7 @@
 
     <script>
         // ===================================================
-        // ПЕРЕКЛЮЧЕНИЕ ЯЗЫКА И ТЕМ
+        // ПЕРЕКЛЮЧЕНИЕ ЯЗЫКА И ТЕМ (ОПТИМИЗИРОВАНО)
         // ===================================================
         
         const translations = {
@@ -1158,6 +1496,7 @@
 
         let currentLanguage = 'kk';
         let currentTheme = 'neon';
+        let isThemeDropdownOpen = false;
 
         function switchLanguage(lang) {
             currentLanguage = lang;
@@ -1187,6 +1526,19 @@
             if (currentTrackIndex !== -1) {
                 trackTitleDisplay.textContent = tracks[currentTrackIndex].title;
             }
+            
+            // Обновляем названия треков в плейлисте
+            updateTrackTitles();
+        }
+        
+        function updateTrackTitles() {
+            const trackElements = document.querySelectorAll('.playlist-item .item-info span span[data-lang-key^="song"]');
+            trackElements.forEach(element => {
+                const key = element.getAttribute('data-lang-key');
+                if (translations[currentLanguage][key]) {
+                    element.textContent = translations[currentLanguage][key];
+                }
+            });
         }
 
         function switchTheme(theme) {
@@ -1261,25 +1613,54 @@
             localStorage.setItem('theme', theme);
             
             // Закрываем выпадающее меню
-            document.getElementById('theme-dropdown').classList.remove('show');
+            closeThemeDropdown();
         }
 
-        function toggleThemeDropdown() {
-            const dropdown = document.getElementById('theme-dropdown');
-            dropdown.classList.toggle('show');
-        }
-
-        // Закрытие выпадающего меню при клике вне его
-        document.addEventListener('click', function(event) {
-            const themeSwitcher = document.querySelector('.theme-switcher');
-            const dropdown = document.getElementById('theme-dropdown');
-            if (!themeSwitcher.contains(event.target)) {
-                dropdown.classList.remove('show');
+        function toggleThemeDropdown(event) {
+            if (event) {
+                event.stopPropagation();
+                event.preventDefault();
             }
-        });
+            
+            const dropdown = document.getElementById('theme-dropdown');
+            isThemeDropdownOpen = !isThemeDropdownOpen;
+            
+            if (isThemeDropdownOpen) {
+                dropdown.classList.add('show');
+                // Добавляем обработчик для закрытия при клике вне
+                setTimeout(() => {
+                    document.addEventListener('click', closeThemeDropdownOnClickOutside);
+                    document.addEventListener('touchstart', closeThemeDropdownOnClickOutside, { passive: true });
+                }, 10);
+            } else {
+                closeThemeDropdown();
+            }
+        }
+        
+        function closeThemeDropdown() {
+            const dropdown = document.getElementById('theme-dropdown');
+            dropdown.classList.remove('show');
+            isThemeDropdownOpen = false;
+            document.removeEventListener('click', closeThemeDropdownOnClickOutside);
+            document.removeEventListener('touchstart', closeThemeDropdownOnClickOutside);
+        }
+        
+        function closeThemeDropdownOnClickOutside(event) {
+            const themeSwitcher = document.querySelector('.theme-switcher');
+            if (!themeSwitcher.contains(event.target)) {
+                closeThemeDropdown();
+            }
+        }
+
+        // Закрытие при скролле на мобильных
+        window.addEventListener('scroll', function() {
+            if (isThemeDropdownOpen) {
+                closeThemeDropdown();
+            }
+        }, { passive: true });
 
         // ===================================================
-        // АУДИО ПЛЕЕР
+        // АУДИО ПЛЕЕР (ОПТИМИЗИРОВАН ДЛЯ МОБИЛЬНЫХ)
         // ===================================================
 
         const audioPlayer = document.getElementById('global-audio-player');
@@ -1298,14 +1679,54 @@
         let favorites = JSON.parse(localStorage.getItem('audioPlayerFavorites')) || [];
         
         const tracks = [
-            { title: translations[currentLanguage].song1, src: "orta_juz_audio.mp3", cover: "orta_juz.jpg", id: 0 }, 
-            { title: translations[currentLanguage].song2, src: "jarylgap_batyr_audio.mp3", cover: "jarylgap_batyr.jpg", id: 1 }, 
-            { title: translations[currentLanguage].song3, src: "tegimnin_ruhy_audio.mp3", cover: "tegimnin_ruhy.jpg", id: 2 },
-            { title: translations[currentLanguage].song4, src: "Kalzhyr.mp3", cover: "Kalzhyr.jpg", id: 3 },
-            { title: translations[currentLanguage].song5, src: "Kalzhyr2.mp3", cover: "Kalzhyr2.jpg", id: 4 },
-            { title: translations[currentLanguage].song6, src: "Wedding_fog.mp3", cover: "Wedding_fog.jpg", id: 5 },
-            { title: translations[currentLanguage].song7, src: "Wedding_fog2.mp3", cover: "Wedding_fog2.jpg", id: 6 },
-            { title: translations[currentLanguage].song8, src: "Along_the_roads.mp3", cover: "Along_the_roads.jpg", id: 7 }
+            { 
+                title: translations[currentLanguage].song1, 
+                src: "orta_juz_audio.mp3", 
+                cover: "orta_juz.jpg", 
+                id: 0 
+            }, 
+            { 
+                title: translations[currentLanguage].song2, 
+                src: "jarylgap_batyr_audio.mp3", 
+                cover: "jarylgap_batyr.jpg", 
+                id: 1 
+            }, 
+            { 
+                title: translations[currentLanguage].song3, 
+                src: "tegimnin_ruhy_audio.mp3", 
+                cover: "tegimnin_ruhy.jpg", 
+                id: 2 
+            },
+            { 
+                title: translations[currentLanguage].song4, 
+                src: "Kalzhyr.mp3", 
+                cover: "Kalzhyr.jpg", 
+                id: 3 
+            },
+            { 
+                title: translations[currentLanguage].song5, 
+                src: "Kalzhyr2.mp3", 
+                cover: "Kalzhyr2.jpg", 
+                id: 4 
+            },
+            { 
+                title: translations[currentLanguage].song6, 
+                src: "Wedding_fog.mp3", 
+                cover: "Wedding_fog.jpg", 
+                id: 5 
+            },
+            { 
+                title: translations[currentLanguage].song7, 
+                src: "Wedding_fog2.mp3", 
+                cover: "Wedding_fog2.jpg", 
+                id: 6 
+            },
+            { 
+                title: translations[currentLanguage].song8, 
+                src: "Along_the_roads.mp3", 
+                cover: "Along_the_roads.jpg", 
+                id: 7 
+            }
         ];
 
         function formatTime(seconds) {
@@ -1361,6 +1782,16 @@
                     console.error("Autoplay blocked:", error);
                 });
             }
+            
+            // На мобильных устройствах фокусируемся на плеере
+            if (window.innerWidth <= 768) {
+                setTimeout(() => {
+                    document.querySelector('.main-player-card').scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center' 
+                    });
+                }, 300);
+            }
         }
 
         function togglePlay() {
@@ -1401,6 +1832,17 @@
         
         function skipTime(time) {
             audioPlayer.currentTime += time;
+            
+            // Визуальная обратная связь для мобильных
+            if (window.innerWidth <= 768) {
+                const btn = event.target.closest('.control-btn');
+                if (btn) {
+                    btn.style.transform = 'scale(0.9)';
+                    setTimeout(() => {
+                        btn.style.transform = '';
+                    }, 200);
+                }
+            }
         }
 
         function toggleFavorite() {
@@ -1420,6 +1862,13 @@
             updateFavoriteButton();
             updateFavoriteItems();
             updateFavoritesPlaylist();
+            
+            // Визуальная обратная связь
+            const btn = document.getElementById('main-favorite-btn');
+            btn.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                btn.style.transform = '';
+            }, 300);
         }
         
         function toggleFavoriteItem(trackIndex, event) {
@@ -1446,10 +1895,16 @@
                 if (index === -1) {
                     icon.className = 'fas fa-heart';
                     btn.classList.add('favorited');
+                    btn.style.transform = 'scale(1.2)';
                 } else {
                     icon.className = 'far fa-heart';
                     btn.classList.remove('favorited');
+                    btn.style.transform = 'scale(0.9)';
                 }
+                
+                setTimeout(() => {
+                    btn.style.transform = '';
+                }, 300);
             }
         }
         
@@ -1535,6 +1990,7 @@
                 
                 favoritesList.appendChild(item);
                 
+                // Копируем текст песни из оригинала
                 setTimeout(() => {
                     const originalLyrics = document.getElementById(`lyrics-${index}`);
                     if (originalLyrics) {
@@ -1544,6 +2000,13 @@
                         }
                     }
                 }, 100);
+                
+                // Добавляем обработчик клика на весь элемент
+                item.addEventListener('click', function(e) {
+                    if (!e.target.closest('.favorite-btn') && !e.target.closest('.lyrics-toggle-btn') && !e.target.classList.contains('new-track-badge')) {
+                        loadTrack(index);
+                    }
+                });
             });
         }
         
@@ -1569,6 +2032,13 @@
                 favoritesPlaylist.style.display = 'block';
                 tabButtons[1].classList.add('active');
                 updateFavoritesPlaylist();
+                
+                // На мобильных прокручиваем к началу плейлиста
+                if (window.innerWidth <= 768) {
+                    setTimeout(() => {
+                        favoritesPlaylist.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 100);
+                }
             }
         }
 
@@ -1586,6 +2056,15 @@
                 }
                 loadTrack(index);
             });
+            
+            // Добавляем touch-обработчики для мобильных
+            item.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.98)';
+            }, { passive: true });
+            
+            item.addEventListener('touchend', function() {
+                this.style.transform = '';
+            }, { passive: true });
         });
 
         audioPlayer.addEventListener('loadedmetadata', () => {
@@ -1594,7 +2073,10 @@
             
             if (currentTrackIndex !== -1) {
                 const duration = formatTime(audioPlayer.duration);
-                playlistItems[currentTrackIndex].querySelector('.item-duration').textContent = duration;
+                const durationElement = playlistItems[currentTrackIndex].querySelector('.item-duration');
+                if (durationElement) {
+                    durationElement.textContent = duration;
+                }
             }
         });
 
@@ -1617,6 +2099,14 @@
             audioPlayer.currentTime = progressBar.value;
         });
         
+        progressBar.addEventListener('touchstart', function() {
+            this.style.transform = 'scaleY(1.5)';
+        }, { passive: true });
+        
+        progressBar.addEventListener('touchend', function() {
+            this.style.transform = '';
+        }, { passive: true });
+        
         volumeSlider.addEventListener('input', () => {
              audioPlayer.volume = volumeSlider.value;
         });
@@ -1624,24 +2114,34 @@
         document.addEventListener('DOMContentLoaded', () => {
             // Загружаем язык
             const savedLang = localStorage.getItem('language') || 'kk';
-            switchLanguage(savedLang);
+            const langBtn = document.querySelector(`.lang-btn[onclick*="${savedLang}"]`);
+            if (langBtn) {
+                switchLanguage(savedLang);
+            }
             
             // Загружаем тему
             const savedTheme = localStorage.getItem('theme') || 'neon';
-            const themeEvent = { target: document.querySelector(`.theme-option[onclick*="${savedTheme}"]`) };
-            if (themeEvent.target) {
+            const themeOption = document.querySelector(`.theme-option[onclick*="${savedTheme}"]`);
+            if (themeOption) {
+                const event = { target: themeOption };
                 switchTheme(savedTheme);
             }
             
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.textContent === (savedLang === 'kk' ? 'Қазақша' : 'Русский')) {
-                    btn.classList.add('active');
-                }
-            });
-            
             updateFavoriteItems();
             updateFavoritesPlaylist();
+            updateProgressStyle(0);
+
+            // На мобильных добавляем обработчик для предотвращения масштабирования
+            if (window.innerWidth <= 768) {
+                document.addEventListener('touchmove', function(e) {
+                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                        return;
+                    }
+                    if (e.scale !== 1) {
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+            }
         });
 
         // ===================================================
@@ -1694,16 +2194,39 @@
 
             if (lyricsContent.classList.contains('open')) {
                 button.textContent = currentLanguage === 'kk' ? 'Жабу' : 'Закрыть';
+                
+                // На мобильных прокручиваем к тексту
+                if (window.innerWidth <= 768) {
+                    setTimeout(() => {
+                        lyricsContent.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 300);
+                }
             } else {
                 button.textContent = currentLanguage === 'kk' ? 'Мәтін' : 'Текст';
             }
         }
         
-        updateProgressStyle(0);
-
-        if (tracks.length > 0) {
-             trackTitleDisplay.textContent = tracks[0].title;
-        }
+        // Оптимизация для мобильных устройств
+        document.addEventListener('touchstart', function() {}, { passive: true });
+        
+        // Предотвращение контекстного меню на мобильных
+        document.addEventListener('contextmenu', function(e) {
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+            }
+        });
+        
+        // Обработка клавиш для управления плеером
+        document.addEventListener('keydown', function(e) {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                togglePlay();
+            } else if (e.code === 'ArrowRight') {
+                playNext();
+            } else if (e.code === 'ArrowLeft') {
+                playPrevious();
+            }
+        });
 
     </script>
 
