@@ -763,7 +763,7 @@
 
                 Jаrуlǵаp! Jаrуlǵаp! Qаndy jоrуqtаrdаǵу tеmіr!
                 Qаlbа-Shаǵаn shаıqаsyndа jеńdі кеbіn qаlmаqty sаlуp ómіr.
-                Оl – Nаımаnnуń nurу, ruhby bіıік, аqulу dа dаnа,
+                Ол – Nаımаnnуń nurу, ruhby bіıік, аqulу dа dаnа,
                 Аruаǵу qаrа búrkіt bоp, qоl bаstаǵаn dаrа!
 
                 Аılаsy аsqаn bаtyr, tек qаnа кúshbеn еmеs,
@@ -939,7 +939,7 @@
                 Жүрегімнің жылуысың осы маңда. 
                 Оң жақ Қалжыр, Тақыр, Шеңгелдім, 
                 Бірге өскен құрбы-құрдас, достарым. 
-                Мейіріміңе бөлендім, тербелдім, 
+                Мейіріміңе bөлендім, тербелдім, 
                 Шығысымның ай астындағы аспаны.
 
                 Ерте таңда тұман басқан белдері, 
@@ -957,7 +957,7 @@
                 Жүрегімнің жылуысың осы маңда. 
                 Оң жақ Қалжыр, Тақыр, Шеңгелдім, 
                 Бірге өскен құрбы-құрдас, достарым. 
-                Мейіріміңе бөлендім, тербелдім, 
+                Мейіріміңе bөлендім, тербелдім, 
                 Шығысымның ай астындағы аспаны.
 
                 Уақыт зулап, өзгерсе де заман, 
@@ -971,7 +971,7 @@
                 Жүрегімнің жылуысың осы маңда. 
                 Оң жақ Қалжыр, Тақыр, Шеңгелдім, 
                 Бірге өскен құрбы-құрдас, достарым. 
-                Мейіріміңе бөлендім, тербелдім,  
+                Мейіріміңе bөлендім, тербелдім,  
                 Шығысымның ай астындағы аспаны.
 
                     </p>
@@ -1057,10 +1057,10 @@
                 Қане, қане, биге тұр,
                 Көңілді боп бір күліңіз.
                 Жаңа әуен, жаңа ырғақ,
-                Тойдың сәнін бізбен құрыңыз!
-                Жастар билейді, ересектер де,
+                Тойдың сәнін бізbен құрыңыз!
+                Жастар билейді, ересеkтер де,
                 Телефонды қой, тізеңді бүгіп ал!
-                Бүгін – біздің күн, бүгін – той думан,
+                Бүгін – біздің күn, бүгін – той думан,
                 Би алаңына тезірек, алға бас!                 
                    </p>
                     <p class="author-sign">~ Qabykenov Saǵynysh</p>
@@ -1144,7 +1144,19 @@
                     <p class="author-sign">~ Qabykenov Saǵynysh</p>
                 </div>
             </div>
-          
+        </div>
+        
+        <!-- Плейлист "Мне нравится" -->
+        <div class="favorites-playlist" id="favorites-playlist">
+            <p class="playlist-title">Maǵan Unadý Óleńder:</p>
+            <div id="no-favorites-message" style="text-align: center; color: var(--secondary-neon); padding: 20px;">
+                <i class="far fa-heart" style="font-size: 2em; margin-bottom: 10px;"></i>
+                <p>Eshtý joláǵyńyz bos. Birinshi ret "Júrek" túımesin basyp, óleńdi saılańyz.</p>
+            </div>
+            <div id="favorites-list"></div>
+        </div>
+
+    </div>
 
     <script>
         // ===================================================
@@ -1176,15 +1188,15 @@
         let radioHistory = [];
         
         const tracks = [
-            { title: "1. Orta júz", src: "orta_juz_audio.mp3", cover: "orta_juz.jpg", id: 0 }, 
-            { title: "2. Jarylǵap batyr", src: "jarylgap_batyr_audio.mp3", cover: "jarylgap_batyr.jpg", id: 1 }, 
-            { title: "3. Tegimniń rýhy", src: "tegimnin_ruhy_audio.mp3", cover: "tegimnin_ruhy.jpg", id: 2 },
-            // Жаңа 4 өлең:
-            { title: "4. Kalzhyr", src: "Kalzhyr.mp3", cover: "Kalzhyr.jpg", id: 3 },
-            { title: "5. Kalzhyr2", src: "Kalzhyr2.mp3", cover: "Kalzhyr2.jpg", id: 4 },
-            { title: "6. Wedding_fog", src: "Wedding_fog.mp3", cover: "Wedding_fog.jpg", id: 5 },
-            { title: "7. Wedding_fog2", src: "Wedding_fog2.mp3", cover: "Wedding_fog2.jpg", id: 6 }
-            { title: "8. Along_the_roads", src: "Along_the_roads.mp3", cover: "Along_the_roads.jpg", id: 7 }
+            { title: "Orta júz", src: "orta_juz_audio.mp3", cover: "orta_juz.jpg", id: 0 }, 
+            { title: "Jarylǵap batyr", src: "jarylgap_batyr_audio.mp3", cover: "jarylgap_batyr.jpg", id: 1 }, 
+            { title: "Tegimniń rýhy", src: "tegimnin_ruhy_audio.mp3", cover: "tegimnin_ruhy.jpg", id: 2 },
+            // Жаңа 5 өлең:
+            { title: "Kalzhyr", src: "Kalzhyr.mp3", cover: "Kalzhyr.jpg", id: 3 },
+            { title: "Kalzhyr2", src: "Kalzhyr2.mp3", cover: "Kalzhyr2.jpg", id: 4 },
+            { title: "Wedding_fog", src: "Wedding_fog.mp3", cover: "Wedding_fog.jpg", id: 5 },
+            { title: "Wedding_fog2", src: "Wedding_fog2.mp3", cover: "Wedding_fog2.jpg", id: 6 },
+            { title: "Along_the_roads", src: "Along_the_roads.mp3", cover: "Along_the_roads.jpg", id: 7 }
         ];
 
         /**
@@ -1229,9 +1241,14 @@
             audioPlayer.playbackRate = playbackSpeed;
             
             // 3. Обложканы жаңарту
-            coverImage.src = track.cover;
-            coverImage.style.display = 'block'; 
-            defaultIcon.style.display = 'none'; 
+            if (track.cover) {
+                coverImage.src = track.cover;
+                coverImage.style.display = 'block'; 
+                defaultIcon.style.display = 'none'; 
+            } else {
+                coverImage.style.display = 'none';
+                defaultIcon.style.display = 'block';
+            }
             coverImage.classList.remove('active');
 
             // 4. Кластарды жаңарту
@@ -1622,13 +1639,20 @@
                 if (!track) return;
                 
                 const index = track.id;
+                let badge = '';
+                if (index === 7) {
+                    badge = '<span class="new-track-badge">Private</span>';
+                } else if (index > 2 && index < 7) {
+                    badge = '<span class="new-track-badge">JAŃA!</span>';
+                }
+                
                 const item = document.createElement('div');
                 item.className = 'playlist-item';
                 item.dataset.index = index;
                 item.innerHTML = `
                     <div class="item-info">
                         <i class="fas fa-heart" style="color: var(--secondary-neon);"></i>
-                        <span>${track.title} ${index > 2 ? '<span class="new-track-badge">JAŃA!</span>' : ''}</span>
+                        <span>${index + 1}. ${track.title} ${badge}</span>
                     </div>
                     <div class="item-actions">
                         <button class="favorite-btn favorited" onclick="toggleFavoriteItem(${index}, event)">
@@ -1637,7 +1661,7 @@
                         <span class="item-duration">${getTrackDuration(index)}</span>
                         <button class="lyrics-toggle-btn" data-lyrics-index="${index}" onclick="toggleLyrics(this)">Mátin</button>
                     </div>
-                    <div class="lyrics-content" id="favorites-lyrics-${index}" style="display: none;"></div>
+                    <div class="lyrics-content" id="favorites-lyrics-${index}"></div>
                 `;
                 
                 favoritesList.appendChild(item);
@@ -1661,7 +1685,7 @@
         function getTrackDuration(index) {
             if (index < 0 || index >= tracks.length) return "0:00";
             // В реальном приложении здесь нужно было бы загружать метаданные
-            const durations = ["2:45", "3:20", "2:58", "3:15", "4:02", "3:45", "3:30"];
+            const durations = ["3:49", "2:34", "2:16", "2:36", "2:19", "2:43", "2:14", "1:40"];
             return durations[index] || "0:00";
         }
         
@@ -1712,14 +1736,6 @@
             if (currentTrackIndex !== -1) {
                 const duration = formatTime(audioPlayer.duration);
                 playlistItems[currentTrackIndex].querySelector('.item-duration').textContent = duration;
-                
-                // Обновляем все длительности треков (для примера)
-                playlistItems.forEach((item, idx) => {
-                    const durations = ["2:45", "3:20", "2:58", "3:15", "4:02", "3:45", "3:30"];
-                    if (durations[idx]) {
-                        item.querySelector('.item-duration').textContent = durations[idx];
-                    }
-                });
             }
         });
 
@@ -1835,9 +1851,4 @@
     </script>
 
 </body>
-
 </html>
-
-
-
-
