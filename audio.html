@@ -9,17 +9,64 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
-        /* НЕГІЗГІ ТҮСТЕР (Неон) */
+        /* ТЕМЫ ОФОРМЛЕНИЯ */
         :root {
-            --dark-bg: #000000;
-            --main-neon: #00FFFF; /* Көк акцент */
-            --secondary-neon: #FF00FF; /* Күлгін акцент */
-            --light-text: #E0FFFF; 
-            --player-bg: #151515; 
-            --list-bg: #0a0a0a;
-            --lyrics-bg: rgba(0, 255, 255, 0.1); 
-            --neon-shadow-heavy: 0 0 10px var(--main-neon), 0 0 25px rgba(0, 255, 255, 0.5);
-            --neon-shadow-light: 0 0 5px var(--main-neon);
+            /* Тема 1: НЕОН (по умолчанию) */
+            --neon-dark-bg: #000000;
+            --neon-main-neon: #00FFFF;
+            --neon-secondary-neon: #FF00FF;
+            --neon-light-text: #E0FFFF;
+            --neon-player-bg: #151515;
+            --neon-list-bg: #0a0a0a;
+            --neon-lyrics-bg: rgba(0, 255, 255, 0.1);
+            --neon-shadow-heavy: 0 0 10px var(--neon-main-neon), 0 0 25px rgba(0, 255, 255, 0.5);
+            --neon-shadow-light: 0 0 5px var(--neon-main-neon);
+            
+            /* Тема 2: СВЕТЛАЯ */
+            --light-dark-bg: #f0f2f5;
+            --light-main-neon: #1a73e8;
+            --light-secondary-neon: #34a853;
+            --light-light-text: #202124;
+            --light-player-bg: #ffffff;
+            --light-list-bg: #f8f9fa;
+            --light-lyrics-bg: rgba(26, 115, 232, 0.08);
+            --light-shadow-heavy: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --light-shadow-light: 0 2px 4px rgba(0, 0, 0, 0.1);
+            
+            /* Тема 3: РЕТРО */
+            --retro-dark-bg: #1a1a1a;
+            --retro-main-neon: #FFD700;
+            --retro-secondary-neon: #FF69B4;
+            --retro-light-text: #FFEBCD;
+            --retro-player-bg: #2a2a2a;
+            --retro-list-bg: #222222;
+            --retro-lyrics-bg: rgba(255, 215, 0, 0.1);
+            --retro-shadow-heavy: 0 0 15px var(--retro-main-neon), 0 0 30px rgba(255, 215, 0, 0.4);
+            --retro-shadow-light: 0 0 8px var(--retro-main-neon);
+            
+            /* Тема 4: ЗЕЛЕНАЯ */
+            --green-dark-bg: #0a1929;
+            --green-main-neon: #00ff88;
+            --green-secondary-neon: #00ccff;
+            --green-light-text: #e0f7fa;
+            --green-player-bg: #0f2a3f;
+            --green-list-bg: #0a1e2f;
+            --green-lyrics-bg: rgba(0, 255, 136, 0.1);
+            --green-shadow-heavy: 0 0 10px var(--green-main-neon), 0 0 20px rgba(0, 255, 136, 0.3);
+            --green-shadow-light: 0 0 5px var(--green-main-neon);
+        }
+
+        /* Активная тема (по умолчанию - Неон) */
+        :root {
+            --dark-bg: var(--neon-dark-bg);
+            --main-neon: var(--neon-main-neon);
+            --secondary-neon: var(--neon-secondary-neon);
+            --light-text: var(--neon-light-text);
+            --player-bg: var(--neon-player-bg);
+            --list-bg: var(--neon-list-bg);
+            --lyrics-bg: var(--neon-lyrics-bg);
+            --neon-shadow-heavy: var(--neon-shadow-heavy);
+            --neon-shadow-light: var(--neon-shadow-light);
         }
 
         /* Языковая панель */
@@ -28,6 +75,8 @@
             top: 20px;
             right: 20px;
             z-index: 1000;
+            display: flex;
+            gap: 10px;
         }
 
         .lang-btn {
@@ -35,7 +84,6 @@
             border: 1px solid var(--main-neon);
             color: var(--light-text);
             padding: 8px 15px;
-            margin: 0 5px;
             border-radius: 4px;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -55,6 +103,82 @@
             box-shadow: 0 0 10px var(--secondary-neon);
         }
 
+        /* Переключатель тем */
+        .theme-switcher {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .theme-btn {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--main-neon);
+            color: var(--light-text);
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .theme-btn:hover {
+            background: var(--main-neon);
+            color: var(--dark-bg);
+        }
+
+        .theme-btn .theme-icon {
+            font-size: 1.1em;
+        }
+
+        .theme-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            margin-top: 5px;
+            background: var(--player-bg);
+            border: 1px solid var(--main-neon);
+            border-radius: 4px;
+            min-width: 150px;
+            box-shadow: var(--neon-shadow-heavy);
+            z-index: 1001;
+        }
+
+        .theme-dropdown.show {
+            display: block;
+        }
+
+        .theme-option {
+            padding: 10px 15px;
+            color: var(--light-text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .theme-option:hover {
+            background: var(--main-neon);
+            color: var(--dark-bg);
+        }
+
+        .theme-option.active {
+            background: var(--secondary-neon);
+            color: var(--dark-bg);
+            font-weight: bold;
+        }
+
+        .theme-option:last-child {
+            border-bottom: none;
+        }
+
         /* НЕГІЗГІ СТИЛЬДЕР */
         body {
             font-family: 'Montserrat', sans-serif;
@@ -64,6 +188,7 @@
             padding: 0;
             line-height: 1.6;
             min-height: 100vh;
+            transition: all 0.5s ease;
         }
 
         .container {
@@ -80,6 +205,7 @@
             text-align: center;
             text-shadow: var(--neon-shadow-light);
             margin-bottom: 30px;
+            transition: all 0.5s ease;
         }
 
         .back-link {
@@ -102,13 +228,14 @@
         .main-player-card {
             background-color: var(--player-bg);
             border: 2px solid var(--main-neon); 
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.8), 0 0 40px rgba(0, 255, 255, 0.4); 
+            box-shadow: var(--neon-shadow-heavy);
             border-radius: 12px;
             padding: 25px;
             text-align: center;
             margin-bottom: 30px;
             position: relative;
             animation: pulseNeon 4s infinite alternate ease-in-out; 
+            transition: all 0.5s ease;
         }
 
         .cover-art {
@@ -265,15 +392,15 @@
         }
 
         .playlist-item:hover {
-             background-color: #1a1a1a;
+             background-color: rgba(255, 255, 255, 0.05);
         }
 
         .playlist-item.playing {
-            background-color: rgba(0, 255, 255, 0.15);
+            background-color: var(--lyrics-bg);
             border-left: 5px solid var(--main-neon);
             color: var(--main-neon);
             font-weight: bold;
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); 
+            box-shadow: var(--neon-shadow-light); 
         }
 
         /* 🔍 ПОИСК */
@@ -286,11 +413,11 @@
             width: 100%;
             padding: 12px 40px 12px 15px; 
             border: 2px solid var(--secondary-neon);
-            background-color: #0d0d1a;
+            background-color: rgba(0, 0, 0, 0.3);
             color: var(--light-text);
             border-radius: 8px;
             font-size: 1em;
-            box-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+            box-shadow: var(--neon-shadow-light);
             box-sizing: border-box; 
         }
         
@@ -332,7 +459,7 @@
             border-radius: 8px;
             margin-top: 10px;
             border: 1px solid var(--main-neon);
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            box-shadow: var(--neon-shadow-light);
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), padding 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
@@ -423,14 +550,14 @@
         }
         
         .tab-btn:hover {
-            background-color: rgba(0, 255, 255, 0.1);
+            background-color: rgba(255, 255, 255, 0.1);
         }
         
         .tab-btn.active {
             background-color: var(--main-neon);
             color: var(--dark-bg);
             font-weight: bold;
-            box-shadow: 0 0 10px var(--main-neon);
+            box-shadow: var(--neon-shadow-light);
         }
         
         /* Стиль для новых треков */
@@ -476,6 +603,19 @@
                 position: static;
                 text-align: center;
                 margin-bottom: 20px;
+                justify-content: center;
+            }
+            .theme-switcher {
+                position: static;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+            .theme-btn {
+                margin: 0 auto;
+            }
+            .theme-dropdown {
+                left: 50%;
+                transform: translateX(-50%);
             }
         }
     </style>
@@ -483,6 +623,32 @@
 <body>
     
     <div class="container">
+        <!-- Переключатель тем -->
+        <div class="theme-switcher">
+            <button class="theme-btn" onclick="toggleThemeDropdown()">
+                <i class="fas fa-palette theme-icon"></i>
+                <span id="current-theme-name" data-lang-key="themeNeon">Неон</span>
+            </button>
+            <div class="theme-dropdown" id="theme-dropdown">
+                <div class="theme-option active" onclick="switchTheme('neon')">
+                    <i class="fas fa-bolt"></i>
+                    <span data-lang-key="themeNeon">Неон</span>
+                </div>
+                <div class="theme-option" onclick="switchTheme('light')">
+                    <i class="fas fa-sun"></i>
+                    <span data-lang-key="themeLight">Светлая</span>
+                </div>
+                <div class="theme-option" onclick="switchTheme('retro')">
+                    <i class="fas fa-star"></i>
+                    <span data-lang-key="themeRetro">Ретро</span>
+                </div>
+                <div class="theme-option" onclick="switchTheme('green')">
+                    <i class="fas fa-leaf"></i>
+                    <span data-lang-key="themeGreen">Зеленая</span>
+                </div>
+            </div>
+        </div>
+
         <!-- Языковой переключатель -->
         <div class="language-switcher">
             <button class="lang-btn active" onclick="switchLanguage('kk')">Қазақша</button>
@@ -932,7 +1098,7 @@
 
     <script>
         // ===================================================
-        // ПЕРЕКЛЮЧЕНИЕ ЯЗЫКА
+        // ПЕРЕКЛЮЧЕНИЕ ЯЗЫКА И ТЕМ
         // ===================================================
         
         const translations = {
@@ -956,7 +1122,11 @@
                 "song5": "Қалжыр2",
                 "song6": "Wedding_fog",
                 "song7": "Wedding_fog2",
-                "song8": "Along_the_roads"
+                "song8": "Along_the_roads",
+                "themeNeon": "Неон",
+                "themeLight": "Светлая",
+                "themeRetro": "Ретро",
+                "themeGreen": "Зеленая"
             },
             ru: {
                 "title": "Аудио Плеер Стихов",
@@ -978,11 +1148,16 @@
                 "song5": "Қалжыр2",
                 "song6": "Wedding_fog",
                 "song7": "Wedding_fog2",
-                "song8": "Along_the_roads"
+                "song8": "Along_the_roads",
+                "themeNeon": "Неон",
+                "themeLight": "Светлая",
+                "themeRetro": "Ретро",
+                "themeGreen": "Зеленая"
             }
         };
 
         let currentLanguage = 'kk';
+        let currentTheme = 'neon';
 
         function switchLanguage(lang) {
             currentLanguage = lang;
@@ -1013,6 +1188,95 @@
                 trackTitleDisplay.textContent = tracks[currentTrackIndex].title;
             }
         }
+
+        function switchTheme(theme) {
+            currentTheme = theme;
+            
+            // Обновляем CSS переменные
+            const root = document.documentElement;
+            
+            switch(theme) {
+                case 'neon':
+                    root.style.setProperty('--dark-bg', 'var(--neon-dark-bg)');
+                    root.style.setProperty('--main-neon', 'var(--neon-main-neon)');
+                    root.style.setProperty('--secondary-neon', 'var(--neon-secondary-neon)');
+                    root.style.setProperty('--light-text', 'var(--neon-light-text)');
+                    root.style.setProperty('--player-bg', 'var(--neon-player-bg)');
+                    root.style.setProperty('--list-bg', 'var(--neon-list-bg)');
+                    root.style.setProperty('--lyrics-bg', 'var(--neon-lyrics-bg)');
+                    root.style.setProperty('--neon-shadow-heavy', 'var(--neon-shadow-heavy)');
+                    root.style.setProperty('--neon-shadow-light', 'var(--neon-shadow-light)');
+                    break;
+                case 'light':
+                    root.style.setProperty('--dark-bg', 'var(--light-dark-bg)');
+                    root.style.setProperty('--main-neon', 'var(--light-main-neon)');
+                    root.style.setProperty('--secondary-neon', 'var(--light-secondary-neon)');
+                    root.style.setProperty('--light-text', 'var(--light-light-text)');
+                    root.style.setProperty('--player-bg', 'var(--light-player-bg)');
+                    root.style.setProperty('--list-bg', 'var(--light-list-bg)');
+                    root.style.setProperty('--lyrics-bg', 'var(--light-lyrics-bg)');
+                    root.style.setProperty('--neon-shadow-heavy', 'var(--light-shadow-heavy)');
+                    root.style.setProperty('--neon-shadow-light', 'var(--light-shadow-light)');
+                    break;
+                case 'retro':
+                    root.style.setProperty('--dark-bg', 'var(--retro-dark-bg)');
+                    root.style.setProperty('--main-neon', 'var(--retro-main-neon)');
+                    root.style.setProperty('--secondary-neon', 'var(--retro-secondary-neon)');
+                    root.style.setProperty('--light-text', 'var(--retro-light-text)');
+                    root.style.setProperty('--player-bg', 'var(--retro-player-bg)');
+                    root.style.setProperty('--list-bg', 'var(--retro-list-bg)');
+                    root.style.setProperty('--lyrics-bg', 'var(--retro-lyrics-bg)');
+                    root.style.setProperty('--neon-shadow-heavy', 'var(--retro-shadow-heavy)');
+                    root.style.setProperty('--neon-shadow-light', 'var(--retro-shadow-light)');
+                    break;
+                case 'green':
+                    root.style.setProperty('--dark-bg', 'var(--green-dark-bg)');
+                    root.style.setProperty('--main-neon', 'var(--green-main-neon)');
+                    root.style.setProperty('--secondary-neon', 'var(--green-secondary-neon)');
+                    root.style.setProperty('--light-text', 'var(--green-light-text)');
+                    root.style.setProperty('--player-bg', 'var(--green-player-bg)');
+                    root.style.setProperty('--list-bg', 'var(--green-list-bg)');
+                    root.style.setProperty('--lyrics-bg', 'var(--green-lyrics-bg)');
+                    root.style.setProperty('--neon-shadow-heavy', 'var(--green-shadow-heavy)');
+                    root.style.setProperty('--neon-shadow-light', 'var(--green-shadow-light)');
+                    break;
+            }
+            
+            // Обновляем активную тему в переключателе
+            document.querySelectorAll('.theme-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Обновляем название текущей темы
+            const themeName = document.getElementById('current-theme-name');
+            const themeNames = {
+                'neon': currentLanguage === 'kk' ? 'Неон' : 'Неон',
+                'light': currentLanguage === 'kk' ? 'Светлая' : 'Светлая',
+                'retro': currentLanguage === 'kk' ? 'Ретро' : 'Ретро',
+                'green': currentLanguage === 'kk' ? 'Зеленая' : 'Зеленая'
+            };
+            themeName.textContent = themeNames[theme];
+            
+            localStorage.setItem('theme', theme);
+            
+            // Закрываем выпадающее меню
+            document.getElementById('theme-dropdown').classList.remove('show');
+        }
+
+        function toggleThemeDropdown() {
+            const dropdown = document.getElementById('theme-dropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // Закрытие выпадающего меню при клике вне его
+        document.addEventListener('click', function(event) {
+            const themeSwitcher = document.querySelector('.theme-switcher');
+            const dropdown = document.getElementById('theme-dropdown');
+            if (!themeSwitcher.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
 
         // ===================================================
         // АУДИО ПЛЕЕР
@@ -1361,6 +1625,13 @@
             // Загружаем язык
             const savedLang = localStorage.getItem('language') || 'kk';
             switchLanguage(savedLang);
+            
+            // Загружаем тему
+            const savedTheme = localStorage.getItem('theme') || 'neon';
+            const themeEvent = { target: document.querySelector(`.theme-option[onclick*="${savedTheme}"]`) };
+            if (themeEvent.target) {
+                switchTheme(savedTheme);
+            }
             
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.classList.remove('active');
