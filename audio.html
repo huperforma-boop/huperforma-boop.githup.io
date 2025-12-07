@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>UMIT | Аудио Плеер (Неон)</title>
+    <title>UMIT | 音频播放器 (霓虹)</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -140,14 +140,12 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* ===== Языковая панель ===== */
+        /* ===== Переключатель языков ===== */
         .language-switcher {
             position: fixed;
             top: 15px;
             right: 15px;
             z-index: 1000;
-            display: flex;
-            gap: 8px;
         }
 
         .lang-btn {
@@ -165,6 +163,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 8px;
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
         }
@@ -174,11 +173,64 @@
             color: var(--dark-bg);
         }
 
-        .lang-btn.active {
+        .lang-dropdown {
+            display: none;
+            position: fixed;
+            top: 65px;
+            right: 15px;
+            background: var(--player-bg);
+            border: 1px solid var(--main-neon);
+            border-radius: 12px;
+            min-width: 180px;
+            max-width: calc(100vw - 30px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1001;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            overflow: hidden;
+        }
+
+        .lang-dropdown.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .lang-option {
+            padding: 15px 20px;
+            color: var(--light-text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 50px;
+        }
+
+        .lang-option:hover {
+            background: var(--main-neon);
+            color: var(--dark-bg);
+        }
+
+        .lang-option.active {
             background: var(--secondary-neon);
             color: var(--dark-bg);
-            border-color: var(--secondary-neon);
-            box-shadow: 0 0 10px var(--secondary-neon);
+            font-weight: bold;
+        }
+
+        .lang-option:last-child {
+            border-bottom: none;
+        }
+
+        .lang-icon {
+            font-size: 1.2em;
+            width: 24px;
+            text-align: center;
         }
 
         /* ===== Переключатель тем ===== */
@@ -237,11 +289,6 @@
         .theme-dropdown.show {
             display: block;
             animation: slideDown 0.3s ease;
-        }
-
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         .theme-option {
@@ -1274,13 +1321,28 @@
             .language-switcher {
                 top: 15px;
                 right: 15px;
-                gap: 5px;
             }
             
             .lang-btn {
-                padding: 10px 12px;
-                font-size: 0.85em;
-                min-width: auto;
+                padding: 10px;
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            .lang-btn span:last-child {
+                display: none;
+            }
+            
+            .lang-dropdown {
+                top: 60px;
+                right: 15px;
+                left: auto;
+                min-width: 160px;
+            }
+            
+            .lang-option {
+                padding: 15px 20px;
+                font-size: 0.9em;
             }
             
             .back-link {
@@ -1608,8 +1670,32 @@
 
         <!-- Языковой переключатель -->
         <div class="language-switcher">
-            <button class="lang-btn active" onclick="switchLanguage('kk')">Қазақша</button>
-            <button class="lang-btn" onclick="switchLanguage('ru')">Русский</button>
+            <button class="lang-btn" id="current-lang-btn" onclick="toggleLangDropdown(event)">
+                <span id="current-lang-icon">🇰🇿</span>
+                <span id="current-lang-text">Қазақша</span>
+            </button>
+            <div class="lang-dropdown" id="lang-dropdown">
+                <div class="lang-option active" onclick="switchLanguage('kk')">
+                    <span class="lang-icon">🇰🇿</span>
+                    <span class="lang-text">Қазақша</span>
+                </div>
+                <div class="lang-option" onclick="switchLanguage('ru')">
+                    <span class="lang-icon">🇷🇺</span>
+                    <span class="lang-text">Русский</span>
+                </div>
+                <div class="lang-option" onclick="switchLanguage('en')">
+                    <span class="lang-icon">🇺🇸</span>
+                    <span class="lang-text">English</span>
+                </div>
+                <div class="lang-option" onclick="switchLanguage('fr')">
+                    <span class="lang-icon">🇫🇷</span>
+                    <span class="lang-text">Français</span>
+                </div>
+                <div class="lang-option" onclick="switchLanguage('zh')">
+                    <span class="lang-icon">🇨🇳</span>
+                    <span class="lang-text">简体中文</span>
+                </div>
+            </div>
         </div>
 
         <a href="index.html" class="back-link" data-lang-key="back">
@@ -1743,7 +1829,7 @@
             Есіміңді айтып, ұраныңды шақырамыз,
             Жарылғап рухы – біздің мәңгілік асыл намысымыз!
             Ұлы даланың даңқын, Қаракерейдің қаһарын,
-            Ұмытпай жаңғыстыру – біздің парызымыз!
+            Ұмытпай жаңгыстыру – біздің парызымыз!
                     </p>
                     <p class="author-sign">~ Қабыкенов Сағыныш</p>
                 </div>
@@ -2137,35 +2223,176 @@
                 "lockscreenActive": "Управление с заблокированного экрана активно",
                 "lockscreenSupported": "Управление с заблокированного экрана поддерживается",
                 "lockscreenNotSupported": "Управление с заблокированного экрана не поддерживается"
+            },
+            en: {
+                "title": "Audio Songs Player",
+                "backText": "Back (Main page)",
+                "selectTrack": "Select a track",
+                "new": "NEW!",
+                "private": "Private",
+                "lyrics": "Lyrics",
+                "mainPlaylist": "Main Playlist (8 tracks)",
+                "favorites": "Favorites",
+                "songsList": "Songs List:",
+                "favoritesList": "Favorite Songs:",
+                "noFavorites": "Your favorites list is empty. Click the 'Heart' icon for the first time to select a song.",
+                "searchPlaceholder": "Search by song name...",
+                "song1": "Middle Zhuz",
+                "song2": "Zharylghap Batyr",
+                "song3": "Spirit of My Lineage",
+                "song4": "Kalzhyr",
+                "song5": "Kalzhyr2",
+                "song6": "Wedding_fog",
+                "song7": "Wedding_fog2",
+                "song8": "Along_the_roads",
+                "themeNeon": "Neon",
+                "themeLight": "Light",
+                "themeRetro": "Retro",
+                "themeGreen": "Green",
+                "shareTitle": "Share track",
+                "copyLink": "Copy link",
+                "embedCode": "Embed code",
+                "copy": "Copy",
+                "linkCopied": "Link copied!",
+                "shareSuccess": "Track link shared successfully!",
+                "shareError": "Sharing error. Please copy manually.",
+                "lockscreenActive": "Lock screen controls active",
+                "lockscreenSupported": "Lock screen controls supported",
+                "lockscreenNotSupported": "Lock screen controls not supported"
+            },
+            fr: {
+                "title": "Lecteur Audio de Chansons",
+                "backText": "Retour (Page principale)",
+                "selectTrack": "Sélectionnez une piste",
+                "new": "NOUVEAU!",
+                "private": "Privé",
+                "lyrics": "Paroles",
+                "mainPlaylist": "Playlist Principale (8 pistes)",
+                "favorites": "Favoris",
+                "songsList": "Liste des Chansons:",
+                "favoritesList": "Chansons Favorites:",
+                "noFavorites": "Votre liste de favoris est vide. Cliquez sur 'Cœur' pour la première fois pour sélectionner une chanson.",
+                "searchPlaceholder": "Recherche par nom de chanson...",
+                "song1": "Juz du Milieu",
+                "song2": "Zharylghap Batyr",
+                "song3": "Esprit de Ma Lignée",
+                "song4": "Kalzhyr",
+                "song5": "Kalzhyr2",
+                "song6": "Wedding_fog",
+                "song7": "Wedding_fog2",
+                "song8": "Along_the_roads",
+                "themeNeon": "Néon",
+                "themeLight": "Clair",
+                "themeRetro": "Rétro",
+                "themeGreen": "Vert",
+                "shareTitle": "Partager la piste",
+                "copyLink": "Copier le lien",
+                "embedCode": "Code d'intégration",
+                "copy": "Copier",
+                "linkCopied": "Lien copié!",
+                "shareSuccess": "Lien de la piste partagé avec succès!",
+                "shareError": "Erreur de partage. Copiez manuellement.",
+                "lockscreenActive": "Contrôles de l'écran verrouillé actifs",
+                "lockscreenSupported": "Contrôles de l'écran verrouillé pris en charge",
+                "lockscreenNotSupported": "Contrôles de l'écran verrouillé non pris en charge"
+            },
+            zh: {
+                "title": "音频诗歌播放器",
+                "backText": "返回 (主页)",
+                "selectTrack": "选择曲目",
+                "new": "新！",
+                "private": "私密",
+                "lyrics": "歌词",
+                "mainPlaylist": "主播放列表 (8首曲目)",
+                "favorites": "我喜欢",
+                "songsList": "歌曲列表:",
+                "favoritesList": "喜欢的歌曲:",
+                "noFavorites": "您的收藏列表为空。首次点击'心形'图标选择歌曲。",
+                "searchPlaceholder": "按歌曲名称搜索...",
+                "song1": "中玉兹",
+                "song2": "扎雷尔哈普英雄",
+                "song3": "我的血脉精神",
+                "song4": "卡尔吉尔",
+                "song5": "卡尔吉尔2",
+                "song6": "婚礼氛围",
+                "song7": "婚礼氛围2",
+                "song8": "沿路而行",
+                "themeNeon": "霓虹",
+                "themeLight": "浅色",
+                "themeRetro": "复古",
+                "themeGreen": "绿色",
+                "shareTitle": "分享曲目",
+                "copyLink": "复制链接",
+                "embedCode": "嵌入代码",
+                "copy": "复制",
+                "linkCopied": "链接已复制！",
+                "shareSuccess": "曲目链接分享成功！",
+                "shareError": "分享错误。请手动复制。",
+                "lockscreenActive": "锁屏控制已激活",
+                "lockscreenSupported": "支持锁屏控制",
+                "lockscreenNotSupported": "不支持锁屏控制"
             }
         };
 
         let currentLanguage = 'kk';
         let currentTheme = 'neon';
         let isThemeDropdownOpen = false;
+        let isLangDropdownOpen = false;
+
+        const langData = {
+            'kk': { name: 'Қазақша', icon: '🇰🇿' },
+            'ru': { name: 'Русский', icon: '🇷🇺' },
+            'en': { name: 'English', icon: '🇺🇸' },
+            'fr': { name: 'Français', icon: '🇫🇷' },
+            'zh': { name: '简体中文', icon: '🇨🇳' }
+        };
 
         function switchLanguage(lang) {
             currentLanguage = lang;
             
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.remove('active');
+            // Обновляем кнопку выбора языка
+            const langBtn = document.getElementById('current-lang-btn');
+            const langIcon = document.getElementById('current-lang-icon');
+            const langText = document.getElementById('current-lang-text');
+            
+            langIcon.textContent = langData[lang].icon;
+            langText.textContent = langData[lang].name;
+            
+            // Обновляем активный элемент в выпадающем списке
+            document.querySelectorAll('.lang-option').forEach(option => {
+                option.classList.remove('active');
             });
             event.target.classList.add('active');
             
+            // Применяем переводы
             document.querySelectorAll('[data-lang-key]').forEach(element => {
                 const key = element.getAttribute('data-lang-key');
                 if (translations[lang][key]) {
                     if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
                         element.setAttribute('placeholder', translations[lang][key]);
-                    } else if (element.tagName === 'OPTION') {
-                        element.textContent = translations[lang][key];
                     } else {
                         element.textContent = translations[lang][key];
                     }
                 }
             });
             
-            document.title = lang === 'kk' ? 'UMIT | Аудио Плеер (Неон)' : 'UMIT | Audio Player (Neon)';
+            // Обновляем название текущей темы
+            const themeName = document.getElementById('current-theme-name');
+            const themeNames = {
+                'neon': translations[lang].themeNeon,
+                'light': translations[lang].themeLight,
+                'retro': translations[lang].themeRetro,
+                'green': translations[lang].themeGreen
+            };
+            themeName.textContent = themeNames[currentTheme];
+            
+            // Обновляем заголовок страницы
+            document.title = lang === 'kk' ? 'UMIT | Аудио Плеер (Неон)' : 
+                             lang === 'ru' ? 'UMIT | Аудио Плеер (Неон)' :
+                             lang === 'en' ? 'UMIT | Audio Player (Neon)' :
+                             lang === 'fr' ? 'UMIT | Lecteur Audio (Néon)' :
+                                             'UMIT | 音频播放器 (霓虹)';
+            
             localStorage.setItem('language', lang);
             
             // Обновляем названия треков в плеере
@@ -2175,6 +2402,9 @@
             
             // Обновляем названия треков в плейлисте
             updateTrackTitles();
+            
+            // Закрываем выпадающее меню
+            closeLangDropdown();
         }
         
         function updateTrackTitles() {
@@ -2248,13 +2478,7 @@
             
             // Обновляем название текущей темы
             const themeName = document.getElementById('current-theme-name');
-            const themeNames = {
-                'neon': currentLanguage === 'kk' ? 'Неон' : 'Неон',
-                'light': currentLanguage === 'kk' ? 'Светлая' : 'Светлая',
-                'retro': currentLanguage === 'kk' ? 'Ретро' : 'Ретро',
-                'green': currentLanguage === 'kk' ? 'Зеленая' : 'Зеленая'
-            };
-            themeName.textContent = themeNames[theme];
+            themeName.textContent = translations[currentLanguage]['theme' + theme.charAt(0).toUpperCase() + theme.slice(1)];
             
             localStorage.setItem('theme', theme);
             
@@ -2273,6 +2497,8 @@
             
             if (isThemeDropdownOpen) {
                 dropdown.classList.add('show');
+                // Закрываем языковое меню если открыто
+                closeLangDropdown();
                 // Добавляем обработчик для закрытия при клике вне
                 setTimeout(() => {
                     document.addEventListener('click', closeThemeDropdownOnClickOutside);
@@ -2295,6 +2521,44 @@
             const themeSwitcher = document.querySelector('.theme-switcher');
             if (!themeSwitcher.contains(event.target)) {
                 closeThemeDropdown();
+            }
+        }
+
+        function toggleLangDropdown(event) {
+            if (event) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
+            
+            const dropdown = document.getElementById('lang-dropdown');
+            isLangDropdownOpen = !isLangDropdownOpen;
+            
+            if (isLangDropdownOpen) {
+                dropdown.classList.add('show');
+                // Закрываем меню тем если открыто
+                closeThemeDropdown();
+                // Добавляем обработчик для закрытия при клике вне
+                setTimeout(() => {
+                    document.addEventListener('click', closeLangDropdownOnClickOutside);
+                    document.addEventListener('touchstart', closeLangDropdownOnClickOutside, { passive: true });
+                }, 10);
+            } else {
+                closeLangDropdown();
+            }
+        }
+        
+        function closeLangDropdown() {
+            const dropdown = document.getElementById('lang-dropdown');
+            dropdown.classList.remove('show');
+            isLangDropdownOpen = false;
+            document.removeEventListener('click', closeLangDropdownOnClickOutside);
+            document.removeEventListener('touchstart', closeLangDropdownOnClickOutside);
+        }
+        
+        function closeLangDropdownOnClickOutside(event) {
+            const languageSwitcher = document.querySelector('.language-switcher');
+            if (!languageSwitcher.contains(event.target)) {
+                closeLangDropdown();
             }
         }
 
@@ -2342,7 +2606,11 @@
         
         function openShareModal() {
             if (currentTrackIndex === -1) {
-                showNotification(currentLanguage === 'kk' ? 'Алдымен трек таңдаңыз!' : 'Сначала выберите трек!');
+                showNotification(currentLanguage === 'kk' ? 'Алдымен трек таңдаңыз!' : 
+                                currentLanguage === 'ru' ? 'Сначала выберите трек!' :
+                                currentLanguage === 'en' ? 'Please select a track first!' :
+                                currentLanguage === 'fr' ? 'Veuillez d\'abord sélectionner une piste!' :
+                                '请先选择曲目！');
                 return;
             }
             
@@ -2375,9 +2643,25 @@
         function shareVia(platform) {
             const track = tracks[currentTrackIndex];
             const shareUrl = generateShareUrl(track);
-            const shareText = currentLanguage === 'kk' 
-                ? `"${track.title}" өлеңін тыңдаңыз - UMIT Аудио Плеєрі`
-                : `Слушайте трек "${track.title}" в UMIT Audio Player`;
+            let shareText = '';
+            
+            switch(currentLanguage) {
+                case 'kk':
+                    shareText = `"${track.title}" өлеңін тыңдаңыз - UMIT Аудио Плеєрі`;
+                    break;
+                case 'ru':
+                    shareText = `Слушайте трек "${track.title}" в UMIT Audio Player`;
+                    break;
+                case 'en':
+                    shareText = `Listen to "${track.title}" on UMIT Audio Player`;
+                    break;
+                case 'fr':
+                    shareText = `Écoutez "${track.title}" sur UMIT Lecteur Audio`;
+                    break;
+                case 'zh':
+                    shareText = `在UMIT音频播放器收听"${track.title}"`;
+                    break;
+            }
             
             switch(platform) {
                 case 'whatsapp':
@@ -2403,7 +2687,7 @@
                 case 'embed':
                     const embedCode = `<iframe src="${shareUrl}" width="100%" height="400" frameborder="0" allow="autoplay"></iframe>`;
                     navigator.clipboard.writeText(embedCode).then(() => {
-                        showNotification(currentLanguage === 'kk' ? 'Код көшірілді!' : 'Код скопирован!');
+                        showNotification(translations[currentLanguage].linkCopied);
                     });
                     break;
             }
@@ -2423,7 +2707,7 @@
                 showNotification(translations[currentLanguage].linkCopied);
                 const copyBtn = document.querySelector('.copy-link-btn');
                 const originalText = copyBtn.textContent;
-                copyBtn.textContent = currentLanguage === 'kk' ? '✓ Көшірілді' : '✓ Скопировано';
+                copyBtn.textContent = translations[currentLanguage].copy + ' ✓';
                 
                 setTimeout(() => {
                     copyBtn.textContent = originalText;
@@ -2532,7 +2816,11 @@
             navigator.mediaSession.metadata = new MediaMetadata({
                 title: track.title,
                 artist: 'UMIT Audio Player',
-                album: currentLanguage === 'kk' ? 'Қазақ Өлеңдері' : 'Казахские Песни',
+                album: currentLanguage === 'kk' ? 'Қазақ Өлеңдері' : 
+                       currentLanguage === 'ru' ? 'Казахские Песни' :
+                       currentLanguage === 'en' ? 'Kazakh Songs' :
+                       currentLanguage === 'fr' ? 'Chansons Kazakhs' :
+                       '哈萨克歌曲',
                 artwork: [
                     { src: track.cover || '', sizes: '96x96', type: 'image/jpeg' },
                     { src: track.cover || '', sizes: '128x128', type: 'image/jpeg' },
@@ -2794,14 +3082,10 @@
             
             if (index === -1) {
                 favorites.push(trackId);
-                showNotification(currentLanguage === 'kk' 
-                    ? 'Өлең "Маған ұнайды" тізіміне қосылды!' 
-                    : 'Трек добавлен в "Мне нравится"!');
+                showNotification(translations[currentLanguage].noFavorites.split("'")[0] + "'");
             } else {
                 favorites.splice(index, 1);
-                showNotification(currentLanguage === 'kk' 
-                    ? 'Өлең "Маған ұнайды" тізімінен жойылды!' 
-                    : 'Трек удален из "Мне нравится"!');
+                showNotification(translations[currentLanguage].noFavorites.split("'")[0] + "'");
             }
             
             localStorage.setItem('audioPlayerFavorites', JSON.stringify(favorites));
@@ -2826,14 +3110,10 @@
             
             if (index === -1) {
                 favorites.push(trackId);
-                showNotification(currentLanguage === 'kk' 
-                    ? 'Өлең "Маған ұнайды" тізіміне қосылды!' 
-                    : 'Трек добавлен в "Мне нравится"!');
+                showNotification(translations[currentLanguage].noFavorites.split("'")[0] + "'");
             } else {
                 favorites.splice(index, 1);
-                showNotification(currentLanguage === 'kk' 
-                    ? 'Өлең "Маған ұнайды" тізімінен жойылды!' 
-                    : 'Трек удален из "Мне нравится"!');
+                showNotification(translations[currentLanguage].noFavorites.split("'")[0] + "'");
             }
             
             localStorage.setItem('audioPlayerFavorites', JSON.stringify(favorites));
@@ -2918,9 +3198,9 @@
                 const index = track.id;
                 let badge = '';
                 if (index === 7) {
-                    badge = `<span class="new-track-badge">${currentLanguage === 'kk' ? 'Жеке' : 'Приватный'}</span>`;
+                    badge = `<span class="new-track-badge">${translations[currentLanguage].private}</span>`;
                 } else if (index > 2 && index < 7) {
-                    badge = `<span class="new-track-badge">${currentLanguage === 'kk' ? 'ЖАҢА!' : 'НОВЫЙ!'}</span>`;
+                    badge = `<span class="new-track-badge">${translations[currentLanguage].new}</span>`;
                 }
                 
                 const item = document.createElement('div');
@@ -2936,7 +3216,7 @@
                             <i class="fas fa-heart"></i>
                         </button>
                         <span class="item-duration">${getTrackDuration(index)}</span>
-                        <button class="lyrics-toggle-btn" data-lyrics-index="${index}" onclick="toggleLyrics(this)">${currentLanguage === 'kk' ? 'Мәтін' : 'Текст'}</button>
+                        <button class="lyrics-toggle-btn" data-lyrics-index="${index}" onclick="toggleLyrics(this)">${translations[currentLanguage].lyrics}</button>
                     </div>
                     <div class="lyrics-content" id="favorites-lyrics-${index}"></div>
                 `;
@@ -3003,10 +3283,27 @@
             // Создаем частицы
             createParticles();
             
-            // Загружаем язык
-            const savedLang = localStorage.getItem('language') || 'kk';
-            const langBtn = document.querySelector(`.lang-btn[onclick*="${savedLang}"]`);
-            if (langBtn) {
+            // Определяем язык браузера
+            const browserLang = navigator.language || navigator.userLanguage;
+            let detectedLang = 'kk';
+            
+            if (browserLang.startsWith('kk') || browserLang.startsWith('kz')) {
+                detectedLang = 'kk';
+            } else if (browserLang.startsWith('ru')) {
+                detectedLang = 'ru';
+            } else if (browserLang.startsWith('en')) {
+                detectedLang = 'en';
+            } else if (browserLang.startsWith('fr')) {
+                detectedLang = 'fr';
+            } else if (browserLang.startsWith('zh')) {
+                detectedLang = 'zh';
+            }
+            
+            // Загружаем сохраненный язык или используем определенный
+            const savedLang = localStorage.getItem('language') || detectedLang;
+            const langOption = document.querySelector(`.lang-option[onclick*="${savedLang}"]`);
+            if (langOption) {
+                const event = { target: langOption };
                 switchLanguage(savedLang);
             }
             
@@ -3156,7 +3453,7 @@
                     const parentItem = content.closest('.playlist-item');
                     if (parentItem) {
                         const otherButton = parentItem.querySelector('.lyrics-toggle-btn');
-                        if (otherButton) otherButton.textContent = currentLanguage === 'kk' ? 'Мәтін' : 'Текст';
+                        if (otherButton) otherButton.textContent = translations[currentLanguage].lyrics;
                     }
                 }
             });
@@ -3164,7 +3461,15 @@
             lyricsContent.classList.toggle('open');
 
             if (lyricsContent.classList.contains('open')) {
-                button.textContent = currentLanguage === 'kk' ? 'Жабу' : 'Закрыть';
+                let closeText = '';
+                switch(currentLanguage) {
+                    case 'kk': closeText = 'Жабу'; break;
+                    case 'ru': closeText = 'Закрыть'; break;
+                    case 'en': closeText = 'Close'; break;
+                    case 'fr': closeText = 'Fermer'; break;
+                    case 'zh': closeText = '关闭'; break;
+                }
+                button.textContent = closeText;
                 
                 // На мобильных прокручиваем к тексту
                 if (window.innerWidth <= 768) {
@@ -3173,7 +3478,7 @@
                     }, 300);
                 }
             } else {
-                button.textContent = currentLanguage === 'kk' ? 'Мәтін' : 'Текст';
+                button.textContent = translations[currentLanguage].lyrics;
             }
         }
         
@@ -3204,8 +3509,9 @@
 
         // Закрытие при скролле на мобильных
         window.addEventListener('scroll', function() {
-            if (isThemeDropdownOpen) {
+            if (isThemeDropdownOpen || isLangDropdownOpen) {
                 closeThemeDropdown();
+                closeLangDropdown();
             }
         }, { passive: true });
 
