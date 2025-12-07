@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ÚMIT | Aýdıo Pleıer (Neon)</title>
+    <title>UMIT | Аудио Плеер (Неон)</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Montserrat:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -12,14 +12,47 @@
         /* НЕГІЗГІ ТҮСТЕР (Неон) */
         :root {
             --dark-bg: #000000;
-            --main-neon: #00FFFF; /* Kók aktsent */
-            --secondary-neon: #FF00FF; /* Kúlgin aktsent */
+            --main-neon: #00FFFF; /* Көк акцент */
+            --secondary-neon: #FF00FF; /* Күлгін акцент */
             --light-text: #E0FFFF; 
             --player-bg: #151515; 
             --list-bg: #0a0a0a;
             --lyrics-bg: rgba(0, 255, 255, 0.1); 
             --neon-shadow-heavy: 0 0 10px var(--main-neon), 0 0 25px rgba(0, 255, 255, 0.5);
             --neon-shadow-light: 0 0 5px var(--main-neon);
+        }
+
+        /* Языковая панель */
+        .language-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .lang-btn {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--main-neon);
+            color: var(--light-text);
+            padding: 8px 15px;
+            margin: 0 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .lang-btn:hover {
+            background: var(--main-neon);
+            color: var(--dark-bg);
+        }
+
+        .lang-btn.active {
+            background: var(--secondary-neon);
+            color: var(--dark-bg);
+            border-color: var(--secondary-neon);
+            box-shadow: 0 0 10px var(--secondary-neon);
         }
 
         /* НЕГІЗГІ СТИЛЬДЕР */
@@ -65,7 +98,7 @@
             100% { box-shadow: 0 0 5px var(--main-neon); }
         }
 
-        /* 🎧 NEGIZGI PLEER */
+        /* 🎧 ОСНОВНОЙ ПЛЕЕР */
         .main-player-card {
             background-color: var(--player-bg);
             border: 2px solid var(--main-neon); 
@@ -132,7 +165,7 @@
             text-shadow: var(--neon-shadow-heavy);
         }
 
-        /* 🎵 PROGRESS JOLAǴY */
+        /* 🎵 ПРОГРЕСС БАР */
         .progress-container {
             display: flex;
             align-items: center;
@@ -175,7 +208,7 @@
             transition: all 0.2s ease;
         }
         
-        /* 🔊 Дыбыс деңгейі */
+        /* 🔊 Громкость */
         .volume-container {
             display: flex;
             align-items: center;
@@ -208,7 +241,7 @@
             border: 1px solid var(--dark-bg);
         }
 
-        /* 🎶 PLEILIST */
+        /* 🎶 ПЛЕЙЛИСТ */
         .playlist-title {
             font-family: 'Orbitron', sans-serif;
             color: var(--light-text);
@@ -243,7 +276,7 @@
             box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); 
         }
 
-        /* 🔍 IZDEÝ JOLAǴY */
+        /* 🔍 ПОИСК */
         .search-container {
             position: relative;
             margin-bottom: 20px;
@@ -291,7 +324,7 @@
             transition: background-color 0.3s;
         }
         
-        /* 📝 MÁTIN BLOGY */
+        /* 📝 ТЕКСТ ПЕСНИ */
         .lyrics-content {
             background-color: var(--lyrics-bg);
             color: var(--light-text);
@@ -418,10 +451,7 @@
             100% { opacity: 0.8; }
         }
 
-        /* =============================================== */
-        /* СЕКЦИЯ ОТЗЫВОВ (КОММЕНТАРИЕВ) */
-        /* =============================================== */
-        
+        /* СЕКЦИЯ ОТЗЫВОВ */
         .comments-section {
             background-color: var(--player-bg);
             border: 2px solid var(--main-neon);
@@ -586,7 +616,7 @@
             margin-top: 10px;
         }
         
-        /* 📱 MOBILDIK BEIIMDILIK */
+        /* МОБИЛЬНАЯ ВЕРСИЯ */
         @media (max-width: 768px) {
             .item-actions {
                 width: 100%;
@@ -612,18 +642,29 @@
                 align-items: flex-start;
                 gap: 5px;
             }
+            .language-switcher {
+                position: static;
+                text-align: center;
+                margin-bottom: 20px;
+            }
         }
     </style>
 </head>
 <body>
     
     <div class="container">
-        <a href="index.html" class="back-link">
-            <i class="fas fa-arrow-left"></i> Artqa Qaıtý (Negizgi Bet)
+        <!-- Языковой переключатель -->
+        <div class="language-switcher">
+            <button class="lang-btn active" onclick="switchLanguage('kk')">Қазақша</button>
+            <button class="lang-btn" onclick="switchLanguage('ru')">Русский</button>
+        </div>
+
+        <a href="index.html" class="back-link" data-lang-key="back">
+            <i class="fas fa-arrow-left"></i> <span data-lang-key="backText">Артқа қайту (Негізгі бет)</span>
         </a>
 
         <div class="header">
-            <h1>Aýdıo Óleńder Pleıeri</h1>
+            <h1 data-lang-key="title">Аудио Өлеңдер Плеєрі</h1>
         </div>
         
         <div class="main-player-card">
@@ -634,7 +675,7 @@
                 <i id="default-icon" class="fas fa-wave-square"></i>
             </div>
             
-            <h2 id="current-track-title">Trekti tańdańyz</h2>
+            <h2 id="current-track-title" data-lang-key="selectTrack">Тректі таңдаңыз</h2>
             
             <audio id="global-audio-player" src="" preload="metadata"></audio>
             
@@ -664,26 +705,26 @@
         <!-- Табы для основного и избранного плейлистов -->
         <div class="tab-buttons">
             <button class="tab-btn active" onclick="showPlaylist('main')">
-                <i class="fas fa-list"></i> Negizgi Pleilist (8 trek)
+                <i class="fas fa-list"></i> <span data-lang-key="mainPlaylist">Негізгі Плейлист (8 трек)</span>
             </button>
             <button class="tab-btn" onclick="showPlaylist('favorites')">
-                <i class="fas fa-heart"></i> Maǵan Unadý ( <span id="favorites-count">0</span> )
+                <i class="fas fa-heart"></i> <span data-lang-key="favorites">Маған ұнайды</span> ( <span id="favorites-count">0</span> )
             </button>
         </div>
         
         <!-- Основной плейлист -->
         <div class="playlist" id="main-playlist">
-            <p class="playlist-title">Óleńder Tizimi:</p>
+            <p class="playlist-title" data-lang-key="songsList">Өлеңдер Тізімі:</p>
 
             <div class="search-container">
-                <input type="text" id="playlist-search" placeholder="Óleń ataýyn izdew..." onkeyup="filterPlaylist()">
+                <input type="text" id="playlist-search" data-lang-key="searchPlaceholder" placeholder="Өлең атауын іздеу..." onkeyup="filterPlaylist()">
                 <i class="fas fa-search search-icon"></i>
             </div>
             
-            <div class="playlist-item" data-index="0" data-title="Orta júz">
+            <div class="playlist-item" data-index="0" data-title="Орта жүз">
                 <div class="item-info">
                     <i class="fas fa-music"></i>
-                    <span>1. Orta júz</span>
+                    <span>1. <span data-lang-key="song1">Орта жүз</span></span>
                 </div>
                 <div class="item-actions">
                     <button class="favorite-btn" onclick="toggleFavoriteItem(0, event)">
@@ -693,127 +734,127 @@
                 </div>
             </div>
             
-            <div class="playlist-item" data-index="1" data-title="Jarylǵap batyr">
+            <div class="playlist-item" data-index="1" data-title="Жарылғап батыр">
                 <div class="item-info">
                     <i class="fas fa-music"></i>
-                    <span>2. Jarylǵap batyr</span>
+                    <span>2. <span data-lang-key="song2">Жарылғап батыр</span></span>
                 </div>
                 <div class="item-actions">
                     <button class="favorite-btn" onclick="toggleFavoriteItem(1, event)">
                         <i class="far fa-heart"></i>
                     </button>
                     <span class="item-duration">2:34</span>
-                    <button class="lyrics-toggle-btn" data-lyrics-index="1" onclick="toggleLyrics(this)">Mátin</button>
+                    <button class="lyrics-toggle-btn" data-lyrics-index="1" onclick="toggleLyrics(this)" data-lang-key="lyrics">Мәтін</button>
                 </div>
                 <div class="lyrics-content" id="lyrics-1">
                     <p>
-                Qazaqtyń uly aty – Qarakerеı urany,
-                Jońǵar shapqynshylyǵynda tasqa basqan murany.
-                Kókjаldаı órshіl ruhbty, еsіmі – Jаrуlǵаp,
-                Qyrуq jоrуq, qаndy urys – tаrıhyndа аnyz bоp qаlǵаn.
+                Қазақтың ұлы аты – Қаракерей ұраны,
+                Жоңғар шапқыншылығында тасқа басқан мұраны.
+                Көкжалдай өршіл рухты, есімі – Жарылғап,
+                Қырық жорық, қанды ұрыс – тарихында аныз болып қалған.
 
-                Buqаr jyrаu tоlǵаǵаn: "Кеrnеıdе – Jаrуlǵаp!"
-                Тu ustаǵаn bаtyr dеp, qаtаrуnаn qаldyrmаǵan bаǵаlаp.
-                Qаbаnbаı, Bógеnbаımеn bіrgе qаnyn tóккеn,
-                Qаs bаtyrdуń qаdіrіn Qаzаq еlі sеpкен.
-                Оn аlty jаsyndа Qаzybек bіdеn bаtа аlǵаn,
-                "Таrhаn" аtаǵyn Qytаıdаn dа аlуp tаńǵаltqаn.
-                Bul – аnyz еmеs, jаzуlǵаn tаrıhі dеrек,
-                Еrlіgі – úlкеn dаlаnуń jаdyndа turǵаn tіrек.
+                Бұқар жырау толғаған: "Кернейде – Жарылғап!"
+                Тұр ұстаған батыр деп, қатарынан қалдырмаған бағалап.
+                Қабанбай, Бөгенбаймен бірге қанын төккен,
+                Қас батырдың қадірін Қазақ елі сепкен.
+                Он алты жасында Қазыбек биден бата алған,
+                "Тархан" атағын Қытайдан да алып таңғалтқан.
+                Бұл – аныз емес, жазылған тарихі дерек,
+                Ерлігі – үлкен даланың жадында тұрған тірек.
 
-                Jаrуlǵаp! Jаrуlǵаp! Qаndy jоrуqtаrdаǵу tеmіr!
-                Qаlbа-Shаǵаn shаıqаsyndа jеńdі кеbіn qаlmаqty sаlуp ómіr.
-                Ол – Nаımаnnуń nurу, ruhby bіıік, аqulу dа dаnа,
-                Аruаǵу qаrа búrkіt bоp, qоl bаstаǵаn dаrа!
+                Жарылғап! Жарылғап! Қанды жорықтардағы темір!
+                Қалба-Шаған шайқасында жеңді кебін қалмақты салып өмір.
+                Ол – Найманның нуры, рухы биік, ақылы да дана,
+                Арқауы қара бүркіт болып, қол бастаған дара!
 
-                Аılаsy аsqаn bаtyr, tек qаnа кúshbеn еmеs,
-                Аbуlаı hаnnуń qаsyndа аqulǵа sаlуp іstеgеn.
-                Hаntаu jоrуǵуndа Bеtbаq аrqulу qоl bаstаp,
-                Qоntаıshуnу qоrshаp, qаzаqqа кеltіrgеn bоstаndуq.
-                Bаıǵоzy bаtyrmеn bіrgе, bаrlаushу bоp аldа júrgеn,
-                "Кózgе túsbеı, shóldеtbеі" – dеp, екі кеpіldік bеrgеn.
-                Bul – Jаrуlǵаptуń ásкеrі tаktıkаsy,
-                Qаırаt pеn аquldу ustаstyrǵаn nаǵyz sаqshysy.
+                Айласы асқан батыр, тек қана күшбен емес,
+                Абылай ханның қасында ақылға салып істеген.
+                Қан тау жорығында Бетбак арқылы қол бастап,
+                Қон тайшыны қоршап, қазаққа келтірген бостанық.
+                Байғозы батырмен бірге, барлаушы болып алда жүрген,
+                "Көзге түспей, шөлдетпей" – деп, екі керілдік берген.
+                Бұл – Жарылғаптың әскері тактикасы,
+                Қайрат пен ақылды ұстастырған нағыз сақшысы.
 
-                Еndі bіl! Sеnіń tеgіńdе оsyndаı кóкjаl bаr!
-                Qаrаке tаmyrynnаn ósіp-óngеn úlgі аlаr.
-                Оnnуń árбіr еrlіgі – urpаqqа óshbеs murа,
-                Jаrуlǵаp bаtyrdу bіlý – qаzаqqа ulу shаrа!
+                Енді біл! Сенің тегіңде осындай көкжал бар!
+                Қараке тамырынан өсіп-өнген үлгі алар.
+                Оның әрбір ерлігі – ұрпаққа өшпес мұра,
+                Жарылғап батырды білу – қазаққа ұлы шары!
 
-                Еsіmіńіdі аıtуp, urаnуńdу shаqurаmуz,
-                Jаrуlǵаp ruhby – bіzdіń máńgіlік аsуl nаmуsymyz!
-                Uly dаlаnуń dаńqun, Qаrакеrеіdіń qаharyn,
-                Umуttyrmаı jаlǵаstyrу – bіzdіń pаryzymyz!
+                Есіміңді айтып, ұраныңды шақырамыз,
+                Жарылғап рухы – біздің мәңгілік асыл намысымыз!
+                Ұлы даланың даңқын, Қаракерейдің қаһарын,
+                Ұмытпай жаңғыстыру – біздің парызымыз!
                     </p>
-                    <p class="author-sign">~ Qabykenov Saǵynysh</p>
+                    <p class="author-sign">~ Қабыкенов Сағыныш</p>
                 </div>
             </div>
             
-            <div class="playlist-item" data-index="2" data-title="Tegimniń rýhy">
+            <div class="playlist-item" data-index="2" data-title="Тәгімнің рухы">
                 <div class="item-info">
                     <i class="fas fa-music"></i>
-                    <span>3. Tegimniń rýhy</span>
+                    <span>3. <span data-lang-key="song3">Тегімнің рухы</span></span>
                 </div>
                 <div class="item-actions">
                     <button class="favorite-btn" onclick="toggleFavoriteItem(2, event)">
                         <i class="far fa-heart"></i>
                     </button>
                     <span class="item-duration">2:16</span>
-                    <button class="lyrics-toggle-btn" data-lyrics-index="2" onclick="toggleLyrics(this)">Mátin</button>
+                    <button class="lyrics-toggle-btn" data-lyrics-index="2" onclick="toggleLyrics(this)" data-lang-key="lyrics">Мәтін</button>
                 </div>
                 <div class="lyrics-content" id="lyrics-2">
                     <p>
-                Qazaqpyz, tamyrýymyz – Alashtan nár alǵan,
-                Úsh júzge bólingen uly dalam, sary alqam.
-                Meniń tegim – Orta júz, aıbyndy naızasy,
-                Jarq etken jalyndy júrek, qazaqtyń dara uly!
-                Uranym – Qaptaǵaı, tóbemde turǵan tý,
-                Men Naıman Qarakerеı, tegimdi tanyp uǵý.
-                Tizbegim on alty ata, kеrýendеı sozylǵan,
-                Ómirgе jаlǵasyp, kóкjıеktеn оzylǵаn!
+                Қазақпыз, тамырымыз – Алаштан нәр алған,
+                Үш жүзге бөлінген ұлы далам, сары алқам.
+                Менің тәгім – Орта жүз, айбынды найзасы,
+                Жарқ еткен жалынды жүрек, қазақтың дара ұлы!
+                Ұраным – Қаптағай, төбемде тұрған түй,
+                Мен Найман Қаракерей, тәгімді танып ұғы.
+                Тізбегім он алты ата, керуендей созылған,
+                Өмірге жаңғысып, көкжиектен озылған!
 
-                Еń аlǵаsh – Bаıtоrу, tаrıhtyń tеrеńіndе,
-                Кеlеdі – Аıram, uly іsіmеn еlіndе.
-                Sоsyn – Jаnqulу, tаsqа bаsqаn mórі,
-                Qоjаmbеt, Аıt – urpаqtyń bіıік tórі.
-                Оdаn sоń – Jálmеmbеt, ádіldіk urаnу,
-                Qudys pеn Bаıshоrа, shеjіrеnіń qurаnу.
+                Ең алғаш – Байтұр, тарихтың тереңінде,
+                Келеді – Айрам, ұлы есіммен елінде.
+                Сосын – Жанқұлы, тасқа басқан мөрі,
+                Қожамбет, Айт – ұрпақтың биік төрі.
+                Одан соң – Жәлмебет, әділдік ұраны,
+                Құдыс пен Байшора, шежіренің құраны.
 
-                Аrаdа jаrq еtkеn Jаrуlǵаp bаtyr аtаm –
-                Qаzаqtyń nаmуsy úshіn qylуshyn sіltеgеn.
-                Еsіmі еldіń ауzуndа, dаstаndаrǵа аrqаu,
-                Оsy tекtі jаlǵаstyrу – mеnіń ulу аntym!
+                Арада жарқ еткен Жарылғап батыр атам –
+                Қазақтың намысы үшін қылушын сілтеген.
+                Есімі елдің аузында, дастандарға арқау,
+                Осы текте жаңғыстыру – менің ұлы антым!
 
-                Shuqyn, Úкі, Qоnаrbаı – tаrıhtyń кеzеńі,
-                Rаmаzаn – іz qаldyrǵаn ómіrdіń ózеgі.
-                Аtаm – Qаbyкеn, аqylshym, tіrеuіm,
-                Áкеm – Tórеǵаlı, еrlікpеn júrеmіn.
-                Qаzіrgі kún – Nаımаnnуń qоs qаnаty,
-                Áкеmnіń jаlǵasy, еkі ulуnуń tаlаbу.
-                Quаnysh – úlкеnіm, tеgіn bіlgеn pаrаsаt,
-                Аl mеn – Sаǵynуsh, ruhby kóкkе qаrаt!
+                Шүкын, Үкі, Қонарбай – тарихтың кезеңі,
+                Рамазан – із қалдырған өмірдің өзегі.
+                Атам – Қабыкен, ақылшымы, тірегім,
+                Әкем – Төреғали, ерлікпен жүремін.
+                Қазіргі күн – Найманның қос қанаты,
+                Әкемнің жаңғысы, екі ұлының талабы.
+                Қуаныш – үлкенім, тәғін білген парасат,
+                Ал мен – Сағыныш, рухы көкке қарат!
 
-                Mеn – tек qаnа bіr аdаm еmеs, bіr tаrıhpyn,
-                Аtаmnуń аmаnатыn, bаtyrdуń аıbуnуn sаqtаımуn.
-                Nаımаn Qаrакеrеı urpаǵу, mаqtаnуshym – tеgі,
-                Jеtі аtаmdу аıtu – mеnіń DNA-kоdym!
+                Мен – тек қана бір адам емес, бір тарихпын,
+                Атамының аманатын, батырдың айбынын сақтаймын.
+                Найман Қаракерей ұрпағы, мақтанышым – тәгі,
+                Жеті атамым айту – менің ДНҚ-кодым!
                     </p>
-                    <p class="author-sign">~ Qabykenov Saǵynysh</p>
+                    <p class="author-sign">~ Қабыкенов Сағыныш</p>
                 </div>
             </div>
             
             <!-- ЖАҢА ТРЕКТЕР (4 жаңа өлең) -->
-            <div class="playlist-item" data-index="3" data-title="Kalzhyr">
+            <div class="playlist-item" data-index="3" data-title="Қалжыр">
                 <div class="item-info">
                     <i class="fas fa-music"></i>
-                    <span>4. Kalzhyr <span class="new-track-badge">JAŃA!</span></span>
+                    <span>4. <span data-lang-key="song4">Қалжыр</span> <span class="new-track-badge" data-lang-key="new">ЖАҢА!</span></span>
                 </div>
                 <div class="item-actions">
                     <button class="favorite-btn" onclick="toggleFavoriteItem(3, event)">
                         <i class="far fa-heart"></i>
                     </button>
                     <span class="item-duration">2:36</span>
-                    <button class="lyrics-toggle-btn" data-lyrics-index="3" onclick="toggleLyrics(this)">Mátin</button>
+                    <button class="lyrics-toggle-btn" data-lyrics-index="3" onclick="toggleLyrics(this)" data-lang-key="lyrics">Мәтін</button>
                 </div>
                 <div class="lyrics-content" id="lyrics-3">
                     <p>
@@ -852,7 +893,7 @@
                 Мейіріміңе бөлендім, тербелдім, 
                 Шығысымның ай астындағы аспаны.
 
-                Уақыт зулап, өзгерсе де заман, 
+                Уақыт өзгерсе де заман, 
                 Өзгермейді туған жерге деген сүйіспеншілік. 
                 Қайда жүрсем, мен сені аңсаған, 
                 Көк туыңды көтеріп жүргендеймін!
@@ -866,21 +907,21 @@
                 Мейіріміңе бөлендім, тербелдім,  
                 Шығысымның ай астындағы аспаны.
                     </p>
-                    <p class="author-sign">~ Qabykenov Saǵynysh</p>
+                    <p class="author-sign">~ Қабыкенов Сағыныш</p>
                 </div>
             </div>
             
-            <div class="playlist-item" data-index="4" data-title="Kalzhyr2">
+            <div class="playlist-item" data-index="4" data-title="Қалжыр2">
                 <div class="item-info">
                     <i class="fas fa-music"></i>
-                    <span>5. Kalzhyr2 <span class="new-track-badge">JAŃA!</span></span>
+                    <span>5. <span data-lang-key="song5">Қалжыр2</span> <span class="new-track-badge" data-lang-key="new">ЖАҢА!</span></span>
                 </div>
                 <div class="item-actions">
                     <button class="favorite-btn" onclick="toggleFavoriteItem(4, event)">
                         <i class="far fa-heart"></i>
                     </button>
                     <span class="item-duration">2:19</span>
-                    <button class="lyrics-toggle-btn" data-lyrics-index="4" onclick="toggleLyrics(this)">Mátin</button>
+                    <button class="lyrics-toggle-btn" data-lyrics-index="4" onclick="toggleLyrics(this)" data-lang-key="lyrics">Мәтін</button>
                 </div>
                 <div class="lyrics-content" id="lyrics-4">
                     <p>
@@ -899,7 +940,7 @@
                 Жүрегімнің жылуысың осы маңда. 
                 Оң жақ Қалжыр, Тақыр, Шеңгелдім, 
                 Бірге өскен құрбы-құрдас, достарым. 
-                Мейіріміңе bөлендім, тербелдім, 
+                Мейіріміңе бөлендім, тербелдім, 
                 Шығысымның ай астындағы аспаны.
 
                 Ерте таңда тұман басқан белдері, 
@@ -915,12 +956,12 @@
                 Тақиялы таулар тұрған қасыңда. 
                 Әр тасыңда – ата-бабам мекені, 
                 Жүрегімнің жылуысың осы маңда. 
-                Оң жақ Қалжyr, Тақыр, Шеңгелдім, 
+                Оң жақ Қалжыр, Тақыр, Шеңгелдім, 
                 Бірге өскен құрбы-құрдас, достарым. 
-                Мейіріміңе bөлендім, тербелдім, 
+                Мейіріміңе бөлендім, тербелдім, 
                 Шығысымның ай астындағы аспаны.
 
-                Уақыт зулап, өзгерсе де заман, 
+                Уақыт өзгерсе де заман, 
                 Өзгермейді туған жерге деген сүйіспеншілік. 
                 Қайда жүрсем, мен сені аңсаған, 
                 Көк туыңды көтеріп жүргендеймін!
@@ -929,47 +970,46 @@
                 Тақиялы таулар тұрған қасыңда. 
                 Әр тасыңда – ата-бабам мекені,
                 Жүрегімнің жылуысың осы маңда. 
-                Оң жақ Қалжyr, Тақyr, Шеңгелдім, 
+                Оң жақ Қалжыр, Тақыр, Шеңгелдім, 
                 Бірге өскен құрбы-құрдас, достарым. 
-                Мейіріміңе bөлендім, тербелдім,  
+                Мейіріміңе бөлендім, тербелдім,  
                 Шығысымның ай астындағы аспаны.
-
                     </p>
-                    <p class="author-sign">~ Qabykenov Saǵynysh</p>
+                    <p class="author-sign">~ Қабыкенов Сағыныш</p>
                 </div>
             </div>
             
             <div class="playlist-item" data-index="5" data-title="Wedding_fog">
                 <div class="item-info">
                     <i class="fas fa-music"></i>
-                    <span>6. Wedding_fog <span class="new-track-badge">JAŃA!</span></span>
+                    <span>6. <span data-lang-key="song6">Wedding_fog</span> <span class="new-track-badge" data-lang-key="new">ЖАҢА!</span></span>
                 </div>
                 <div class="item-actions">
                     <button class="favorite-btn" onclick="toggleFavoriteItem(5, event)">
                         <i class="far fa-heart"></i>
                     </button>
                     <span class="item-duration">2:43</span>
-                    <button class="lyrics-toggle-btn" data-lyrics-index="5" onclick="toggleLyrics(this)">Mátin</button>
+                    <button class="lyrics-toggle-btn" data-lyrics-index="5" onclick="toggleLyrics(this)" data-lang-key="lyrics">Мәтін</button>
                 </div>
                 <div class="lyrics-content" id="lyrics-5">
                     <p>
-                       Скоро...               
+                       Жақында...               
                     </p>
-                    <p class="author-sign">~ Qabykenov Saǵynysh</p>
+                    <p class="author-sign">~ Қабыкенов Сағыныш</p>
                 </div>
             </div>
             
             <div class="playlist-item" data-index="6" data-title="Wedding_fog2">
                 <div class="item-info">
                     <i class="fas fa-music"></i>
-                    <span>7. Wedding_fog2 <span class="new-track-badge">JAŃA!</span></span>
+                    <span>7. <span data-lang-key="song7">Wedding_fog2</span> <span class="new-track-badge" data-lang-key="new">ЖАҢА!</span></span>
                 </div>
                 <div class="item-actions">
                     <button class="favorite-btn" onclick="toggleFavoriteItem(6, event)">
                         <i class="far fa-heart"></i>
                     </button>
                     <span class="item-duration">2:14</span>
-                    <button class="lyrics-toggle-btn" data-lyrics-index="6" onclick="toggleLyrics(this)">Mátin</button>
+                    <button class="lyrics-toggle-btn" data-lyrics-index="6" onclick="toggleLyrics(this)" data-lang-key="lyrics">Мәтін</button>
                 </div>
                 <div class="lyrics-content" id="lyrics-6">
                     <p>
@@ -1017,66 +1057,64 @@
                 Қане, қане, биге тұр,
                 Көңілді боп бір күліңіз.
                 Жаңа әуен, жаңа ырғақ,
-                Тойдың сәнін бізbен құрыңыз!
-                Жастар билейді, ересеkтер де,
+                Тойдың сәнін бізбен құрыңыз!
+                Жастар билейді, ересектер де,
                 Телефонды қой, тізеңді бүгіп ал!
-                Бүгін – біздің күn, бүгін – той думан,
+                Бүгін – біздің күн, бүгін – той думан,
                 Би алаңына тезірек, алға бас!                 
                    </p>
-                    <p class="author-sign">~ Qabykenov Saǵynysh</p>
+                    <p class="author-sign">~ Қабыкенов Сағыныш</p>
                </div>
             </div>
             
             <div class="playlist-item" data-index="7" data-title="Along_the_roads">
                 <div class="item-info">
                     <i class="fas fa-music"></i>
-                    <span>8. Along_the_roads <span class="new-track-badge">Private</span></span>
+                    <span>8. <span data-lang-key="song8">Along_the_roads</span> <span class="new-track-badge" data-lang-key="private">Жеке</span></span>
                 </div>
                 <div class="item-actions">
                     <button class="favorite-btn" onclick="toggleFavoriteItem(7, event)">
                         <i class="far fa-heart"></i>
                     </button>
                     <span class="item-duration">1:40</span>
-                    <button class="lyrics-toggle-btn" data-lyrics-index="7" onclick="toggleLyrics(this)">Mátin</button>
+                    <button class="lyrics-toggle-btn" data-lyrics-index="7" onclick="toggleLyrics(this)" data-lang-key="lyrics">Мәтін</button>
                 </div>
                 <div class="lyrics-content" id="lyrics-7">
                     <p>
                   ТЕКСТ НЕ ДОСТУПЕН )
                    </p>
-                    <p class="author-sign">~ Qabykenov Saǵynysh</p>
+                    <p class="author-sign">~ Қабыкенов Сағыныш</p>
                 </div>
             </div>
         </div>
         
         <!-- Плейлист "Мне нравится" -->
         <div class="favorites-playlist" id="favorites-playlist">
-            <p class="playlist-title">Maǵan Unadý Óleńder:</p>
+            <p class="playlist-title" data-lang-key="favoritesList">Маған Ұнайды Өлеңдер:</p>
             <div id="no-favorites-message" style="text-align: center; color: var(--secondary-neon); padding: 20px;">
                 <i class="far fa-heart" style="font-size: 2em; margin-bottom: 10px;"></i>
-                <p>Eshtý joláǵyńyz bos. Birinshi ret "Júrek" túımesin basyp, óleńdi saılańyz.</p>
+                <p data-lang-key="noFavorites">Есту жолағыңыз бос. Бірінші рет "Жүрек" түймесін басып, өлеңді сайлаңыз.</p>
             </div>
             <div id="favorites-list"></div>
         </div>
 
-        <!-- =============================================== -->
-        <!-- СЕКЦИЯ ОТЗЫВОВ (ПИКИРЛЕР) -->
-        <!-- =============================================== -->
+        <!-- СЕКЦИЯ ОТЗЫВОВ -->
         <div class="comments-section">
-            <h2><i class="fas fa-comments"></i> Pіkіrler (Otzyvlar)</h2>
+            <h2><i class="fas fa-comments"></i> <span data-lang-key="comments">Пікірлер (Отзывы)</span></h2>
             
             <form id="comment-form" class="comments-form">
                 <div class="form-group">
-                    <label for="comment-name">Atyńyz:</label>
-                    <input type="text" id="comment-name" class="form-control" placeholder="Eńgіzіńіz..." required>
+                    <label for="comment-name" data-lang-key="name">Атыңыз:</label>
+                    <input type="text" id="comment-name" class="form-control" data-lang-key="namePlaceholder" placeholder="Еңгізіңіз..." required>
                 </div>
                 
                 <div class="form-group">
-                    <label for="comment-text">Pіkіrіńіz:</label>
-                    <textarea id="comment-text" class="form-control" placeholder="Óleńder túraly pіkіrіńіzdі jatý..." required></textarea>
+                    <label for="comment-text" data-lang-key="comment">Пікіріңіз:</label>
+                    <textarea id="comment-text" class="form-control" data-lang-key="commentPlaceholder" placeholder="Өлеңдер туралы пікіріңізді жатыңыз..." required></textarea>
                 </div>
                 
                 <div class="form-group">
-                    <label>Baǵalaý:</label>
+                    <label data-lang-key="rating">Бағалау:</label>
                     <div class="rating-stars" id="rating-stars">
                         <span class="star" data-value="1"><i class="far fa-star"></i></span>
                         <span class="star" data-value="2"><i class="far fa-star"></i></span>
@@ -1088,29 +1126,29 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="comment-track">Qaı óleń túraly? (Mıńdama)</label>
+                    <label for="comment-track" data-lang-key="aboutTrack">Қай өлең туралы? (Міндетті емес)</label>
                     <select id="comment-track" class="form-control">
-                        <option value="">Barlıǵy túraly</option>
-                        <option value="0">Orta júz</option>
-                        <option value="1">Jarylǵap batyr</option>
-                        <option value="2">Tegimniń rýhy</option>
-                        <option value="3">Kalzhyr</option>
-                        <option value="4">Kalzhyr2</option>
-                        <option value="5">Wedding_fog</option>
-                        <option value="6">Wedding_fog2</option>
-                        <option value="7">Along_the_roads</option>
+                        <option value="" data-lang-key="allTracks">Барлығы туралы</option>
+                        <option value="0" data-lang-key="song1">Орта жүз</option>
+                        <option value="1" data-lang-key="song2">Жарылғап батыр</option>
+                        <option value="2" data-lang-key="song3">Тегімнің рухы</option>
+                        <option value="3" data-lang-key="song4">Қалжыр</option>
+                        <option value="4" data-lang-key="song5">Қалжыр2</option>
+                        <option value="5" data-lang-key="song6">Wedding_fog</option>
+                        <option value="6" data-lang-key="song7">Wedding_fog2</option>
+                        <option value="7" data-lang-key="song8">Along_the_roads</option>
                     </select>
                 </div>
                 
                 <button type="submit" class="submit-btn">
-                    <i class="fas fa-paper-plane"></i> Pіkіrdі jіberý
+                    <i class="fas fa-paper-plane"></i> <span data-lang-key="sendComment">Пікірді жіберу</span>
                 </button>
             </form>
             
             <div class="comments-list" id="comments-list">
                 <div id="no-comments" class="no-comments">
                     <i class="far fa-comment" style="font-size: 2.5em; margin-bottom: 15px;"></i>
-                    <p>Aldymen esh pіkіr joq. Sіz bіrіnshі bolyp pіkіrіńіzdі qaldyrýǵa boladysyz!</p>
+                    <p data-lang-key="noComments">Алдымен еш пікір жоқ. Сіз бірінші болып пікіріңізді қалдыруға боладысыз!</p>
                 </div>
             </div>
         </div>
@@ -1119,7 +1157,142 @@
 
     <script>
         // ===================================================
-        // AÝDIO PLEER JÁNE PROGRESS JOLAǴY FUNKSIYALARY
+        // ПЕРЕКЛЮЧЕНИЕ ЯЗЫКА
+        // ===================================================
+        
+        const translations = {
+            kk: {
+                // Общие
+                "title": "Аудио Өлеңдер Плеєрі",
+                "backText": "Артқа қайту (Негізгі бет)",
+                "selectTrack": "Тректі таңдаңыз",
+                "new": "ЖАҢА!",
+                "private": "Жеке",
+                "lyrics": "Мәтін",
+                
+                // Табы
+                "mainPlaylist": "Негізгі Плейлист (8 трек)",
+                "favorites": "Маған ұнайды",
+                "songsList": "Өлеңдер Тізімі:",
+                "favoritesList": "Маған Ұнайды Өлеңдер:",
+                "noFavorites": "Есту жолағыңыз бос. Бірінші рет 'Жүрек' түймесін басып, өлеңді сайлаңыз.",
+                
+                // Поиск
+                "searchPlaceholder": "Өлең атауын іздеу...",
+                
+                // Названия песен
+                "song1": "Орта жүз",
+                "song2": "Жарылғап батыр",
+                "song3": "Тегімнің рухы",
+                "song4": "Қалжыр",
+                "song5": "Қалжыр2",
+                "song6": "Wedding_fog",
+                "song7": "Wedding_fog2",
+                "song8": "Along_the_roads",
+                
+                // Комментарии
+                "comments": "Пікірлер (Отзывы)",
+                "name": "Атыңыз:",
+                "namePlaceholder": "Еңгізіңіз...",
+                "comment": "Пікіріңіз:",
+                "commentPlaceholder": "Өлеңдер туралы пікіріңізді жатыңыз...",
+                "rating": "Бағалау:",
+                "aboutTrack": "Қай өлең туралы? (Міндетті емес)",
+                "allTracks": "Барлығы туралы",
+                "sendComment": "Пікірді жіберу",
+                "noComments": "Алдымен еш пікір жоқ. Сіз бірінші болып пікіріңізді қалдыруға боладысыз!"
+            },
+            ru: {
+                // Общие
+                "title": "Аудио Плеер Стихов",
+                "backText": "Назад (Главная страница)",
+                "selectTrack": "Выберите трек",
+                "new": "НОВЫЙ!",
+                "private": "Приватный",
+                "lyrics": "Текст",
+                
+                // Табы
+                "mainPlaylist": "Основной Плейлист (8 треков)",
+                "favorites": "Мне нравится",
+                "songsList": "Список Песен:",
+                "favoritesList": "Понравившиеся Песни:",
+                "noFavorites": "Ваш список пуст. Нажмите на 'Сердце' в первый раз, чтобы выбрать песню.",
+                
+                // Поиск
+                "searchPlaceholder": "Поиск по названию песни...",
+                
+                // Названия песен
+                "song1": "Орта жүз",
+                "song2": "Жарылғап батыр",
+                "song3": "Тегімнің рухы",
+                "song4": "Қалжыр",
+                "song5": "Қалжыр2",
+                "song6": "Wedding_fog",
+                "song7": "Wedding_fog2",
+                "song8": "Along_the_roads",
+                
+                // Комментарии
+                "comments": "Отзывы (Комментарии)",
+                "name": "Ваше имя:",
+                "namePlaceholder": "Введите...",
+                "comment": "Ваш отзыв:",
+                "commentPlaceholder": "Напишите ваш отзыв о песнях...",
+                "rating": "Оценка:",
+                "aboutTrack": "О какой песне? (Необязательно)",
+                "allTracks": "О всех песнях",
+                "sendComment": "Отправить отзыв",
+                "noComments": "Пока нет комментариев. Вы можете быть первым, кто оставит отзыв!"
+            }
+        };
+
+        let currentLanguage = 'kk';
+
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Обновляем активную кнопку языка
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Обновляем все элементы с data-lang-key
+            document.querySelectorAll('[data-lang-key]').forEach(element => {
+                const key = element.getAttribute('data-lang-key');
+                if (translations[lang][key]) {
+                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.setAttribute('placeholder', translations[lang][key]);
+                    } else if (element.tagName === 'OPTION') {
+                        element.textContent = translations[lang][key];
+                    } else {
+                        element.textContent = translations[lang][key];
+                    }
+                }
+            });
+            
+            // Обновляем заголовок страницы
+            document.title = lang === 'kk' ? 'UMIT | Аудио Плеер (Неон)' : 'UMIT | Audio Player (Neon)';
+            
+            // Сохраняем язык в localStorage
+            localStorage.setItem('language', lang);
+        }
+
+        // Загружаем сохраненный язык при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('language') || 'kk';
+            switchLanguage(savedLang);
+            
+            // Устанавливаем активную кнопку языка
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent === (savedLang === 'kk' ? 'Қазақша' : 'Русский')) {
+                    btn.classList.add('active');
+                }
+            });
+        });
+
+        // ===================================================
+        // АУДИО ПЛЕЕР И ФУНКЦИИ ПРОГРЕСС-БАРА
         // ===================================================
 
         const audioPlayer = document.getElementById('global-audio-player');
@@ -1138,19 +1311,16 @@
         let favorites = JSON.parse(localStorage.getItem('audioPlayerFavorites')) || [];
         
         const tracks = [
-            { title: "Orta júz", src: "orta_juz_audio.mp3", cover: "orta_juz.jpg", id: 0 }, 
-            { title: "Jarylǵap batyr", src: "jarylgap_batyr_audio.mp3", cover: "jarylgap_batyr.jpg", id: 1 }, 
-            { title: "Tegimniń rýhy", src: "tegimnin_ruhy_audio.mp3", cover: "tegimnin_ruhy.jpg", id: 2 },
-            { title: "Kalzhyr", src: "Kalzhyr.mp3", cover: "Kalzhyr.jpg", id: 3 },
-            { title: "Kalzhyr2", src: "Kalzhyr2.mp3", cover: "Kalzhyr2.jpg", id: 4 },
-            { title: "Wedding_fog", src: "Wedding_fog.mp3", cover: "Wedding_fog.jpg", id: 5 },
-            { title: "Wedding_fog2", src: "Wedding_fog2.mp3", cover: "Wedding_fog2.jpg", id: 6 },
-            { title: "Along_the_roads", src: "Along_the_roads.mp3", cover: "Along_the_roads.jpg", id: 7 }
+            { title: translations[currentLanguage].song1, src: "orta_juz_audio.mp3", cover: "orta_juz.jpg", id: 0 }, 
+            { title: translations[currentLanguage].song2, src: "jarylgap_batyr_audio.mp3", cover: "jarylgap_batyr.jpg", id: 1 }, 
+            { title: translations[currentLanguage].song3, src: "tegimnin_ruhy_audio.mp3", cover: "tegimnin_ruhy.jpg", id: 2 },
+            { title: translations[currentLanguage].song4, src: "Kalzhyr.mp3", cover: "Kalzhyr.jpg", id: 3 },
+            { title: translations[currentLanguage].song5, src: "Kalzhyr2.mp3", cover: "Kalzhyr2.jpg", id: 4 },
+            { title: translations[currentLanguage].song6, src: "Wedding_fog.mp3", cover: "Wedding_fog.jpg", id: 5 },
+            { title: translations[currentLanguage].song7, src: "Wedding_fog2.mp3", cover: "Wedding_fog2.jpg", id: 6 },
+            { title: translations[currentLanguage].song8, src: "Along_the_roads.mp3", cover: "Along_the_roads.jpg", id: 7 }
         ];
 
-        /**
-         * Уақытты (секунд) "М:СС" форматына түрлендіреді.
-         */
         function formatTime(seconds) {
             if (isNaN(seconds)) return "0:00";
             const minutes = Math.floor(seconds / 60);
@@ -1158,16 +1328,10 @@
             return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
         }
 
-        /**
-         * Progress bar-дың стилін (боялған бөлігін) жаңартады.
-         */
         function updateProgressStyle(percent) {
             progressBar.style.background = `linear-gradient(to right, var(--secondary-neon) ${percent}%, rgba(255, 255, 255, 0.1) ${percent}%)`;
         }
 
-        /**
-         * Жаңа тректі жүктейді және ойнатуға дайындайды.
-         */
         function loadTrack(index) {
             if (index < 0 || index >= tracks.length) return;
 
@@ -1181,12 +1345,10 @@
             currentTrackIndex = index;
             const track = tracks[index];
 
-            // 1. Плеерді жаңарту
             trackTitleDisplay.textContent = track.title;
             audioPlayer.src = track.src;
             audioPlayer.load();
 
-            // 2. Обложканы жаңарту
             if (track.cover) {
                 coverImage.src = track.cover;
                 coverImage.style.display = 'block'; 
@@ -1197,14 +1359,11 @@
             }
             coverImage.classList.remove('active');
 
-            // 3. Кластарды жаңарту
             playlistItems.forEach(item => item.classList.remove('playing'));
             playlistItems[index].classList.add('playing');
             
-            // 4. Избранное состояние кнопки
             updateFavoriteButton();
 
-            // 5. Ойнату 
             const playPromise = audioPlayer.play();
             if (playPromise !== undefined) {
                 playPromise.then(_ => {
@@ -1217,9 +1376,6 @@
             }
         }
 
-        /**
-         * Ойнату мен кідіртуді ауыстырады.
-         */
         function togglePlay() {
             if (currentTrackIndex === -1) {
                 loadTrack(0);
@@ -1237,13 +1393,9 @@
             }
         }
 
-        /**
-         * Келесі трекке өтеді.
-         */
         function playNext() {
             let nextIndex = currentTrackIndex + 1;
             if (nextIndex >= tracks.length) {
-                // В конце плейлиста останавливаемся
                 audioPlayer.pause();
                 playIcon.className = 'fas fa-play';
                 coverImage.classList.remove('active');
@@ -1252,9 +1404,6 @@
             loadTrack(nextIndex);
         }
 
-        /**
-         * Алдыңғы трекке өтеді.
-         */
         function playPrevious() {
             if (audioPlayer.currentTime < 3 && currentTrackIndex > 0) {
                 loadTrack(currentTrackIndex - 1);
@@ -1263,16 +1412,10 @@
             }
         }
         
-        /**
-         * Уақытты алға немесе артқа өткізеді.
-         */
         function skipTime(time) {
             audioPlayer.currentTime += time;
         }
 
-        /**
-         * Избранное: добавление/удаление трека.
-         */
         function toggleFavorite() {
             if (currentTrackIndex === -1) return;
             
@@ -1280,25 +1423,18 @@
             const index = favorites.indexOf(trackId);
             
             if (index === -1) {
-                // Добавляем в избранное
                 favorites.push(trackId);
             } else {
-                // Удаляем из избранного
                 favorites.splice(index, 1);
             }
             
-            // Сохраняем в localStorage
             localStorage.setItem('audioPlayerFavorites', JSON.stringify(favorites));
             
-            // Обновляем кнопки
             updateFavoriteButton();
             updateFavoriteItems();
             updateFavoritesPlaylist();
         }
         
-        /**
-         * Избранное для конкретного трека из плейлиста.
-         */
         function toggleFavoriteItem(trackIndex, event) {
             if (event) event.stopPropagation();
             
@@ -1317,7 +1453,6 @@
             updateFavoriteItems();
             updateFavoritesPlaylist();
             
-            // Обновляем иконку нажатой кнопки
             const btn = event ? event.currentTarget : null;
             if (btn) {
                 const icon = btn.querySelector('i');
@@ -1331,9 +1466,6 @@
             }
         }
         
-        /**
-         * Обновление кнопки избранного.
-         */
         function updateFavoriteButton() {
             if (currentTrackIndex === -1) return;
             
@@ -1350,9 +1482,6 @@
             }
         }
         
-        /**
-         * Обновление кнопок избранного в плейлисте.
-         */
         function updateFavoriteItems() {
             playlistItems.forEach(item => {
                 const index = parseInt(item.dataset.index);
@@ -1371,13 +1500,9 @@
                 }
             });
             
-            // Обновляем счетчик избранных
             document.getElementById('favorites-count').textContent = favorites.length;
         }
         
-        /**
-         * Обновление плейлиста "Мне нравится".
-         */
         function updateFavoritesPlaylist() {
             const favoritesList = document.getElementById('favorites-list');
             const noFavoritesMsg = document.getElementById('no-favorites-message');
@@ -1398,9 +1523,9 @@
                 const index = track.id;
                 let badge = '';
                 if (index === 7) {
-                    badge = '<span class="new-track-badge">Private</span>';
+                    badge = `<span class="new-track-badge">${currentLanguage === 'kk' ? 'Жеке' : 'Приватный'}</span>`;
                 } else if (index > 2 && index < 7) {
-                    badge = '<span class="new-track-badge">JAŃA!</span>';
+                    badge = `<span class="new-track-badge">${currentLanguage === 'kk' ? 'ЖАҢА!' : 'НОВЫЙ!'}</span>`;
                 }
                 
                 const item = document.createElement('div');
@@ -1416,14 +1541,13 @@
                             <i class="fas fa-heart"></i>
                         </button>
                         <span class="item-duration">${getTrackDuration(index)}</span>
-                        <button class="lyrics-toggle-btn" data-lyrics-index="${index}" onclick="toggleLyrics(this)">Mátin</button>
+                        <button class="lyrics-toggle-btn" data-lyrics-index="${index}" onclick="toggleLyrics(this)">${currentLanguage === 'kk' ? 'Мәтін' : 'Текст'}</button>
                     </div>
                     <div class="lyrics-content" id="favorites-lyrics-${index}"></div>
                 `;
                 
                 favoritesList.appendChild(item);
                 
-                // Копируем текст песен для избранных
                 setTimeout(() => {
                     const originalLyrics = document.getElementById(`lyrics-${index}`);
                     if (originalLyrics) {
@@ -1436,18 +1560,12 @@
             });
         }
         
-        /**
-         * Получение длительности трека.
-         */
         function getTrackDuration(index) {
             if (index < 0 || index >= tracks.length) return "0:00";
             const durations = ["3:49", "2:34", "2:16", "2:36", "2:19", "2:43", "2:14", "1:40"];
             return durations[index] || "0:00";
         }
         
-        /**
-         * Переключение между основным и избранным плейлистами.
-         */
         function showPlaylist(type) {
             const mainPlaylist = document.getElementById('main-playlist');
             const favoritesPlaylist = document.getElementById('favorites-playlist');
@@ -1468,15 +1586,12 @@
         }
 
         // ===================================================
-        // СЕКЦИЯ ОТЗЫВОВ (КОММЕНТАРИЕВ)
+        // СЕКЦИЯ ОТЗЫВОВ
         // ===================================================
         
         let comments = JSON.parse(localStorage.getItem('audioPlayerComments')) || [];
         let currentRating = 0;
         
-        /**
-         * Инициализация системы рейтинга звездами.
-         */
         function initRatingStars() {
             const stars = document.querySelectorAll('.star');
             
@@ -1486,7 +1601,6 @@
                     currentRating = value;
                     document.getElementById('comment-rating').value = value;
                     
-                    // Обновляем отображение звезд
                     stars.forEach((s, index) => {
                         const icon = s.querySelector('i');
                         if (index < value) {
@@ -1513,7 +1627,6 @@
                 });
             });
             
-            // Сброс звезд при уходе мыши, если рейтинг не выбран
             document.getElementById('rating-stars').addEventListener('mouseleave', function() {
                 const stars = document.querySelectorAll('.star');
                 
@@ -1530,12 +1643,9 @@
             });
         }
         
-        /**
-         * Форматирование даты комментария.
-         */
         function formatCommentDate(dateString) {
             const date = new Date(dateString);
-            return date.toLocaleDateString('kk-KZ', {
+            return date.toLocaleDateString(currentLanguage === 'kk' ? 'kk-KZ' : 'ru-RU', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',
@@ -1544,9 +1654,6 @@
             });
         }
         
-        /**
-         * Отображение рейтинга звездами.
-         */
         function renderRating(rating) {
             let starsHtml = '';
             for (let i = 1; i <= 5; i++) {
@@ -1559,18 +1666,12 @@
             return `<div class="comment-rating">${starsHtml}</div>`;
         }
         
-        /**
-         * Получение названия трека по индексу.
-         */
         function getTrackNameByIndex(index) {
             if (index === undefined || index === '') return '';
             const track = tracks[index];
             return track ? track.title : '';
         }
         
-        /**
-         * Загрузка и отображение комментариев.
-         */
         function loadComments() {
             const commentsList = document.getElementById('comments-list');
             const noComments = document.getElementById('no-comments');
@@ -1582,7 +1683,6 @@
             
             noComments.style.display = 'none';
             
-            // Сортируем комментарии по дате (новые первыми)
             const sortedComments = [...comments].sort((a, b) => new Date(b.date) - new Date(a.date));
             
             commentsList.innerHTML = '';
@@ -1608,9 +1708,6 @@
             });
         }
         
-        /**
-         * Добавление нового комментария.
-         */
         function addComment(event) {
             event.preventDefault();
             
@@ -1624,18 +1721,16 @@
             const rating = parseInt(ratingInput.value);
             const trackIndex = trackInput.value;
             
-            // Проверка валидности
             if (!name || !text) {
-                alert('Atyńyz men pіkіrіńіzdi toltyryńyz!');
+                alert(currentLanguage === 'kk' ? 'Атыңыз мен пікіріңізді толтырыңыз!' : 'Заполните ваше имя и отзыв!');
                 return;
             }
             
             if (rating === 0) {
-                alert('Baǵalaýyńyzdı tańdańyz!');
+                alert(currentLanguage === 'kk' ? 'Бағалауыңызды таңдаңыз!' : 'Выберите вашу оценку!');
                 return;
             }
             
-            // Создание нового комментария
             const newComment = {
                 id: Date.now(),
                 name: name,
@@ -1645,17 +1740,14 @@
                 date: new Date().toISOString()
             };
             
-            // Добавление в массив и сохранение
             comments.unshift(newComment);
             localStorage.setItem('audioPlayerComments', JSON.stringify(comments));
             
-            // Очистка формы
             nameInput.value = '';
             textInput.value = '';
             ratingInput.value = '0';
             trackInput.value = '';
             
-            // Сброс звезд
             currentRating = 0;
             const stars = document.querySelectorAll('.star');
             stars.forEach(star => {
@@ -1664,18 +1756,15 @@
                 star.classList.remove('active');
             });
             
-            // Обновление списка комментариев
             loadComments();
             
-            // Показать сообщение об успехе
-            alert('Rahmet! Sіzdіń pіkіrіńіz qabyldandy.');
+            alert(currentLanguage === 'kk' ? 'Рақмет! Сіздің пікіріңіз қабылданды.' : 'Спасибо! Ваш отзыв принят.');
         }
 
         // ===================================================
-        // ОҚИҒА ТЫҢДАУШЫЛАРЫ (EVENT LISTENERS)
+        // ОБРАБОТЧИКИ СОБЫТИЙ
         // ===================================================
 
-        // 1. Плейлист элементтерін басу
         playlistItems.forEach((item, index) => {
             item.addEventListener('click', (e) => {
                 if (e.target.classList.contains('lyrics-toggle-btn') || 
@@ -1688,7 +1777,6 @@
             });
         });
 
-        // 2. Аудио жүктелгенде
         audioPlayer.addEventListener('loadedmetadata', () => {
             durationDisplay.textContent = formatTime(audioPlayer.duration);
             progressBar.max = audioPlayer.duration;
@@ -1699,7 +1787,6 @@
             }
         });
 
-        // 3. Ойнату уақыты өзгергенде
         audioPlayer.addEventListener('timeupdate', () => {
             const currentTime = audioPlayer.currentTime;
             const duration = audioPlayer.duration;
@@ -1711,36 +1798,30 @@
             updateProgressStyle(progressPercent);
         });
 
-        // 4. Трек аяқталғанда
         audioPlayer.addEventListener('ended', () => {
             playNext();
         });
 
-        // 5. Progress bar
         progressBar.addEventListener('input', () => {
             audioPlayer.currentTime = progressBar.value;
         });
         
-        // 6. Дыбыс деңгейін реттеу
         volumeSlider.addEventListener('input', () => {
              audioPlayer.volume = volumeSlider.value;
         });
 
-        // 7. Загрузка избранных при старте
         document.addEventListener('DOMContentLoaded', () => {
             updateFavoriteItems();
             updateFavoritesPlaylist();
             
-            // Инициализация системы комментариев
             initRatingStars();
             loadComments();
             
-            // Обработка формы комментариев
             document.getElementById('comment-form').addEventListener('submit', addComment);
         });
 
         // ===================================================
-        // 🔍 PLEILISTTI SÚZÝ JÁNE 📜 MÁTIN (LYRICS) FUNKSIYALARY
+        // ПОИСК И ТЕКСТ ПЕСЕН
         // ===================================================
 
         function filterPlaylist() {
@@ -1764,7 +1845,6 @@
             const lyricsIndex = button.getAttribute('data-lyrics-index');
             let lyricsContent;
             
-            // Определяем, в каком плейлисте находится кнопка
             const parentPlaylist = button.closest('.playlist') || button.closest('.favorites-playlist');
             if (parentPlaylist && parentPlaylist.id === 'favorites-playlist') {
                 lyricsContent = document.getElementById(`favorites-lyrics-${lyricsIndex}`);
@@ -1774,7 +1854,6 @@
             
             if (!lyricsContent) return;
 
-            // Басқа ашық мәтіндерді жабу
             const allLyrics = document.querySelectorAll('.lyrics-content');
             allLyrics.forEach(content => {
                 if (content !== lyricsContent && content.classList.contains('open')) {
@@ -1782,7 +1861,7 @@
                     const parentItem = content.closest('.playlist-item');
                     if (parentItem) {
                         const otherButton = parentItem.querySelector('.lyrics-toggle-btn');
-                        if (otherButton) otherButton.textContent = 'Mátin';
+                        if (otherButton) otherButton.textContent = currentLanguage === 'kk' ? 'Мәтін' : 'Текст';
                     }
                 }
             });
@@ -1790,16 +1869,14 @@
             lyricsContent.classList.toggle('open');
 
             if (lyricsContent.classList.contains('open')) {
-                button.textContent = 'Jabý';
+                button.textContent = currentLanguage === 'kk' ? 'Жабу' : 'Закрыть';
             } else {
-                button.textContent = 'Mátin';
+                button.textContent = currentLanguage === 'kk' ? 'Мәтін' : 'Текст';
             }
         }
         
-        // Бастапқы жүктеу кезіндегі progress bar-дың бастапқы стилін орнату
-        updateProgressStyle(0); 
+        updateProgressStyle(0);
 
-        // Бастапқыда бірінші тректің атын көрсету
         if (tracks.length > 0) {
              trackTitleDisplay.textContent = tracks[0].title;
         }
