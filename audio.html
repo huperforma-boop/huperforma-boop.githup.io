@@ -5,10 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UMIT | Аудио Плеер (Неон)</title>
     
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
-    
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Montserrat:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
@@ -455,171 +451,6 @@
             100% { opacity: 0.8; }
         }
 
-        /* СЕКЦИЯ ОТЗЫВОВ */
-        .comments-section {
-            background-color: var(--player-bg);
-            border: 2px solid var(--main-neon);
-            border-radius: 12px;
-            padding: 25px;
-            margin-top: 40px;
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
-        }
-        
-        .comments-section h2 {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--main-neon);
-            text-align: center;
-            margin-bottom: 25px;
-            text-shadow: 0 0 8px var(--main-neon);
-        }
-        
-        .comments-form {
-            margin-bottom: 30px;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--light-text);
-            font-weight: bold;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 12px 15px;
-            background-color: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--main-neon);
-            border-radius: 8px;
-            color: var(--light-text);
-            font-size: 1em;
-            box-sizing: border-box;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-        
-        .form-control:focus {
-            outline: none;
-            border-color: var(--secondary-neon);
-            box-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
-        }
-        
-        textarea.form-control {
-            min-height: 120px;
-            resize: vertical;
-            font-family: 'Montserrat', sans-serif;
-        }
-        
-        .rating-stars {
-            display: flex;
-            gap: 5px;
-            margin-top: 5px;
-        }
-        
-        .star {
-            font-size: 1.5em;
-            color: #555;
-            cursor: pointer;
-            transition: color 0.2s, transform 0.2s;
-        }
-        
-        .star:hover,
-        .star.active {
-            color: #FFD700;
-            text-shadow: 0 0 10px #FFD700;
-            transform: scale(1.1);
-        }
-        
-        .submit-btn {
-            background: linear-gradient(45deg, var(--main-neon), var(--secondary-neon));
-            color: var(--dark-bg);
-            border: none;
-            padding: 12px 30px;
-            border-radius: 8px;
-            font-size: 1em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-            display: block;
-            margin: 0 auto;
-        }
-        
-        .submit-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.4);
-        }
-        
-        .submit-btn:active {
-            transform: translateY(-1px);
-        }
-        
-        .comments-list {
-            margin-top: 30px;
-        }
-        
-        .comment-item {
-            background-color: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            position: relative;
-            transition: border-color 0.3s;
-        }
-        
-        .comment-item:hover {
-            border-color: var(--main-neon);
-        }
-        
-        .comment-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(0, 255, 255, 0.1);
-        }
-        
-        .comment-author {
-            font-weight: bold;
-            color: var(--main-neon);
-            font-size: 1.1em;
-        }
-        
-        .comment-date {
-            color: #888;
-            font-size: 0.9em;
-        }
-        
-        .comment-rating {
-            color: #FFD700;
-            margin-bottom: 10px;
-        }
-        
-        .comment-text {
-            color: var(--light-text);
-            line-height: 1.6;
-        }
-        
-        .no-comments {
-            text-align: center;
-            color: var(--secondary-neon);
-            padding: 40px 20px;
-            font-style: italic;
-        }
-        
-        .comment-track {
-            display: inline-block;
-            background-color: rgba(0, 255, 255, 0.1);
-            color: var(--main-neon);
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.8em;
-            margin-top: 10px;
-        }
-        
         /* МОБИЛЬНАЯ ВЕРСИЯ */
         @media (max-width: 768px) {
             .item-actions {
@@ -640,11 +471,6 @@
                 display: block;
                 margin: 5px 0 0 0;
                 width: fit-content;
-            }
-            .comment-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 5px;
             }
             .language-switcher {
                 position: static;
@@ -835,7 +661,7 @@
                 Әкем – Төреғали, ерлікпен жүремін.
                 Қазіргі күн – Найманның қос қанаты,
                 Әкемнің жаңғысы, екі ұлының талабы.
-                Қуаныш – үлкенім, тәғін білген парасат,
+                Қуаныш – үлкенім, тәғін білден парасат,
                 Ал мен – Сағыныш, рухы көкке қарат!
 
                 Мен – тек қана бір адам емес, бір тарихпын,
@@ -1102,82 +928,9 @@
             <div id="favorites-list"></div>
         </div>
 
-        <!-- СЕКЦИЯ ОТЗЫВОВ -->
-        <div class="comments-section">
-            <h2><i class="fas fa-comments"></i> <span data-lang-key="comments">Пікірлер (Отзывы)</span></h2>
-            
-            <form id="comment-form" class="comments-form">
-                <div class="form-group">
-                    <label for="comment-name" data-lang-key="name">Атыңыз:</label>
-                    <input type="text" id="comment-name" class="form-control" data-lang-key="namePlaceholder" placeholder="Еңгізіңіз..." required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="comment-text" data-lang-key="comment">Пікіріңіз:</label>
-                    <textarea id="comment-text" class="form-control" data-lang-key="commentPlaceholder" placeholder="Өлеңдер туралы пікіріңізді жатыңыз..." required></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label data-lang-key="rating">Бағалау:</label>
-                    <div class="rating-stars" id="rating-stars">
-                        <span class="star" data-value="1"><i class="far fa-star"></i></span>
-                        <span class="star" data-value="2"><i class="far fa-star"></i></span>
-                        <span class="star" data-value="3"><i class="far fa-star"></i></span>
-                        <span class="star" data-value="4"><i class="far fa-star"></i></span>
-                        <span class="star" data-value="5"><i class="far fa-star"></i></span>
-                    </div>
-                    <input type="hidden" id="comment-rating" value="0">
-                </div>
-                
-                <div class="form-group">
-                    <label for="comment-track" data-lang-key="aboutTrack">Қай өлең туралы? (Міндетті емес)</label>
-                    <select id="comment-track" class="form-control">
-                        <option value="" data-lang-key="allTracks">Барлығы туралы</option>
-                        <option value="0" data-lang-key="song1">Орта жүз</option>
-                        <option value="1" data-lang-key="song2">Жарылғап батыр</option>
-                        <option value="2" data-lang-key="song3">Тегімнің рухы</option>
-                        <option value="3" data-lang-key="song4">Қалжыр</option>
-                        <option value="4" data-lang-key="song5">Қалжыр2</option>
-                        <option value="5" data-lang-key="song6">Wedding_fog</option>
-                        <option value="6" data-lang-key="song7">Wedding_fog2</option>
-                        <option value="7" data-lang-key="song8">Along_the_roads</option>
-                    </select>
-                </div>
-                
-                <button type="submit" class="submit-btn">
-                    <i class="fas fa-paper-plane"></i> <span data-lang-key="sendComment">Пікірді жіберу</span>
-                </button>
-            </form>
-            
-            <div class="comments-list" id="comments-list">
-                <div id="no-comments" class="no-comments">
-                    <i class="far fa-comment" style="font-size: 2.5em; margin-bottom: 15px;"></i>
-                    <p data-lang-key="noComments">Алдымен еш пікір жоқ. Сіз бірінші болып пікіріңізді қалдыруға боладысыз!</p>
-                </div>
-            </div>
-        </div>
-
     </div>
 
     <script>
-        // ===================================================
-        // FIREBASE ИНИЦИАЛИЗАЦИЯ
-        // ===================================================
-        const firebaseConfig = {
-            apiKey: "AIzaSyBKvOdRnhcV4uYGOPoXPFq2YEHKPZgBHeE",
-            authDomain: "umit-audio-player.firebaseapp.com",
-            databaseURL: "https://umit-audio-player-default-rtdb.firebaseio.com",
-            projectId: "umit-audio-player",
-            storageBucket: "umit-audio-player.firebasestorage.app",
-            messagingSenderId: "237552314248",
-            appId: "1:237552314248:web:a5fb0613a038cf7fc6bc3d",
-            measurementId: "G-CGLZC2Q9KM"
-        };
-
-        // Инициализация Firebase
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-
         // ===================================================
         // ПЕРЕКЛЮЧЕНИЕ ЯЗЫКА
         // ===================================================
@@ -1203,17 +956,7 @@
                 "song5": "Қалжыр2",
                 "song6": "Wedding_fog",
                 "song7": "Wedding_fog2",
-                "song8": "Along_the_roads",
-                "comments": "Пікірлер (Отзывы)",
-                "name": "Атыңыз:",
-                "namePlaceholder": "Еңгізіңіз...",
-                "comment": "Пікіріңіз:",
-                "commentPlaceholder": "Өлеңдер туралы пікіріңізді жатыңыз...",
-                "rating": "Бағалау:",
-                "aboutTrack": "Қай өлең туралы? (Міндетті емес)",
-                "allTracks": "Барлығы туралы",
-                "sendComment": "Пікірді жіберу",
-                "noComments": "Алдымен еш пікір жоқ. Сіз бірінші болып пікіріңізді қалдыруға боладысыз!"
+                "song8": "Along_the_roads"
             },
             ru: {
                 "title": "Аудио Плеер Стихов",
@@ -1235,17 +978,7 @@
                 "song5": "Қалжыр2",
                 "song6": "Wedding_fog",
                 "song7": "Wedding_fog2",
-                "song8": "Along_the_roads",
-                "comments": "Отзывы (Комментарии)",
-                "name": "Ваше имя:",
-                "namePlaceholder": "Введите...",
-                "comment": "Ваш отзыв:",
-                "commentPlaceholder": "Напишите ваш отзыв о песнях...",
-                "rating": "Оценка:",
-                "aboutTrack": "О какой песне? (Необязательно)",
-                "allTracks": "О всех песнях",
-                "sendComment": "Отправить отзыв",
-                "noComments": "Пока нет комментариев. Вы можете быть первым, кто оставит отзыв!"
+                "song8": "Along_the_roads"
             }
         };
 
@@ -1274,6 +1007,11 @@
             
             document.title = lang === 'kk' ? 'UMIT | Аудио Плеер (Неон)' : 'UMIT | Audio Player (Neon)';
             localStorage.setItem('language', lang);
+            
+            // Обновляем названия треков в плеере
+            if (currentTrackIndex !== -1) {
+                trackTitleDisplay.textContent = tracks[currentTrackIndex].title;
+            }
         }
 
         // ===================================================
@@ -1571,232 +1309,6 @@
         }
 
         // ===================================================
-        // СЕКЦИЯ ОТЗЫВОВ С FIREBASE
-        // ===================================================
-        
-        let currentRating = 0;
-        
-        function initRatingStars() {
-            const stars = document.querySelectorAll('.star');
-            
-            stars.forEach(star => {
-                star.addEventListener('click', function() {
-                    const value = parseInt(this.getAttribute('data-value'));
-                    currentRating = value;
-                    document.getElementById('comment-rating').value = value;
-                    
-                    stars.forEach((s, index) => {
-                        const icon = s.querySelector('i');
-                        if (index < value) {
-                            icon.className = 'fas fa-star';
-                            s.classList.add('active');
-                        } else {
-                            icon.className = 'far fa-star';
-                            s.classList.remove('active');
-                        }
-                    });
-                });
-                
-                star.addEventListener('mouseover', function() {
-                    const value = parseInt(this.getAttribute('data-value'));
-                    
-                    stars.forEach((s, index) => {
-                        const icon = s.querySelector('i');
-                        if (index < value) {
-                            icon.className = 'fas fa-star';
-                        } else {
-                            icon.className = 'far fa-star';
-                        }
-                    });
-                });
-            });
-            
-            document.getElementById('rating-stars').addEventListener('mouseleave', function() {
-                const stars = document.querySelectorAll('.star');
-                
-                stars.forEach((star, index) => {
-                    const icon = star.querySelector('i');
-                    if (index < currentRating) {
-                        icon.className = 'fas fa-star';
-                        star.classList.add('active');
-                    } else {
-                        icon.className = 'far fa-star';
-                        star.classList.remove('active');
-                    }
-                });
-            });
-        }
-        
-        function formatCommentDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString(currentLanguage === 'kk' ? 'kk-KZ' : 'ru-RU', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-        }
-        
-        function renderRating(rating) {
-            let starsHtml = '';
-            for (let i = 1; i <= 5; i++) {
-                if (i <= rating) {
-                    starsHtml += '<i class="fas fa-star"></i>';
-                } else {
-                    starsHtml += '<i class="far fa-star"></i>';
-                }
-            }
-            return `<div class="comment-rating">${starsHtml}</div>`;
-        }
-        
-        function getTrackNameByIndex(index) {
-            if (index === undefined || index === '') return '';
-            const track = tracks[index];
-            return track ? track.title : '';
-        }
-        
-        // Загрузка комментариев из Firebase
-        function loadComments() {
-            const commentsRef = database.ref('comments');
-            
-            commentsRef.orderByChild('date').once('value').then((snapshot) => {
-                const commentsList = document.getElementById('comments-list');
-                const noComments = document.getElementById('no-comments');
-                
-                commentsList.innerHTML = '';
-                
-                if (!snapshot.exists()) {
-                    noComments.style.display = 'block';
-                    return;
-                }
-                
-                noComments.style.display = 'none';
-                
-                // Получаем все комментарии и сортируем по дате (новые сверху)
-                const comments = [];
-                snapshot.forEach((childSnapshot) => {
-                    comments.push(childSnapshot.val());
-                });
-                
-                comments.sort((a, b) => new Date(b.date) - new Date(a.date));
-                
-                comments.forEach(comment => {
-                    const trackName = getTrackNameByIndex(comment.trackIndex);
-                    const trackBadge = trackName ? 
-                        `<div class="comment-track"><i class="fas fa-music"></i> ${trackName}</div>` : '';
-                    
-                    const commentElement = document.createElement('div');
-                    commentElement.className = 'comment-item';
-                    commentElement.innerHTML = `
-                        <div class="comment-header">
-                            <div class="comment-author">${comment.name}</div>
-                            <div class="comment-date">${formatCommentDate(comment.date)}</div>
-                        </div>
-                        ${renderRating(comment.rating)}
-                        <div class="comment-text">${comment.text}</div>
-                        ${trackBadge}
-                    `;
-                    
-                    commentsList.appendChild(commentElement);
-                });
-            });
-        }
-        
-        // Режим реального времени - слушаем новые комментарии
-        function setupRealtimeComments() {
-            const commentsRef = database.ref('comments');
-            
-            commentsRef.orderByChild('date').limitToLast(1).on('child_added', (snapshot) => {
-                const comment = snapshot.val();
-                const commentsList = document.getElementById('comments-list');
-                const noComments = document.getElementById('no-comments');
-                
-                if (noComments.style.display !== 'none') {
-                    noComments.style.display = 'none';
-                }
-                
-                const trackName = getTrackNameByIndex(comment.trackIndex);
-                const trackBadge = trackName ? 
-                    `<div class="comment-track"><i class="fas fa-music"></i> ${trackName}</div>` : '';
-                
-                const commentElement = document.createElement('div');
-                commentElement.className = 'comment-item';
-                commentElement.innerHTML = `
-                    <div class="comment-header">
-                        <div class="comment-author">${comment.name}</div>
-                        <div class="comment-date">${formatCommentDate(comment.date)}</div>
-                    </div>
-                    ${renderRating(comment.rating)}
-                    <div class="comment-text">${comment.text}</div>
-                    ${trackBadge}
-                `;
-                
-                // Вставляем новый комментарий в начало
-                commentsList.insertBefore(commentElement, commentsList.firstChild);
-            });
-        }
-        
-        function addComment(event) {
-            event.preventDefault();
-            
-            const nameInput = document.getElementById('comment-name');
-            const textInput = document.getElementById('comment-text');
-            const ratingInput = document.getElementById('comment-rating');
-            const trackInput = document.getElementById('comment-track');
-            
-            const name = nameInput.value.trim();
-            const text = textInput.value.trim();
-            const rating = parseInt(ratingInput.value);
-            const trackIndex = trackInput.value;
-            
-            if (!name || !text) {
-                alert(currentLanguage === 'kk' ? 'Атыңыз мен пікіріңізді толтырыңыз!' : 'Заполните ваше имя и отзыв!');
-                return;
-            }
-            
-            if (rating === 0) {
-                alert(currentLanguage === 'kk' ? 'Бағалауыңызды таңдаңыз!' : 'Выберите вашу оценку!');
-                return;
-            }
-            
-            const newComment = {
-                id: Date.now().toString(),
-                name: name,
-                text: text,
-                rating: rating,
-                trackIndex: trackIndex,
-                date: new Date().toISOString()
-            };
-            
-            // Сохраняем в Firebase
-            const commentsRef = database.ref('comments');
-            const newCommentRef = commentsRef.push();
-            newComment.id = newCommentRef.key;
-            newCommentRef.set(newComment)
-                .then(() => {
-                    nameInput.value = '';
-                    textInput.value = '';
-                    ratingInput.value = '0';
-                    trackInput.value = '';
-                    
-                    currentRating = 0;
-                    const stars = document.querySelectorAll('.star');
-                    stars.forEach(star => {
-                        const icon = star.querySelector('i');
-                        icon.className = 'far fa-star';
-                        star.classList.remove('active');
-                    });
-                    
-                    alert(currentLanguage === 'kk' ? 'Рақмет! Сіздің пікіріңіз қабылданды.' : 'Спасибо! Ваш отзыв принят.');
-                })
-                .catch((error) => {
-                    console.error("Ошибка при сохранении комментария:", error);
-                    alert(currentLanguage === 'kk' ? 'Қате! Пікір сақталмады.' : 'Ошибка! Комментарий не сохранен.');
-                });
-        }
-
-        // ===================================================
         // ОБРАБОТЧИКИ СОБЫТИЙ
         // ===================================================
 
@@ -1859,12 +1371,6 @@
             
             updateFavoriteItems();
             updateFavoritesPlaylist();
-            
-            initRatingStars();
-            loadComments();
-            setupRealtimeComments();
-            
-            document.getElementById('comment-form').addEventListener('submit', addComment);
         });
 
         // ===================================================
