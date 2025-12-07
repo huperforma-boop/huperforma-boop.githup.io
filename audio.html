@@ -840,7 +840,6 @@
             color: var(--secondary-neon);
             font-style: italic;
             margin-top: 20px;
-            font-weight: 600;
             padding-top: 15px;
             border-top: 1px solid rgba(255,255,255,0.2);
         }
@@ -1196,6 +1195,42 @@
             transform: scale(1.05);
         }
 
+        /* ===== Индикатор управления с заблокированного экрана ===== */
+        .lockscreen-indicator {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: var(--player-bg);
+            border: 1px solid var(--main-neon);
+            border-radius: 12px;
+            padding: 12px 20px;
+            color: var(--light-text);
+            font-size: 0.9em;
+            z-index: 999;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            box-shadow: var(--neon-shadow-light);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            max-width: 300px;
+        }
+        
+        .lockscreen-indicator.show {
+            display: flex;
+            animation: slideInLeft 0.5s ease;
+        }
+        
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .lockscreen-icon {
+            color: var(--secondary-neon);
+            font-size: 1.2em;
+        }
+
         /* ===== МОБИЛЬНАЯ ВЕРСИЯ ===== */
         @media (max-width: 768px) {
             .container {
@@ -1391,6 +1426,15 @@
                 bottom: 15px;
             }
             
+            /* Индикатор управления с заблокированного экрана */
+            .lockscreen-indicator {
+                left: 15px;
+                right: 15px;
+                max-width: none;
+                bottom: 80px;
+                padding: 15px;
+            }
+            
             /* Уменьшаем количество частиц на мобильных */
             .particle {
                 display: none;
@@ -1452,6 +1496,12 @@
             .share-options {
                 grid-template-columns: 1fr;
             }
+            
+            .lockscreen-indicator {
+                bottom: 70px;
+                font-size: 0.8em;
+                padding: 12px 15px;
+            }
         }
 
         /* Предотвращение увеличения текста в iOS */
@@ -1477,6 +1527,12 @@
                 <i class="fas fa-times"></i>
             </button>
         </div>
+    </div>
+    
+    <!-- Индикатор управления с заблокированного экрана -->
+    <div class="lockscreen-indicator" id="lockscreen-indicator">
+        <i class="fas fa-lock lockscreen-icon"></i>
+        <span data-lang-key="lockscreenActive">Управление с заблокированного экрана активно</span>
     </div>
     
     <!-- Модальное окно "Поделиться" -->
@@ -1807,7 +1863,7 @@
             Әр тасыңда – ата-бабам мекені,
             Жүрегімнің жылуысың осы маңда. 
             Оң жақ Қалжыр, Тақыр, Шеңгелдім, 
-            Бірге өскен құрбы-құрдас, достарым. 
+            Бірге өскен құрбы0-құрдас, достарым. 
             Мейіріміңе бөлендім, тербелдім,  
             Шығысымның ай астындағы аспаны.
                     </p>
@@ -2041,7 +2097,10 @@
                 "copy": "Көшіру",
                 "linkCopied": "Сілтеме көшірілді!",
                 "shareSuccess": "Трек сілтемесі сәтті бөлісілді!",
-                "shareError": "Бөлісу қатесі. Өзіңіз көшіріп алыңыз."
+                "shareError": "Бөлісу қатесі. Өзіңіз көшіріп алыңыз.",
+                "lockscreenActive": "Бұғатталған экраннан басқару белсенді",
+                "lockscreenSupported": "Бұғатталған экраннан басқару қолдау көрсетіледі",
+                "lockscreenNotSupported": "Бұғатталған экраннан басқару қолдау көрсетілмейді"
             },
             ru: {
                 "title": "Аудио Плеер Стихов",
@@ -2074,7 +2133,10 @@
                 "copy": "Копировать",
                 "linkCopied": "Ссылка скопирована!",
                 "shareSuccess": "Ссылка на трек успешно отправлена!",
-                "shareError": "Ошибка отправки. Скопируйте ссылку вручную."
+                "shareError": "Ошибка отправки. Скопируйте ссылку вручную.",
+                "lockscreenActive": "Управление с заблокированного экрана активно",
+                "lockscreenSupported": "Управление с заблокированного экрана поддерживается",
+                "lockscreenNotSupported": "Управление с заблокированного экрана не поддерживается"
             }
         };
 
@@ -2403,6 +2465,134 @@
         }
 
         // ===================================================
+        // УПРАВЛЕНИЕ С ЗАБЛОКИРОВАННОГО ЭКРАНА
+        // ===================================================
+        
+        let isLockscreenSupported = false;
+        
+        function initializeLockscreenControls() {
+            // Проверяем поддержку Media Session API
+            if ('mediaSession' in navigator) {
+                isLockscreenSupported = true;
+                
+                // Показываем индикатор поддержки управления с заблокированного экрана
+                showLockscreenIndicator(true);
+                
+                // Настройка обработчиков для управления с заблокированного экрана
+                navigator.mediaSession.setActionHandler('play', () => {
+                    audioPlayer.play();
+                    updateMediaSessionState();
+                });
+                
+                navigator.mediaSession.setActionHandler('pause', () => {
+                    audioPlayer.pause();
+                    updateMediaSessionState();
+                });
+                
+                navigator.mediaSession.setActionHandler('previoustrack', () => {
+                    playPrevious();
+                });
+                
+                navigator.mediaSession.setActionHandler('nexttrack', () => {
+                    playNext();
+                });
+                
+                navigator.mediaSession.setActionHandler('seekbackward', (details) => {
+                    const skipTime = details.seekOffset || 10;
+                    audioPlayer.currentTime = Math.max(audioPlayer.currentTime - skipTime, 0);
+                });
+                
+                navigator.mediaSession.setActionHandler('seekforward', (details) => {
+                    const skipTime = details.seekOffset || 10;
+                    audioPlayer.currentTime = Math.min(audioPlayer.currentTime + skipTime, audioPlayer.duration);
+                });
+                
+                // Добавляем обработчик для переключения избранного
+                try {
+                    navigator.mediaSession.setActionHandler('togglefavorite', () => {
+                        toggleFavorite();
+                    });
+                } catch (error) {
+                    console.log('Toggle favorite action is not supported');
+                }
+                
+                console.log('Управление с заблокированного экрана активировано');
+            } else {
+                console.warn('Media Session API не поддерживается');
+                showLockscreenIndicator(false);
+            }
+        }
+        
+        function updateMediaSessionMetadata() {
+            if (!isLockscreenSupported || currentTrackIndex === -1) return;
+            
+            const track = tracks[currentTrackIndex];
+            
+            // Обновляем метаданные для заблокированного экрана
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title: track.title,
+                artist: 'UMIT Audio Player',
+                album: currentLanguage === 'kk' ? 'Қазақ Өлеңдері' : 'Казахские Песни',
+                artwork: [
+                    { src: track.cover || '', sizes: '96x96', type: 'image/jpeg' },
+                    { src: track.cover || '', sizes: '128x128', type: 'image/jpeg' },
+                    { src: track.cover || '', sizes: '192x192', type: 'image/jpeg' },
+                    { src: track.cover || '', sizes: '256x256', type: 'image/jpeg' },
+                    { src: track.cover || '', sizes: '384x384', type: 'image/jpeg' },
+                    { src: track.cover || '', sizes: '512x512', type: 'image/jpeg' }
+                ]
+            });
+            
+            // Устанавливаем состояние воспроизведения
+            updateMediaSessionState();
+            
+            // Устанавливаем позицию трека
+            updateMediaSessionPosition();
+        }
+        
+        function updateMediaSessionState() {
+            if (!isLockscreenSupported) return;
+            
+            navigator.mediaSession.playbackState = audioPlayer.paused ? 'paused' : 'playing';
+        }
+        
+        function updateMediaSessionPosition() {
+            if (!isLockscreenSupported) return;
+            
+            // Обновляем позицию для заблокированного экрана
+            if ('setPositionState' in navigator.mediaSession && audioPlayer.duration) {
+                navigator.mediaSession.setPositionState({
+                    duration: audioPlayer.duration,
+                    playbackRate: audioPlayer.playbackRate,
+                    position: audioPlayer.currentTime
+                });
+            }
+        }
+        
+        function showLockscreenIndicator(isSupported) {
+            const indicator = document.getElementById('lockscreen-indicator');
+            const indicatorText = indicator.querySelector('span');
+            
+            if (isSupported) {
+                indicatorText.textContent = translations[currentLanguage].lockscreenActive;
+                indicator.classList.add('show');
+                
+                // Скрываем индикатор через 5 секунд
+                setTimeout(() => {
+                    indicator.classList.remove('show');
+                }, 5000);
+            } else {
+                indicatorText.textContent = translations[currentLanguage].lockscreenNotSupported;
+                indicator.classList.add('show');
+                
+                // Скрываем индикатор через 3 секунды
+                setTimeout(() => {
+                    indicator.classList.remove('show');
+                }, 3000);
+            }
+        }
+
+        // ===================================================
         // АУДИО ПЛЕЕР
         // ===================================================
 
@@ -2514,12 +2704,16 @@
             playlistItems[index].classList.add('playing');
             
             updateFavoriteButton();
+            
+            // Обновляем метаданные для заблокированного экрана
+            updateMediaSessionMetadata();
 
             const playPromise = audioPlayer.play();
             if (playPromise !== undefined) {
                 playPromise.then(_ => {
                     playIcon.className = 'fas fa-pause';
                     coverImage.classList.add('active');
+                    updateMediaSessionState();
                 }).catch(error => {
                     playIcon.className = 'fas fa-play';
                     console.error("Autoplay blocked:", error);
@@ -2547,10 +2741,12 @@
                 audioPlayer.play();
                 playIcon.className = 'fas fa-pause';
                 coverImage.classList.add('active');
+                updateMediaSessionState();
             } else {
                 audioPlayer.pause();
                 playIcon.className = 'fas fa-play';
                 coverImage.classList.remove('active');
+                updateMediaSessionState();
             }
         }
 
@@ -2560,6 +2756,7 @@
                 audioPlayer.pause();
                 playIcon.className = 'fas fa-play';
                 coverImage.classList.remove('active');
+                updateMediaSessionState();
                 return;
             }
             loadTrack(nextIndex);
@@ -2575,6 +2772,7 @@
         
         function skipTime(time) {
             audioPlayer.currentTime += time;
+            updateMediaSessionPosition();
             
             // Визуальная обратная связь для мобильных
             if (window.innerWidth <= 768) {
@@ -2823,6 +3021,9 @@
             updateFavoriteItems();
             updateFavoritesPlaylist();
             updateProgressStyle(0);
+            
+            // Инициализируем управление с заблокированного экрана
+            initializeLockscreenControls();
 
             // На мобильных добавляем обработчик для предотвращения масштабирования
             if (window.innerWidth <= 768) {
@@ -2868,6 +3069,7 @@
         audioPlayer.addEventListener('loadedmetadata', () => {
             durationDisplay.textContent = formatTime(audioPlayer.duration);
             progressBar.max = audioPlayer.duration;
+            updateMediaSessionPosition();
             
             if (currentTrackIndex !== -1) {
                 const duration = formatTime(audioPlayer.duration);
@@ -2887,6 +3089,9 @@
 
             const progressPercent = (currentTime / duration) * 100;
             updateProgressStyle(progressPercent);
+            
+            // Обновляем позицию для заблокированного экрана
+            updateMediaSessionPosition();
         });
 
         audioPlayer.addEventListener('ended', () => {
@@ -2895,6 +3100,7 @@
 
         progressBar.addEventListener('input', () => {
             audioPlayer.currentTime = progressBar.value;
+            updateMediaSessionPosition();
         });
         
         progressBar.addEventListener('touchstart', function() {
@@ -3002,6 +3208,14 @@
                 closeThemeDropdown();
             }
         }, { passive: true });
+
+        // Обработка видимости страницы для управления с заблокированного экрана
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden && currentTrackIndex !== -1) {
+                // Страница скрыта (экран заблокирован), обновляем состояние медиасессии
+                updateMediaSessionState();
+            }
+        });
 
     </script>
 
