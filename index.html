@@ -450,100 +450,6 @@
             color: var(--matrix-green);
         }
 
-        /* Экран загрузки */
-        #splash-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #000000;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Space Mono', monospace;
-            color: var(--matrix-green);
-            text-shadow: 0 0 5px var(--matrix-green);
-            overflow: hidden;
-        }
-
-        .terminal-container {
-            width: 80%;
-            max-width: 800px;
-            padding: 20px;
-            border: 1px solid var(--matrix-green);
-            box-shadow: 0 0 20px var(--matrix-green);
-            background-color: rgba(0, 10, 10, 0.9);
-            border-radius: 12px;
-        }
-
-        .terminal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            border-bottom: 1px solid var(--matrix-green);
-            padding-bottom: 10px;
-        }
-
-        .terminal-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.2em;
-            color: var(--matrix-green);
-        }
-
-        .terminal-content {
-            font-family: 'Space Mono', monospace;
-            font-size: 1em;
-            line-height: 1.5;
-            height: 200px;
-            overflow-y: auto;
-        }
-
-        .terminal-line {
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-        }
-
-        .terminal-prompt {
-            color: var(--red);
-            margin-right: 10px;
-        }
-
-        .terminal-cursor {
-            display: inline-block;
-            width: 8px;
-            height: 16px;
-            background-color: var(--matrix-green);
-            margin-left: 5px;
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 4px;
-            background-color: rgba(51, 255, 204, 0.2);
-            margin-top: 20px;
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            background-color: var(--matrix-green);
-            box-shadow: 0 0 10px var(--matrix-green);
-            transition: width 2s ease;
-        }
-
         /* Интерактивные элементы для звуковых эффектов */
         .sound-interactive {
             position: relative;
@@ -587,7 +493,7 @@
             font-size: 0.9em;
         }
 
-        /* 📱 МОБИЛЬДІК БЕЙІМДІЛІК (Responsive Design) */
+        /* 📱 МОБИЛЬДІК БЕЙІМДИЛІК (Responsive Design) */
         @media (max-width: 768px) {
             body {
                 font-size: 14px;
@@ -672,11 +578,6 @@
                 margin: 0 15px;
                 padding: 8px;
             }
-
-            .terminal-container {
-                width: 90%;
-                padding: 15px;
-            }
             
             .form-group input,
             .form-group textarea,
@@ -728,46 +629,6 @@
     </style>
 </head>
 <body>
-    
-    <!-- Экран загрузки -->
-    <div id="splash-screen">
-        <div class="terminal-container">
-            <div class="terminal-header">
-                <div class="terminal-title">ҮМІТ ТЕРМИНАЛЫ | SYSTEM BOOT</div>
-                <div class="terminal-status">[INITIALIZING...]</div>
-            </div>
-            <div class="terminal-content" id="terminal-content">
-                <div class="terminal-line">
-                    <span class="terminal-prompt">></span>
-                    <span class="terminal-text">ҮМІТ жүйесін инициализациялау...</span>
-                </div>
-                <div class="terminal-line">
-                    <span class="terminal-prompt">></span>
-                    <span class="terminal-text">Кибернеон желісін жүктеу...</span>
-                </div>
-                <div class="terminal-line">
-                    <span class="terminal-prompt">></span>
-                    <span class="terminal-text">Өлеңдер ядросын активтендіру...</span>
-                </div>
-                <div class="terminal-line">
-                    <span class="terminal-prompt">></span>
-                    <span class="terminal-text">Бейне мәліметтер банкін қосылу...</span>
-                </div>
-                <div class="terminal-line">
-                    <span class="terminal-prompt">></span>
-                    <span class="terminal-text">Қабыкенов Сағыныш идентификациясы...</span>
-                </div>
-                <div class="terminal-line">
-                    <span class="terminal-prompt">></span>
-                    <span class="terminal-text">Жүйе дайын.</span>
-                    <span class="terminal-cursor"></span>
-                </div>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progress-fill"></div>
-            </div>
-        </div>
-    </div>
     
     <!-- Переключатель тем -->
     <div class="theme-switcher">
@@ -1111,14 +972,10 @@
         }
         
         // ===================================================
-        // ЭКРАН ЗАГРУЗКИ
+        // ИНИЦИАЛИЗАЦИЯ СИСТЕМ ПРИ ЗАГРУЗКЕ
         // ===================================================
         
         document.addEventListener('DOMContentLoaded', function() {
-            const splashScreen = document.getElementById('splash-screen');
-            const progressFill = document.getElementById('progress-fill');
-            const terminalContent = document.getElementById('terminal-content');
-            
             // Загружаем сохраненную тему
             const savedTheme = localStorage.getItem('umit-theme') || 'cyber';
             const themeOption = document.querySelector(`.theme-option[onclick*="${savedTheme}"]`);
@@ -1128,83 +985,30 @@
                 switchTheme(savedTheme);
             }
             
-            // Анимация прогресс-бара
-            setTimeout(() => {
-                progressFill.style.width = '100%';
-            }, 100);
+            // Инициализируем системы
+            initParticles();
+            initScrollReveal();
+            initAudioSystem();
             
-            // Анимация печати текста
-            const terminalLines = terminalContent.querySelectorAll('.terminal-text');
-            let lineIndex = 0;
+            // Добавляем обработчики звуковых эффектов
+            const interactiveElements = document.querySelectorAll('.sound-interactive');
+            interactiveElements.forEach(element => {
+                element.addEventListener('mouseenter', playHoverSound);
+                element.addEventListener('click', function() {
+                    playClickSound();
+                    enableAudio();
+                });
+                element.addEventListener('touchstart', function() {
+                    playClickSound();
+                    enableAudio();
+                }, { passive: true });
+                element.addEventListener('focus', playHoverSound);
+            });
             
-            function typeWriter(line, element, callback) {
-                const text = line.textContent;
-                line.textContent = '';
-                line.style.opacity = '1';
-                
-                let charIndex = 0;
-                const typingSpeed = 30;
-                
-                function typeChar() {
-                    if (charIndex < text.length) {
-                        line.textContent += text.charAt(charIndex);
-                        charIndex++;
-                        setTimeout(typeChar, typingSpeed);
-                    } else if (callback) {
-                        setTimeout(callback, 300);
-                    }
-                }
-                
-                typeChar();
-            }
-            
-            function typeNextLine() {
-                if (lineIndex < terminalLines.length) {
-                    typeWriter(terminalLines[lineIndex], terminalLines[lineIndex], () => {
-                        lineIndex++;
-                        typeNextLine();
-                    });
-                }
-            }
-            
-            setTimeout(() => {
-                typeNextLine();
-            }, 500);
-            
-            // Скрываем экран загрузки
-            setTimeout(() => {
-                splashScreen.style.opacity = '0';
-                splashScreen.style.transition = 'opacity 0.5s ease';
-                
-                setTimeout(() => {
-                    splashScreen.style.display = 'none';
-                    
-                    // Инициализируем остальные системы
-                    initParticles();
-                    initScrollReveal();
-                    initAudioSystem();
-                    
-                    // Добавляем обработчики звуковых эффектов
-                    const interactiveElements = document.querySelectorAll('.sound-interactive');
-                    interactiveElements.forEach(element => {
-                        element.addEventListener('mouseenter', playHoverSound);
-                        element.addEventListener('click', function() {
-                            playClickSound();
-                            enableAudio();
-                        });
-                        element.addEventListener('touchstart', function() {
-                            playClickSound();
-                            enableAudio();
-                        }, { passive: true });
-                        element.addEventListener('focus', playHoverSound);
-                    });
-                    
-                    // Активируем аудио при любом взаимодействии
-                    document.addEventListener('click', enableAudio);
-                    document.addEventListener('keydown', enableAudio);
-                    document.addEventListener('touchstart', enableAudio, { passive: true });
-                }, 500);
-            }, 2500);
+            // Активируем аудио при любом взаимодействии
+            document.addEventListener('click', enableAudio);
+            document.addEventListener('keydown', enableAudio);
+            document.addEventListener('touchstart', enableAudio, { passive: true });
         });
         
         // ===================================================
