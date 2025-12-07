@@ -2,7 +2,7 @@
 <html lang="kk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ДЕРЕК АҒЫНЫ | ҮМІТ</title>
     
     <meta property="og:title" content="Шығармашылық Портфолио | ҮМІТ (ДЕРЕК АҒЫНЫ)" />
@@ -13,175 +13,210 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
-        /* НЕГІЗГІ ТҮСТЕР (CYBERPUNK) */
+        /* ТЕМЫ ОФОРМЛЕНИЯ */
         :root {
-            --dark-bg: #0A0A1F; 
-            --cyber-red: #FF3366; 
-            --matrix-green: #33FFCC; 
-            --light-text: #E0FFFF; 
-            --box-bg: rgba(18, 18, 40, 0.7); 
-            --round-radius: 4px; 
-            --shadow-glitch: 0 0 5px var(--cyber-red), 0 0 10px rgba(255, 51, 102, 0.5);
-            --border-glitch: 2px solid var(--matrix-green);
+            /* Тема 1: КИБЕРПАНК (по умолчанию) */
+            --cyber-dark-bg: #0A0A1F;
+            --cyber-red: #FF3366;
+            --cyber-matrix-green: #33FFCC;
+            --cyber-light-text: #E0FFFF;
+            --cyber-box-bg: rgba(18, 18, 40, 0.7);
+            --cyber-shadow-glitch: 0 0 5px var(--cyber-red), 0 0 10px rgba(255, 51, 102, 0.5);
+            --cyber-border-glitch: 2px solid var(--cyber-matrix-green);
             
-            /* Светлая тема (по умолчанию выключена) */
-            --light-bg: #F0F0F0;
-            --light-cyber-red: #CC0033;
-            --light-matrix-green: #00997A;
-            --light-dark-text: #1A1A2E;
+            /* Тема 2: СВЕТЛАЯ */
+            --light-dark-bg: #F0F0F0;
+            --light-red: #1a73e8;
+            --light-matrix-green: #34a853;
+            --light-light-text: #202124;
             --light-box-bg: rgba(220, 220, 255, 0.7);
+            --light-shadow-glitch: 0 4px 12px rgba(0, 0, 0, 0.1);
+            
+            /* Тема 3: РЕТРО */
+            --retro-dark-bg: #1a1a1a;
+            --retro-red: #FFD700;
+            --retro-matrix-green: #FF69B4;
+            --retro-light-text: #FFEBCD;
+            --retro-box-bg: rgba(42, 42, 42, 0.7);
+            --retro-shadow-glitch: 0 0 15px var(--retro-red), 0 0 30px rgba(255, 215, 0, 0.4);
+            
+            /* Тема 4: ЗЕЛЕНАЯ */
+            --green-dark-bg: #0a1929;
+            --green-red: #00ff88;
+            --green-matrix-green: #00ccff;
+            --green-light-text: #e0f7fa;
+            --green-box-bg: rgba(15, 42, 63, 0.7);
+            --green-shadow-glitch: 0 0 10px var(--green-red), 0 0 20px rgba(0, 255, 136, 0.3);
+            
+            /* Активная тема (по умолчанию - Киберпанк) */
+            --dark-bg: var(--cyber-dark-bg);
+            --red: var(--cyber-red);
+            --matrix-green: var(--cyber-matrix-green);
+            --light-text: var(--cyber-light-text);
+            --box-bg: var(--cyber-box-bg);
+            --shadow-glitch: var(--cyber-shadow-glitch);
+            --border-glitch: var(--cyber-border-glitch);
+        }
+
+        /* Переключатель тем - ОПТИМИЗИРОВАН ДЛЯ МОБИЛЬНЫХ */
+        .theme-switcher {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 1000;
+            display: flex;
+            gap: 5px;
+        }
+
+        .theme-btn {
+            background: var(--box-bg);
+            border: 1px solid var(--matrix-green);
+            color: var(--light-text);
+            padding: 10px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+            font-family: 'Orbitron', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            min-height: 44px;
+            min-width: 44px;
+            box-shadow: var(--shadow-glitch);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .theme-btn:hover {
+            background: var(--matrix-green);
+            color: var(--dark-bg);
+            transform: scale(1.05);
+        }
+
+        .theme-btn .theme-icon {
+            font-size: 1.1em;
+        }
+
+        .theme-dropdown {
+            display: none;
+            position: fixed;
+            top: 65px;
+            right: 15px;
+            background: var(--box-bg);
+            border: 1px solid var(--matrix-green);
+            border-radius: 12px;
+            min-width: 180px;
+            max-width: calc(100vw - 30px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1001;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            overflow: hidden;
+        }
+
+        .theme-dropdown.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .theme-option {
+            padding: 15px 20px;
+            color: var(--light-text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 1em;
+            min-height: 50px;
+        }
+
+        .theme-option:hover {
+            background: var(--matrix-green);
+            color: var(--dark-bg);
+        }
+
+        .theme-option.active {
+            background: var(--red);
+            color: var(--dark-bg);
+            font-weight: bold;
+        }
+
+        .theme-option:last-child {
+            border-bottom: none;
         }
 
         /* НЕГІЗГІ СТИЛЬДЕР */
         body {
-            font-family: 'Space Mono', monospace; 
-            background-color: var(--dark-bg); 
-            color: var(--matrix-green); 
-            margin: 0; padding: 0;
+            font-family: 'Space Mono', monospace;
+            background-color: var(--dark-bg);
+            color: var(--matrix-green);
+            margin: 0;
+            padding: 0;
             line-height: 1.6;
             overflow-x: hidden;
             position: relative;
-            transition: background-color 0.5s ease, color 0.5s ease;
-        }
-        
-        /* Стили для светлой темы */
-        body.light-theme {
-            background-color: var(--light-bg);
-            color: var(--light-matrix-green);
-        }
-        
-        body.light-theme .top-left-title {
-            color: var(--light-matrix-green);
-            text-shadow: 0 0 8px rgba(0, 153, 122, 0.7);
-        }
-        
-        body.light-theme .section-title h2 {
-            color: var(--light-dark-text);
-            border-color: var(--light-matrix-green);
-            box-shadow: 0 0 5px var(--light-matrix-green), 0 0 10px rgba(0, 153, 122, 0.5);
-            background-color: rgba(255, 255, 255, 0.9);
-        }
-        
-        body.light-theme .video-item {
-            background-color: var(--light-box-bg);
-            border-color: var(--light-cyber-red);
-            box-shadow: 0 0 15px rgba(204, 0, 51, 0.5);
-            border-left-color: var(--light-matrix-green);
-        }
-        
-        body.light-theme .video-item:hover {
-            box-shadow: 0 0 20px var(--light-matrix-green), 0 0 40px rgba(0, 153, 122, 0.5);
-            border-color: var(--light-matrix-green);
-        }
-        
-        body.light-theme .video-item h3 {
-            color: var(--light-bg);
-            background-color: var(--light-matrix-green);
-        }
-        
-        body.light-theme .play-icon {
-            color: var(--light-cyber-red);
-            text-shadow: 0 0 10px rgba(204, 0, 51, 0.7);
-        }
-        
-        body.light-theme .audio-link-box {
-            background-color: rgba(255, 200, 200, 0.7);
-            border-color: var(--light-cyber-red);
-            box-shadow: 0 0 15px var(--light-cyber-red), 0 0 40px rgba(204, 0, 51, 0.5);
-        }
-        
-        body.light-theme .audio-link-box h3 {
-            color: var(--light-dark-text);
-            text-shadow: 0 0 5px rgba(204, 0, 51, 0.5);
-        }
-        
-        body.light-theme .coming-soon-box {
-            background-color: rgba(200, 255, 240, 0.7);
-            border-color: var(--light-matrix-green);
-            background-image: linear-gradient(rgba(255,255,255,0.1) 50%, rgba(0, 153, 122, 0.2) 50%);
-            box-shadow: 0 0 15px var(--light-matrix-green);
-        }
-        
-        body.light-theme .contact-form-container,
-        body.light-theme .author-info {
-            background-color: var(--light-box-bg);
-            border-color: var(--light-cyber-red);
-            box-shadow: 0 0 10px rgba(204, 0, 51, 0.5);
-        }
-        
-        body.light-theme .form-group input,
-        body.light-theme .form-group textarea {
-            background-color: #FFFFFF;
-            color: var(--light-dark-text);
-            border-color: var(--light-matrix-green);
-            box-shadow: inset 0 0 5px rgba(0, 153, 122, 0.3);
-        }
-        
-        body.light-theme .submit-btn {
-            background-color: var(--light-cyber-red);
-            color: white;
-            box-shadow: 0 0 10px rgba(204, 0, 51, 0.7);
-        }
-        
-        body.light-theme .social-links a {
-            color: var(--light-cyber-red);
-            text-shadow: 0 0 10px rgba(204, 0, 51, 0.7);
-        }
-        
-        body.light-theme .theme-toggle-btn {
-            background-color: var(--light-box-bg);
-            border-color: var(--light-matrix-green);
-            color: var(--light-matrix-green);
-            box-shadow: 0 0 10px rgba(0, 153, 122, 0.5);
-        }
-        
-        body.light-theme .theme-toggle-btn:hover {
-            background-color: var(--light-matrix-green);
-            color: white;
+            transition: all 0.5s ease;
+            -webkit-tap-highlight-color: transparent;
         }
 
         /* Particle.js */
         #particles-js {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: -1; 
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
             background-color: var(--dark-bg);
             transition: background-color 0.5s ease;
         }
-        
-        body.light-theme #particles-js {
-            background-color: var(--light-bg);
-        }
-        
+
         .container {
-            width: 90%; max-width: 1200px;
-            margin: 0 auto; padding: 20px 0 50px 0;
-            position: relative; z-index: 1; 
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 0 50px 0;
+            position: relative;
+            z-index: 1;
         }
-        
+
         .header {
             padding: 100px 0 60px 0;
             text-align: center;
         }
-        
+
         .header h1 {
             font-size: 4em;
             margin: 0;
-            visibility: hidden; 
+            visibility: hidden;
             height: 0;
         }
 
         .top-left-title {
-            position: absolute;
-            top: 20px; left: 50px;
+            position: fixed;
+            top: 20px;
+            left: 20px;
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.8em;
+            font-size: 1.4em;
             font-weight: 700;
             color: var(--matrix-green);
             text-shadow: 0 0 8px var(--matrix-green);
             z-index: 1000;
             text-transform: uppercase;
             transition: all 0.5s ease;
+            padding: 8px 12px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
 
         .section-title {
@@ -193,15 +228,16 @@
             font-family: 'Orbitron', sans-serif;
             font-size: 2.2em;
             color: var(--light-text);
-            padding: 10px 20px;
+            padding: 15px 25px;
             display: inline-block;
             text-transform: uppercase;
             border: var(--border-glitch);
             box-shadow: var(--shadow-glitch);
             background-color: rgba(0, 0, 0, 0.5);
             transition: all 0.5s ease;
+            border-radius: 8px;
         }
-        
+
         /* ВИДЕО БЛОКТАРЫ */
         .video-grid {
             display: grid;
@@ -209,16 +245,17 @@
             gap: 30px;
             padding: 20px 0;
         }
-        
+
         .video-item {
             background-color: var(--box-bg);
-            border: 1px solid var(--cyber-red);
-            border-radius: var(--round-radius); 
-            box-shadow: 0 0 15px var(--cyber-red); 
-            transition: all 0.3s ease; 
+            border: 1px solid var(--red);
+            border-radius: 12px;
+            box-shadow: var(--shadow-glitch);
+            transition: all 0.3s ease;
             border-left: 5px solid var(--matrix-green);
-            text-decoration: none; 
+            text-decoration: none;
             cursor: pointer;
+            overflow: hidden;
         }
 
         .video-item:hover {
@@ -226,12 +263,12 @@
             box-shadow: 0 0 20px var(--matrix-green), 0 0 40px rgba(51, 255, 204, 0.7);
             border-color: var(--matrix-green);
         }
-        
+
         .video-item h3 {
             font-family: 'Orbitron', sans-serif;
             color: var(--dark-bg);
             background-color: var(--matrix-green);
-            padding: 15px;
+            padding: 18px;
             margin: 0;
             font-size: 1.1em;
             font-weight: 700;
@@ -243,53 +280,61 @@
         .video-thumbnail {
             position: relative;
             width: 100%;
-            padding-bottom: 56.25%; 
+            padding-bottom: 56.25%;
             overflow: hidden;
-            background-size: cover; 
+            background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 150px; 
+            min-height: 150px;
         }
 
         .play-icon {
             font-size: 4.5em;
-            color: var(--cyber-red);
-            position: absolute; 
-            text-shadow: 0 0 10px var(--cyber-red);
+            color: var(--red);
+            position: absolute;
+            text-shadow: 0 0 10px var(--red);
             transition: all 0.5s ease;
         }
-        
+
         /* АУДИО БЛОК */
         .audio-link-box {
             text-align: center;
             padding: 50px;
             margin: 40px auto;
             max-width: 800px;
-            display: block; 
-            text-decoration: none; 
-            background-color: rgba(40, 0, 0, 0.5); 
-            border: 3px solid var(--cyber-red); 
-            border-radius: var(--round-radius);
-            box-shadow: 0 0 15px var(--cyber-red), 0 0 40px rgba(255, 51, 102, 0.7);
+            display: block;
+            text-decoration: none;
+            background-color: rgba(40, 0, 0, 0.5);
+            border: 3px solid var(--red);
+            border-radius: 12px;
+            box-shadow: var(--shadow-glitch);
             transition: all 0.4s ease;
             cursor: pointer;
+        }
+
+        .audio-link-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 51, 102, 0.3);
         }
 
         .audio-link-box h3 {
             font-family: 'Orbitron', sans-serif;
             color: var(--light-text);
-            text-shadow: 0 0 5px var(--cyber-red);
+            text-shadow: 0 0 5px var(--red);
             font-size: 2em;
             margin-top: 15px;
             margin-bottom: 10px;
             transition: all 0.5s ease;
         }
-        
+
         /* ӘКЕҢІЗДІҢ ӨЛЕҢДЕРІ БӨЛІМІ */
-        @keyframes scanline { 0% { background-position: 0 0; } 100% { background-position: 0 100%; } }
+        @keyframes scanline {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 100%; }
+        }
 
         .coming-soon-box {
             text-align: center;
@@ -297,75 +342,114 @@
             margin: 40px auto;
             cursor: pointer;
             max-width: 800px;
-            background-color: rgba(0, 40, 40, 0.5); 
+            background-color: rgba(0, 40, 40, 0.5);
             border: 3px solid var(--matrix-green);
-            border-radius: var(--round-radius);
+            border-radius: 12px;
             background-image: linear-gradient(rgba(0,0,0,0.1) 50%, rgba(51, 255, 204, 0.2) 50%);
             background-size: 100% 10px;
             animation: scanline 2s infinite linear;
-            box-shadow: 0 0 15px var(--matrix-green); 
+            box-shadow: 0 0 15px var(--matrix-green);
             transition: all 0.4s ease;
         }
-        
+
         /* БАЙЛАНЫС ЖӘНЕ АВТОР БӨЛІМДЕРІ */
         .contact-form-container {
-            padding: 40px; margin-top: 50px;
-            max-width: 700px; margin-left: auto; margin-right: auto;
+            padding: 40px;
+            margin-top: 50px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
             background-color: var(--box-bg);
-            border: 2px solid var(--cyber-red);
-            border-radius: var(--round-radius);
-            box-shadow: 0 0 10px var(--cyber-red);
+            border: 2px solid var(--red);
+            border-radius: 12px;
+            box-shadow: var(--shadow-glitch);
             transition: all 0.5s ease;
         }
 
-        .form-group input, .form-group textarea {
-            width: 100%; padding: 10px;
-            border: 1px solid var(--matrix-green);
-            background-color: #0d0d1a;
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
             color: var(--light-text);
-            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid var(--matrix-green);
+            background-color: rgba(0, 0, 0, 0.3);
+            color: var(--light-text);
+            border-radius: 8px;
             box-shadow: inset 0 0 5px rgba(51, 255, 204, 0.5);
             box-sizing: border-box;
             font-family: 'Space Mono', monospace;
             transition: all 0.3s ease;
+            font-size: 16px; /* Предотвращает увеличение в iOS */
         }
-        
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
         .submit-btn {
-            background-color: var(--cyber-red);
+            background-color: var(--red);
             color: var(--dark-bg);
             border: none;
-            padding: 12px 25px;
+            padding: 15px 30px;
             font-size: 1.1em;
             font-family: 'Orbitron', sans-serif;
             cursor: pointer;
-            border-radius: 4px;
-            box-shadow: 0 0 10px var(--cyber-red);
+            border-radius: 8px;
+            box-shadow: 0 0 10px var(--red);
             transition: all 0.3s ease;
+            width: 100%;
+            min-height: 50px;
         }
-        
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 51, 102, 0.4);
+        }
+
         .author-info {
             background-color: var(--box-bg);
-            border: 2px solid var(--matrix-green); 
-            border-radius: var(--round-radius); 
-            box-shadow: 0 0 15px var(--matrix-green); 
-            padding: 40px; margin-top: 50px;
+            border: 2px solid var(--matrix-green);
+            border-radius: 12px;
+            box-shadow: var(--shadow-glitch);
+            padding: 40px;
+            margin-top: 50px;
             text-align: center;
-            max-width: 700px; margin-left: auto; margin-right: auto;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
             transition: all 0.5s ease;
         }
-        
-        .social-links a {
-            color: var(--cyber-red);
-            font-size: 2.5em;
-            margin: 0 15px;
-            text-shadow: 0 0 10px var(--cyber-red); 
-            transition: color 0.3s ease, text-shadow 0.3s ease;
+
+        .social-links {
+            margin-top: 20px;
         }
-        
-        /* =============================================== */
-        /* ЖАҢА ТЕХНИКАЛЫҚ "ФИШКИ" СТИЛЬДЕРІ */
-        /* =============================================== */
-        
+
+        .social-links a {
+            color: var(--red);
+            font-size: 2.5em;
+            margin: 0 20px;
+            text-shadow: 0 0 10px var(--red);
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+            display: inline-block;
+            padding: 10px;
+        }
+
+        .social-links a:hover {
+            transform: scale(1.2);
+            color: var(--matrix-green);
+        }
+
         /* Экран загрузки */
         #splash-screen {
             position: fixed;
@@ -384,7 +468,7 @@
             text-shadow: 0 0 5px var(--matrix-green);
             overflow: hidden;
         }
-        
+
         .terminal-container {
             width: 80%;
             max-width: 800px;
@@ -392,8 +476,9 @@
             border: 1px solid var(--matrix-green);
             box-shadow: 0 0 20px var(--matrix-green);
             background-color: rgba(0, 10, 10, 0.9);
+            border-radius: 12px;
         }
-        
+
         .terminal-header {
             display: flex;
             justify-content: space-between;
@@ -402,13 +487,13 @@
             border-bottom: 1px solid var(--matrix-green);
             padding-bottom: 10px;
         }
-        
+
         .terminal-title {
             font-family: 'Orbitron', sans-serif;
             font-size: 1.2em;
             color: var(--matrix-green);
         }
-        
+
         .terminal-content {
             font-family: 'Space Mono', monospace;
             font-size: 1em;
@@ -416,18 +501,18 @@
             height: 200px;
             overflow-y: auto;
         }
-        
+
         .terminal-line {
             margin-bottom: 10px;
             display: flex;
             align-items: center;
         }
-        
+
         .terminal-prompt {
-            color: var(--cyber-red);
+            color: var(--red);
             margin-right: 10px;
         }
-        
+
         .terminal-cursor {
             display: inline-block;
             width: 8px;
@@ -436,12 +521,12 @@
             margin-left: 5px;
             animation: blink 1s infinite;
         }
-        
+
         @keyframes blink {
             0%, 50% { opacity: 1; }
             51%, 100% { opacity: 0; }
         }
-        
+
         .progress-bar {
             width: 100%;
             height: 4px;
@@ -450,7 +535,7 @@
             border-radius: 2px;
             overflow: hidden;
         }
-        
+
         .progress-fill {
             height: 100%;
             width: 0%;
@@ -458,37 +543,14 @@
             box-shadow: 0 0 10px var(--matrix-green);
             transition: width 2s ease;
         }
-        
-        /* Кнопка переключения темы */
-        .theme-toggle-btn {
-            position: fixed;
-            top: 20px;
-            right: 50px;
-            z-index: 1000;
-            background-color: var(--box-bg);
-            border: 1px solid var(--matrix-green);
-            color: var(--matrix-green);
-            padding: 10px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.9em;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 10px rgba(51, 255, 204, 0.3);
-        }
-        
-        .theme-toggle-btn:hover {
-            background-color: var(--matrix-green);
-            color: var(--dark-bg);
-            box-shadow: 0 0 15px var(--matrix-green);
-        }
-        
+
         /* Интерактивные элементы для звуковых эффектов */
         .sound-interactive {
             position: relative;
             overflow: hidden;
+            cursor: pointer;
         }
-        
+
         .sound-interactive::before {
             content: '';
             position: absolute;
@@ -501,34 +563,167 @@
             transition: opacity 0.3s ease;
             pointer-events: none;
         }
-        
+
         .sound-interactive:hover::before {
             opacity: 1;
         }
-        
+
         .sound-interactive:active::before {
             background: radial-gradient(circle at center, rgba(255, 51, 102, 0.3) 0%, transparent 70%);
         }
-        
+
         /* Аудио элементы (скрытые) */
         .audio-fx {
             display: none;
         }
-        
+
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--matrix-green);
+            font-family: 'Space Mono', monospace;
+            border-top: 1px solid var(--matrix-green);
+            margin-top: 50px;
+            font-size: 0.9em;
+        }
+
         /* 📱 МОБИЛЬДІК БЕЙІМДІЛІК (Responsive Design) */
         @media (max-width: 768px) {
-            .header { padding: 60px 0 40px 0; }
-            .header h1 { font-size: 2.2em; letter-spacing: 3px; }
-            .top-left-title { left: 15px; top: 15px; font-size: 1em; }
-            .section-title { margin: 40px 0 20px 0; }
-            .section-title h2 { font-size: 1.3em; padding: 5px 10px; }
-            .video-grid { grid-template-columns: 1fr; gap: 15px; }
-            .video-item h3 { font-size: 0.9em; padding: 10px; }
-            .audio-link-box, .coming-soon-box, .contact-form-container, .author-info { padding: 20px; margin: 20px auto; }
-            .audio-link-box h3 { font-size: 1.4em; }
-            .social-links a { font-size: 2em; margin: 0 10px; }
-            .theme-toggle-btn { right: 15px; top: 15px; padding: 8px 12px; font-size: 0.8em; }
-            .terminal-container { width: 95%; }
+            body {
+                font-size: 14px;
+            }
+            
+            .header {
+                padding: 80px 0 40px 0;
+            }
+
+            .top-left-title {
+                left: 15px;
+                top: 15px;
+                font-size: 1.1em;
+                padding: 6px 10px;
+            }
+
+            .theme-switcher {
+                top: 15px;
+                right: 15px;
+            }
+            
+            .theme-btn {
+                padding: 10px;
+                font-size: 0.9em;
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            .theme-btn span {
+                display: none;
+            }
+            
+            .theme-dropdown {
+                top: 60px;
+                right: 15px;
+                left: 15px;
+                max-width: calc(100vw - 30px);
+            }
+            
+            .theme-option {
+                padding: 18px 20px;
+                font-size: 1.1em;
+                min-height: 55px;
+            }
+
+            .section-title {
+                margin: 40px 0 25px 0;
+            }
+
+            .section-title h2 {
+                font-size: 1.5em;
+                padding: 12px 20px;
+                border-width: 1px;
+            }
+
+            .video-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 10px 0;
+            }
+
+            .video-item h3 {
+                font-size: 1em;
+                padding: 15px;
+            }
+
+            .audio-link-box,
+            .coming-soon-box,
+            .contact-form-container,
+            .author-info {
+                padding: 25px;
+                margin: 30px auto;
+                border-radius: 10px;
+            }
+
+            .audio-link-box h3 {
+                font-size: 1.6em;
+            }
+
+            .social-links a {
+                font-size: 2em;
+                margin: 0 15px;
+                padding: 8px;
+            }
+
+            .terminal-container {
+                width: 90%;
+                padding: 15px;
+            }
+            
+            .form-group input,
+            .form-group textarea,
+            .submit-btn {
+                font-size: 16px; /* Важно для iOS */
+                padding: 12px;
+            }
+        }
+
+        /* Для очень маленьких экранов */
+        @media (max-width: 480px) {
+            .top-left-title {
+                font-size: 1em;
+                left: 10px;
+                top: 10px;
+            }
+            
+            .theme-btn {
+                padding: 12px;
+            }
+            
+            .theme-dropdown {
+                top: 55px;
+                right: 10px;
+                left: 10px;
+            }
+            
+            .section-title h2 {
+                font-size: 1.3em;
+                padding: 10px 15px;
+            }
+            
+            .audio-link-box h3 {
+                font-size: 1.4em;
+            }
+            
+            .social-links a {
+                font-size: 1.8em;
+                margin: 0 10px;
+            }
+        }
+
+        /* Предотвращение увеличения текста в iOS */
+        @media screen and (max-width: 768px) {
+            input, textarea, select {
+                font-size: 16px !important;
+            }
         }
     </style>
 </head>
@@ -543,27 +738,27 @@
             </div>
             <div class="terminal-content" id="terminal-content">
                 <div class="terminal-line">
-                    <span class="terminal-prompt">></span> 
+                    <span class="terminal-prompt">></span>
                     <span class="terminal-text">ҮМІТ жүйесін инициализациялау...</span>
                 </div>
                 <div class="terminal-line">
-                    <span class="terminal-prompt">></span> 
+                    <span class="terminal-prompt">></span>
                     <span class="terminal-text">Кибернеон желісін жүктеу...</span>
                 </div>
                 <div class="terminal-line">
-                    <span class="terminal-prompt">></span> 
+                    <span class="terminal-prompt">></span>
                     <span class="terminal-text">Өлеңдер ядросын активтендіру...</span>
                 </div>
                 <div class="terminal-line">
-                    <span class="terminal-prompt">></span> 
+                    <span class="terminal-prompt">></span>
                     <span class="terminal-text">Бейне мәліметтер банкін қосылу...</span>
                 </div>
                 <div class="terminal-line">
-                    <span class="terminal-prompt">></span> 
+                    <span class="terminal-prompt">></span>
                     <span class="terminal-text">Қабыкенов Сағыныш идентификациясы...</span>
                 </div>
                 <div class="terminal-line">
-                    <span class="terminal-prompt">></span> 
+                    <span class="terminal-prompt">></span>
                     <span class="terminal-text">Жүйе дайын.</span>
                     <span class="terminal-cursor"></span>
                 </div>
@@ -574,17 +769,38 @@
         </div>
     </div>
     
-    <!-- Кнопка переключения темы -->
-    <button class="theme-toggle-btn" id="theme-toggle">
-        <i class="fas fa-moon"></i> Тема
-    </button>
+    <!-- Переключатель тем -->
+    <div class="theme-switcher">
+        <button class="theme-btn" onclick="toggleThemeDropdown(event)">
+            <i class="fas fa-palette theme-icon"></i>
+            <span id="current-theme-name" data-lang-key="themeCyber">Киберпанк</span>
+        </button>
+        <div class="theme-dropdown" id="theme-dropdown">
+            <div class="theme-option active" onclick="switchTheme('cyber')">
+                <i class="fas fa-bolt"></i>
+                <span data-lang-key="themeCyber">Киберпанк</span>
+            </div>
+            <div class="theme-option" onclick="switchTheme('light')">
+                <i class="fas fa-sun"></i>
+                <span data-lang-key="themeLight">Светлая</span>
+            </div>
+            <div class="theme-option" onclick="switchTheme('retro')">
+                <i class="fas fa-star"></i>
+                <span data-lang-key="themeRetro">Ретро</span>
+            </div>
+            <div class="theme-option" onclick="switchTheme('green')">
+                <i class="fas fa-leaf"></i>
+                <span data-lang-key="themeGreen">Зеленая</span>
+            </div>
+        </div>
+    </div>
 
     <div id="particles-js"></div>
 
     <div class="top-left-title">ҮМІТ | АҚП</div>
 
     <div class="header">
-        <h1></h1> 
+        <h1></h1>
     </div>
 
     <div class="container">
@@ -607,7 +823,7 @@
                 </div>
             </a>
             <a href="https://youtube.com/shorts/1fsjEGisgVk?si=QV_IbO7mV7Dcu7lP" target="_blank" class="video-item scroll-reveal-item sound-interactive">
-                <h3>ТЕГІМНІҢ РУХЫ</h3> 
+                <h3>ТЕГІМНІҢ РУХЫ</h3>
                 <div class="video-thumbnail" style="background-image: url('tegimnin_ruhy.jpg');">
                     <i class="fas fa-play play-icon"></i>
                 </div>
@@ -677,23 +893,153 @@
     </div>
 
     <!-- Скрытые аудио элементы для звуковых эффектов -->
-    <audio id="click-sound" class="audio-fx" preload="auto">
-        <!-- Будем генерировать звук через JavaScript -->
-    </audio>
-    
-    <audio id="hover-sound" class="audio-fx" preload="auto">
-        <!-- Будем генерировать звук через JavaScript -->
-    </audio>
+    <audio id="click-sound" class="audio-fx" preload="auto"></audio>
+    <audio id="hover-sound" class="audio-fx" preload="auto"></audio>
 
     <script src="https://unpkg.com/scrollreveal"></script>
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
     <script>
         // ===================================================
+        // СИСТЕМА ПЕРЕКЛЮЧЕНИЯ ТЕМ (ОПТИМИЗИРОВАНА ДЛЯ МОБИЛЬНЫХ)
+        // ===================================================
+        
+        let currentTheme = 'cyber';
+        let isDropdownOpen = false;
+        
+        function switchTheme(theme) {
+            currentTheme = theme;
+            const root = document.documentElement;
+            
+            switch(theme) {
+                case 'cyber':
+                    root.style.setProperty('--dark-bg', 'var(--cyber-dark-bg)');
+                    root.style.setProperty('--red', 'var(--cyber-red)');
+                    root.style.setProperty('--matrix-green', 'var(--cyber-matrix-green)');
+                    root.style.setProperty('--light-text', 'var(--cyber-light-text)');
+                    root.style.setProperty('--box-bg', 'var(--cyber-box-bg)');
+                    root.style.setProperty('--shadow-glitch', 'var(--cyber-shadow-glitch)');
+                    root.style.setProperty('--border-glitch', 'var(--cyber-border-glitch)');
+                    break;
+                case 'light':
+                    root.style.setProperty('--dark-bg', 'var(--light-dark-bg)');
+                    root.style.setProperty('--red', 'var(--light-red)');
+                    root.style.setProperty('--matrix-green', 'var(--light-matrix-green)');
+                    root.style.setProperty('--light-text', 'var(--light-light-text)');
+                    root.style.setProperty('--box-bg', 'var(--light-box-bg)');
+                    root.style.setProperty('--shadow-glitch', 'var(--light-shadow-glitch)');
+                    root.style.setProperty('--border-glitch', '2px solid var(--light-matrix-green)');
+                    break;
+                case 'retro':
+                    root.style.setProperty('--dark-bg', 'var(--retro-dark-bg)');
+                    root.style.setProperty('--red', 'var(--retro-red)');
+                    root.style.setProperty('--matrix-green', 'var(--retro-matrix-green)');
+                    root.style.setProperty('--light-text', 'var(--retro-light-text)');
+                    root.style.setProperty('--box-bg', 'var(--retro-box-bg)');
+                    root.style.setProperty('--shadow-glitch', 'var(--retro-shadow-glitch)');
+                    root.style.setProperty('--border-glitch', 'var(--cyber-border-glitch)');
+                    break;
+                case 'green':
+                    root.style.setProperty('--dark-bg', 'var(--green-dark-bg)');
+                    root.style.setProperty('--red', 'var(--green-red)');
+                    root.style.setProperty('--matrix-green', 'var(--green-matrix-green)');
+                    root.style.setProperty('--light-text', 'var(--green-light-text)');
+                    root.style.setProperty('--box-bg', 'var(--green-box-bg)');
+                    root.style.setProperty('--shadow-glitch', 'var(--green-shadow-glitch)');
+                    root.style.setProperty('--border-glitch', 'var(--cyber-border-glitch)');
+                    break;
+            }
+            
+            // Обновляем активную тему в переключателе
+            document.querySelectorAll('.theme-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Обновляем название текущей темы
+            const themeName = document.getElementById('current-theme-name');
+            const themeNames = {
+                'cyber': 'Киберпанк',
+                'light': 'Светлая',
+                'retro': 'Ретро',
+                'green': 'Зеленая'
+            };
+            themeName.textContent = themeNames[theme];
+            
+            // Сохраняем в localStorage
+            localStorage.setItem('umit-theme', theme);
+            
+            // Закрываем выпадающее меню
+            closeThemeDropdown();
+            
+            // Перезапускаем частицы
+            initParticles();
+        }
+        
+        function toggleThemeDropdown(event) {
+            if (event) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
+            
+            const dropdown = document.getElementById('theme-dropdown');
+            isDropdownOpen = !isDropdownOpen;
+            
+            if (isDropdownOpen) {
+                dropdown.classList.add('show');
+                // Добавляем обработчик для закрытия при клике вне
+                setTimeout(() => {
+                    document.addEventListener('click', closeThemeDropdownOnClickOutside);
+                }, 10);
+            } else {
+                closeThemeDropdown();
+            }
+        }
+        
+        function closeThemeDropdown() {
+            const dropdown = document.getElementById('theme-dropdown');
+            dropdown.classList.remove('show');
+            isDropdownOpen = false;
+            document.removeEventListener('click', closeThemeDropdownOnClickOutside);
+        }
+        
+        function closeThemeDropdownOnClickOutside(event) {
+            const themeSwitcher = document.querySelector('.theme-switcher');
+            if (!themeSwitcher.contains(event.target)) {
+                closeThemeDropdown();
+            }
+        }
+        
+        // Закрытие при скролле на мобильных
+        let scrollTimer;
+        window.addEventListener('scroll', function() {
+            if (isDropdownOpen) {
+                closeThemeDropdown();
+            }
+            
+            // Прячем кнопку темы при скролле вниз на мобильных
+            if (window.innerWidth <= 768) {
+                clearTimeout(scrollTimer);
+                const themeBtn = document.querySelector('.theme-btn');
+                if (themeBtn) {
+                    themeBtn.style.opacity = '0.7';
+                    themeBtn.style.transform = 'scale(0.95)';
+                }
+                
+                scrollTimer = setTimeout(function() {
+                    const themeBtn = document.querySelector('.theme-btn');
+                    if (themeBtn) {
+                        themeBtn.style.opacity = '1';
+                        themeBtn.style.transform = 'scale(1)';
+                    }
+                }, 300);
+            }
+        }, { passive: true });
+        
+        // ===================================================
         // СИСТЕМА ЗВУКОВЫХ ЭФФЕКТОВ
         // ===================================================
         
-        // Создаем аудиоконтекст для генерации звуков
         let audioContext;
         let isAudioEnabled = false;
         
@@ -709,19 +1055,15 @@
             }
         }
         
-        // Включаем аудиосистему при первом взаимодействии пользователя
         function enableAudio() {
             if (!isAudioEnabled) {
                 initAudioSystem();
-                
-                // Воспроизводим тестовый звук для разблокировки аудио
                 if (audioContext && audioContext.state === 'suspended') {
                     audioContext.resume();
                 }
             }
         }
         
-        // Функция для воспроизведения звука щелчка
         function playClickSound() {
             if (!isAudioEnabled) return;
             
@@ -732,20 +1074,19 @@
                 oscillator.connect(gainNode);
                 gainNode.connect(audioContext.destination);
                 
-                oscillator.frequency.value = 800; // Частота в Гц
-                oscillator.type = 'sine'; // Тип волны
+                oscillator.frequency.value = 800;
+                oscillator.type = 'sine';
                 
-                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime); // Громкость
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1); // Плавное затухание
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
                 
                 oscillator.start(audioContext.currentTime);
-                oscillator.stop(audioContext.currentTime + 0.1); // Длительность 0.1 секунды
+                oscillator.stop(audioContext.currentTime + 0.1);
             } catch (e) {
                 console.error("Ошибка воспроизведения звука:", e);
             }
         }
         
-        // Функция для воспроизведения звука наведения
         function playHoverSound() {
             if (!isAudioEnabled) return;
             
@@ -756,46 +1097,18 @@
                 oscillator.connect(gainNode);
                 gainNode.connect(audioContext.destination);
                 
-                oscillator.frequency.value = 1200; // Более высокий тон для наведения
+                oscillator.frequency.value = 1200;
                 oscillator.type = 'sine';
                 
-                gainNode.gain.setValueAtTime(0.05, audioContext.currentTime); // Тише, чем клик
+                gainNode.gain.setValueAtTime(0.05, audioContext.currentTime);
                 gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.05);
                 
                 oscillator.start(audioContext.currentTime);
-                oscillator.stop(audioContext.currentTime + 0.05); // Короче, чем клик
+                oscillator.stop(audioContext.currentTime + 0.05);
             } catch (e) {
                 console.error("Ошибка воспроизведения звука:", e);
             }
         }
-        
-        // Добавляем обработчики событий для интерактивных элементов
-        document.addEventListener('DOMContentLoaded', function() {
-            const interactiveElements = document.querySelectorAll('.sound-interactive');
-            
-            interactiveElements.forEach(element => {
-                // Звук при наведении
-                element.addEventListener('mouseenter', function() {
-                    playHoverSound();
-                });
-                
-                // Звук при клике
-                element.addEventListener('click', function(e) {
-                    playClickSound();
-                    enableAudio(); // Включаем аудиосистему при первом клике
-                });
-                
-                // Звук при фокусе (для доступности)
-                element.addEventListener('focus', function() {
-                    playHoverSound();
-                });
-            });
-            
-            // Включаем аудиосистему при любом взаимодействии с страницей
-            document.addEventListener('click', enableAudio);
-            document.addEventListener('keydown', enableAudio);
-            document.addEventListener('touchstart', enableAudio);
-        });
         
         // ===================================================
         // ЭКРАН ЗАГРУЗКИ
@@ -806,12 +1119,21 @@
             const progressFill = document.getElementById('progress-fill');
             const terminalContent = document.getElementById('terminal-content');
             
-            // Анимация заполнения прогресс-бара
+            // Загружаем сохраненную тему
+            const savedTheme = localStorage.getItem('umit-theme') || 'cyber';
+            const themeOption = document.querySelector(`.theme-option[onclick*="${savedTheme}"]`);
+            if (themeOption) {
+                // Создаем искусственное событие
+                const event = { target: themeOption };
+                switchTheme(savedTheme);
+            }
+            
+            // Анимация прогресс-бара
             setTimeout(() => {
                 progressFill.style.width = '100%';
             }, 100);
             
-            // Анимация печати текста в терминале
+            // Анимация печати текста
             const terminalLines = terminalContent.querySelectorAll('.terminal-text');
             let lineIndex = 0;
             
@@ -821,7 +1143,7 @@
                 line.style.opacity = '1';
                 
                 let charIndex = 0;
-                const typingSpeed = 30; // мс на символ
+                const typingSpeed = 30;
                 
                 function typeChar() {
                     if (charIndex < text.length) {
@@ -845,12 +1167,11 @@
                 }
             }
             
-            // Запускаем анимацию печати
             setTimeout(() => {
                 typeNextLine();
             }, 500);
             
-            // Скрываем экран загрузки через 2.5 секунды
+            // Скрываем экран загрузки
             setTimeout(() => {
                 splashScreen.style.opacity = '0';
                 splashScreen.style.transition = 'opacity 0.5s ease';
@@ -858,56 +1179,33 @@
                 setTimeout(() => {
                     splashScreen.style.display = 'none';
                     
-                    // Инициализируем остальные системы после загрузки
+                    // Инициализируем остальные системы
                     initParticles();
                     initScrollReveal();
-                    initThemeSystem();
+                    initAudioSystem();
+                    
+                    // Добавляем обработчики звуковых эффектов
+                    const interactiveElements = document.querySelectorAll('.sound-interactive');
+                    interactiveElements.forEach(element => {
+                        element.addEventListener('mouseenter', playHoverSound);
+                        element.addEventListener('click', function() {
+                            playClickSound();
+                            enableAudio();
+                        });
+                        element.addEventListener('touchstart', function() {
+                            playClickSound();
+                            enableAudio();
+                        }, { passive: true });
+                        element.addEventListener('focus', playHoverSound);
+                    });
+                    
+                    // Активируем аудио при любом взаимодействии
+                    document.addEventListener('click', enableAudio);
+                    document.addEventListener('keydown', enableAudio);
+                    document.addEventListener('touchstart', enableAudio, { passive: true });
                 }, 500);
             }, 2500);
         });
-        
-        // ===================================================
-        // СИСТЕМА ПЕРЕКЛЮЧЕНИЯ ТЕМ
-        // ===================================================
-        
-        function initThemeSystem() {
-            const themeToggle = document.getElementById('theme-toggle');
-            const themeIcon = themeToggle.querySelector('i');
-            
-            // Проверяем сохраненную тему в localStorage
-            const savedTheme = localStorage.getItem('umit-theme');
-            
-            if (savedTheme === 'light') {
-                document.body.classList.add('light-theme');
-                themeIcon.className = 'fas fa-sun';
-                themeToggle.innerHTML = '<i class="fas fa-sun"></i> Тема';
-            } else {
-                themeIcon.className = 'fas fa-moon';
-                themeToggle.innerHTML = '<i class="fas fa-moon"></i> Тема';
-            }
-            
-            // Обработчик переключения темы
-            themeToggle.addEventListener('click', function() {
-                playClickSound();
-                
-                // Переключаем тему
-                document.body.classList.toggle('light-theme');
-                
-                // Обновляем иконку
-                if (document.body.classList.contains('light-theme')) {
-                    themeIcon.className = 'fas fa-sun';
-                    themeToggle.innerHTML = '<i class="fas fa-sun"></i> Тема';
-                    localStorage.setItem('umit-theme', 'light');
-                } else {
-                    themeIcon.className = 'fas fa-moon';
-                    themeToggle.innerHTML = '<i class="fas fa-moon"></i> Тема';
-                    localStorage.setItem('umit-theme', 'dark');
-                }
-                
-                // Перезапускаем частицы для новой темы
-                initParticles();
-            });
-        }
         
         // ===================================================
         // СИСТЕМА ЧАСТИЦ (Particle.js)
@@ -921,41 +1219,106 @@
             }
             
             // Определяем цвета в зависимости от темы
-            const isLightTheme = document.body.classList.contains('light-theme');
-            const particleColor = isLightTheme ? ["#00997A", "#CC0033"] : ["#33FFCC", "#FF3366"];
-            const lineLinkedColor = isLightTheme ? "#00997A" : "#33FFCC";
+            let particleColor, lineLinkedColor;
+            
+            switch(currentTheme) {
+                case 'cyber':
+                    particleColor = ["#33FFCC", "#FF3366"];
+                    lineLinkedColor = "#33FFCC";
+                    break;
+                case 'light':
+                    particleColor = ["#34a853", "#1a73e8"];
+                    lineLinkedColor = "#34a853";
+                    break;
+                case 'retro':
+                    particleColor = ["#FF69B4", "#FFD700"];
+                    lineLinkedColor = "#FF69B4";
+                    break;
+                case 'green':
+                    particleColor = ["#00ccff", "#00ff88"];
+                    lineLinkedColor = "#00ccff";
+                    break;
+                default:
+                    particleColor = ["#33FFCC", "#FF3366"];
+                    lineLinkedColor = "#33FFCC";
+            }
             
             particlesJS('particles-js', {
                 "particles": {
-                    "number": { "value": 100, "density": { "enable": true, "value_area": 800 } },
+                    "number": { 
+                        "value": window.innerWidth <= 768 ? 70 : 100, 
+                        "density": { 
+                            "enable": true, 
+                            "value_area": window.innerWidth <= 768 ? 600 : 800 
+                        } 
+                    },
                     "color": { "value": particleColor },
                     "shape": { "type": "star" },
-                    "opacity": { "value": 0.6, "random": true, "anim": { "enable": true, "speed": 1.5, "opacity_min": 0.1, "sync": false } },
-                    "size": { "value": 2, "random": true, "anim": { "enable": false } },
+                    "opacity": { 
+                        "value": 0.6, 
+                        "random": true, 
+                        "anim": { 
+                            "enable": true, 
+                            "speed": 1.5, 
+                            "opacity_min": 0.1, 
+                            "sync": false 
+                        } 
+                    },
+                    "size": { 
+                        "value": window.innerWidth <= 768 ? 1.5 : 2, 
+                        "random": true, 
+                        "anim": { "enable": false } 
+                    },
                     "line_linked": { 
                         "enable": true, 
-                        "distance": 130, 
+                        "distance": window.innerWidth <= 768 ? 100 : 130, 
                         "color": lineLinkedColor, 
-                        "opacity": isLightTheme ? 0.3 : 0.5, 
+                        "opacity": 0.5, 
                         "width": 1 
                     },
-                    "move": { "enable": true, "speed": 1.5, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
+                    "move": { 
+                        "enable": true, 
+                        "speed": window.innerWidth <= 768 ? 1 : 1.5, 
+                        "direction": "none", 
+                        "random": false, 
+                        "straight": false, 
+                        "out_mode": "out", 
+                        "bounce": false 
+                    }
                 },
                 "interactivity": {
                     "detect_on": "canvas",
                     "events": { 
-                        "onhover": { "enable": true, "mode": "grab" }, 
-                        "onclick": { "enable": true, "mode": "push" }, 
+                        "onhover": { 
+                            "enable": window.innerWidth > 768, // Отключаем на мобильных
+                            "mode": "grab" 
+                        }, 
+                        "onclick": { 
+                            "enable": true, 
+                            "mode": "push" 
+                        }, 
                         "resize": true 
                     },
                     "modes": { 
-                        "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, 
+                        "grab": { 
+                            "distance": window.innerWidth <= 768 ? 100 : 140, 
+                            "line_linked": { "opacity": 1 } 
+                        }, 
                         "push": { "particles_nb": 4 } 
                     }
                 },
                 "retina_detect": true
             });
         }
+        
+        // Переинициализация частиц при изменении размера окна
+        let resizeTimer;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function() {
+                initParticles();
+            }, 250);
+        });
         
         // ===================================================
         // ScrollReveal АНИМАЦИИ
@@ -967,11 +1330,21 @@
                 duration: 1500, 
                 easing: 'cubic-bezier(0.645, 0.045, 0.355, 1)', 
                 interval: 100, 
-                reset: false 
+                reset: false,
+                mobile: true
             });
             
-            ScrollReveal().reveal('.scroll-reveal-item', { origin: 'bottom' });
-            ScrollReveal().reveal('.section-title', { origin: 'top', distance: '40px', delay: 300, interval: 0 });
+            ScrollReveal().reveal('.scroll-reveal-item', { 
+                origin: 'bottom',
+                distance: '30px',
+                duration: 1000
+            });
+            ScrollReveal().reveal('.section-title', { 
+                origin: 'top', 
+                distance: '40px', 
+                delay: 300, 
+                interval: 0 
+            });
         }
         
         // ===================================================
@@ -980,7 +1353,7 @@
         
         function showAlert() {
             playClickSound();
-            alert('Менің әкем Рамазанов Төреғалидың өлеңдері жақын-да қосылады! Жүктеу жүргізілуде...');
+            alert('Менің әкем Рамазанов Төреғалидың өлеңдері жақында қосылады! Жүктеу жүргізілуде...');
         }
         
         // Обработка формы
@@ -988,7 +1361,6 @@
             e.preventDefault();
             playClickSound();
             
-            // Простая валидация
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const message = document.getElementById('message').value;
@@ -1001,13 +1373,15 @@
             }
         });
         
-        // Инициализация всех систем после полной загрузки страницы
-        window.addEventListener('load', function() {
-            // Аудиосистема уже инициализируется при взаимодействии
-            // Остальные системы инициализируются после загрузки экрана
+        // Оптимизация для мобильных устройств
+        document.addEventListener('touchstart', function() {}, { passive: true });
+        
+        // Предотвращение контекстного меню на мобильных
+        document.addEventListener('contextmenu', function(e) {
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+            }
         });
-
     </script>
-
 </body>
 </html>
