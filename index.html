@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>UMIT | 音频播放器 (霓虹)</title>
+    <title>UMIT | Аудио Плеер (Неон)</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -138,6 +138,77 @@
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
+        }
+
+        /* ===== Переключатель авторов ===== */
+        .author-switcher {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .author-btn {
+            background-color: var(--player-bg);
+            border: 2px solid var(--main-neon);
+            color: var(--light-text);
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            min-width: 200px;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .author-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(0,255,255,0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.4s, height 0.4s;
+        }
+
+        .author-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .author-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .author-btn.active {
+            background-color: var(--main-neon);
+            color: var(--dark-bg);
+            font-weight: bold;
+            box-shadow: var(--neon-shadow-light);
+            transform: scale(1.05);
+        }
+
+        .author-badge {
+            background-color: var(--secondary-neon);
+            color: var(--dark-bg);
+            font-size: 0.7em;
+            padding: 3px 8px;
+            border-radius: 10px;
+            margin-left: 8px;
+            font-weight: bold;
         }
 
         /* ===== Переключатель языков ===== */
@@ -1267,6 +1338,18 @@
                 margin-bottom: 20px;
             }
             
+            .author-switcher {
+                flex-direction: column;
+                gap: 10px;
+                margin: 20px 0;
+            }
+            
+            .author-btn {
+                min-width: 100%;
+                padding: 15px 20px;
+                font-size: 0.95em;
+            }
+            
             .theme-switcher {
                 top: 15px;
                 left: 15px;
@@ -1485,6 +1568,11 @@
             
             .header h1 {
                 font-size: 1.4em;
+            }
+            
+            .author-btn {
+                padding: 12px 15px;
+                font-size: 0.9em;
             }
             
             .theme-btn, .lang-btn {
@@ -1713,10 +1801,29 @@
             </div>
         </div>
         
+        <!-- Выбор автора -->
+        <div class="author-switcher">
+            <button class="author-btn active" onclick="switchAuthor('all')">
+                <i class="fas fa-users"></i> 
+                <span data-lang-key="allAuthors">Барлық авторлар</span>
+                <span class="author-badge" id="all-count">10</span>
+            </button>
+            <button class="author-btn" onclick="switchAuthor('qabykenov')">
+                <i class="fas fa-user"></i> 
+                <span>Қабыкенов Сағыныш</span>
+                <span class="author-badge" id="qabykenov-count">8</span>
+            </button>
+            <button class="author-btn" onclick="switchAuthor('ramazanov')">
+                <i class="fas fa-user"></i> 
+                <span>Рамазанов Төреғали</span>
+                <span class="author-badge" id="ramazanov-count">2</span>
+            </button>
+        </div>
+        
         <!-- Табы для основного и избранного плейлистов -->
         <div class="tab-buttons">
             <button class="tab-btn active" onclick="showPlaylist('main')">
-                <i class="fas fa-list"></i> <span data-lang-key="mainPlaylist">Негізгі Плейлист (8 трек)</span>
+                <i class="fas fa-list"></i> <span data-lang-key="mainPlaylist">Негізгі Плейлист</span> (<span id="playlist-count">10</span>)
             </button>
             <button class="tab-btn" onclick="showPlaylist('favorites')">
                 <i class="fas fa-heart"></i> <span data-lang-key="favorites">Маған ұнайды</span> ( <span id="favorites-count">0</span> )
@@ -1732,10 +1839,12 @@
                 <i class="fas fa-search search-icon"></i>
             </div>
             
-            <div class="playlist-item" data-index="0" data-title="Орта жүз">
+            <!-- Треки Қабыкенов Сағыныш -->
+            <div class="playlist-item" data-index="0" data-title="Орта жүз" data-author="qabykenov">
                 <div class="item-info">
                     <i class="fas fa-music"></i>
                     <span>1. <span data-lang-key="song1">Орта жүз</span></span>
+                    <span class="author-tag" style="font-size: 0.8em; color: var(--secondary-neon);">Қабыкенов С.</span>
                 </div>
                 <div class="item-actions">
                     <button class="favorite-btn" onclick="toggleFavoriteItem(0, event)">
@@ -1745,10 +1854,11 @@
                 </div>
             </div>
             
-            <div class="playlist-item" data-index="1" data-title="Жарылғап батыр">
+            <div class="playlist-item" data-index="1" data-title="Жарылғап батыр" data-author="qabykenov">
                 <div class="item-info">
                     <i class="fas fa-music"></i>
                     <span>2. <span data-lang-key="song2">Жарылғап батыр</span></span>
+                    <span class="author-tag" style="font-size: 0.8em; color: var(--secondary-neon);">Қабыкенов С.</span>
                 </div>
                 <div class="item-actions">
                     <button class="favorite-btn" onclick="toggleFavoriteItem(1, event)">
@@ -1801,10 +1911,11 @@
                 </div>
             </div>
             
-            <div class="playlist-item" data-index="2" data-title="Тәгімнің рухы">
+            <div class="playlist-item" data-index="2" data-title="Тәгімнің рухы" data-author="qabykenov">
                 <div class="item-info">
                     <i class="fas fa-music"></i>
                     <span>3. <span data-lang-key="song3">Тегімнің рухы</span></span>
+                    <span class="author-tag" style="font-size: 0.8em; color: var(--secondary-neon);">Қабыкенов С.</span>
                 </div>
                 <div class="item-actions">
                     <button class="favorite-btn" onclick="toggleFavoriteItem(2, event)">
@@ -1834,7 +1945,7 @@
             Арада жарқ еткен Жарылғап батыр атам –
             Қазақтың намысы үшін қылушын сілтеген.
             Есімі елдің аузында, дастандарға арқау,
-            Осы текте жаңғыстыру – менің ұлы антым!
+            Осы текте жаңгыстыру – менің ұлы антым!
 
             Шүкын, Үкі, Қонарбай – тарихтың кезеңі,
             Рамазан – із қалдырған өмірдің өзегі.
@@ -1855,10 +1966,11 @@
             </div>
             
             <!-- ЖАҢА ТРЕКТЕР (4 жаңа өлең) -->
-            <div class="playlist-item" data-index="3" data-title="Қалжыр">
+            <div class="playlist-item" data-index="3" data-title="Қалжыр" data-author="qabykenov">
                 <div class="item-info">
                     <i class="fas fa-music"></i>
                     <span>4. <span data-lang-key="song4">Қалжыр</span> <span class="new-track-badge" data-lang-key="new">ЖАҢА!</span></span>
+                    <span class="author-tag" style="font-size: 0.8em; color: var(--secondary-neon);">Қабыкенов С.</span>
                 </div>
                 <div class="item-actions">
                     <button class="favorite-btn" onclick="toggleFavoriteItem(3, event)">
@@ -1915,7 +2027,7 @@
             Әр тасыңда – ата-бабам мекені,
             Жүрегімнің жылуысың осы маңда. 
             Оң жақ Қалжыр, Тақыр, Шеңгелдім, 
-            Бірге өскен құрбы0-құрдас, достарым. 
+            Бірге өскен құрбы-құрдас, достарым. 
             Мейіріміңе бөлендім, тербелдім,  
             Шығысымның ай астындағы аспаны.
                     </p>
@@ -1923,10 +2035,11 @@
                 </div>
             </div>
             
-            <div class="playlist-item" data-index="4" data-title="Қалжыр2">
+            <div class="playlist-item" data-index="4" data-title="Қалжыр2" data-author="qabykenov">
                 <div class="item-info">
                     <i class="fas fa-music"></i>
                     <span>5. <span data-lang-key="song5">Қалжыр2</span> <span class="new-track-badge" data-lang-key="new">ЖАҢА!</span></span>
+                    <span class="author-tag" style="font-size: 0.8em; color: var(--secondary-neon);">Қабыкенов С.</span>
                 </div>
                 <div class="item-actions">
                     <button class="favorite-btn" onclick="toggleFavoriteItem(4, event)">
@@ -1991,10 +2104,11 @@
                 </div>
             </div>
             
-            <div class="playlist-item" data-index="5" data-title="Wedding_fog">
+            <div class="playlist-item" data-index="5" data-title="Wedding_fog" data-author="qabykenov">
                 <div class="item-info">
                     <i class="fas fa-music"></i>
                     <span>6. <span data-lang-key="song6">Wedding_fog</span> <span class="new-track-badge" data-lang-key="new">ЖАҢА!</span></span>
+                    <span class="author-tag" style="font-size: 0.8em; color: var(--secondary-neon);">Қабыкенов С.</span>
                 </div>
                 <div class="item-actions">
                     <button class="favorite-btn" onclick="toggleFavoriteItem(5, event)">
@@ -2011,10 +2125,11 @@
                 </div>
             </div>
             
-            <div class="playlist-item" data-index="6" data-title="Wedding_fog2">
+            <div class="playlist-item" data-index="6" data-title="Wedding_fog2" data-author="qabykenov">
                 <div class="item-info">
                     <i class="fas fa-music"></i>
                     <span>7. <span data-lang-key="song7">Wedding_fog2</span> <span class="new-track-badge" data-lang-key="new">ЖАҢА!</span></span>
+                    <span class="author-tag" style="font-size: 0.8em; color: var(--secondary-neon);">Қабыкенов С.</span>
                 </div>
                 <div class="item-actions">
                     <button class="favorite-btn" onclick="toggleFavoriteItem(6, event)">
@@ -2079,10 +2194,11 @@
                </div>
             </div>
             
-            <div class="playlist-item" data-index="7" data-title="Along_the_roads">
+            <div class="playlist-item" data-index="7" data-title="Along_the_roads" data-author="qabykenov">
                 <div class="item-info">
                     <i class="fas fa-music"></i>
                     <span>8. <span data-lang-key="song8">Along_the_roads</span> <span class="new-track-badge" data-lang-key="private">Жеке</span></span>
+                    <span class="author-tag" style="font-size: 0.8em; color: var(--secondary-neon);">Қабыкенов С.</span>
                 </div>
                 <div class="item-actions">
                     <button class="favorite-btn" onclick="toggleFavoriteItem(7, event)">
@@ -2096,6 +2212,95 @@
                   ТЕКСТ НЕ ДОСТУПЕН )
                    </p>
                     <p class="author-sign">~ Қабыкенов Сағыныш</p>
+                </div>
+            </div>
+            
+            <!-- Треки Рамазанов Төреғали -->
+            <div class="playlist-item" data-index="8" data-title="Koktem" data-author="ramazanov">
+                <div class="item-info">
+                    <i class="fas fa-music"></i>
+                    <span>9. <span data-lang-key="song9">Көктем</span> <span class="new-track-badge">ЖАҢА!</span></span>
+                    <span class="author-tag" style="font-size: 0.8em; color: #00FF88;">Рамазанов Т.</span>
+                </div>
+                <div class="item-actions">
+                    <button class="favorite-btn" onclick="toggleFavoriteItem(8, event)">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <span class="item-duration">3:10</span>
+                    <button class="lyrics-toggle-btn" data-lyrics-index="8" onclick="toggleLyrics(this)" data-lang-key="lyrics">Мәтін</button>
+                </div>
+                <div class="lyrics-content" id="lyrics-8">
+                    <p>
+            Көктем келді, жер жасылданды,
+            Гүлдер шықты, бұлбұл сайрады.
+            Табиғаттың қуанышы,
+            Көктемнің сәні басылмады.
+
+            Жазғы күн, қысқы түн,
+            Көктем арқылы өткен өмір.
+            Әрбір көктем жаңа өмір,
+            Әрбір гүлде жаңа әні бар.
+
+            Көктем келді, көңіл ашылды,
+            Жүректерде махаббат өсті.
+            Жас өмірдің басталуы,
+            Көктеммен бірге жаңғырды.
+
+            Табиғат пен адам баласы,
+            Бірге өмір сүреді осы жерде.
+            Көктем келгенде, бәрі қуанады,
+            Өмірдің әні қайта жанғандай.
+
+            Көктем келді, көктем кетті,
+            Бірақ әсері қалады.
+            Әрбір жаз, әрбір қыс,
+            Көктемді еске алып қалады.
+                    </p>
+                    <p class="author-sign">~ Рамазанов Төреғали</p>
+                </div>
+            </div>
+            
+            <div class="playlist-item" data-index="9" data-title="Tugan_tuys_bakytim" data-author="ramazanov">
+                <div class="item-info">
+                    <i class="fas fa-music"></i>
+                    <span>10. <span data-lang-key="song10">Туған туыс бақытым</span> <span class="new-track-badge">ЖАҢА!</span></span>
+                    <span class="author-tag" style="font-size: 0.8em; color: #00FF88;">Рамазанов Т.</span>
+                </div>
+                <div class="item-actions">
+                    <button class="favorite-btn" onclick="toggleFavoriteItem(9, event)">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <span class="item-duration">2:55</span>
+                    <button class="lyrics-toggle-btn" data-lyrics-index="9" onclick="toggleLyrics(this)" data-lang-key="lyrics">Мәтін</button>
+                </div>
+                <div class="lyrics-content" id="lyrics-9">
+                    <p>
+            Туған туыс - менің бақытым,
+            Әрқайсысы менің жақыным.
+            Бірге өскен, бірге күлген,
+            Өмір бойы бірге жүрген.
+
+            Ата-ана, аға-іні,
+            Сіңлілерім, жақындарым.
+            Әрбіріңе деген сүйіспеншілік,
+            Өмірімнің ең басты нәрсесі.
+
+            Қиындықта бірге болдық,
+            Бәйгеде бірге жеңдік.
+            Күнделікті өмір жолында,
+            Бір-бірімізге сенім арттырдық.
+
+            Туған туыс - бұл байлық,
+            Асыл қазына, мәңгілік дос.
+            Өмір жолының әр сағатында,
+            Сендерсіз өмір бос.
+
+            Жақындарым, туыстарым,
+            Сіздерге деген махаббатым.
+            Өмір бойы бірге болайық,
+            Бақытты өмір сүрейік.
+                    </p>
+                    <p class="author-sign">~ Рамазанов Төреғали</p>
                 </div>
             </div>
         </div>
@@ -2124,7 +2329,8 @@
                 "new": "ЖАҢА!",
                 "private": "Жеке",
                 "lyrics": "Мәтін",
-                "mainPlaylist": "Негізгі Плейлист (8 трек)",
+                "allAuthors": "Барлық авторлар",
+                "mainPlaylist": "Негізгі Плейлист",
                 "favorites": "Маған ұнайды",
                 "songsList": "Өлеңдер Тізімі:",
                 "favoritesList": "Маған Ұнайды Өлеңдер:",
@@ -2138,6 +2344,8 @@
                 "song6": "Wedding_fog",
                 "song7": "Wedding_fog2",
                 "song8": "Along_the_roads",
+                "song9": "Көктем",
+                "song10": "Туған туыс бақытым",
                 "themeNeon": "Неон",
                 "themeLight": "Светлая",
                 "themeRetro": "Ретро",
@@ -2159,7 +2367,8 @@
                 "new": "НОВЫЙ!",
                 "private": "Приватный",
                 "lyrics": "Текст",
-                "mainPlaylist": "Основной Плейлист (8 треков)",
+                "allAuthors": "Все авторы",
+                "mainPlaylist": "Основной Плейлист",
                 "favorites": "Мне нравится",
                 "songsList": "Список Песен:",
                 "favoritesList": "Понравившиеся Песни:",
@@ -2173,6 +2382,8 @@
                 "song6": "Wedding_fog",
                 "song7": "Wedding_fog2",
                 "song8": "Along_the_roads",
+                "song9": "Весна",
+                "song10": "Мое родное счастье",
                 "themeNeon": "Неон",
                 "themeLight": "Светлая",
                 "themeRetro": "Ретро",
@@ -2194,7 +2405,8 @@
                 "new": "NEW!",
                 "private": "Private",
                 "lyrics": "Lyrics",
-                "mainPlaylist": "Main Playlist (8 tracks)",
+                "allAuthors": "All Authors",
+                "mainPlaylist": "Main Playlist",
                 "favorites": "Favorites",
                 "songsList": "Songs List:",
                 "favoritesList": "Favorite Songs:",
@@ -2208,6 +2420,8 @@
                 "song6": "Wedding_fog",
                 "song7": "Wedding_fog2",
                 "song8": "Along_the_roads",
+                "song9": "Spring",
+                "song10": "My Native Happiness",
                 "themeNeon": "Neon",
                 "themeLight": "Light",
                 "themeRetro": "Retro",
@@ -2229,7 +2443,8 @@
                 "new": "NOUVEAU!",
                 "private": "Privé",
                 "lyrics": "Paroles",
-                "mainPlaylist": "Playlist Principale (8 pistes)",
+                "allAuthors": "Tous les auteurs",
+                "mainPlaylist": "Playlist Principale",
                 "favorites": "Favoris",
                 "songsList": "Liste des Chansons:",
                 "favoritesList": "Chansons Favorites:",
@@ -2243,6 +2458,8 @@
                 "song6": "Wedding_fog",
                 "song7": "Wedding_fog2",
                 "song8": "Along_the_roads",
+                "song9": "Printemps",
+                "song10": "Mon Bonheur Natal",
                 "themeNeon": "Néon",
                 "themeLight": "Clair",
                 "themeRetro": "Rétro",
@@ -2264,7 +2481,8 @@
                 "new": "新！",
                 "private": "私密",
                 "lyrics": "歌词",
-                "mainPlaylist": "主播放列表 (8首曲目)",
+                "allAuthors": "所有作者",
+                "mainPlaylist": "主播放列表",
                 "favorites": "我喜欢",
                 "songsList": "歌曲列表:",
                 "favoritesList": "喜欢的歌曲:",
@@ -2278,6 +2496,8 @@
                 "song6": "婚礼氛围",
                 "song7": "婚礼氛围2",
                 "song8": "沿路而行",
+                "song9": "春天",
+                "song10": "我的故乡幸福",
                 "themeNeon": "霓虹",
                 "themeLight": "浅色",
                 "themeRetro": "复古",
@@ -2297,6 +2517,7 @@
 
         let currentLanguage = 'kk';
         let currentTheme = 'neon';
+        let currentAuthor = 'all';
         let isThemeDropdownOpen = false;
         let isLangDropdownOpen = false;
 
@@ -2521,6 +2742,63 @@
             if (!languageSwitcher.contains(event.target)) {
                 closeLangDropdown();
             }
+        }
+
+        // ===================================================
+        // ВЫБОР АВТОРА
+        // ===================================================
+        
+        function switchAuthor(author) {
+            currentAuthor = author;
+            
+            // Обновляем активную кнопку автора
+            document.querySelectorAll('.author-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Фильтруем плейлист
+            filterPlaylistByAuthor();
+            
+            // Сохраняем выбор автора
+            localStorage.setItem('author', author);
+            
+            // Обновляем счетчик треков
+            updateTrackCount();
+        }
+        
+        function filterPlaylistByAuthor() {
+            const playlistItems = document.querySelectorAll('.playlist-item');
+            let visibleCount = 0;
+            
+            playlistItems.forEach(item => {
+                const itemAuthor = item.getAttribute('data-author');
+                
+                if (currentAuthor === 'all' || itemAuthor === currentAuthor) {
+                    item.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+            
+            // Обновляем счетчик в основном плейлисте
+            document.getElementById('playlist-count').textContent = visibleCount;
+            
+            // Также обновляем избранное если оно открыто
+            if (document.getElementById('favorites-playlist').classList.contains('show')) {
+                updateFavoritesPlaylist();
+            }
+        }
+        
+        function updateTrackCount() {
+            const allItems = document.querySelectorAll('.playlist-item');
+            const qabykenovItems = document.querySelectorAll('.playlist-item[data-author="qabykenov"]');
+            const ramazanovItems = document.querySelectorAll('.playlist-item[data-author="ramazanov"]');
+            
+            document.getElementById('all-count').textContent = allItems.length;
+            document.getElementById('qabykenov-count').textContent = qabykenovItems.length;
+            document.getElementById('ramazanov-count').textContent = ramazanovItems.length;
         }
 
         // ===================================================
@@ -2865,49 +3143,71 @@
                 title: translations[currentLanguage].song1, 
                 src: "orta_juz_audio.mp3", 
                 cover: "orta_juz.jpg", 
-                id: 0 
+                id: 0,
+                author: "qabykenov"
             }, 
             { 
                 title: translations[currentLanguage].song2, 
                 src: "jarylgap_batyr_audio.mp3", 
                 cover: "jarylgap_batyr.jpg", 
-                id: 1 
+                id: 1,
+                author: "qabykenov"
             }, 
             { 
                 title: translations[currentLanguage].song3, 
                 src: "tegimnin_ruhy_audio.mp3", 
                 cover: "tegimnin_ruhy.jpg", 
-                id: 2 
+                id: 2,
+                author: "qabykenov"
             },
             { 
                 title: translations[currentLanguage].song4, 
                 src: "Kalzhyr.mp3", 
                 cover: "Kalzhyr.jpg", 
-                id: 3 
+                id: 3,
+                author: "qabykenov"
             },
             { 
                 title: translations[currentLanguage].song5, 
                 src: "Kalzhyr2.mp3", 
                 cover: "Kalzhyr2.jpg", 
-                id: 4 
+                id: 4,
+                author: "qabykenov"
             },
             { 
                 title: translations[currentLanguage].song6, 
                 src: "Wedding_fog.mp3", 
                 cover: "Wedding_fog.jpg", 
-                id: 5 
+                id: 5,
+                author: "qabykenov"
             },
             { 
                 title: translations[currentLanguage].song7, 
                 src: "Wedding_fog2.mp3", 
                 cover: "Wedding_fog2.jpg", 
-                id: 6 
+                id: 6,
+                author: "qabykenov"
             },
             { 
                 title: translations[currentLanguage].song8, 
                 src: "Along_the_roads.mp3", 
                 cover: "Along_the_roads.jpg", 
-                id: 7 
+                id: 7,
+                author: "qabykenov"
+            },
+            { 
+                title: translations[currentLanguage].song9, 
+                src: "Koktem.mp3", 
+                cover: "Koktem.jpg", 
+                id: 8,
+                author: "ramazanov"
+            },
+            { 
+                title: translations[currentLanguage].song10, 
+                src: "Tugan_tuys_bakytim.mp3", 
+                cover: "Tugan_tuys_bakytim.jpg", 
+                id: 9,
+                author: "ramazanov"
             }
         ];
 
@@ -3001,6 +3301,30 @@
 
         function playNext() {
             let nextIndex = currentTrackIndex + 1;
+            
+            // Если следующий трек скрыт из-за фильтрации по автору, ищем следующий видимый
+            if (currentAuthor !== 'all') {
+                const visibleItems = Array.from(playlistItems).filter(item => 
+                    !item.classList.contains('hidden')
+                );
+                
+                if (visibleItems.length > 0) {
+                    const currentVisibleIndex = Array.from(visibleItems).findIndex(item => 
+                        parseInt(item.getAttribute('data-index')) === currentTrackIndex
+                    );
+                    
+                    if (currentVisibleIndex !== -1 && currentVisibleIndex < visibleItems.length - 1) {
+                        nextIndex = parseInt(visibleItems[currentVisibleIndex + 1].getAttribute('data-index'));
+                    } else {
+                        audioPlayer.pause();
+                        playIcon.className = 'fas fa-play';
+                        coverImage.classList.remove('active');
+                        updateMediaSessionState();
+                        return;
+                    }
+                }
+            }
+            
             if (nextIndex >= tracks.length) {
                 audioPlayer.pause();
                 playIcon.className = 'fas fa-play';
@@ -3012,8 +3336,29 @@
         }
 
         function playPrevious() {
-            if (audioPlayer.currentTime < 3 && currentTrackIndex > 0) {
-                loadTrack(currentTrackIndex - 1);
+            if (audioPlayer.currentTime < 3) {
+                // Ищем предыдущий видимый трек если есть фильтрация по автору
+                if (currentAuthor !== 'all') {
+                    const visibleItems = Array.from(playlistItems).filter(item => 
+                        !item.classList.contains('hidden')
+                    );
+                    
+                    if (visibleItems.length > 0) {
+                        const currentVisibleIndex = Array.from(visibleItems).findIndex(item => 
+                            parseInt(item.getAttribute('data-index')) === currentTrackIndex
+                        );
+                        
+                        if (currentVisibleIndex > 0) {
+                            const prevIndex = parseInt(visibleItems[currentVisibleIndex - 1].getAttribute('data-index'));
+                            loadTrack(prevIndex);
+                            return;
+                        }
+                    }
+                }
+                
+                if (currentTrackIndex > 0) {
+                    loadTrack(currentTrackIndex - 1);
+                }
             } else {
                 audioPlayer.currentTime = 0;
             }
@@ -3043,10 +3388,10 @@
             
             if (index === -1) {
                 favorites.push(trackId);
-                showNotification(translations[currentLanguage].noFavorites.split("'")[0] + "'");
+                showNotification(currentLanguage === 'kk' ? 'Қосылды!' : 'Добавлено!');
             } else {
                 favorites.splice(index, 1);
-                showNotification(translations[currentLanguage].noFavorites.split("'")[0] + "'");
+                showNotification(currentLanguage === 'kk' ? 'Жойылды!' : 'Удалено!');
             }
             
             localStorage.setItem('audioPlayerFavorites', JSON.stringify(favorites));
@@ -3071,10 +3416,10 @@
             
             if (index === -1) {
                 favorites.push(trackId);
-                showNotification(translations[currentLanguage].noFavorites.split("'")[0] + "'");
+                showNotification(currentLanguage === 'kk' ? 'Қосылды!' : 'Добавлено!');
             } else {
                 favorites.splice(index, 1);
-                showNotification(translations[currentLanguage].noFavorites.split("'")[0] + "'");
+                showNotification(currentLanguage === 'kk' ? 'Жойылды!' : 'Удалено!');
             }
             
             localStorage.setItem('audioPlayerFavorites', JSON.stringify(favorites));
@@ -3152,25 +3497,42 @@
             
             noFavoritesMsg.style.display = 'none';
             
+            let visibleFavCount = 0;
+            
             favorites.forEach(trackId => {
                 const track = tracks.find(t => t.id === trackId);
                 if (!track) return;
                 
+                // Проверяем фильтр по автору
+                if (currentAuthor !== 'all' && track.author !== currentAuthor) {
+                    return;
+                }
+                
                 const index = track.id;
                 let badge = '';
+                let authorTag = '';
+                
+                if (track.author === 'qabykenov') {
+                    authorTag = '<span class="author-tag" style="font-size: 0.8em; color: var(--secondary-neon);">Қабыкенов С.</span>';
+                } else if (track.author === 'ramazanov') {
+                    authorTag = '<span class="author-tag" style="font-size: 0.8em; color: #00FF88;">Рамазанов Т.</span>';
+                }
+                
                 if (index === 7) {
                     badge = `<span class="new-track-badge">${translations[currentLanguage].private}</span>`;
-                } else if (index > 2 && index < 7) {
+                } else if (index > 2 && index < 10) {
                     badge = `<span class="new-track-badge">${translations[currentLanguage].new}</span>`;
                 }
                 
                 const item = document.createElement('div');
                 item.className = 'playlist-item';
                 item.dataset.index = index;
+                item.dataset.author = track.author;
                 item.innerHTML = `
                     <div class="item-info">
                         <i class="fas fa-heart" style="color: var(--secondary-neon);"></i>
                         <span>${index + 1}. ${track.title} ${badge}</span>
+                        ${authorTag}
                     </div>
                     <div class="item-actions">
                         <button class="favorite-btn favorited" onclick="toggleFavoriteItem(${index}, event)">
@@ -3183,6 +3545,7 @@
                 `;
                 
                 favoritesList.appendChild(item);
+                visibleFavCount++;
                 
                 // Копируем текст песни из оригинала
                 setTimeout(() => {
@@ -3197,16 +3560,19 @@
                 
                 // Добавляем обработчик клика на весь элемент
                 item.addEventListener('click', function(e) {
-                    if (!e.target.closest('.favorite-btn') && !e.target.closest('.lyrics-toggle-btn') && !e.target.classList.contains('new-track-badge')) {
+                    if (!e.target.closest('.favorite-btn') && !e.target.closest('.lyrics-toggle-btn') && !e.target.classList.contains('new-track-badge') && !e.target.classList.contains('author-tag')) {
                         loadTrack(index);
                     }
                 });
             });
+            
+            // Обновляем счетчик избранных
+            document.getElementById('favorites-count').textContent = visibleFavCount;
         }
         
         function getTrackDuration(index) {
             if (index < 0 || index >= tracks.length) return "0:00";
-            const durations = ["3:49", "2:34", "2:16", "2:36", "2:19", "2:43", "2:14", "1:40"];
+            const durations = ["3:49", "2:34", "2:16", "2:36", "2:19", "2:43", "2:14", "1:40", "3:10", "2:55"];
             return durations[index] || "0:00";
         }
         
@@ -3276,8 +3642,22 @@
                 switchTheme(savedTheme);
             }
             
+            // Загружаем автора
+            const savedAuthor = localStorage.getItem('author') || 'all';
+            currentAuthor = savedAuthor;
+            const authorBtn = document.querySelector(`.author-btn[onclick*="${savedAuthor}"]`);
+            if (authorBtn) {
+                authorBtn.classList.add('active');
+                filterPlaylistByAuthor();
+            } else {
+                // Если кнопка не найдена, показываем все треки
+                document.querySelector('.author-btn[onclick*="all"]').classList.add('active');
+                filterPlaylistByAuthor();
+            }
+            
             updateFavoriteItems();
             updateFavoritesPlaylist();
+            updateTrackCount();
             updateProgressStyle(0);
             
             // Инициализируем управление с заблокированного экрана
@@ -3308,7 +3688,8 @@
                 if (e.target.classList.contains('lyrics-toggle-btn') || 
                     e.target.classList.contains('favorite-btn') ||
                     e.target.closest('.favorite-btn') ||
-                    e.target.classList.contains('new-track-badge')) {
+                    e.target.classList.contains('new-track-badge') ||
+                    e.target.classList.contains('author-tag')) {
                     return;
                 }
                 loadTrack(index);
@@ -3385,13 +3766,20 @@
                 if (titleElement) {
                     const title = titleElement.textContent.toLowerCase();
                     
-                    if (title.includes(searchInput)) {
+                    // Проверяем фильтр по автору
+                    const itemAuthor = item.getAttribute('data-author');
+                    const authorMatch = currentAuthor === 'all' || itemAuthor === currentAuthor;
+                    
+                    if (title.includes(searchInput) && authorMatch) {
                         item.classList.remove('hidden'); 
                     } else {
                         item.classList.add('hidden'); 
                     }
                 }
             });
+            
+            // Обновляем счетчик
+            updateTrackCount();
         }
 
         function toggleLyrics(button) {
