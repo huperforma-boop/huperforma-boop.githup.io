@@ -2537,7 +2537,6 @@
     function switchLanguage(lang) {
         currentLanguage = lang;
         
-        // Обновляем кнопку выбора языка
         const langBtn = document.getElementById('current-lang-btn');
         const langIcon = document.getElementById('current-lang-icon');
         const langText = document.getElementById('current-lang-text');
@@ -2545,13 +2544,11 @@
         langIcon.textContent = langData[lang].icon;
         langText.textContent = langData[lang].name;
         
-        // Обновляем активный элемент в выпадающем списке
         document.querySelectorAll('.lang-option').forEach(option => {
             option.classList.remove('active');
         });
         event.target.classList.add('active');
         
-        // Применяем переводы
         document.querySelectorAll('[data-lang-key]').forEach(element => {
             const key = element.getAttribute('data-lang-key');
             if (translations[lang][key]) {
@@ -2563,7 +2560,6 @@
             }
         });
         
-        // Обновляем название текущей темы
         const themeName = document.getElementById('current-theme-name');
         const themeNames = {
             'neon': translations[lang].themeNeon,
@@ -2573,7 +2569,6 @@
         };
         themeName.textContent = themeNames[currentTheme];
         
-        // Обновляем заголовок страницы
         document.title = lang === 'kk' ? 'UMIT | Аудио Плеер (Неон)' : 
                          lang === 'ru' ? 'UMIT | Аудио Плеер (Неон)' :
                          lang === 'en' ? 'UMIT | Audio Player (Neon)' :
@@ -2582,15 +2577,12 @@
         
         localStorage.setItem('language', lang);
         
-        // Обновляем названия треков в плеере
         if (currentTrackIndex !== -1) {
             trackTitleDisplay.textContent = tracks[currentTrackIndex].title;
         }
         
-        // Обновляем названия треков в плейлисте
         updateTrackTitles();
         
-        // Закрываем выпадающее меню
         closeLangDropdown();
     }
     
@@ -2607,7 +2599,6 @@
     function switchTheme(theme) {
         currentTheme = theme;
         
-        // Обновляем CSS переменные
         const root = document.documentElement;
         
         switch(theme) {
@@ -2657,19 +2648,16 @@
                 break;
         }
         
-        // Обновляем активную тему в переключателе
         document.querySelectorAll('.theme-option').forEach(option => {
             option.classList.remove('active');
         });
         event.target.classList.add('active');
         
-        // Обновляем название текущей темы
         const themeName = document.getElementById('current-theme-name');
         themeName.textContent = translations[currentLanguage]['theme' + theme.charAt(0).toUpperCase() + theme.slice(1)];
         
         localStorage.setItem('theme', theme);
         
-        // Закрываем выпадающее меню
         closeThemeDropdown();
     }
 
@@ -2684,9 +2672,7 @@
         
         if (isThemeDropdownOpen) {
             dropdown.classList.add('show');
-            // Закрываем языковое меню если открыто
             closeLangDropdown();
-            // Добавляем обработчик для закрытия при клике вне
             setTimeout(() => {
                 document.addEventListener('click', closeThemeDropdownOnClickOutside);
                 document.addEventListener('touchstart', closeThemeDropdownOnClickOutside, { passive: true });
@@ -2722,9 +2708,7 @@
         
         if (isLangDropdownOpen) {
             dropdown.classList.add('show');
-            // Закрываем меню тем если открыто
             closeThemeDropdown();
-            // Добавляем обработчик для закрытия при клике вне
             setTimeout(() => {
                 document.addEventListener('click', closeLangDropdownOnClickOutside);
                 document.addEventListener('touchstart', closeLangDropdownOnClickOutside, { passive: true });
@@ -2756,19 +2740,15 @@
     function switchAuthor(author) {
         currentAuthor = author;
         
-        // Обновляем активную кнопку автора
         document.querySelectorAll('.author-btn').forEach(btn => {
             btn.classList.remove('active');
         });
         event.target.classList.add('active');
         
-        // Фильтруем плейлист
         filterPlaylistByAuthor();
         
-        // Сохраняем выбор автора
         localStorage.setItem('author', author);
         
-        // Обновляем счетчик треков
         updateTrackCount();
     }
     
@@ -2787,10 +2767,8 @@
             }
         });
         
-        // Обновляем счетчик в основном плейлисте
         document.getElementById('playlist-count').textContent = visibleCount;
         
-        // Также обновляем избранное если оно открыто
         if (document.getElementById('favorites-playlist').classList.contains('show')) {
             updateFavoritesPlaylist();
         }
@@ -2818,26 +2796,21 @@
             const particle = document.createElement('div');
             particle.className = 'particle';
             
-            // Случайный размер от 2 до 6px
             const size = Math.random() * 4 + 2;
             particle.style.width = `${size}px`;
             particle.style.height = `${size}px`;
             
-            // Случайная позиция
             particle.style.left = `${Math.random() * 100}%`;
             particle.style.top = `${Math.random() * 100}%`;
             
-            // Случайная задержка анимации
             particle.style.animationDelay = `${Math.random() * 5}s`;
             
-            // Случайная прозрачность
             particle.style.opacity = Math.random() * 0.3 + 0.1;
             
             particlesContainer.appendChild(particle);
         }
     }
     
-    // Обновление частиц при изменении размера окна
     function updateParticles() {
         const particlesContainer = document.getElementById('particles-bg');
         particlesContainer.innerHTML = '';
@@ -2861,12 +2834,10 @@
         const modal = document.getElementById('share-modal');
         modal.classList.add('show');
         
-        // Обновляем ссылку для текущего трека
         const track = tracks[currentTrackIndex];
         const shareUrl = generateShareUrl(track);
         document.getElementById('share-link-input').value = shareUrl;
         
-        // Анимация кнопки
         const shareBtn = document.getElementById('main-share-btn');
         shareBtn.classList.add('active');
         setTimeout(() => {
@@ -2957,13 +2928,11 @@
                 copyBtn.textContent = originalText;
             }, 2000);
         }).catch(() => {
-            // Fallback для старых браузеров
             document.execCommand('copy');
             showNotification(translations[currentLanguage].linkCopied);
         });
     }
     
-    // Закрытие модального окна при клике вне
     document.getElementById('share-modal').addEventListener('click', function(e) {
         if (e.target === this) {
             closeShareModal();
@@ -2981,7 +2950,6 @@
         notificationText.textContent = message;
         notification.classList.add('show');
         
-        // Автоматическое скрытие через 4 секунды
         setTimeout(() => {
             hideNotification();
         }, 4000);
@@ -2999,14 +2967,11 @@
     let isLockscreenSupported = false;
     
     function initializeLockscreenControls() {
-        // Проверяем поддержку Media Session API
         if ('mediaSession' in navigator) {
             isLockscreenSupported = true;
             
-            // Показываем индикатор поддержки управления с заблокированного экрана
             showLockscreenIndicator(true);
             
-            // Настройка обработчиков для управления с заблокированного экрана
             navigator.mediaSession.setActionHandler('play', () => {
                 audioPlayer.play();
                 updateMediaSessionState();
@@ -3035,7 +3000,6 @@
                 audioPlayer.currentTime = Math.min(audioPlayer.currentTime + skipTime, audioPlayer.duration);
             });
             
-            // Добавляем обработчик для переключения избранного
             try {
                 navigator.mediaSession.setActionHandler('togglefavorite', () => {
                     toggleFavorite();
@@ -3056,7 +3020,6 @@
         
         const track = tracks[currentTrackIndex];
         
-        // Обновляем метаданные для заблокированного экрана
         navigator.mediaSession.metadata = new MediaMetadata({
             title: track.title,
             artist: 'UMIT Audio Player',
@@ -3075,10 +3038,7 @@
             ]
         });
         
-        // Устанавливаем состояние воспроизведения
         updateMediaSessionState();
-        
-        // Устанавливаем позицию трека
         updateMediaSessionPosition();
     }
     
@@ -3091,7 +3051,6 @@
     function updateMediaSessionPosition() {
         if (!isLockscreenSupported) return;
         
-        // Обновляем позицию для заблокированного экрана
         if ('setPositionState' in navigator.mediaSession && audioPlayer.duration) {
             navigator.mediaSession.setPositionState({
                 duration: audioPlayer.duration,
@@ -3109,7 +3068,6 @@
             indicatorText.textContent = translations[currentLanguage].lockscreenActive;
             indicator.classList.add('show');
             
-            // Скрываем индикатор через 5 секунд
             setTimeout(() => {
                 indicator.classList.remove('show');
             }, 5000);
@@ -3117,7 +3075,6 @@
             indicatorText.textContent = translations[currentLanguage].lockscreenNotSupported;
             indicator.classList.add('show');
             
-            // Скрываем индикатор через 3 секунды
             setTimeout(() => {
                 indicator.classList.remove('show');
             }, 3000);
@@ -3125,7 +3082,7 @@
     }
 
     // ===================================================
-    // АУДИО ПЛЕЕР - ГЛАВНОЕ ИСПРАВЛЕНИЕ
+    // АУДИО ПЛЕЕР - ИСПРАВЛЕННАЯ ВЕРСИЯ
     // ===================================================
 
     const audioPlayer = document.getElementById('global-audio-player');
@@ -3143,7 +3100,6 @@
     let currentTrackIndex = -1;
     let favorites = JSON.parse(localStorage.getItem('audioPlayerFavorites')) || [];
     
-    // МАССИВ ТРЕКОВ
     const tracks = [
         { 
             title: translations[currentLanguage].song1, 
@@ -3201,7 +3157,6 @@
             id: 7,
             author: "qabykenov"
         },
-        // ТРЕКИ АВТОРА "РАМАЗАНОВ ТӨРЕҒАЛИ" - ДОЛЖНЫ РАБОТАТЬ
         { 
             title: translations[currentLanguage].song9, 
             src: "Koktem_audio.mp3",
@@ -3230,9 +3185,12 @@
     }
 
     function loadTrack(index) {
-        console.log("Попытка загрузить трек:", index, tracks[index]); // Отладка
+        console.log("Загрузка трека:", index, tracks[index]);
         
-        if (index < 0 || index >= tracks.length) return;
+        if (index < 0 || index >= tracks.length) {
+            console.error("Трек не найден:", index);
+            return;
+        }
 
         const isSameTrack = index === currentTrackIndex;
         
@@ -3244,47 +3202,67 @@
         currentTrackIndex = index;
         const track = tracks[index];
 
+        console.log("Загружаем трек:", track.title, "автор:", track.author);
+        
         trackTitleDisplay.textContent = track.title;
         audioPlayer.src = track.src;
         audioPlayer.load();
 
+        audioPlayer.onerror = function(e) {
+            console.error("Ошибка загрузки аудио:", e);
+            console.error("Аудио src:", audioPlayer.src);
+            showNotification("Ошибка загрузки аудиофайла");
+        };
+
         if (track.cover) {
             coverImage.src = track.cover;
-            coverImage.style.display = 'block'; 
-            defaultIcon.style.display = 'none'; 
+            coverImage.style.display = 'block';
+            defaultIcon.style.display = 'none';
+            coverImage.onload = function() {
+                console.log("Обложка загружена");
+            };
+            coverImage.onerror = function() {
+                console.error("Ошибка загрузки обложки");
+                coverImage.style.display = 'none';
+                defaultIcon.style.display = 'block';
+            };
         } else {
             coverImage.style.display = 'none';
             defaultIcon.style.display = 'block';
         }
+        
         coverImage.classList.remove('active');
 
-        // Снимаем класс playing со всех элементов
         playlistItems.forEach(item => item.classList.remove('playing'));
         
-        // Добавляем класс playing к текущему элементу
         const currentItem = document.querySelector(`.playlist-item[data-index="${index}"]`);
         if (currentItem) {
             currentItem.classList.add('playing');
+            console.log("Добавлен класс playing к элементу с индексом", index);
+        } else {
+            console.warn("Элемент плейлиста с индексом", index, "не найден");
         }
         
         updateFavoriteButton();
         
-        // Обновляем метаданные для заблокированного экрана
         updateMediaSessionMetadata();
 
         const playPromise = audioPlayer.play();
         if (playPromise !== undefined) {
             playPromise.then(_ => {
+                console.log("Трек начал воспроизведение");
                 playIcon.className = 'fas fa-pause';
                 coverImage.classList.add('active');
                 updateMediaSessionState();
             }).catch(error => {
+                console.error("Ошибка воспроизведения:", error);
                 playIcon.className = 'fas fa-play';
-                console.error("Autoplay blocked:", error);
+                if (error.name === 'NotAllowedError') {
+                    showNotification("Разрешите автовоспроизведение в настройках браузера");
+                }
             });
         }
         
-        // На мобильных устройствах фокусируемся на плеере
         if (window.innerWidth <= 768) {
             setTimeout(() => {
                 document.querySelector('.main-player-card').scrollIntoView({ 
@@ -3317,7 +3295,6 @@
     function playNext() {
         let nextIndex = currentTrackIndex + 1;
         
-        // Если следующий трек скрыт из-за фильтрации по автору, ищем следующий видимый
         if (currentAuthor !== 'all') {
             const visibleItems = Array.from(playlistItems).filter(item => 
                 !item.classList.contains('hidden')
@@ -3352,7 +3329,6 @@
 
     function playPrevious() {
         if (audioPlayer.currentTime < 3) {
-            // Ищем предыдущий видимый трек если есть фильтрация по автору
             if (currentAuthor !== 'all') {
                 const visibleItems = Array.from(playlistItems).filter(item => 
                     !item.classList.contains('hidden')
@@ -3383,7 +3359,6 @@
         audioPlayer.currentTime += time;
         updateMediaSessionPosition();
         
-        // Визуальная обратная связь для мобильных
         if (window.innerWidth <= 768) {
             const btn = event.target.closest('.control-btn');
             if (btn) {
@@ -3415,7 +3390,6 @@
         updateFavoriteItems();
         updateFavoritesPlaylist();
         
-        // Визуальная обратная связь
         const btn = document.getElementById('main-favorite-btn');
         btn.style.transform = 'scale(1.2)';
         setTimeout(() => {
@@ -3518,7 +3492,6 @@
             const track = tracks.find(t => t.id === trackId);
             if (!track) return;
             
-            // Проверяем фильтр по автору
             if (currentAuthor !== 'all' && track.author !== currentAuthor) {
                 return;
             }
@@ -3562,7 +3535,6 @@
             favoritesList.appendChild(item);
             visibleFavCount++;
             
-            // Копируем текст песни из оригинала
             setTimeout(() => {
                 const originalLyrics = document.getElementById(`lyrics-${index}`);
                 if (originalLyrics) {
@@ -3573,7 +3545,6 @@
                 }
             }, 100);
             
-            // Добавляем обработчик клика на весь элемент
             item.addEventListener('click', function(e) {
                 if (!e.target.closest('.favorite-btn') && !e.target.closest('.lyrics-toggle-btn')) {
                     loadTrack(index);
@@ -3581,7 +3552,6 @@
             });
         });
         
-        // Обновляем счетчик избранных
         document.getElementById('favorites-count').textContent = visibleFavCount;
     }
     
@@ -3608,7 +3578,6 @@
             tabButtons[1].classList.add('active');
             updateFavoritesPlaylist();
             
-            // На мобильных прокручиваем к началу плейлиста
             if (window.innerWidth <= 768) {
                 setTimeout(() => {
                     favoritesPlaylist.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -3618,16 +3587,14 @@
     }
 
     // ===================================================
-    // ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ - ГЛАВНОЕ ИСПРАВЛЕНИЕ
+    // ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ
     // ===================================================
 
     document.addEventListener('DOMContentLoaded', () => {
-        console.log("Страница загружена, проверяем треки Рамазанова...");
+        console.log("Страница загружена");
         
-        // Создаем частицы
         createParticles();
         
-        // Определяем язык браузера
         const browserLang = navigator.language || navigator.userLanguage;
         let detectedLang = 'kk';
         
@@ -3643,7 +3610,6 @@
             detectedLang = 'zh';
         }
         
-        // Загружаем сохраненный язык или используем определенный
         const savedLang = localStorage.getItem('language') || detectedLang;
         const langOption = document.querySelector(`.lang-option[onclick*="${savedLang}"]`);
         if (langOption) {
@@ -3651,7 +3617,6 @@
             switchLanguage(savedLang);
         }
         
-        // Загружаем тему
         const savedTheme = localStorage.getItem('theme') || 'neon';
         const themeOption = document.querySelector(`.theme-option[onclick*="${savedTheme}"]`);
         if (themeOption) {
@@ -3659,39 +3624,30 @@
             switchTheme(savedTheme);
         }
         
-        // Загружаем автора - ВАЖНО: УБЕДИТЕСЬ ЧТО ПО УМОЛЧАНИЮ ВСЕ ТРЕКИ ВИДНЫ
         const savedAuthor = localStorage.getItem('author') || 'all';
         currentAuthor = savedAuthor;
         const authorBtn = document.querySelector(`.author-btn[onclick*="${savedAuthor}"]`);
         if (authorBtn) {
             authorBtn.classList.add('active');
-            // СНАЧАЛА ПОКАЗЫВАЕМ ВСЕ ТРЕКИ, ПОТОМ ФИЛЬТРУЕМ
             document.querySelectorAll('.playlist-item').forEach(item => {
                 item.classList.remove('hidden');
             });
             filterPlaylistByAuthor();
         } else {
-            // Если кнопка не найдена, показываем все треки
             document.querySelector('.author-btn[onclick*="all"]').classList.add('active');
             filterPlaylistByAuthor();
         }
         
-        // Проверяем видимость треков Рамазанова
         const ramazanovTracks = document.querySelectorAll('.playlist-item[data-author="ramazanov"]');
         console.log("Треки Рамазанова найдены:", ramazanovTracks.length);
-        ramazanovTracks.forEach(track => {
-            console.log("Трек Рамазанова:", track, "Видим?", !track.classList.contains('hidden'));
-        });
         
         updateFavoriteItems();
         updateFavoritesPlaylist();
         updateTrackCount();
         updateProgressStyle(0);
         
-        // Инициализируем управление с заблокированного экрана
         initializeLockscreenControls();
 
-        // На мобильных добавляем обработчик для предотвращения масштабирования
         if (window.innerWidth <= 768) {
             document.addEventListener('touchmove', function(e) {
                 if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
@@ -3702,32 +3658,42 @@
                 }
             }, { passive: false });
         }
+        
+        setTimeout(() => {
+            const allButton = document.querySelector('.author-btn[onclick*="all"]');
+            if (allButton) {
+                allButton.click();
+                console.log("Принудительно активирована кнопка 'Все авторы'");
+            }
+        }, 500);
     });
 
-    // Обновление частиц при изменении размера окна
     window.addEventListener('resize', updateParticles);
 
     // ===================================================
-    // ОБРАБОТЧИКИ СОБЫТИЙ - УПРОЩЕННАЯ ВЕРСИЯ
+    // ОБРАБОТЧИКИ СОБЫТИЙ
     // ===================================================
 
-    // УПРОЩЕННЫЙ ОБРАБОТЧИК - БЛОКИРУЕТ ТОЛЬКО КНОПКИ
-    playlistItems.forEach((item, index) => {
-        item.addEventListener('click', (e) => {
-            console.log("Клик по треку:", index, "Цель:", e.target);
-            
-            // Блокируем только если клик по кнопкам
+    playlistItems.forEach((item) => {
+        item.addEventListener('click', function(e) {
             if (e.target.closest('.lyrics-toggle-btn') || 
-                e.target.closest('.favorite-btn')) {
-                console.log("Клик заблокирован - кнопка");
+                e.target.closest('.favorite-btn') ||
+                e.target.closest('.item-actions')) {
+                console.log("Клик заблокирован - клик по кнопке");
                 return;
             }
             
-            console.log("Загружаем трек:", index);
+            const index = parseInt(this.getAttribute('data-index'));
+            console.log("Клик по треку с индексом:", index);
+            
+            if (this.classList.contains('hidden')) {
+                console.log("Трек скрыт фильтром");
+                return;
+            }
+            
             loadTrack(index);
         });
         
-        // Добавляем touch-обработчики для мобильных
         item.addEventListener('touchstart', function() {
             this.style.transform = 'scale(0.98)';
         }, { passive: true });
@@ -3761,7 +3727,6 @@
         const progressPercent = (currentTime / duration) * 100;
         updateProgressStyle(progressPercent);
         
-        // Обновляем позицию для заблокированного экрана
         updateMediaSessionPosition();
     });
 
@@ -3798,7 +3763,6 @@
             if (titleElement) {
                 const title = titleElement.textContent.toLowerCase();
                 
-                // Проверяем фильтр по автору
                 const itemAuthor = item.getAttribute('data-author');
                 const authorMatch = currentAuthor === 'all' || itemAuthor === currentAuthor;
                 
@@ -3810,7 +3774,6 @@
             }
         });
         
-        // Обновляем счетчик
         updateTrackCount();
     }
 
@@ -3852,7 +3815,6 @@
             }
             button.textContent = closeText;
             
-            // На мобильных прокручиваем к тексту
             if (window.innerWidth <= 768) {
                 setTimeout(() => {
                     lyricsContent.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -3863,17 +3825,14 @@
         }
     }
     
-    // Оптимизация для мобильных устройств
     document.addEventListener('touchstart', function() {}, { passive: true });
     
-    // Предотвращение контекстного меню на мобильных
     document.addEventListener('contextmenu', function(e) {
         if (window.innerWidth <= 768) {
             e.preventDefault();
         }
     });
     
-    // Обработка клавиш для управления плеером
     document.addEventListener('keydown', function(e) {
         if (e.code === 'Space') {
             e.preventDefault();
@@ -3888,7 +3847,6 @@
         }
     });
 
-    // Закрытие при скролле на мобильных
     window.addEventListener('scroll', function() {
         if (isThemeDropdownOpen || isLangDropdownOpen) {
             closeThemeDropdown();
@@ -3896,29 +3854,11 @@
         }
     }, { passive: true });
 
-    // Обработка видимости страницы для управления с заблокированного экрана
     document.addEventListener('visibilitychange', function() {
         if (document.hidden && currentTrackIndex !== -1) {
-            // Страница скрыта (экран заблокирован), обновляем состояние медиасессии
             updateMediaSessionState();
         }
     });
-
-    // ===================================================
-    // ФИКС ДЛЯ СРАЗУ: КЛИКНИТЕ НА КНОПКУ "БАРЛЫҚ АВТОРЛАР"
-    // ===================================================
-    
-    // Принудительно показываем все треки при загрузке
-    setTimeout(() => {
-        const allButton = document.querySelector('.author-btn[onclick*="all"]');
-        if (allButton) {
-            allButton.click();
-            console.log("Принудительно активирована кнопка 'Все авторы'");
-        }
-    }, 500);
-            </script>
+</script>
 </body>
 </html>
-
-
-
