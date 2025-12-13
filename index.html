@@ -238,67 +238,6 @@
             border-radius: 8px;
         }
 
-        /* ВИДЕО БЛОКТАРЫ */
-        .video-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            padding: 20px 0;
-        }
-
-        .video-item {
-            background-color: var(--box-bg);
-            border: 1px solid var(--red);
-            border-radius: 12px;
-            box-shadow: var(--shadow-glitch);
-            transition: all 0.3s ease;
-            border-left: 5px solid var(--matrix-green);
-            text-decoration: none;
-            cursor: pointer;
-            overflow: hidden;
-        }
-
-        .video-item:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 0 20px var(--matrix-green), 0 0 40px rgba(51, 255, 204, 0.7);
-            border-color: var(--matrix-green);
-        }
-
-        .video-item h3 {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--dark-bg);
-            background-color: var(--matrix-green);
-            padding: 18px;
-            margin: 0;
-            font-size: 1.1em;
-            font-weight: 700;
-            text-align: center;
-            text-transform: uppercase;
-            transition: all 0.5s ease;
-        }
-
-        .video-thumbnail {
-            position: relative;
-            width: 100%;
-            padding-bottom: 56.25%;
-            overflow: hidden;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 150px;
-        }
-
-        .play-icon {
-            font-size: 4.5em;
-            color: var(--red);
-            position: absolute;
-            text-shadow: 0 0 10px var(--red);
-            transition: all 0.5s ease;
-        }
-
         /* АУДИО БЛОК */
         .audio-link-box {
             text-align: center;
@@ -350,9 +289,18 @@
             animation: scanline 2s infinite linear;
             box-shadow: 0 0 15px var(--matrix-green);
             transition: all 0.4s ease;
+            display: block;
+            text-decoration: none;
+            color: inherit;
         }
 
-        /* БАЙЛАНЫС ЖӘНЕ АВТОР БӨЛІМДЕРІ */
+        .coming-soon-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px var(--matrix-green), 0 0 50px rgba(51, 255, 204, 0.5);
+            border-color: var(--red);
+        }
+
+        /* БАЙЛАНЫС ЖӘНЕ АВТОР БӘЛІМДЕРІ */
         .contact-form-container {
             padding: 40px;
             margin-top: 50px;
@@ -549,17 +497,6 @@
                 border-width: 1px;
             }
 
-            .video-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-                padding: 10px 0;
-            }
-
-            .video-item h3 {
-                font-size: 1em;
-                padding: 15px;
-            }
-
             .audio-link-box,
             .coming-soon-box,
             .contact-form-container,
@@ -571,6 +508,10 @@
 
             .audio-link-box h3 {
                 font-size: 1.6em;
+            }
+
+            .coming-soon-box h3 {
+                font-size: 1.2em;
             }
 
             .social-links a {
@@ -612,6 +553,10 @@
             
             .audio-link-box h3 {
                 font-size: 1.4em;
+            }
+            
+            .coming-soon-box h3 {
+                font-size: 1.1em;
             }
             
             .social-links a {
@@ -667,31 +612,6 @@
     <div class="container">
         
         <div class="section-title reveal-top">
-            <h2>> БЕЙНЕ ӨЛЕҢДЕР ЖИНАҒЫ</h2>
-        </div>
-        
-        <div class="video-grid">
-            <a href="https://youtu.be/hXudqOz6LHg?si=9H62eI29gK--gsH" target="_blank" class="video-item scroll-reveal-item sound-interactive">
-                <h3>ОРТА ЖҮЗ</h3>
-                <div class="video-thumbnail" style="background-image: url('orta_juz.jpg');">
-                    <i class="fas fa-play play-icon"></i>
-                </div>
-            </a>
-            <a href="https://youtube.com/shorts/R9gMs1rpRSg?si=d-Y0RQjeRdCDdXy" target="_blank" class="video-item scroll-reveal-item sound-interactive">
-                <h3>ЖАРЫЛҒАП БАТЫР</h3>
-                <div class="video-thumbnail" style="background-image: url('jarylgap_batyr.jpg');">
-                    <i class="fas fa-play play-icon"></i>
-                </div>
-            </a>
-            <a href="https://youtube.com/shorts/1fsjEGisgVk?si=QV_IbO7mV7Dcu7lP" target="_blank" class="video-item scroll-reveal-item sound-interactive">
-                <h3>ТЕГІМНІҢ РУХЫ</h3>
-                <div class="video-thumbnail" style="background-image: url('tegimnin_ruhy.jpg');">
-                    <i class="fas fa-play play-icon"></i>
-                </div>
-            </a>
-        </div>
-        
-        <div class="section-title reveal-top">
             <h2>> АУДИО ӨЛЕҢДЕР ЖИНАҒЫ</h2>
         </div>
         
@@ -705,11 +625,11 @@
             <h2>> АРХИВТІК ДЕРЕКТЕР: РАМАЗАНОВ Т.</h2>
         </div>
         
-        <div id="akem-olen-link" class="coming-soon-box scroll-reveal-item sound-interactive" onclick="showAlert()">
-            <i class="fas fa-code-branch"></i>
-            <h3>[ЖҮКТЕУ ЖҮРГІЗІЛУДЕ: 404 ДЕРЕК ТАБЫЛМАДЫ]</h3>
-            <p>Жаңа шығармашылық жұмыстар мен өлеңдерді бірінші болып көру үшін біздің жаңалықтарымызды қадағалаңыз.</p>
-        </div>
+        <a href="toregaly-music.html" class="coming-soon-box scroll-reveal-item sound-interactive">
+            <i class="fas fa-music"></i>
+            <h3>ТӨРЕГАЛИ РАМАЗАНОВ - АУДИО ӨЛЕҢДЕР</h3>
+            <p>Әкемнің өлеңдерін тыңдау үшін басыңыз</p>
+        </a>
         
         <div class="section-title reveal-top">
             <h2>> БАЙЛАНЫС ЖҮЙЕСІ (ХАТТАМА)</h2>
@@ -1154,11 +1074,6 @@
         // ===================================================
         // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
         // ===================================================
-        
-        function showAlert() {
-            playClickSound();
-            alert('Менің әкем Рамазанов Төреғалидың өлеңдері жақында қосылады! Жүктеу жүргізілуде...');
-        }
         
         // Обработка формы
         document.getElementById('contact-form')?.addEventListener('submit', function(e) {

@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ТӨРЕГАЛИ РАМАЗАНОВ - ӨЛЕҢДЕР | ҮМІТ</title>
+    
+    <meta property="og:title" content="ТӨРЕГАЛИ РАМАЗАНОВ - ӨЛЕҢДЕР" />
+    <meta property="og:description" content="Әкемнің музыкалық мұрасы - өлеңдер жинағы" />
+    <meta property="og:type" content="website" />
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* ТЕМЫ ОФОРМЛЕНИЯ */
+        :root {
+            /* Тема 1: КИБЕРПАНК (по умолчанию) */
+            --cyber-dark-bg: #0A0A1F;
+            --cyber-red: #FF3366;
+            --cyber-matrix-green: #33FFCC;
+            --cyber-light-text: #E0FFFF;
+            --cyber-box-bg: rgba(18, 18, 40, 0.7);
+            --cyber-shadow-glitch: 0 0 5px var(--cyber-red), 0 0 10px rgba(255, 51, 102, 0.5);
+            --cyber-border-glitch: 2px solid var(--cyber-matrix-green);
+            
+            /* Тема 2: СВЕТЛАЯ */
+            --light-dark-bg: #F0F0F0;
+            --light-red: #1a73e8;
+            --light-matrix-green: #34a853;
+            --light-light-text: #202124;
+            --light-box-bg: rgba(220, 220, 255, 0.7);
+            --light-shadow-glitch: 0 4px 12px rgba(0, 0, 0, 0.1);
+            
+            /* Тема 3: РЕТРО */
+            --retro-dark-bg: #1a1a1a;
+            --retro-red: #FFD700;
+            --retro-matrix-green: #FF69B4;
+            --retro-light-text: #FFEBCD;
+            --retro-box-bg: rgba(42, 42, 42, 0.7);
+            --retro-shadow-glitch: 0 0 15px var(--retro-red), 0 0 30px rgba(255, 215, 0, 0.4);
+            
+            /* Тема 4: ЗЕЛЕНАЯ */
+            --green-dark-bg: #0a1929;
+            --green-red: #00ff88;
+            --green-matrix-green: #00ccff;
+            --green-light-text: #e0f7fa;
+            --green-box-bg: rgba(15, 42, 63, 0.7);
+            --green-shadow-glitch: 0 0 10px var(--green-red), 0 0 20px rgba(0, 255, 136, 0.3);
+            
+            /* Активная тема (по умолчанию - Киберпанк) */
+            --dark-bg: var(--cyber-dark-bg);
+            --red: var(--cyber-red);
+            --matrix-green: var(--cyber-matrix-green);
+            --light-text: var(--cyber-light-text);
+            --box-bg: var(--cyber-box-bg);
+            --shadow-glitch: var(--cyber-shadow-glitch);
+            --border-glitch: var(--cyber-border-glitch);
+        }
+
+        /* Переключатель тем */
+        .theme-switcher {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 1000;
+        }
+
+        .theme-btn {
+            background: var(--box-bg);
+            border: 1px solid var(--matrix-green);
+            color: var(--light-text);
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+            font-family: 'Orbitron', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 44px;
+            min-width: 44px;
+            box-shadow: var(--shadow-glitch);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .theme-btn:hover {
+            background: var(--matrix-green);
+            color: var(--dark-bg);
+            transform: scale(1.05);
+        }
+
+        .theme-btn .theme-icon {
+            font-size: 1.1em;
+        }
+
+        /* Частицы */
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-color: var(--dark-bg);
+            transition: background-color 0.5s ease;
+        }
+
+        /* Основные стили */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--matrix-green);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: all 0.5s ease;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 0 50px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1000;
+        }
+
+        .back-btn {
+            background: var(--box-bg);
+            border: 1px solid var(--matrix-green);
+            color: var(--light-text);
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9em;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-glitch);
+            min-height: 44px;
+            min-width: 44px;
+        }
+
+        .back-btn:hover {
+            background: var(--matrix-green);
+            color: var(--dark-bg);
+            transform: translateX(-5px);
+        }
+
+        .header {
+            padding: 100px 0 40px 0;
+            text-align: center;
+        }
+
+        .section-title {
+            text-align: center;
+            margin: 40px 0 30px 0;
+        }
+
+        .section-title h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5em;
+            color: var(--light-text);
+            padding: 15px 25px;
+            display: inline-block;
+            text-transform: uppercase;
+            border: var(--border-glitch);
+            box-shadow: var(--shadow-glitch);
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            transition: all 0.5s ease;
+        }
+
+        /* Основной плеер */
+        .player-container {
+            max-width: 800px;
+            margin: 30px auto;
+            background: var(--box-bg);
+            border: 2px solid var(--matrix-green);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--shadow-glitch);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            animation: pulseNeon 4s infinite alternate ease-in-out;
+        }
+
+        @keyframes pulseNeon {
+            0% { box-shadow: 0 0 5px var(--matrix-green); }
+            50% { box-shadow: 0 0 15px var(--matrix-green), 0 0 30px rgba(51, 255, 204, 0.4); }
+            100% { box-shadow: 0 0 5px var(--matrix-green); }
+        }
+
+        .current-track-info {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(51, 255, 204, 0.3);
+        }
+
+        .current-track-info h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--light-text);
+            font-size: 1.4em;
+            margin: 0 0 10px 0;
+        }
+
+        .current-track-info p {
+            color: var(--matrix-green);
+            margin: 0;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .cover-art {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin: 0 auto 30px auto;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3em;
+            color: var(--matrix-green);
+            background-color: rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 30px var(--red);
+            border: 3px solid var(--matrix-green);
+            position: relative;
+        }
+
+        .cover-art::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .cover-art img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cover-art img.active {
+            animation: rotateCover 20s linear infinite;
+        }
+
+        @keyframes rotateCover {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        #current-track-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5em;
+            color: var(--red);
+            text-shadow: 0 0 8px var(--red);
+            margin: 15px 0;
+            padding: 0 10px;
+            word-break: break-word;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px 0 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            background: none;
+            border: none;
+            color: var(--light-text);
+            cursor: pointer;
+            font-size: 1.3em;
+            padding: 12px;
+            transition: all 0.2s ease;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+            min-width: 50px;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .control-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: var(--matrix-green);
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s;
+        }
+
+        .control-btn:hover::before {
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+        }
+
+        .control-btn:hover {
+            color: var(--matrix-green);
+            transform: scale(1.1);
+            text-shadow: 0 0 10px var(--matrix-green);
+            background: rgba(255,255,255,0.1);
+        }
+
+        .control-btn.main-play {
+            font-size: 2.5em;
+            color: var(--matrix-green);
+            text-shadow: var(--shadow-glitch);
+            min-width: 70px;
+            min-height: 70px;
+        }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0 10px 0;
+            padding: 0 10px;
+            width: 100%;
+        }
+
+        .time-display {
+            font-size: 0.9em;
+            color: var(--matrix-green);
+            text-shadow: 0 0 5px var(--matrix-green);
+            width: 55px;
+            text-align: center;
+            font-family: 'Montserrat', monospace;
+        }
+
+        #progress-bar {
+            flex-grow: 1;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 0 5px var(--matrix-green) inset;
+            transition: all 0.2s ease;
+            overflow: hidden;
+        }
+
+        #progress-bar::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--red);
+            cursor: pointer;
+            border: 2px solid var(--light-text);
+            box-shadow: 0 0 10px var(--red), 0 0 20px rgba(255, 51, 102, 0.7);
+            margin-top: -6px;
+            transition: all 0.2s ease;
+        }
+
+        .volume-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 15px;
+            color: var(--red);
+            padding: 0 10px;
+        }
+
+        #volume-slider {
+            width: 120px;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            cursor: pointer;
+            box-shadow: 0 0 3px var(--red) inset;
+        }
+
+        #volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--matrix-green);
+            cursor: pointer;
+            box-shadow: 0 0 8px var(--matrix-green);
+            border: 1px solid var(--dark-bg);
+        }
+
+        /* Список треков */
+        .playlist-title {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--light-text);
+            font-size: 1.3em;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--matrix-green);
+            position: relative;
+        }
+
+        .playlist-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 15px;
+            margin-bottom: 8px;
+            background-color: var(--box-bg);
+            border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+            border-radius: 10px;
+            flex-wrap: wrap;
+            transition: all 0.3s ease;
+            min-height: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .playlist-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transition: left 0.5s;
+        }
+
+        .playlist-item:hover::before {
+            left: 100%;
+        }
+
+        .playlist-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            transform: translateX(5px);
+            border-color: var(--matrix-green);
+        }
+
+        .playlist-item.playing {
+            background-color: rgba(51, 255, 204, 0.1);
+            border-left: 5px solid var(--matrix-green);
+            color: var(--matrix-green);
+            font-weight: bold;
+            box-shadow: var(--shadow-glitch);
+            transform: scale(1.02);
+        }
+
+        .item-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .item-duration {
+            color: var(--matrix-green);
+            font-family: 'Montserrat', monospace;
+            font-size: 0.9em;
+            min-width: 45px;
+            text-align: center;
+        }
+
+        /* Кнопка "Текст песни" */
+        .lyrics-toggle-btn {
+            background-color: var(--red);
+            color: var(--dark-bg);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            min-height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lyrics-toggle-btn:hover {
+            background-color: var(--matrix-green);
+            transform: scale(1.05);
+        }
+
+        /* Текст песни */
+        .lyrics-content {
+            background-color: rgba(51, 255, 204, 0.1);
+            color: var(--light-text);
+            padding: 0 20px;
+            border-radius: 12px;
+            margin-top: 15px;
+            border: 1px solid var(--matrix-green);
+            box-shadow: var(--shadow-glitch);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), padding 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .lyrics-content.open {
+            max-height: 2000px;
+            padding: 25px;
+        }
+
+        .lyrics-content p {
+            margin: 0;
+            margin-bottom: 1.2em;
+            font-size: 1em;
+            text-align: left !important;
+            white-space: pre-wrap;
+            word-break: break-word;
+            line-height: 1.8;
+        }
+
+        .lyrics-content .author-sign {
+            text-align: right !important;
+            color: var(--red);
+            font-style: italic;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* Футер */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--matrix-green);
+            border-top: 1px solid var(--matrix-green);
+            margin-top: 50px;
+            font-size: 0.9em;
+        }
+
+        /* Мобильная версия */
+        @media (max-width: 768px) {
+            .container {
+                margin-top: 100px;
+                width: 92%;
+                padding-bottom: 30px;
+            }
+            
+            .header {
+                padding: 80px 0 30px 0;
+            }
+            
+            .section-title h1 {
+                font-size: 1.8em;
+                padding: 12px 20px;
+            }
+            
+            .back-button {
+                top: 15px;
+                left: 15px;
+            }
+            
+            .back-btn {
+                padding: 10px 15px;
+                font-size: 0.8em;
+            }
+            
+            .theme-switcher {
+                top: 15px;
+                right: 15px;
+            }
+            
+            .theme-btn {
+                padding: 10px;
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            .theme-btn span {
+                display: none;
+            }
+            
+            .player-container {
+                padding: 20px;
+                margin: 20px auto;
+            }
+            
+            .cover-art {
+                width: 180px;
+                height: 180px;
+                margin-bottom: 25px;
+            }
+            
+            #current-track-title {
+                font-size: 1.3em;
+            }
+            
+            .controls {
+                gap: 10px;
+                margin: 20px 0 10px;
+            }
+            
+            .control-btn {
+                padding: 10px;
+                min-width: 45px;
+                min-height: 45px;
+                font-size: 1.2em;
+            }
+            
+            .control-btn.main-play {
+                font-size: 2.2em;
+                min-width: 65px;
+                min-height: 65px;
+            }
+            
+            .progress-container {
+                gap: 8px;
+                margin: 15px 0 8px;
+            }
+            
+            .time-display {
+                width: 45px;
+                font-size: 0.85em;
+            }
+            
+            .playlist-item {
+                padding: 15px 12px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .item-actions {
+                width: 100%;
+                justify-content: space-between;
+                margin-top: 15px;
+                padding-top: 15px;
+                border-top: 1px solid rgba(255,255,255,0.1);
+            }
+            
+            .lyrics-toggle-btn {
+                padding: 10px 20px;
+                font-size: 0.9em;
+                min-height: 40px;
+            }
+            
+            .lyrics-content {
+                padding: 0 15px;
+            }
+            
+            .lyrics-content.open {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section-title h1 {
+                font-size: 1.5em;
+            }
+            
+            .current-track-info h3 {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Кнопка возврата -->
+    <div class="back-button">
+        <a href="index.html" class="back-btn sound-interactive">
+            <i class="fas fa-arrow-left"></i>
+            БАСТЫ БЕТ
+        </a>
+    </div>
+
+    <!-- Переключатель тем -->
+    <div class="theme-switcher">
+        <button class="theme-btn" onclick="toggleThemeDropdown()">
+            <i class="fas fa-palette theme-icon"></i>
+            <span id="current-theme-name">Киберпанк</span>
+        </button>
+    </div>
+
+    <!-- Частицы -->
+    <div id="particles-js"></div>
+
+    <div class="container">
+        <!-- Заголовок -->
+        <div class="header">
+            <div class="section-title">
+                <h1>ТӨРЕГАЛИ РАМАЗАНОВ</h1>
+                <p style="color: var(--light-text); margin-top: 15px;">Әкемнің өлеңдері</p>
+            </div>
+        </div>
+
+        <!-- Основной аудиоплеер -->
+        <div class="player-container">
+            <div class="current-track-info">
+                <h3 id="current-track-title">Таңдалған өлең</h3>
+                <p id="current-track-description">Тыңдау үшін тізімнен өлеңді таңдаңыз</p>
+            </div>
+            
+            <div class="cover-art">
+                <img id="track-cover" src="" alt="Track Cover" style="display: none;">
+                <i id="default-icon" class="fas fa-wave-square"></i>
+            </div>
+            
+            <audio id="global-audio-player" src="" preload="metadata"></audio>
+            
+            <div class="progress-container">
+                <span id="current-time" class="time-display">0:00</span>
+                <input type="range" id="progress-bar" value="0" min="0" max="100" step="0.1">
+                <span id="duration" class="time-display">0:00</span>
+            </div>
+            
+            <div class="volume-container">
+                <i class="fas fa-volume-down"></i>
+                <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="1">
+                <i class="fas fa-volume-up"></i>
+            </div>
+            
+            <div class="controls">
+                <button class="control-btn" onclick="playPrevious()"><i class="fas fa-step-backward"></i></button>
+                <button class="control-btn" onclick="skipTime(-10)"><i class="fas fa-backward"></i></button>
+                <button class="control-btn main-play" id="main-play-btn" onclick="togglePlay()">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="control-btn" onclick="skipTime(10)"><i class="fas fa-forward"></i></button>
+                <button class="control-btn" onclick="playNext()"><i class="fas fa-step-forward"></i></button>
+            </div>
+        </div>
+
+        <!-- Список треков -->
+        <div class="section-title">
+            <h2>ӨЛЕҢДЕР ТІЗІМІ</h2>
+        </div>
+
+        <div class="playlist" id="main-playlist">
+            <div class="playlist-item" data-index="0" data-title="Туған туыс бақытым">
+                <div class="item-info">
+                    <i class="fas fa-music"></i>
+                    <span>1. Туған туыс бақытым</span>
+                </div>
+                <div class="item-actions">
+                    <span class="item-duration">3:45</span>
+                    <button class="lyrics-toggle-btn" data-lyrics-index="0" onclick="toggleLyrics(this)">Мәтін</button>
+                </div>
+                <div class="lyrics-content" id="lyrics-0">
+                    <p>
+Туған туыс бақытым, асыл анам,
+Өмірімнің бастауы, жолым, данам.
+Күн шығар күнімен, түн болса түнімен,
+Жүрегімде жылысың, ақылдың тынымы.
+
+Балалық шағымның қыран қанаты,
+Жастық шақымның нұрлы сағаты.
+Әр қадамымда сенсің, әр сәтімде,
+Өмірдің тұнық өзені, терең теңізім.
+
+Туған туыс бақытым, аспандай кеңсің,
+Көкжиектей шексіз, мәңгілік күнсің.
+Көктемдей жасыл, қысқадей ақ,
+Өмірімнің әдемі, тәтті сағынышы.
+
+Жаңбырлы түндерде, аязды таңдарда,
+Жолымды жарықтатқан ана нұрыңды.
+Қиындықта тірек, қуанышта серік,
+Өмірдің әрбір сәтінде сенсің берік.
+
+Туған туыс бақытым, саған деген сүйіспеншілік,
+Аспандай биік, теңіздей терен.
+Әкеңнің сөзіңде, анаңның дуасында,
+Өмірімнің мағынасы, бақыттың көзі.
+
+Қайда жүрсем де, қайда тұрсам да,
+Жүрегімнің түбінде сенсің арман.
+Туған туыс бақытым - бұл асыл мұра,
+Өмірімнің ең басты, қадірлі байлығы.
+                    </p>
+                    <p class="author-sign">~ Рамазанов Төреғали</p>
+                </div>
+            </div>
+            
+            <div class="playlist-item" data-index="1" data-title="Көктем">
+                <div class="item-info">
+                    <i class="fas fa-music"></i>
+                    <span>2. Көктем</span>
+                </div>
+                <div class="item-actions">
+                    <span class="item-duration">4:20</span>
+                    <button class="lyrics-toggle-btn" data-lyrics-index="1" onclick="toggleLyrics(this)">Мәтін</button>
+                </div>
+                <div class="lyrics-content" id="lyrics-1">
+                    <p>
+Көктем келді, жер жасылданды,
+Гүлдер ашты, бұлбұл сайрады.
+Табиғаттың мерейі толды,
+Көңілдің де өзі шаттанды.
+
+Қар ереді, суы ағып кетеді,
+Жаңа өмір, жаңа үміт келеді.
+Ағаштар жапыраққа жамылады,
+Әрбір бұтақ жаңа әлем ашады.
+
+Жаздың алдындағы бұл кезең,
+Өмірдің жаңа бет ашатын дәуірі.
+Күннің нұры жер бетін жауып тұр,
+Әрбір дәмдің ішінде қуаныш толы.
+
+Балапандар ұядан ұшып шығады,
+Қозылар, бұзаулар билейді.
+Табиғат анасының қойнауында,
+Барлық тіршілік жаңадан туылады.
+
+Көктем - бұл жаңғырудың символы,
+Өмірдің мәңгілік айналысы.
+Әрбір жапырақта, әрбір гүлде,
+Жаңа бастау, жаңа мақсат бар.
+
+Көктем келді, жүректер жылынды,
+Көкжиектен жаңа үміт шықты.
+Барлық қиындық, барлық қараңғылық,
+Көктемнің жаңғыртушы қуатымен жеңілді.
+
+Жаз келе жатыр, жазғы күндер,
+Бірақ бұл көктемді ешқашан ұмытпа.
+Өмірдің циклі осылай жалғасады,
+Көктем, жаз, күз, қыс - бәрі бір табиғат.
+                    </p>
+                    <p class="author-sign">~ Рамазанов Төреғали</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <p>© 2025. ҮМІТ АҚП. ТӨРЕГАЛИ РАМАЗАНОВ - ӨЛЕҢДЕР ЖИНАҒЫ</p>
+    </div>
+
+    <!-- Библиотеки -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+    <script>
+        // ===================================================
+        // ПЕРЕКЛЮЧЕНИЕ ТЕМ
+        // ===================================================
+        
+        let currentTheme = 'cyber';
+        
+        function switchTheme(theme) {
+            currentTheme = theme;
+            const root = document.documentElement;
+            
+            switch(theme) {
+                case 'cyber':
+                    root.style.setProperty('--dark-bg', 'var(--cyber-dark-bg)');
+                    root.style.setProperty('--red', 'var(--cyber-red)');
+                    root.style.setProperty('--matrix-green', 'var(--cyber-matrix-green)');
+                    root.style.setProperty('--light-text', 'var(--cyber-light-text)');
+                    root.style.setProperty('--box-bg', 'var(--cyber-box-bg)');
+                    root.style.setProperty('--shadow-glitch', 'var(--cyber-shadow-glitch)');
+                    root.style.setProperty('--border-glitch', 'var(--cyber-border-glitch)');
+                    break;
+                case 'light':
+                    root.style.setProperty('--dark-bg', 'var(--light-dark-bg)');
+                    root.style.setProperty('--red', 'var(--light-red)');
+                    root.style.setProperty('--matrix-green', 'var(--light-matrix-green)');
+                    root.style.setProperty('--light-text', 'var(--light-light-text)');
+                    root.style.setProperty('--box-bg', 'var(--light-box-bg)');
+                    root.style.setProperty('--shadow-glitch', 'var(--light-shadow-glitch)');
+                    root.style.setProperty('--border-glitch', '2px solid var(--light-matrix-green)');
+                    break;
+                case 'retro':
+                    root.style.setProperty('--dark-bg', 'var(--retro-dark-bg)');
+                    root.style.setProperty('--red', 'var(--retro-red)');
+                    root.style.setProperty('--matrix-green', 'var(--retro-matrix-green)');
+                    root.style.setProperty('--light-text', 'var(--retro-light-text)');
+                    root.style.setProperty('--box-bg', 'var(--retro-box-bg)');
+                    root.style.setProperty('--shadow-glitch', 'var(--retro-shadow-glitch)');
+                    break;
+                case 'green':
+                    root.style.setProperty('--dark-bg', 'var(--green-dark-bg)');
+                    root.style.setProperty('--red', 'var(--green-red)');
+                    root.style.setProperty('--matrix-green', 'var(--green-matrix-green)');
+                    root.style.setProperty('--light-text', 'var(--green-light-text)');
+                    root.style.setProperty('--box-bg', 'var(--green-box-bg)');
+                    root.style.setProperty('--shadow-glitch', 'var(--green-shadow-glitch)');
+                    break;
+            }
+            
+            // Обновляем название текущей темы
+            const themeName = document.getElementById('current-theme-name');
+            const themeNames = {
+                'cyber': 'Киберпанк',
+                'light': 'Светлая',
+                'retro': 'Ретро',
+                'green': 'Зеленая'
+            };
+            themeName.textContent = themeNames[theme];
+            
+            // Сохраняем в localStorage
+            localStorage.setItem('toregaly-theme', theme);
+            
+            // Перезапускаем частицы
+            initParticles();
+        }
+        
+        function toggleThemeDropdown() {
+            // Простой переключатель тем по кругу
+            const themes = ['cyber', 'light', 'retro', 'green'];
+            const currentIndex = themes.indexOf(currentTheme);
+            const nextIndex = (currentIndex + 1) % themes.length;
+            switchTheme(themes[nextIndex]);
+            
+            // Анимация кнопки
+            const themeBtn = document.querySelector('.theme-btn');
+            themeBtn.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                themeBtn.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        // ===================================================
+        // АУДИО ПЛЕЕР
+        // ===================================================
+
+        const audioPlayer = document.getElementById('global-audio-player');
+        const playBtn = document.getElementById('main-play-btn');
+        const playIcon = playBtn.querySelector('i');
+        const playlistItems = document.querySelectorAll('.playlist-item');
+        const progressBar = document.getElementById('progress-bar');
+        const currentTimeDisplay = document.getElementById('current-time');
+        const durationDisplay = document.getElementById('duration');
+        const trackTitleDisplay = document.getElementById('current-track-title');
+        const coverImage = document.getElementById('track-cover');
+        const defaultIcon = document.getElementById('default-icon');
+        const volumeSlider = document.getElementById('volume-slider');
+
+        let currentTrackIndex = -1;
+        
+        const tracks = [
+            { 
+                title: "Туған туыс бақытым", 
+                src: "tugan_tuys_bakytim.mp3", 
+                cover: "toregaly_cover1.jpg",
+                description: "Анаға деген махаббат туралы өлең"
+            }, 
+            { 
+                title: "Көктем", 
+                src: "koktem.mp3", 
+                cover: "toregaly_cover2.jpg",
+                description: "Жазғы табиғат сұлулығы туралы өлең"
+            }
+        ];
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return "0:00";
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        function updateProgressStyle(percent) {
+            progressBar.style.background = `linear-gradient(to right, var(--red) ${percent}%, rgba(255, 255, 255, 0.1) ${percent}%)`;
+        }
+
+        function loadTrack(index) {
+            if (index < 0 || index >= tracks.length) return;
+
+            const isSameTrack = index === currentTrackIndex;
+            
+            if (isSameTrack && audioPlayer.src) {
+                togglePlay();
+                return;
+            }
+            
+            currentTrackIndex = index;
+            const track = tracks[index];
+
+            trackTitleDisplay.textContent = track.title;
+            audioPlayer.src = track.src;
+            audioPlayer.load();
+
+            if (track.cover) {
+                coverImage.src = track.cover;
+                coverImage.style.display = 'block'; 
+                defaultIcon.style.display = 'none'; 
+            } else {
+                coverImage.style.display = 'none';
+                defaultIcon.style.display = 'block';
+            }
+            coverImage.classList.remove('active');
+
+            playlistItems.forEach(item => item.classList.remove('playing'));
+            playlistItems[index].classList.add('playing');
+
+            const playPromise = audioPlayer.play();
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    playIcon.className = 'fas fa-pause';
+                    coverImage.classList.add('active');
+                }).catch(error => {
+                    playIcon.className = 'fas fa-play';
+                    console.error("Autoplay blocked:", error);
+                });
+            }
+            
+            // На мобильных устройствах фокусируемся на плеере
+            if (window.innerWidth <= 768) {
+                setTimeout(() => {
+                    document.querySelector('.player-container').scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center' 
+                    });
+                }, 300);
+            }
+        }
+
+        function togglePlay() {
+            if (currentTrackIndex === -1) {
+                loadTrack(0);
+                return;
+            }
+            
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+                playIcon.className = 'fas fa-pause';
+                coverImage.classList.add('active');
+            } else {
+                audioPlayer.pause();
+                playIcon.className = 'fas fa-play';
+                coverImage.classList.remove('active');
+            }
+        }
+
+        function playNext() {
+            let nextIndex = currentTrackIndex + 1;
+            if (nextIndex >= tracks.length) {
+                audioPlayer.pause();
+                playIcon.className = 'fas fa-play';
+                coverImage.classList.remove('active');
+                return;
+            }
+            loadTrack(nextIndex);
+        }
+
+        function playPrevious() {
+            if (audioPlayer.currentTime < 3 && currentTrackIndex > 0) {
+                loadTrack(currentTrackIndex - 1);
+            } else {
+                audioPlayer.currentTime = 0;
+            }
+        }
+        
+        function skipTime(time) {
+            audioPlayer.currentTime += time;
+        }
+
+        // ===================================================
+        // ЧАСТИЦЫ
+        // ===================================================
+        
+        function initParticles() {
+            // Уничтожаем старые частицы
+            if (window.pJSDom && window.pJSDom.length > 0) {
+                window.pJSDom[0].pJS.fn.vendors.destroypJS();
+                window.pJSDom = [];
+            }
+            
+            // Определяем цвета в зависимости от темы
+            let particleColor, lineLinkedColor;
+            
+            switch(currentTheme) {
+                case 'cyber':
+                    particleColor = ["#33FFCC", "#FF3366"];
+                    lineLinkedColor = "#33FFCC";
+                    break;
+                case 'light':
+                    particleColor = ["#34a853", "#1a73e8"];
+                    lineLinkedColor = "#34a853";
+                    break;
+                case 'retro':
+                    particleColor = ["#FF69B4", "#FFD700"];
+                    lineLinkedColor = "#FF69B4";
+                    break;
+                case 'green':
+                    particleColor = ["#00ccff", "#00ff88"];
+                    lineLinkedColor = "#00ccff";
+                    break;
+                default:
+                    particleColor = ["#33FFCC", "#FF3366"];
+                    lineLinkedColor = "#33FFCC";
+            }
+            
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": { 
+                        "value": window.innerWidth <= 768 ? 70 : 100, 
+                        "density": { 
+                            "enable": true, 
+                            "value_area": window.innerWidth <= 768 ? 600 : 800 
+                        } 
+                    },
+                    "color": { "value": particleColor },
+                    "shape": { "type": "star" },
+                    "opacity": { 
+                        "value": 0.6, 
+                        "random": true, 
+                        "anim": { 
+                            "enable": true, 
+                            "speed": 1.5, 
+                            "opacity_min": 0.1, 
+                            "sync": false 
+                        } 
+                    },
+                    "size": { 
+                        "value": window.innerWidth <= 768 ? 1.5 : 2, 
+                        "random": true, 
+                        "anim": { "enable": false } 
+                    },
+                    "line_linked": { 
+                        "enable": true, 
+                        "distance": window.innerWidth <= 768 ? 100 : 130, 
+                        "color": lineLinkedColor, 
+                        "opacity": 0.5, 
+                        "width": 1 
+                    },
+                    "move": { 
+                        "enable": true, 
+                        "speed": window.innerWidth <= 768 ? 1 : 1.5, 
+                        "direction": "none", 
+                        "random": false, 
+                        "straight": false, 
+                        "out_mode": "out", 
+                        "bounce": false 
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": { 
+                        "onhover": { 
+                            "enable": window.innerWidth > 768,
+                            "mode": "grab" 
+                        }, 
+                        "onclick": { 
+                            "enable": true, 
+                            "mode": "push" 
+                        }, 
+                        "resize": true 
+                    },
+                    "modes": { 
+                        "grab": { 
+                            "distance": window.innerWidth <= 768 ? 100 : 140, 
+                            "line_linked": { "opacity": 1 } 
+                        }, 
+                        "push": { "particles_nb": 4 } 
+                    }
+                },
+                "retina_detect": true
+            });
+        }
+
+        // ===================================================
+        // ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ
+        // ===================================================
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Загружаем сохраненную тему
+            const savedTheme = localStorage.getItem('toregaly-theme') || 'cyber';
+            switchTheme(savedTheme);
+            
+            // Инициализируем частицы
+            initParticles();
+            
+            // Добавляем обработчики для элементов плейлиста
+            playlistItems.forEach((item, index) => {
+                item.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('lyrics-toggle-btn')) {
+                        return;
+                    }
+                    loadTrack(index);
+                });
+                
+                // Добавляем touch-обработчики для мобильных
+                item.addEventListener('touchstart', function() {
+                    this.style.transform = 'scale(0.98)';
+                }, { passive: true });
+                
+                item.addEventListener('touchend', function() {
+                    this.style.transform = '';
+                }, { passive: true });
+            });
+            
+            // Автоматически запускаем первый трек
+            setTimeout(() => {
+                loadTrack(0);
+            }, 1000);
+        });
+
+        // Обработчики событий аудио
+        audioPlayer.addEventListener('loadedmetadata', () => {
+            durationDisplay.textContent = formatTime(audioPlayer.duration);
+            progressBar.max = audioPlayer.duration;
+        });
+
+        audioPlayer.addEventListener('timeupdate', () => {
+            const currentTime = audioPlayer.currentTime;
+            const duration = audioPlayer.duration;
+            
+            progressBar.value = currentTime;
+            currentTimeDisplay.textContent = formatTime(currentTime);
+
+            const progressPercent = (currentTime / duration) * 100;
+            updateProgressStyle(progressPercent);
+        });
+
+        audioPlayer.addEventListener('ended', () => {
+            playNext();
+        });
+
+        progressBar.addEventListener('input', () => {
+            audioPlayer.currentTime = progressBar.value;
+        });
+        
+        volumeSlider.addEventListener('input', () => {
+             audioPlayer.volume = volumeSlider.value;
+        });
+
+        // ===================================================
+        // ТЕКСТ ПЕСЕН
+        // ===================================================
+
+        function toggleLyrics(button) {
+            const lyricsIndex = button.getAttribute('data-lyrics-index');
+            const lyricsContent = document.getElementById(`lyrics-${lyricsIndex}`);
+            
+            if (!lyricsContent) return;
+
+            // Закрываем все остальные тексты
+            const allLyrics = document.querySelectorAll('.lyrics-content');
+            allLyrics.forEach(content => {
+                if (content !== lyricsContent && content.classList.contains('open')) {
+                    content.classList.remove('open');
+                    const parentItem = content.closest('.playlist-item');
+                    if (parentItem) {
+                        const otherButton = parentItem.querySelector('.lyrics-toggle-btn');
+                        if (otherButton) otherButton.textContent = 'Мәтін';
+                    }
+                }
+            });
+
+            // Открываем/закрываем выбранный текст
+            lyricsContent.classList.toggle('open');
+
+            if (lyricsContent.classList.contains('open')) {
+                button.textContent = 'Жабу';
+                
+                // На мобильных прокручиваем к тексту
+                if (window.innerWidth <= 768) {
+                    setTimeout(() => {
+                        lyricsContent.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 300);
+                }
+            } else {
+                button.textContent = 'Мәтін';
+            }
+        }
+
+        // ===================================================
+        // УПРАВЛЕНИЕ КЛАВИАТУРОЙ
+        // ===================================================
+
+        document.addEventListener('keydown', function(e) {
+            switch(e.code) {
+                case 'Space':
+                    e.preventDefault();
+                    togglePlay();
+                    break;
+                case 'ArrowRight':
+                    if (e.ctrlKey) {
+                        playNext();
+                    } else {
+                        skipTime(10);
+                    }
+                    break;
+                case 'ArrowLeft':
+                    if (e.ctrlKey) {
+                        playPrevious();
+                    } else {
+                        skipTime(-10);
+                    }
+                    break;
+                case 'KeyN':
+                    if (e.ctrlKey) {
+                        playNext();
+                    }
+                    break;
+                case 'KeyP':
+                    if (e.ctrlKey) {
+                        playPrevious();
+                    }
+                    break;
+            }
+        });
+
+        // Переинициализация частиц при изменении размера окна
+        let resizeTimer;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function() {
+                initParticles();
+            }, 250);
+        });
+
+        // Оптимизация для мобильных устройств
+        document.addEventListener('touchstart', function() {}, { passive: true });
+        
+        // Предотвращение контекстного меню на мобильных
+        document.addEventListener('contextmenu', function(e) {
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
