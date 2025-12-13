@@ -2478,7 +2478,7 @@
             "shareError": "Erreur de partage. Copiez manuellement.",
             "lockscreenActive": "Contrôles de l'écran verrouillé actifs",
             "lockscreenSupported": "Contrôles de l'écran verrouillé pris en charge",
-            "lockscreenNotSupported": "Contrôles de l'écран verrouillé non pris en charge"
+            "lockscreenNotSupported": "Contrôles de l'écran verrouillé non pris en charge"
         },
         zh: {
             "title": "音频诗歌播放器",
@@ -3125,7 +3125,7 @@
     }
 
     // ===================================================
-    // АУДИО ПЛЕЕР
+    // АУДИО ПЛЕЕР - ГЛАВНОЕ ИСПРАВЛЕНИЕ
     // ===================================================
 
     const audioPlayer = document.getElementById('global-audio-player');
@@ -3201,7 +3201,7 @@
             id: 7,
             author: "qabykenov"
         },
-        // ТРЕКИ АВТОРА "РАМАЗАНОВ ТӨРЕҒАЛИ"
+        // ТРЕКИ АВТОРА "РАМАЗАНОВ ТӨРЕҒАЛИ" - ДОЛЖНЫ РАБОТАТЬ
         { 
             title: translations[currentLanguage].song9, 
             src: "Koktem_audio.mp3",
@@ -3230,6 +3230,8 @@
     }
 
     function loadTrack(index) {
+        console.log("Попытка загрузить трек:", index, tracks[index]); // Отладка
+        
         if (index < 0 || index >= tracks.length) return;
 
         const isSameTrack = index === currentTrackIndex;
@@ -3256,8 +3258,14 @@
         }
         coverImage.classList.remove('active');
 
+        // Снимаем класс playing со всех элементов
         playlistItems.forEach(item => item.classList.remove('playing'));
-        playlistItems[index].classList.add('playing');
+        
+        // Добавляем класс playing к текущему элементу
+        const currentItem = document.querySelector(`.playlist-item[data-index="${index}"]`);
+        if (currentItem) {
+            currentItem.classList.add('playing');
+        }
         
         updateFavoriteButton();
         
@@ -3520,9 +3528,9 @@
             let authorTag = '';
             
             if (track.author === 'qabykenov') {
-                authorTag = '<span class="author-tag" style="font-size: 0.8em; color: var(--secondary-neon);">Қабыкенов С.</span>';
+                authorTag = '<span style="font-size: 0.8em; color: var(--secondary-neon);">Қабыкенов С.</span>';
             } else if (track.author === 'ramazanov') {
-                authorTag = '<span class="author-tag" style="font-size: 0.8em; color: #00FF88;">Рамазанов Т.</span>';
+                authorTag = '<span style="font-size: 0.8em; color: #00FF88;">Рамазанов Т.</span>';
             }
             
             if (index === 7) {
@@ -3565,7 +3573,7 @@
                 }
             }, 100);
             
-            // ИСПРАВЛЕННЫЙ ОБРАБОТЧИК: убрана проверка на author-tag
+            // Добавляем обработчик клика на весь элемент
             item.addEventListener('click', function(e) {
                 if (!e.target.closest('.favorite-btn') && !e.target.closest('.lyrics-toggle-btn')) {
                     loadTrack(index);
@@ -3610,10 +3618,12 @@
     }
 
     // ===================================================
-    // ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ
+    // ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ - ГЛАВНОЕ ИСПРАВЛЕНИЕ
     // ===================================================
 
     document.addEventListener('DOMContentLoaded', () => {
+        console.log("Страница загружена, проверяем треки Рамазанова...");
+        
         // Создаем частицы
         createParticles();
         
@@ -3649,18 +3659,29 @@
             switchTheme(savedTheme);
         }
         
-        // Загружаем автора
+        // Загружаем автора - ВАЖНО: УБЕДИТЕСЬ ЧТО ПО УМОЛЧАНИЮ ВСЕ ТРЕКИ ВИДНЫ
         const savedAuthor = localStorage.getItem('author') || 'all';
         currentAuthor = savedAuthor;
         const authorBtn = document.querySelector(`.author-btn[onclick*="${savedAuthor}"]`);
         if (authorBtn) {
             authorBtn.classList.add('active');
+            // СНАЧАЛА ПОКАЗЫВАЕМ ВСЕ ТРЕКИ, ПОТОМ ФИЛЬТРУЕМ
+            document.querySelectorAll('.playlist-item').forEach(item => {
+                item.classList.remove('hidden');
+            });
             filterPlaylistByAuthor();
         } else {
             // Если кнопка не найдена, показываем все треки
             document.querySelector('.author-btn[onclick*="all"]').classList.add('active');
             filterPlaylistByAuthor();
         }
+        
+        // Проверяем видимость треков Рамазанова
+        const ramazanovTracks = document.querySelectorAll('.playlist-item[data-author="ramazanov"]');
+        console.log("Треки Рамазанова найдены:", ramazanovTracks.length);
+        ramazanovTracks.forEach(track => {
+            console.log("Трек Рамазанова:", track, "Видим?", !track.classList.contains('hidden'));
+        });
         
         updateFavoriteItems();
         updateFavoritesPlaylist();
@@ -3687,17 +3708,22 @@
     window.addEventListener('resize', updateParticles);
 
     // ===================================================
-    // ОБРАБОТЧИКИ СОБЫТИЙ
+    // ОБРАБОТЧИКИ СОБЫТИЙ - УПРОЩЕННАЯ ВЕРСИЯ
     // ===================================================
 
-    // ИСПРАВЛЕННЫЙ ОБРАБОТЧИК: убрана проверка на author-tag и new-track-badge
+    // УПРОЩЕННЫЙ ОБРАБОТЧИК - БЛОКИРУЕТ ТОЛЬКО КНОПКИ
     playlistItems.forEach((item, index) => {
         item.addEventListener('click', (e) => {
-            if (e.target.classList.contains('lyrics-toggle-btn') || 
-                e.target.classList.contains('favorite-btn') ||
+            console.log("Клик по треку:", index, "Цель:", e.target);
+            
+            // Блокируем только если клик по кнопкам
+            if (e.target.closest('.lyrics-toggle-btn') || 
                 e.target.closest('.favorite-btn')) {
+                console.log("Клик заблокирован - кнопка");
                 return;
             }
+            
+            console.log("Загружаем трек:", index);
             loadTrack(index);
         });
         
@@ -3877,10 +3903,22 @@
             updateMediaSessionState();
         }
     });
-</script>
 
-
+    // ===================================================
+    // ФИКС ДЛЯ СРАЗУ: КЛИКНИТЕ НА КНОПКУ "БАРЛЫҚ АВТОРЛАР"
+    // ===================================================
+    
+    // Принудительно показываем все треки при загрузке
+    setTimeout(() => {
+        const allButton = document.querySelector('.author-btn[onclick*="all"]');
+        if (allButton) {
+            allButton.click();
+            console.log("Принудительно активирована кнопка 'Все авторы'");
+        }
+    }, 500);
+            </script>
 </body>
 </html>
+
 
 
