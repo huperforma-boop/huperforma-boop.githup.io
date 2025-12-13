@@ -2027,7 +2027,7 @@
             Әр тасыңда – ата-бабам мекені,
             Жүрегімнің жылуысың осы маңда. 
             Оң жақ Қалжыр, Тақыр, Шеңгелдім, 
-            Бірге өскен құрбы-құрдас, достарым. 
+            Бірге өскен құрбы  құрдас, достарым. 
             Мейіріміңе бөлендім, тербелдім,  
             Шығысымның ай астындағы аспаны.
                     </p>
@@ -3126,7 +3126,7 @@
         }
 
         // ===================================================
-        // АУДИО ПЛЕЕР
+        // АУДИО ПЛЕЕР (ИСПРАВЛЕНО!)
         // ===================================================
 
         const audioPlayer = document.getElementById('global-audio-player');
@@ -3144,6 +3144,7 @@
         let currentTrackIndex = -1;
         let favorites = JSON.parse(localStorage.getItem('audioPlayerFavorites')) || [];
         
+        // ОБНОВЛЕННЫЙ МАССИВ ТРЕКОВ С ИСПРАВЛЕННЫМИ ИМЕНАМИ ФАЙЛОВ
         const tracks = [
             { 
                 title: translations[currentLanguage].song1, 
@@ -3201,16 +3202,17 @@
                 id: 7,
                 author: "qabykenov"
             },
+            // ИСПРАВЛЕННЫЕ ТРЕКИ С _audio в конце
             { 
                 title: translations[currentLanguage].song9, 
-                src: "Koktem.mp3", 
+                src: "Koktem_audio.mp3",    // ИСПРАВЛЕНО: добавлено _audio
                 cover: "Koktem.jpg", 
                 id: 8,
                 author: "ramazanov"
             },
             { 
                 title: translations[currentLanguage].song10, 
-                src: "Tugan_tuys_bakytim.mp3", 
+                src: "Tugan_tuys_bakytim_audio.mp3", // ИСПРАВЛЕНО: добавлено _audio
                 cover: "Tugan_tuys_bakytim.jpg", 
                 id: 9,
                 author: "ramazanov"
@@ -3578,7 +3580,7 @@
         
         function getTrackDuration(index) {
             if (index < 0 || index >= tracks.length) return "0:00";
-            const durations = ["3:49", "2:34", "2:16", "2:36", "2:19", "2:43", "2:14", "1:40", "3:10", "2:55"];
+            const durations = ["3:49", "2:34", "2:16", "2:36", "2:19", "2:43", "2:14", "1:40", "1:46", "2:55"];
             return durations[index] || "0:00";
         }
         
@@ -3882,4 +3884,3 @@
 
 </body>
 </html>
-
