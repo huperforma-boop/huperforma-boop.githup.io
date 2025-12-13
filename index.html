@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ДЕРЕК АҒЫНЫ | ҮМІТ</title>
+    
+    <meta property="og:title" content="Шығармашылық Портфолио | ҮМІТ (ДЕРЕК АҒЫНЫ)" />
+    <meta property="og:description" content="Өлеңдер, бейнелер және шығармашылық жұмыстар жинағы." />
+    <meta property="og:type" content="website" />
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* ТЕМЫ ОФОРМЛЕНИЯ */
+        :root {
+            /* Тема 1: КИБЕРПАНК (по умолчанию) */
+            --cyber-dark-bg: #0A0A1F;
+            --cyber-red: #FF3366;
+            --cyber-matrix-green: #33FFCC;
+            --cyber-light-text: #E0FFFF;
+            --cyber-box-bg: rgba(18, 18, 40, 0.7);
+            --cyber-shadow-glitch: 0 0 5px var(--cyber-red), 0 0 10px rgba(255, 51, 102, 0.5);
+            --cyber-border-glitch: 2px solid var(--cyber-matrix-green);
+            
+            /* Тема 2: СВЕТЛАЯ */
+            --light-dark-bg: #F0F0F0;
+            --light-red: #1a73e8;
+            --light-matrix-green: #34a853;
+            --light-light-text: #202124;
+            --light-box-bg: rgba(220, 220, 255, 0.7);
+            --light-shadow-glitch: 0 4px 12px rgba(0, 0, 0, 0.1);
+            
+            /* Тема 3: РЕТРО */
+            --retro-dark-bg: #1a1a1a;
+            --retro-red: #FFD700;
+            --retro-matrix-green: #FF69B4;
+            --retro-light-text: #FFEBCD;
+            --retro-box-bg: rgba(42, 42, 42, 0.7);
+            --retro-shadow-glitch: 0 0 15px var(--retro-red), 0 0 30px rgba(255, 215, 0, 0.4);
+            
+            /* Тема 4: ЗЕЛЕНАЯ */
+            --green-dark-bg: #0a1929;
+            --green-red: #00ff88;
+            --green-matrix-green: #00ccff;
+            --green-light-text: #e0f7fa;
+            --green-box-bg: rgba(15, 42, 63, 0.7);
+            --green-shadow-glitch: 0 0 10px var(--green-red), 0 0 20px rgba(0, 255, 136, 0.3);
+            
+            /* Активная тема (по умолчанию - Киберпанк) */
+            --dark-bg: var(--cyber-dark-bg);
+            --red: var(--cyber-red);
+            --matrix-green: var(--cyber-matrix-green);
+            --light-text: var(--cyber-light-text);
+            --box-bg: var(--cyber-box-bg);
+            --shadow-glitch: var(--cyber-shadow-glitch);
+            --border-glitch: var(--cyber-border-glitch);
+        }
+
+        /* Переключатель тем - ОПТИМИЗИРОВАН ДЛЯ МОБИЛЬНЫХ */
+        .theme-switcher {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 1000;
+            display: flex;
+            gap: 5px;
+        }
+
+        .theme-btn {
+            background: var(--box-bg);
+            border: 1px solid var(--matrix-green);
+            color: var(--light-text);
+            padding: 10px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+            font-family: 'Orbitron', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            min-height: 44px;
+            min-width: 44px;
+            box-shadow: var(--shadow-glitch);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .theme-btn:hover {
+            background: var(--matrix-green);
+            color: var(--dark-bg);
+            transform: scale(1.05);
+        }
+
+        .theme-btn .theme-icon {
+            font-size: 1.1em;
+        }
+
+        .theme-dropdown {
+            display: none;
+            position: fixed;
+            top: 65px;
+            right: 15px;
+            background: var(--box-bg);
+            border: 1px solid var(--matrix-green);
+            border-radius: 12px;
+            min-width: 180px;
+            max-width: calc(100vw - 30px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1001;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            overflow: hidden;
+        }
+
+        .theme-dropdown.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .theme-option {
+            padding: 15px 20px;
+            color: var(--light-text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 1em;
+            min-height: 50px;
+        }
+
+        .theme-option:hover {
+            background: var(--matrix-green);
+            color: var(--dark-bg);
+        }
+
+        .theme-option.active {
+            background: var(--red);
+            color: var(--dark-bg);
+            font-weight: bold;
+        }
+
+        .theme-option:last-child {
+            border-bottom: none;
+        }
+
+        /* НЕГІЗГІ СТИЛЬДЕР */
+        body {
+            font-family: 'Space Mono', monospace;
+            background-color: var(--dark-bg);
+            color: var(--matrix-green);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            transition: all 0.5s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Particle.js */
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-color: var(--dark-bg);
+            transition: background-color 0.5s ease;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 0 50px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            padding: 100px 0 60px 0;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 4em;
+            margin: 0;
+            visibility: hidden;
+            height: 0;
+        }
+
+        .top-left-title {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4em;
+            font-weight: 700;
+            color: var(--matrix-green);
+            text-shadow: 0 0 8px var(--matrix-green);
+            z-index: 1000;
+            text-transform: uppercase;
+            transition: all 0.5s ease;
+            padding: 8px 12px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .section-title {
+            text-align: center;
+            margin: 60px 0 40px 0;
+        }
+
+        .section-title h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2em;
+            color: var(--light-text);
+            padding: 15px 25px;
+            display: inline-block;
+            text-transform: uppercase;
+            border: var(--border-glitch);
+            box-shadow: var(--shadow-glitch);
+            background-color: rgba(0, 0, 0, 0.5);
+            transition: all 0.5s ease;
+            border-radius: 8px;
+        }
+
+        /* АУДИО БЛОК */
+        .audio-link-box {
+            text-align: center;
+            padding: 50px;
+            margin: 40px auto;
+            max-width: 800px;
+            display: block;
+            text-decoration: none;
+            background-color: rgba(40, 0, 0, 0.5);
+            border: 3px solid var(--red);
+            border-radius: 12px;
+            box-shadow: var(--shadow-glitch);
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .audio-link-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 51, 102, 0.3);
+        }
+
+        .audio-link-box h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--light-text);
+            text-shadow: 0 0 5px var(--red);
+            font-size: 2em;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            transition: all 0.5s ease;
+        }
+
+        /* ӘКЕҢІЗДІҢ ӨЛЕҢДЕРІ БӨЛІМІ */
+        @keyframes scanline {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 100%; }
+        }
+
+        .coming-soon-box {
+            text-align: center;
+            padding: 30px;
+            margin: 40px auto;
+            cursor: pointer;
+            max-width: 800px;
+            background-color: rgba(0, 40, 40, 0.5);
+            border: 3px solid var(--matrix-green);
+            border-radius: 12px;
+            background-image: linear-gradient(rgba(0,0,0,0.1) 50%, rgba(51, 255, 204, 0.2) 50%);
+            background-size: 100% 10px;
+            animation: scanline 2s infinite linear;
+            box-shadow: 0 0 15px var(--matrix-green);
+            transition: all 0.4s ease;
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .coming-soon-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px var(--matrix-green), 0 0 50px rgba(51, 255, 204, 0.5);
+            border-color: var(--red);
+        }
+
+        /* БАЙЛАНЫС ЖӘНЕ АВТОР БӘЛІМДЕРІ */
+        .contact-form-container {
+            padding: 40px;
+            margin-top: 50px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: var(--box-bg);
+            border: 2px solid var(--red);
+            border-radius: 12px;
+            box-shadow: var(--shadow-glitch);
+            transition: all 0.5s ease;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--light-text);
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid var(--matrix-green);
+            background-color: rgba(0, 0, 0, 0.3);
+            color: var(--light-text);
+            border-radius: 8px;
+            box-shadow: inset 0 0 5px rgba(51, 255, 204, 0.5);
+            box-sizing: border-box;
+            font-family: 'Space Mono', monospace;
+            transition: all 0.3s ease;
+            font-size: 16px; /* Предотвращает увеличение в iOS */
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background-color: var(--red);
+            color: var(--dark-bg);
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-family: 'Orbitron', sans-serif;
+            cursor: pointer;
+            border-radius: 8px;
+            box-shadow: 0 0 10px var(--red);
+            transition: all 0.3s ease;
+            width: 100%;
+            min-height: 50px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 51, 102, 0.4);
+        }
+
+        .author-info {
+            background-color: var(--box-bg);
+            border: 2px solid var(--matrix-green);
+            border-radius: 12px;
+            box-shadow: var(--shadow-glitch);
+            padding: 40px;
+            margin-top: 50px;
+            text-align: center;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            transition: all 0.5s ease;
+        }
+
+        .social-links {
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            color: var(--red);
+            font-size: 2.5em;
+            margin: 0 20px;
+            text-shadow: 0 0 10px var(--red);
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+            display: inline-block;
+            padding: 10px;
+        }
+
+        .social-links a:hover {
+            transform: scale(1.2);
+            color: var(--matrix-green);
+        }
+
+        /* Интерактивные элементы для звуковых эффектов */
+        .sound-interactive {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .sound-interactive::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(51, 255, 204, 0.2) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .sound-interactive:hover::before {
+            opacity: 1;
+        }
+
+        .sound-interactive:active::before {
+            background: radial-gradient(circle at center, rgba(255, 51, 102, 0.3) 0%, transparent 70%);
+        }
+
+        /* Аудио элементы (скрытые) */
+        .audio-fx {
+            display: none;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--matrix-green);
+            font-family: 'Space Mono', monospace;
+            border-top: 1px solid var(--matrix-green);
+            margin-top: 50px;
+            font-size: 0.9em;
+        }
+
+        /* 📱 МОБИЛЬДІК БЕЙІМДИЛІК (Responsive Design) */
+        @media (max-width: 768px) {
+            body {
+                font-size: 14px;
+            }
+            
+            .header {
+                padding: 80px 0 40px 0;
+            }
+
+            .top-left-title {
+                left: 15px;
+                top: 15px;
+                font-size: 1.1em;
+                padding: 6px 10px;
+            }
+
+            .theme-switcher {
+                top: 15px;
+                right: 15px;
+            }
+            
+            .theme-btn {
+                padding: 10px;
+                font-size: 0.9em;
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            .theme-btn span {
+                display: none;
+            }
+            
+            .theme-dropdown {
+                top: 60px;
+                right: 15px;
+                left: 15px;
+                max-width: calc(100vw - 30px);
+            }
+            
+            .theme-option {
+                padding: 18px 20px;
+                font-size: 1.1em;
+                min-height: 55px;
+            }
+
+            .section-title {
+                margin: 40px 0 25px 0;
+            }
+
+            .section-title h2 {
+                font-size: 1.5em;
+                padding: 12px 20px;
+                border-width: 1px;
+            }
+
+            .audio-link-box,
+            .coming-soon-box,
+            .contact-form-container,
+            .author-info {
+                padding: 25px;
+                margin: 30px auto;
+                border-radius: 10px;
+            }
+
+            .audio-link-box h3 {
+                font-size: 1.6em;
+            }
+
+            .coming-soon-box h3 {
+                font-size: 1.2em;
+            }
+
+            .social-links a {
+                font-size: 2em;
+                margin: 0 15px;
+                padding: 8px;
+            }
+            
+            .form-group input,
+            .form-group textarea,
+            .submit-btn {
+                font-size: 16px; /* Важно для iOS */
+                padding: 12px;
+            }
+        }
+
+        /* Для очень маленьких экранов */
+        @media (max-width: 480px) {
+            .top-left-title {
+                font-size: 1em;
+                left: 10px;
+                top: 10px;
+            }
+            
+            .theme-btn {
+                padding: 12px;
+            }
+            
+            .theme-dropdown {
+                top: 55px;
+                right: 10px;
+                left: 10px;
+            }
+            
+            .section-title h2 {
+                font-size: 1.3em;
+                padding: 10px 15px;
+            }
+            
+            .audio-link-box h3 {
+                font-size: 1.4em;
+            }
+            
+            .coming-soon-box h3 {
+                font-size: 1.1em;
+            }
+            
+            .social-links a {
+                font-size: 1.8em;
+                margin: 0 10px;
+            }
+        }
+
+        /* Предотвращение увеличения текста в iOS */
+        @media screen and (max-width: 768px) {
+            input, textarea, select {
+                font-size: 16px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Переключатель тем -->
+    <div class="theme-switcher">
+        <button class="theme-btn" onclick="toggleThemeDropdown(event)">
+            <i class="fas fa-palette theme-icon"></i>
+            <span id="current-theme-name" data-lang-key="themeCyber">Киберпанк</span>
+        </button>
+        <div class="theme-dropdown" id="theme-dropdown">
+            <div class="theme-option active" onclick="switchTheme('cyber')">
+                <i class="fas fa-bolt"></i>
+                <span data-lang-key="themeCyber">Киберпанк</span>
+            </div>
+            <div class="theme-option" onclick="switchTheme('light')">
+                <i class="fas fa-sun"></i>
+                <span data-lang-key="themeLight">Светлая</span>
+            </div>
+            <div class="theme-option" onclick="switchTheme('retro')">
+                <i class="fas fa-star"></i>
+                <span data-lang-key="themeRetro">Ретро</span>
+            </div>
+            <div class="theme-option" onclick="switchTheme('green')">
+                <i class="fas fa-leaf"></i>
+                <span data-lang-key="themeGreen">Зеленая</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="particles-js"></div>
+
+    <div class="top-left-title">ҮМІТ | АҚП</div>
+
+    <div class="header">
+        <h1></h1>
+    </div>
+
+    <div class="container">
+        
+        <div class="section-title reveal-top">
+            <h2>> АУДИО ӨЛЕҢДЕР ЖИНАҒЫ</h2>
+        </div>
+        
+        <a href="audio.html" class="audio-link-box scroll-reveal-item sound-interactive">
+            <i class="fas fa-music"></i>
+            <h3>АУДИО ЯДРОНЫ ІСКЕ ҚОСУ</h3>
+            <p>Жаңа дизайндағы аудио өлеңдерді мәтіндерімен бірге тыңдау үшін басыңыз.</p>
+        </a>
+        
+        <div class="section-title reveal-top">
+            <h2>> АРХИВТІК ДЕРЕКТЕР: РАМАЗАНОВ Т.</h2>
+        </div>
+        
+        <a href="#toregaly-section" class="coming-soon-box scroll-reveal-item sound-interactive" id="toregaly-link">
+            <i class="fas fa-music"></i>
+            <h3>ТӨРЕГАЛИ РАМАЗАНОВ - АУДИО ӨЛЕҢДЕР</h3>
+            <p>Әкемнің өлеңдерін тыңдау үшін басыңыз</p>
+        </a>
+        
+        <div class="section-title reveal-top">
+            <h2>> БАЙЛАНЫС ЖҮЙЕСІ (ХАТТАМА)</h2>
+        </div>
+
+        <div class="contact-form-container scroll-reveal-item">
+            <form action="#" method="POST" id="contact-form">
+                <div class="form-group">
+                    <label for="name">АТЫҢЫЗДЫ ЕНГІЗУ:</label>
+                    <input type="text" id="name" name="name" required class="sound-interactive">
+                </div>
+                <div class="form-group">
+                    <label for="email">E-MAIL ЕНГІЗУ:</label>
+                    <input type="email" id="email" name="email" required class="sound-interactive">
+                </div>
+                <div class="form-group">
+                    <label for="message">ХАБАРЛАМАНЫ ЕНГІЗУ:</label>
+                    <textarea id="message" name="message" rows="5" required class="sound-interactive"></textarea>
+                </div>
+                <button type="submit" class="submit-btn sound-interactive">ДЕРЕКТЕРДІ ЖІБЕРУ</button>
+            </form>
+        </div>
+        
+        <div class="author-info scroll-reveal-item">
+            <h2>Қабыкенов Сағыныш</h2>
+            
+            <div class="social-links">
+                <a href="https://www.tiktok.com/@huawei.kz1?_r=1&_t=ZM-91vWOUJnp9f" target="_blank" aria-label="TikTok" class="sound-interactive">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+                
+                <a href="https://t.me/HUPERFORMA2024" target="_blank" aria-label="Telegram" class="sound-interactive">
+                    <i class="fab fa-telegram-plane"></i>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <p>© 2025. ҮМІТ АҚП. Барлық құқықтар қорғалған.</p>
+    </div>
+
+    <!-- Скрытые аудио элементы для звуковых эффектов -->
+    <audio id="click-sound" class="audio-fx" preload="auto"></audio>
+    <audio id="hover-sound" class="audio-fx" preload="auto"></audio>
+
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+    <script>
+        // ===================================================
+        // СИСТЕМА ПЕРЕКЛЮЧЕНИЯ ТЕМ (ОПТИМИЗИРОВАНА ДЛЯ МОБИЛЬНЫХ)
+        // ===================================================
+        
+        let currentTheme = 'cyber';
+        let isDropdownOpen = false;
+        
+        function switchTheme(theme) {
+            currentTheme = theme;
+            const root = document.documentElement;
+            
+            switch(theme) {
+                case 'cyber':
+                    root.style.setProperty('--dark-bg', 'var(--cyber-dark-bg)');
+                    root.style.setProperty('--red', 'var(--cyber-red)');
+                    root.style.setProperty('--matrix-green', 'var(--cyber-matrix-green)');
+                    root.style.setProperty('--light-text', 'var(--cyber-light-text)');
+                    root.style.setProperty('--box-bg', 'var(--cyber-box-bg)');
+                    root.style.setProperty('--shadow-glitch', 'var(--cyber-shadow-glitch)');
+                    root.style.setProperty('--border-glitch', 'var(--cyber-border-glitch)');
+                    break;
+                case 'light':
+                    root.style.setProperty('--dark-bg', 'var(--light-dark-bg)');
+                    root.style.setProperty('--red', 'var(--light-red)');
+                    root.style.setProperty('--matrix-green', 'var(--light-matrix-green)');
+                    root.style.setProperty('--light-text', 'var(--light-light-text)');
+                    root.style.setProperty('--box-bg', 'var(--light-box-bg)');
+                    root.style.setProperty('--shadow-glitch', 'var(--light-shadow-glitch)');
+                    root.style.setProperty('--border-glitch', '2px solid var(--light-matrix-green)');
+                    break;
+                case 'retro':
+                    root.style.setProperty('--dark-bg', 'var(--retro-dark-bg)');
+                    root.style.setProperty('--red', 'var(--retro-red)');
+                    root.style.setProperty('--matrix-green', 'var(--retro-matrix-green)');
+                    root.style.setProperty('--light-text', 'var(--retro-light-text)');
+                    root.style.setProperty('--box-bg', 'var(--retro-box-bg)');
+                    root.style.setProperty('--shadow-glitch', 'var(--retro-shadow-glitch)');
+                    root.style.setProperty('--border-glitch', 'var(--cyber-border-glitch)');
+                    break;
+                case 'green':
+                    root.style.setProperty('--dark-bg', 'var(--green-dark-bg)');
+                    root.style.setProperty('--red', 'var(--green-red)');
+                    root.style.setProperty('--matrix-green', 'var(--green-matrix-green)');
+                    root.style.setProperty('--light-text', 'var(--green-light-text)');
+                    root.style.setProperty('--box-bg', 'var(--green-box-bg)');
+                    root.style.setProperty('--shadow-glitch', 'var(--green-shadow-glitch)');
+                    root.style.setProperty('--border-glitch', 'var(--cyber-border-glitch)');
+                    break;
+            }
+            
+            // Обновляем активную тему в переключателе
+            document.querySelectorAll('.theme-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Обновляем название текущей темы
+            const themeName = document.getElementById('current-theme-name');
+            const themeNames = {
+                'cyber': 'Киберпанк',
+                'light': 'Светлая',
+                'retro': 'Ретро',
+                'green': 'Зеленая'
+            };
+            themeName.textContent = themeNames[theme];
+            
+            // Сохраняем в localStorage
+            localStorage.setItem('umit-theme', theme);
+            
+            // Закрываем выпадающее меню
+            closeThemeDropdown();
+            
+            // Перезапускаем частицы
+            initParticles();
+        }
+        
+        function toggleThemeDropdown(event) {
+            if (event) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
+            
+            const dropdown = document.getElementById('theme-dropdown');
+            isDropdownOpen = !isDropdownOpen;
+            
+            if (isDropdownOpen) {
+                dropdown.classList.add('show');
+                // Добавляем обработчик для закрытия при клике вне
+                setTimeout(() => {
+                    document.addEventListener('click', closeThemeDropdownOnClickOutside);
+                }, 10);
+            } else {
+                closeThemeDropdown();
+            }
+        }
+        
+        function closeThemeDropdown() {
+            const dropdown = document.getElementById('theme-dropdown');
+            dropdown.classList.remove('show');
+            isDropdownOpen = false;
+            document.removeEventListener('click', closeThemeDropdownOnClickOutside);
+        }
+        
+        function closeThemeDropdownOnClickOutside(event) {
+            const themeSwitcher = document.querySelector('.theme-switcher');
+            if (!themeSwitcher.contains(event.target)) {
+                closeThemeDropdown();
+            }
+        }
+        
+        // Закрытие при скролле на мобильных
+        let scrollTimer;
+        window.addEventListener('scroll', function() {
+            if (isDropdownOpen) {
+                closeThemeDropdown();
+            }
+            
+            // Прячем кнопку темы при скролле вниз на мобильных
+            if (window.innerWidth <= 768) {
+                clearTimeout(scrollTimer);
+                const themeBtn = document.querySelector('.theme-btn');
+                if (themeBtn) {
+                    themeBtn.style.opacity = '0.7';
+                    themeBtn.style.transform = 'scale(0.95)';
+                }
+                
+                scrollTimer = setTimeout(function() {
+                    const themeBtn = document.querySelector('.theme-btn');
+                    if (themeBtn) {
+                        themeBtn.style.opacity = '1';
+                        themeBtn.style.transform = 'scale(1)';
+                    }
+                }, 300);
+            }
+        }, { passive: true });
+        
+        // ===================================================
+        // СИСТЕМА ЗВУКОВЫХ ЭФФЕКТОВ
+        // ===================================================
+        
+        let audioContext;
+        let isAudioEnabled = false;
+        
+        function initAudioSystem() {
+            if (!audioContext) {
+                try {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    isAudioEnabled = true;
+                    console.log("Аудиосистема инициализирована");
+                } catch (e) {
+                    console.error("Web Audio API не поддерживается:", e);
+                }
+            }
+        }
+        
+        function enableAudio() {
+            if (!isAudioEnabled) {
+                initAudioSystem();
+                if (audioContext && audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+            }
+        }
+        
+        function playClickSound() {
+            if (!isAudioEnabled) return;
+            
+            try {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = 800;
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.1);
+            } catch (e) {
+                console.error("Ошибка воспроизведения звука:", e);
+            }
+        }
+        
+        function playHoverSound() {
+            if (!isAudioEnabled) return;
+            
+            try {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = 1200;
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.05, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.05);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.05);
+            } catch (e) {
+                console.error("Ошибка воспроизведения звука:", e);
+            }
+        }
+        
+        // ===================================================
+        // ИНИЦИАЛИЗАЦИЯ СИСТЕМ ПРИ ЗАГРУЗКЕ
+        // ===================================================
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Загружаем сохраненную тему
+            const savedTheme = localStorage.getItem('umit-theme') || 'cyber';
+            const themeOption = document.querySelector(`.theme-option[onclick*="${savedTheme}"]`);
+            if (themeOption) {
+                // Создаем искусственное событие
+                const event = { target: themeOption };
+                switchTheme(savedTheme);
+            }
+            
+            // Инициализируем системы
+            initParticles();
+            initScrollReveal();
+            initAudioSystem();
+            
+            // Добавляем обработчики звуковых эффектов
+            const interactiveElements = document.querySelectorAll('.sound-interactive');
+            interactiveElements.forEach(element => {
+                element.addEventListener('mouseenter', playHoverSound);
+                element.addEventListener('click', function() {
+                    playClickSound();
+                    enableAudio();
+                });
+                element.addEventListener('touchstart', function() {
+                    playClickSound();
+                    enableAudio();
+                }, { passive: true });
+                element.addEventListener('focus', playHoverSound);
+            });
+            
+            // Активируем аудио при любом взаимодействии
+            document.addEventListener('click', enableAudio);
+            document.addEventListener('keydown', enableAudio);
+            document.addEventListener('touchstart', enableAudio, { passive: true });
+            
+            // Обработчик для ссылки Төреғали
+            const toreLink = document.getElementById('toregaly-link');
+            if (toreLink) {
+                toreLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    playClickSound();
+                    
+                    // Создаем и показываем модальное окно с аудиоплеером
+                    showToregalyModal();
+                });
+            }
+        });
+        
+        // ===================================================
+        // МОДАЛЬНОЕ ОКНО ДЛЯ АУДИО ТӨРЕГАЛИ
+        // ===================================================
+        
+        function showToregalyModal() {
+            // Создаем модальное окно
+            const modalHTML = `
+                <div id="toregaly-modal" style="
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.9);
+                    z-index: 9999;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    backdrop-filter: blur(10px);
+                    -webkit-backdrop-filter: blur(10px);
+                    animation: fadeIn 0.3s ease;
+                ">
+                    <div style="
+                        background: var(--box-bg);
+                        border: 3px solid var(--matrix-green);
+                        border-radius: 15px;
+                        padding: 30px;
+                        max-width: 90%;
+                        width: 800px;
+                        max-height: 90vh;
+                        overflow-y: auto;
+                        position: relative;
+                        box-shadow: var(--shadow-glitch);
+                    ">
+                        <button onclick="closeModal()" style="
+                            position: absolute;
+                            top: 15px;
+                            right: 15px;
+                            background: var(--red);
+                            border: none;
+                            color: var(--dark-bg);
+                            width: 40px;
+                            height: 40px;
+                            border-radius: 50%;
+                            font-size: 1.2em;
+                            cursor: pointer;
+                            z-index: 10000;
+                        ">✕</button>
+                        
+                        <h2 style="
+                            font-family: 'Orbitron', sans-serif;
+                            color: var(--light-text);
+                            text-align: center;
+                            margin-bottom: 30px;
+                            text-shadow: 0 0 10px var(--matrix-green);
+                        ">ТӨРЕГАЛИ РАМАЗАНОВ - ӨЛЕҢДЕР</h2>
+                        
+                        <div id="audio-player-container">
+                            <!-- Аудиоплеер будет здесь -->
+                        </div>
+                        
+                        <div style="margin-top: 30px;">
+                            <h3 style="color: var(--light-text); margin-bottom: 20px;">ӨЛЕҢДЕР ТІЗІМІ</h3>
+                            <div id="playlist-container"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Добавляем стили анимации
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeIn {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Вставляем модальное окно
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+            
+            // Инициализируем аудиоплеер
+            initToregalyAudioPlayer();
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById('toregaly-modal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+        
+        function initToregalyAudioPlayer() {
+            const tracks = [
+                {
+                    title: "Туған туыс бақытым",
+                    src: "https://assets.codepen.io/4358584/audio1.mp3",
+                    lyrics: `Туған туыс бақытым, асыл анам,
+Өмірімнің бастауы, жолым, данам.
+Күн шығар күнімен, түн болса түнімен,
+Жүрегімде жылысың, ақылдың тынымы.
+
+Балалық шағымның қыран қанаты,
+Жастық шақымның нұрлы сағаты.
+Әр қадамымда сенсің, әр сәтімде,
+Өмірдің тұнық өзені, терең теңізім.`
+                },
+                {
+                    title: "Көктем",
+                    src: "https://assets.codepen.io/4358584/audio2.mp3",
+                    lyrics: `Көктем келді, жер жасылданды,
+Гүлдер ашты, бұлбұл сайрады.
+Табиғаттың мерейі толды,
+Көңілдің де өзі шаттанды.
+
+Қар ереді, суы ағып кетеді,
+Жаңа өмір, жаңа үміт келеді.
+Ағаштар жапыраққа жамылады,
+Әрбір бұтақ жаңа әлем ашады.`
+                }
+            ];
+            
+            let currentTrackIndex = 0;
+            let isPlaying = false;
+            
+            // Создаем аудио элемент
+            const audio = new Audio();
+            audio.src = tracks[0].src;
+            
+            // Создаем интерфейс плеера
+            const playerContainer = document.getElementById('audio-player-container');
+            playerContainer.innerHTML = `
+                <div style="
+                    background: rgba(0, 0, 0, 0.3);
+                    border-radius: 12px;
+                    padding: 25px;
+                    margin-bottom: 20px;
+                    border: 2px solid var(--red);
+                ">
+                    <h3 id="current-track-title" style="
+                        color: var(--matrix-green);
+                        margin-top: 0;
+                        text-align: center;
+                        font-family: 'Orbitron', sans-serif;
+                    ">${tracks[0].title}</h3>
+                    
+                    <div style="display: flex; justify-content: center; margin: 20px 0;">
+                        <div style="
+                            width: 150px;
+                            height: 150px;
+                            background: linear-gradient(45deg, var(--red), var(--matrix-green));
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 3em;
+                            color: var(--dark-bg);
+                            box-shadow: 0 0 30px var(--red);
+                        ">
+                            <i class="fas fa-music"></i>
+                        </div>
+                    </div>
+                    
+                    <div style="
+                        display: flex;
+                        justify-content: center;
+                        gap: 15px;
+                        margin: 25px 0;
+                        flex-wrap: wrap;
+                    ">
+                        <button onclick="playPreviousTrack()" style="
+                            background: none;
+                            border: 2px solid var(--matrix-green);
+                            color: var(--matrix-green);
+                            width: 50px;
+                            height: 50px;
+                            border-radius: 50%;
+                            cursor: pointer;
+                            font-size: 1.2em;
+                        "><i class="fas fa-step-backward"></i></button>
+                        
+                        <button onclick="togglePlay()" id="play-button" style="
+                            background: var(--red);
+                            border: none;
+                            color: var(--dark-bg);
+                            width: 70px;
+                            height: 70px;
+                            border-radius: 50%;
+                            cursor: pointer;
+                            font-size: 1.8em;
+                            box-shadow: 0 0 20px var(--red);
+                        "><i class="fas fa-play"></i></button>
+                        
+                        <button onclick="playNextTrack()" style="
+                            background: none;
+                            border: 2px solid var(--matrix-green);
+                            color: var(--matrix-green);
+                            width: 50px;
+                            height: 50px;
+                            border-radius: 50%;
+                            cursor: pointer;
+                            font-size: 1.2em;
+                        "><i class="fas fa-step-forward"></i></button>
+                    </div>
+                    
+                    <div style="
+                        margin-top: 20px;
+                        color: var(--light-text);
+                        text-align: center;
+                    ">
+                        <p id="current-lyrics">${tracks[0].lyrics}</p>
+                    </div>
+                </div>
+            `;
+            
+            // Создаем плейлист
+            const playlistContainer = document.getElementById('playlist-container');
+            let playlistHTML = '';
+            
+            tracks.forEach((track, index) => {
+                playlistHTML += `
+                    <div onclick="selectTrack(${index})" style="
+                        background: rgba(255, 255, 255, 0.05);
+                        border: 1px solid var(--matrix-green);
+                        border-radius: 8px;
+                        padding: 15px;
+                        margin-bottom: 10px;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                        color: var(--light-text);
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    " onmouseover="this.style.background='rgba(51, 255, 204, 0.1)'" 
+                     onmouseout="this.style.background='rgba(255, 255, 255, 0.05)'">
+                        <div>
+                            <i class="fas fa-music" style="margin-right: 10px;"></i>
+                            <span>${track.title}</span>
+                        </div>
+                        <button onclick="event.stopPropagation(); showLyrics(${index})" style="
+                            background: var(--matrix-green);
+                            border: none;
+                            color: var(--dark-bg);
+                            padding: 8px 15px;
+                            border-radius: 20px;
+                            cursor: pointer;
+                            font-size: 0.9em;
+                        ">Мәтін</button>
+                    </div>
+                `;
+            });
+            
+            playlistContainer.innerHTML = playlistHTML;
+            
+            // Глобальные функции для управления плеером
+            window.togglePlay = function() {
+                if (isPlaying) {
+                    audio.pause();
+                    document.getElementById('play-button').innerHTML = '<i class="fas fa-play"></i>';
+                } else {
+                    audio.play().catch(e => console.log("Autoplay prevented:", e));
+                    document.getElementById('play-button').innerHTML = '<i class="fas fa-pause"></i>';
+                }
+                isPlaying = !isPlaying;
+            };
+            
+            window.playNextTrack = function() {
+                currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
+                updatePlayer();
+            };
+            
+            window.playPreviousTrack = function() {
+                currentTrackIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
+                updatePlayer();
+            };
+            
+            window.selectTrack = function(index) {
+                currentTrackIndex = index;
+                updatePlayer();
+                if (!isPlaying) {
+                    window.togglePlay();
+                }
+            };
+            
+            window.showLyrics = function(index) {
+                alert(tracks[index].lyrics);
+            };
+            
+            function updatePlayer() {
+                const track = tracks[currentTrackIndex];
+                audio.src = track.src;
+                document.getElementById('current-track-title').textContent = track.title;
+                document.getElementById('current-lyrics').textContent = track.lyrics;
+                
+                if (isPlaying) {
+                    audio.play().catch(e => console.log("Autoplay prevented:", e));
+                }
+            }
+            
+            // Обработчики событий аудио
+            audio.addEventListener('ended', function() {
+                playNextTrack();
+            });
+        }
+        
+        // ===================================================
+        // СИСТЕМА ЧАСТИЦ (Particle.js)
+        // ===================================================
+        
+        function initParticles() {
+            // Уничтожаем старые частицы
+            if (window.pJSDom && window.pJSDom.length > 0) {
+                window.pJSDom[0].pJS.fn.vendors.destroypJS();
+                window.pJSDom = [];
+            }
+            
+            // Определяем цвета в зависимости от темы
+            let particleColor, lineLinkedColor;
+            
+            switch(currentTheme) {
+                case 'cyber':
+                    particleColor = ["#33FFCC", "#FF3366"];
+                    lineLinkedColor = "#33FFCC";
+                    break;
+                case 'light':
+                    particleColor = ["#34a853", "#1a73e8"];
+                    lineLinkedColor = "#34a853";
+                    break;
+                case 'retro':
+                    particleColor = ["#FF69B4", "#FFD700"];
+                    lineLinkedColor = "#FF69B4";
+                    break;
+                case 'green':
+                    particleColor = ["#00ccff", "#00ff88"];
+                    lineLinkedColor = "#00ccff";
+                    break;
+                default:
+                    particleColor = ["#33FFCC", "#FF3366"];
+                    lineLinkedColor = "#33FFCC";
+            }
+            
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": { 
+                        "value": window.innerWidth <= 768 ? 70 : 100, 
+                        "density": { 
+                            "enable": true, 
+                            "value_area": window.innerWidth <= 768 ? 600 : 800 
+                        } 
+                    },
+                    "color": { "value": particleColor },
+                    "shape": { "type": "star" },
+                    "opacity": { 
+                        "value": 0.6, 
+                        "random": true, 
+                        "anim": { 
+                            "enable": true, 
+                            "speed": 1.5, 
+                            "opacity_min": 0.1, 
+                            "sync": false 
+                        } 
+                    },
+                    "size": { 
+                        "value": window.innerWidth <= 768 ? 1.5 : 2, 
+                        "random": true, 
+                        "anim": { "enable": false } 
+                    },
+                    "line_linked": { 
+                        "enable": true, 
+                        "distance": window.innerWidth <= 768 ? 100 : 130, 
+                        "color": lineLinkedColor, 
+                        "opacity": 0.5, 
+                        "width": 1 
+                    },
+                    "move": { 
+                        "enable": true, 
+                        "speed": window.innerWidth <= 768 ? 1 : 1.5, 
+                        "direction": "none", 
+                        "random": false, 
+                        "straight": false, 
+                        "out_mode": "out", 
+                        "bounce": false 
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": { 
+                        "onhover": { 
+                            "enable": window.innerWidth > 768, // Отключаем на мобильных
+                            "mode": "grab" 
+                        }, 
+                        "onclick": { 
+                            "enable": true, 
+                            "mode": "push" 
+                        }, 
+                        "resize": true 
+                    },
+                    "modes": { 
+                        "grab": { 
+                            "distance": window.innerWidth <= 768 ? 100 : 140, 
+                            "line_linked": { "opacity": 1 } 
+                        }, 
+                        "push": { "particles_nb": 4 } 
+                    }
+                },
+                "retina_detect": true
+            });
+        }
+        
+        // Переинициализация частиц при изменении размера окна
+        let resizeTimer;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function() {
+                initParticles();
+            }, 250);
+        });
+        
+        // ===================================================
+        // ScrollReveal АНИМАЦИИ
+        // ===================================================
+        
+        function initScrollReveal() {
+            ScrollReveal({ 
+                distance: '60px', 
+                duration: 1500, 
+                easing: 'cubic-bezier(0.645, 0.045, 0.355, 1)', 
+                interval: 100, 
+                reset: false,
+                mobile: true
+            });
+            
+            ScrollReveal().reveal('.scroll-reveal-item', { 
+                origin: 'bottom',
+                distance: '30px',
+                duration: 1000
+            });
+            ScrollReveal().reveal('.section-title', { 
+                origin: 'top', 
+                distance: '40px', 
+                delay: 300, 
+                interval: 0 
+            });
+        }
+        
+        // ===================================================
+        // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+        // ===================================================
+        
+        // Обработка формы
+        document.getElementById('contact-form')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            playClickSound();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            if (name && email && message) {
+                alert('Хабарлама жіберілді! Жауабыңызды электрондық пошта арқылы аласыз.');
+                this.reset();
+            } else {
+                alert('Барлық өрістерді толтырыңыз!');
+            }
+        });
+        
+        // Оптимизация для мобильных устройств
+        document.addEventListener('touchstart', function() {}, { passive: true });
+        
+        // Предотвращение контекстного меню на мобильных
+        document.addEventListener('contextmenu', function(e) {
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
