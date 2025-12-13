@@ -364,30 +364,6 @@
             border-radius: 3px;
         }
 
-        .back-link {
-            display: inline-block;
-            margin-bottom: 25px;
-            text-decoration: none;
-            color: var(--secondary-neon);
-            font-size: 1em;
-            transition: color 0.2s;
-            text-shadow: 0 0 5px rgba(255, 0, 255, 0.5);
-            padding: 10px 15px;
-            border-radius: 8px;
-            background: rgba(0,0,0,0.2);
-            min-height: 44px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .back-link:hover {
-            background: rgba(255, 0, 255, 0.1);
-            transform: translateX(-5px);
-        }
-        
         @keyframes pulseNeon {
             0% { box-shadow: 0 0 5px var(--main-neon); }
             50% { box-shadow: 0 0 15px var(--main-neon), 0 0 30px rgba(0, 255, 255, 0.4); }
@@ -1345,12 +1321,6 @@
                 font-size: 0.9em;
             }
             
-            .back-link {
-                margin-bottom: 20px;
-                padding: 12px;
-                font-size: 0.95em;
-            }
-            
             .main-player-card {
                 padding: 20px;
                 border-radius: 15px;
@@ -1697,10 +1667,6 @@
                 </div>
             </div>
         </div>
-
-        <a href="index.html" class="back-link" data-lang-key="back">
-            <i class="fas fa-arrow-left"></i> <span data-lang-key="backText">Артқа қайту (Негізгі бет)</span>
-        </a>
 
         <div class="header">
             <h1 data-lang-key="title">Аудио Өлеңдер Плеєрі</h1>
@@ -2154,7 +2120,6 @@
         const translations = {
             kk: {
                 "title": "Аудио Өлеңдер Плеєрі",
-                "backText": "Артқа қайту (Негізгі бет)",
                 "selectTrack": "Тректі таңдаңыз",
                 "new": "ЖАҢА!",
                 "private": "Жеке",
@@ -2190,7 +2155,6 @@
             },
             ru: {
                 "title": "Аудио Плеер Стихов",
-                "backText": "Назад (Главная страница)",
                 "selectTrack": "Выберите трек",
                 "new": "НОВЫЙ!",
                 "private": "Приватный",
@@ -2226,7 +2190,6 @@
             },
             en: {
                 "title": "Audio Songs Player",
-                "backText": "Back (Main page)",
                 "selectTrack": "Select a track",
                 "new": "NEW!",
                 "private": "Private",
@@ -2262,7 +2225,6 @@
             },
             fr: {
                 "title": "Lecteur Audio de Chansons",
-                "backText": "Retour (Page principale)",
                 "selectTrack": "Sélectionnez une piste",
                 "new": "NOUVEAU!",
                 "private": "Privé",
@@ -2298,7 +2260,6 @@
             },
             zh: {
                 "title": "音频诗歌播放器",
-                "backText": "返回 (主页)",
                 "selectTrack": "选择曲目",
                 "new": "新！",
                 "private": "私密",
