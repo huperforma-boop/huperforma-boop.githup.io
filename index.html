@@ -345,16 +345,18 @@
             flex-shrink: 0;
         }
 
+        /* ===== ИСПРАВЛЕНИЕ ДЛЯ ПОЛЗУНКОВ ===== */
         #progress-bar {
             flex: 1;
             height: 6px;
             -webkit-appearance: none;
             appearance: none;
-            background: rgba(255, 255, 255, 0.1);
+            background: linear-gradient(to right, #00ffff var(--progress, 0%), rgba(255, 255, 255, 0.1) var(--progress, 0%), rgba(255, 255, 255, 0.1) 100%);
             border-radius: 3px;
             outline: none;
             cursor: pointer;
             overflow: hidden;
+            position: relative;
         }
 
         #progress-bar::-webkit-slider-thumb {
@@ -367,6 +369,8 @@
             border: 3px solid #fff;
             cursor: pointer;
             box-shadow: 0 0 15px rgba(255, 0, 255, 0.8);
+            position: relative;
+            z-index: 10;
         }
 
         #progress-bar::-moz-range-thumb {
@@ -377,6 +381,18 @@
             border: 3px solid #fff;
             cursor: pointer;
             box-shadow: 0 0 15px rgba(255, 0, 255, 0.8);
+        }
+
+        #progress-bar::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+        }
+
+        #progress-bar::-moz-range-track {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
         }
 
         .controls-row {
@@ -448,7 +464,7 @@
             height: 5px;
             -webkit-appearance: none;
             appearance: none;
-            background: rgba(255, 255, 255, 0.1);
+            background: linear-gradient(to right, #00ffff var(--volume-percent, 100%), rgba(255, 255, 255, 0.1) var(--volume-percent, 100%), rgba(255, 255, 255, 0.1) 100%);
             border-radius: 2.5px;
             outline: none;
             cursor: pointer;
@@ -457,13 +473,35 @@
         #volume-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
             background: #00ffff;
-            border: 2px solid #fff;
+            border: 3px solid #fff;
             cursor: pointer;
             box-shadow: 0 0 12px rgba(0, 255, 255, 0.8);
+            position: relative;
+            z-index: 10;
+        }
+
+        #volume-slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #00ffff;
+            border: 3px solid #fff;
+            cursor: pointer;
+            box-shadow: 0 0 12px rgba(0, 255, 255, 0.8);
+        }
+
+        /* Обновление иконок громкости */
+        .volume-container i.fa-volume-mute {
+            color: #ff4444;
+        }
+
+        .volume-container i.fa-volume-down,
+        .volume-container i.fa-volume-up {
+            color: #00ffff;
         }
 
         /* ===== ПАНЕЛЬ АВТОРОВ ===== */
@@ -2257,7 +2295,7 @@
 Жастар билейді, ересектер де,
 Телефонды қой, тізеңді бүгіп ал!
 Бүгін – біздің күн, бүгін – той думан,
-Би алаңына тезірек, алға бас!
+Бі алаңына тезірек, алға бас!
 
 (1-шумақ)
 Қаланың ырғағы жүректе,
@@ -2276,7 +2314,7 @@
 Жастар билейді, ересектер де,
 Телефонды қой, тізеңді бүгіп ал!
 Бүгін – біздің күн, бүгін – той думан,
-Би алаңына тезірек, алға бас!
+Бі алаңына тезірек, алға бас!
 
 (2-шумақ)
 Әлеуметтік желілер күте тұрсын,
@@ -2301,7 +2339,7 @@
 Жастар билейді, ересектер де,
 Телефонды қой, тізеңді бүгіп ал!
 Бүгін – біздің күн, бүгін – той думан,
-Би алаңына тезірек, алға бас!
+Бі алаңына тезірек, алға бас!
 
 ~ Қабыкенов Сағыныш`
         },
@@ -2933,27 +2971,63 @@
             const currentTime = audioPlayer.currentTime;
             const duration = audioPlayer.duration;
             
-            progressBar.value = (currentTime / duration) * 100 || 0;
+            if (duration && !isNaN(duration)) {
+                const progress = (currentTime / duration) * 100;
+                progressBar.value = progress;
+                progressBar.style.setProperty('--progress', progress + '%');
+            }
+            
             currentTimeDisplay.textContent = formatTime(currentTime);
-            durationDisplay.textContent = formatTime(duration);
+            if (duration && !isNaN(duration)) {
+                durationDisplay.textContent = formatTime(duration);
+            }
         });
         
         audioPlayer.addEventListener('loadedmetadata', () => {
-            durationDisplay.textContent = formatTime(audioPlayer.duration);
+            if (audioPlayer.duration && !isNaN(audioPlayer.duration)) {
+                durationDisplay.textContent = formatTime(audioPlayer.duration);
+            }
         });
         
-        audioPlayer.addEventListener('ended', () => {
-            playNext();
-        });
-        
-        progressBar.addEventListener('input', () => {
+        progressBar.addEventListener('input', (e) => {
             const duration = audioPlayer.duration;
-            audioPlayer.currentTime = (progressBar.value / 100) * duration;
+            if (duration && !isNaN(duration)) {
+                const newTime = (e.target.value / 100) * duration;
+                audioPlayer.currentTime = newTime;
+                progressBar.style.setProperty('--progress', e.target.value + '%');
+            }
         });
         
-        volumeSlider.addEventListener('input', () => {
-            audioPlayer.volume = volumeSlider.value;
+        volumeSlider.addEventListener('input', (e) => {
+            const volume = parseFloat(e.target.value);
+            audioPlayer.volume = volume;
+            const volumePercent = (volume * 100) + '%';
+            volumeSlider.style.setProperty('--volume-percent', volumePercent);
+            
+            // Обновляем иконки громкости
+            const volumeIcons = document.querySelectorAll('.volume-container i');
+            if (volume === 0) {
+                volumeIcons.forEach(icon => {
+                    icon.className = 'fas fa-volume-mute';
+                    icon.style.color = '#ff4444';
+                });
+            } else if (volume < 0.5) {
+                volumeIcons.forEach(icon => {
+                    icon.className = 'fas fa-volume-down';
+                    icon.style.color = '#00ffff';
+                });
+            } else {
+                volumeIcons.forEach(icon => {
+                    icon.className = 'fas fa-volume-up';
+                    icon.style.color = '#00ffff';
+                });
+            }
         });
+        
+        // Инициализируем громкость
+        audioPlayer.volume = volumeSlider.value;
+        const initialVolumePercent = (volumeSlider.value * 100) + '%';
+        volumeSlider.style.setProperty('--volume-percent', initialVolumePercent);
         
         // Загружаем первый трек
         if (tracks.length > 0) {
