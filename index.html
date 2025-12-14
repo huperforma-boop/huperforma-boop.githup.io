@@ -2012,6 +2012,7 @@
 
     let currentTrackIndex = -1;
     let favorites = JSON.parse(localStorage.getItem('audioPlayerFavorites')) || [];
+    let isSeeking = false;
     
     const tracks = [
         { 
@@ -2089,7 +2090,7 @@
 
 Айласы асқан батыр, тек қана күшбен емес,
 Абылай ханның қасында ақылға салып істеген.
-Қан тау жорығында Бетбак арқылы қол бастап,
+Қан тау жорығында Бетbак арқылы қол бастап,
 Қон тайшыны қоршап, қазаққа келтірген бостанық.
 Байғозы батырмен бірге, барлаушы болып алда жүрген,
 "Көзге түспей, шөлдетпей" – деп, екі керілдік берген.
@@ -2205,7 +2206,7 @@
 Әр тасыңда – ата-бабам мекені,
 Жүрегімнің жылуысың осы маңда. 
 Оң жақ Қалжыр, Тақыр, Шеңгелдім, 
-Бірге өскен құрбы  құрдас, достарым. 
+Бірге өскен құрбы-құрдас, достарым. 
 Мейіріміңе бөлендім, тербелдім,  
 Шығысымның ай астындағы аспаны.
 
@@ -2437,11 +2438,17 @@
         return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
     }
 
+    // ===================================================
+    // ФУНКЦИИ ДЛЯ УПРАВЛЕНИЯ АУДИО
+    // ===================================================
     function loadTrack(index) {
         if (index < 0 || index >= tracks.length) return;
         
         currentTrackIndex = index;
         const track = tracks[index];
+        
+        // Останавливаем текущее воспроизведение
+        audioPlayer.pause();
         
         // Обновляем название трека в плеере
         trackTitleDisplay.textContent = track.title;
@@ -2466,33 +2473,37 @@
         updateTrackList();
         updateFavoriteButton();
         
-        // Ждем загрузки метаданных перед воспроизведением
-        audioPlayer.addEventListener('loadedmetadata', function onMetadataLoad() {
+        // Загружаем трек и пытаемся воспроизвести
+        audioPlayer.load();
+        
+        // Устанавливаем обработчики для загрузки метаданных
+        const onLoadedMetadata = () => {
             // Обновляем длительность трека
             if (audioPlayer.duration && !isNaN(audioPlayer.duration)) {
                 durationDisplay.textContent = formatTime(audioPlayer.duration);
             }
             
-            // Удаляем обработчик, чтобы он не вызывался снова
-            audioPlayer.removeEventListener('loadedmetadata', onMetadataLoad);
-        }, { once: true });
-        
-        audioPlayer.addEventListener('canplay', function onCanPlay() {
             // Пытаемся воспроизвести
             const playPromise = audioPlayer.play();
             if (playPromise !== undefined) {
-                playPromise.then(_ => {
+                playPromise.then(() => {
                     playIcon.className = 'fas fa-pause';
                 }).catch(error => {
-                    console.error("Ошибка воспроизведения:", error);
+                    console.log("Автовоспроизведение заблокировано:", error);
+                    playIcon.className = 'fas fa-play';
                 });
             }
             
             // Удаляем обработчик
-            audioPlayer.removeEventListener('canplay', onCanPlay);
-        }, { once: true });
+            audioPlayer.removeEventListener('loadedmetadata', onLoadedMetadata);
+        };
         
-        audioPlayer.load();
+        audioPlayer.addEventListener('loadedmetadata', onLoadedMetadata);
+        
+        // Если метаданные уже загружены, вызываем функцию сразу
+        if (audioPlayer.readyState >= 1) {
+            onLoadedMetadata();
+        }
         
         // Прокручиваем к плееру на мобильных
         if (window.innerWidth <= 768) {
@@ -2514,7 +2525,7 @@
         if (audioPlayer.paused) {
             const playPromise = audioPlayer.play();
             if (playPromise !== undefined) {
-                playPromise.then(_ => {
+                playPromise.then(() => {
                     playIcon.className = 'fas fa-pause';
                 }).catch(error => {
                     console.error("Ошибка воспроизведения:", error);
@@ -2751,7 +2762,7 @@
     }
 
     // ===================================================
-    // ТЕКСТ ПЕСЕН (LYRICS) - УЛУЧШЕННАЯ ВЕРСИЯ
+    // ТЕКСТ ПЕСЕН (LYRICS)
     // ===================================================
     function showLyricsModal(trackIndex) {
         const track = tracks[trackIndex];
@@ -2968,7 +2979,7 @@
     }
 
     // ===================================================
-    // ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ - ОСНОВНЫЕ ИСПРАВЛЕНИЯ
+    // ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ
     // ===================================================
     document.addEventListener('DOMContentLoaded', () => {
         // Создаем частицы фона
@@ -2995,25 +3006,22 @@
         updateFavoriteButton();
         
         // ===================================================
-        // ОСНОВНЫЕ ИСПРАВЛЕНИЯ ДЛЯ АУДИО
+        // ОБРАБОТЧИКИ ДЛЯ АУДИО ПЛЕЕРА
         // ===================================================
         
-        // Обновление прогресса и времени при воспроизведении
+        // Обновление прогресса при воспроизведении
         audioPlayer.addEventListener('timeupdate', () => {
-            const currentTime = audioPlayer.currentTime;
-            const duration = audioPlayer.duration;
-            
-            // Обновляем текущее время
-            currentTimeDisplay.textContent = formatTime(currentTime);
-            
-            // Обновляем ползунок прогресса
-            if (duration && !isNaN(duration) && duration > 0) {
-                const progress = (currentTime / duration) * 100;
-                progressBar.value = progress;
+            if (!isSeeking) {
+                const currentTime = audioPlayer.currentTime;
+                const duration = audioPlayer.duration;
                 
-                // Обновляем общее время (на случай, если оно изменилось)
-                if (durationDisplay.textContent === "0:00" || durationDisplay.textContent === "NaN:NaN") {
-                    durationDisplay.textContent = formatTime(duration);
+                // Обновляем текущее время
+                currentTimeDisplay.textContent = formatTime(currentTime);
+                
+                // Обновляем ползунок прогресса
+                if (duration && !isNaN(duration) && duration > 0) {
+                    const progress = (currentTime / duration) * 100;
+                    progressBar.value = progress;
                 }
             }
         });
@@ -3025,13 +3033,27 @@
             }
         });
         
+        // Изменение состояния воспроизведения
+        audioPlayer.addEventListener('play', () => {
+            playIcon.className = 'fas fa-pause';
+        });
+        
+        audioPlayer.addEventListener('pause', () => {
+            playIcon.className = 'fas fa-play';
+        });
+        
         // Обработчик для ползунка прогресса
         progressBar.addEventListener('input', function() {
+            isSeeking = true;
+        });
+        
+        progressBar.addEventListener('change', function() {
             const duration = audioPlayer.duration;
             if (duration && !isNaN(duration) && duration > 0) {
                 const newTime = (this.value / 100) * duration;
                 audioPlayer.currentTime = newTime;
             }
+            isSeeking = false;
         });
         
         // Обработчик для ползунка громкости
