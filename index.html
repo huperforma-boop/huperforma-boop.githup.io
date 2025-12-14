@@ -18,6 +18,7 @@
             --background: #1c1c1e; /* Dark iOS background */
             --text-color: #fff;
             --secondary-text: #e0e0e0;
+            --transition-speed: 0.2s; /* Добавлена переменная для плавности */
         }
 
         * {
@@ -34,14 +35,16 @@
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Изменено для мобильного скролла */
+            align-items: flex-start;
             padding: 20px 10px;
+            /* Гибкий фон - градиент */
+            background: linear-gradient(135deg, #1c1c1e 0%, #000000 100%);
         }
 
         /* ===== ОСНОВНОЙ КОНТЕЙНЕР (МОБИЛЬНЫЙ ВИД) ===== */
         .mobile-container {
             width: 100%;
-            max-width: 420px; /* Типичная ширина для мобильных */
+            max-width: 420px;
             margin-top: 20px;
         }
 
@@ -55,9 +58,14 @@
             box-shadow: 0 4px 60px rgba(0, 0, 0, 0.3);
             padding: 20px;
             margin-bottom: 20px;
+            transition: box-shadow var(--transition-speed); /* Плавный переход для тени */
+        }
+        
+        .glass-card:hover {
+            box-shadow: 0 8px 80px rgba(0, 0, 0, 0.4); /* Эффект при наведении/фокусе */
         }
 
-        /* ===== ШАПКА И ЯЗЫК ===== */
+        /* ===== ШАПКА И ЛОГОТИП UMIT ===== */
         .header {
             display: flex;
             justify-content: space-between;
@@ -66,10 +74,19 @@
             margin-bottom: 10px;
         }
 
-        .header h1 {
+        .logo-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             font-size: 1.5rem;
             font-weight: 700;
             color: var(--primary-color);
+        }
+        
+        .logo-title i {
+            color: var(--accent-color);
+            font-size: 1.8rem;
+            text-shadow: 0 0 10px rgba(0, 122, 255, 0.8);
         }
 
         .language-switcher button {
@@ -80,11 +97,15 @@
             border-radius: 10px;
             cursor: pointer;
             font-size: 0.9rem;
-            transition: background 0.2s;
+            transition: background var(--transition-speed), transform var(--transition-speed);
         }
 
         .language-switcher button:hover {
             background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .language-switcher button:active {
+            transform: scale(0.95);
         }
 
         /* ===== ПЛЕЕР ===== */
@@ -103,6 +124,19 @@
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: transform 0.4s ease-out; /* Плавное изменение размера/формы */
+        }
+        
+        /* Анимация обложки при воспроизведении */
+        .cover-art.playing {
+            box-shadow: 0 0 40px var(--accent-color);
+            /* Добавим эффект вращения/пульсации */
+            animation: pulse-cover 2s infinite alternate; 
+        }
+
+        @keyframes pulse-cover {
+            from { transform: scale(1); box-shadow: 0 0 30px rgba(0, 122, 255, 0.5); }
+            to { transform: scale(1.02); box-shadow: 0 0 50px rgba(0, 122, 255, 0.8); }
         }
 
         .cover-art img {
@@ -116,6 +150,8 @@
         .track-info {
             text-align: center;
             width: 100%;
+            /* Плавный переход для текста */
+            transition: opacity 0.3s ease; 
         }
         
         #current-track-title {
@@ -154,14 +190,21 @@
             cursor: pointer;
         }
         
+        /* Стилизация ползунка прогресс-бара */
         #progress-bar::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
             width: 12px;
             height: 12px;
             border-radius: 50%;
-            background: var(--primary-color);
+            background: var(--accent-color); /* Акцентный цвет для лучшей видимости */
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            transition: background var(--transition-speed);
+        }
+        
+        #progress-bar::-webkit-slider-thumb:active {
+            width: 14px; /* Увеличение при нажатии */
+            height: 14px;
         }
 
         /* ОСНОВНЫЕ КНОПКИ УПРАВЛЕНИЯ */
@@ -183,12 +226,16 @@
             color: var(--text-color);
             font-size: 1.1rem;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all var(--transition-speed) ease;
         }
 
         .control-btn:active {
-            transform: scale(0.9);
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+            transform: scale(0.85); /* Более выраженное сжатие */
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .control-btn.play-pause {
@@ -200,6 +247,11 @@
             font-size: 1.5rem;
             box-shadow: 0 5px 20px rgba(0, 122, 255, 0.5);
         }
+        
+        .control-btn.play-pause:active {
+            transform: scale(0.9);
+            box-shadow: 0 3px 15px rgba(0, 122, 255, 0.8);
+        }
 
         /* ГРОМКОСТЬ */
         .volume-container {
@@ -208,24 +260,10 @@
             gap: 10px;
             width: 100%;
             padding: 10px 0;
-            opacity: 0.7;
-        }
-
-        .volume-container i {
-            font-size: 1.1rem;
-            color: var(--secondary-text);
-        }
-
-        #volume-slider {
-            flex-grow: 1;
-            height: 5px;
-            -webkit-appearance: none;
-            appearance: none;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 2px;
-            cursor: pointer;
+            opacity: 0.9; /* Повышенная непрозрачность */
         }
         
+        /* Стилизация ползунка громкости */
         #volume-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
@@ -233,77 +271,41 @@
             height: 12px;
             border-radius: 50%;
             background: var(--primary-color);
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
         }
         
         /* ===== СПИСОК ПЕСЕН ===== */
-        .playlist-header {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: var(--primary-color);
-        }
-        
-        /* НОВЫЙ СТИЛЬ: Заголовок Автора */
-        .playlist-author-header {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--secondary-text); /* Немного приглушенный цвет */
-            margin-top: 20px;
-            margin-bottom: 5px;
-            padding: 5px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            opacity: 0.8;
-        }
-
         .playlist-item {
             display: flex;
             align-items: center;
             padding: 15px 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             cursor: pointer;
-            transition: background 0.1s;
+            transition: background 0.1s, transform 0.1s; /* Добавлен transform для гибкости */
         }
 
         .playlist-item:last-child {
-            border-bottom: none; /* Убираем линию после последнего элемента */
+            border-bottom: none;
         }
-        
-        /* Убираем линию после элемента, если следующим идет заголовок автора (сложно реализовать в чистом CSS, оставим как есть или уберем в JS) */
         
         .playlist-item:active {
             background: rgba(255, 255, 255, 0.1);
+            transform: scale(0.98); /* Небольшой эффект нажатия */
         }
 
         .playlist-item.playing .item-title {
             color: var(--accent-color);
             font-weight: 600;
         }
-
-        .item-index {
-            width: 20px;
-            font-size: 0.9rem;
-            color: var(--secondary-text);
-            text-align: center;
-        }
         
         .item-details {
             flex-grow: 1;
             padding: 0 15px;
+            /* Обеспечиваем, что при длинном названии не будет проблем */
+            min-width: 0; 
         }
-
-        .item-title {
-            font-size: 1rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .item-duration {
-            font-size: 0.8rem;
-            color: var(--secondary-text);
-        }
-
-        /* ===== ТЕКСТ ПЕСНИ (МОДАЛЬНОЕ ОКНО) ===== */
+        
+        /* ===== ТЕКСТ ПЕСНИ (МОДАЛЬНОЕ ОКНО) - АНИМАЦИЯ ===== */
         .lyrics-modal {
             position: fixed;
             top: 0;
@@ -313,13 +315,16 @@
             background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(10px);
             z-index: 100;
-            display: none; /* Скрыто по умолчанию */
+            display: none;
             justify-content: center;
-            align-items: flex-end; /* Появление снизу */
+            align-items: flex-end;
+            opacity: 0;
+            transition: opacity 0.3s ease; /* Плавное появление фона */
         }
         
         .lyrics-modal.show {
             display: flex;
+            opacity: 1;
         }
 
         .lyrics-content-card {
@@ -333,35 +338,29 @@
             overflow-y: auto;
             position: relative;
             transform: translateY(100%);
-            animation: slideUp 0.3s forwards;
+            transition: transform 0.3s ease-out; /* Плавное движение вверх */
         }
         
-        @keyframes slideUp {
-            to { transform: translateY(0); }
-        }
-
-        .lyrics-content-card h3 {
-            margin-bottom: 15px;
-            color: var(--accent-color);
-        }
-
-        .lyrics-content-card p {
-            line-height: 1.6;
-            margin-bottom: 20px;
-            white-space: pre-wrap;
+        .lyrics-modal.show .lyrics-content-card {
+             transform: translateY(0);
         }
         
         .lyrics-close-btn {
             position: sticky;
             top: 0;
             float: right;
-            background: rgba(255, 255, 255, 0.2);
+            background: var(--accent-color); /* Изменен цвет для лучшей видимости */
             color: white;
             border: none;
             padding: 8px 12px;
             border-radius: 10px;
             cursor: pointer;
             z-index: 10;
+            transition: transform var(--transition-speed);
+        }
+        
+        .lyrics-close-btn:active {
+            transform: scale(0.9);
         }
         
     </style>
@@ -371,7 +370,11 @@
     <div class="mobile-container">
         
         <div class="header">
-            <h1 data-lang-key="title">Аудио Плеер</h1>
+            <div class="logo-title">
+                <i class="fas fa-headphones-alt"></i>
+                <h1 data-lang-key="title">UMIT Плеер</h1> 
+            </div>
+            
             <div class="language-switcher">
                  <button id="lang-btn" onclick="toggleLangDropdown(event)">
                     <span id="current-lang-text">Русский</span> <i class="fas fa-chevron-down"></i>
@@ -391,7 +394,7 @@
             
             <audio id="global-audio-player" src="" preload="metadata"></audio>
 
-            <div class="cover-art">
+            <div class="cover-art" id="cover-art-container">
                 <img id="track-cover" src="" alt="Track Cover" style="display: block;">
             </div>
 
@@ -437,7 +440,7 @@
 
     </div>
 
-    <div class="lyrics-modal" id="lyrics-modal" onclick="closeLyricsModal(event)">
+    <div class="lyrics-modal" id="lyrics-modal" onclick="closeLyricsModal()">
         <div class="lyrics-content-card" onclick="event.stopPropagation()">
             <button class="lyrics-close-btn" onclick="closeLyricsModal()">
                 <i class="fas fa-times"></i>
@@ -461,7 +464,7 @@
     // ПЕРЕВОДЫ
     const translations = {
         ru: {
-            "title": "Аудио Плеер Glass",
+            "title": "UMIT Плеер", // ИЗМЕНЕНО для логотипа
             "selectTrack": "Выберите трек",
             "lyrics": "Текст песни",
             "songsList": "Список песен",
@@ -482,7 +485,7 @@
             "author2": "Рамазанов Төреғали"
         },
         kk: {
-            "title": "Аудио Өлеңдер Плеєрі",
+            "title": "UMIT Плеєрі", // ИЗМЕНЕНО для логотипа
             "selectTrack": "Тректі таңдаңыз",
             "lyrics": "Мәтін",
             "songsList": "Өлеңдер Тізімі:",
@@ -503,7 +506,7 @@
             "author2": "Рамазанов Төреғали"
         },
         en: {
-            "title": "Audio Player Glass",
+            "title": "UMIT Player", // ИЗМЕНЕНО для логотипа
             "selectTrack": "Select a track",
             "lyrics": "Lyrics",
             "songsList": "Songs List:",
@@ -524,7 +527,7 @@
             "author2": "Ramazanov Toreghali"
         },
         fr: {
-            "title": "Lecteur Audio Glass",
+            "title": "UMIT Lecteur", // ИЗМЕНЕНО для логотипа
             "selectTrack": "Sélectionnez une piste",
             "lyrics": "Paroles",
             "songsList": "Liste des Chansons:",
@@ -545,7 +548,7 @@
             "author2": "Ramazanov Toreghali"
         },
         zh: {
-            "title": "音频播放器 Glass",
+            "title": "UMIT 播放器", // ИЗМЕНЕНО для логотипа
             "selectTrack": "选择曲目",
             "lyrics": "歌词",
             "songsList": "歌曲列表:",
@@ -641,7 +644,8 @@
             document.getElementById('current-track-author').textContent = translations[currentLanguage][track.author];
         } else {
              document.getElementById('current-track-title').textContent = translations[currentLanguage].selectTrack;
-             document.getElementById('current-track-author').textContent = "UMIT Project"; // Дефолтный автор
+             // Обновление автора на UMIT Project после смены языка
+             document.getElementById('current-track-author').textContent = "UMIT Project"; 
         }
         
         closeLangDropdown();
@@ -716,7 +720,7 @@
 
 
     // ===================================================
-    // АУДИО ПЛЕЕР
+    // АУДИО ПЛЕЕР И АНИМАЦИЯ
     // ===================================================
     
     const audioPlayer = document.getElementById('global-audio-player');
@@ -725,11 +729,23 @@
     const trackTitleDisplay = document.getElementById('current-track-title');
     const trackAuthorDisplay = document.getElementById('current-track-author');
     const coverImage = document.getElementById('track-cover');
+    const coverArtContainer = document.getElementById('cover-art-container'); // Добавлено для анимации
     const volumeSlider = document.getElementById('volume-slider');
     const progressBar = document.getElementById('progress-bar');
     const currentTimeDisplay = document.getElementById('current-time');
     const durationDisplay = document.getElementById('duration');
     const mainFavBtn = document.getElementById('main-favorite-btn');
+    
+    // Новая функция для управления анимацией обложки
+    function updateCoverArtAnimation(isPlaying) {
+         if (coverArtContainer) {
+            if (isPlaying) {
+                coverArtContainer.classList.add('playing');
+            } else {
+                coverArtContainer.classList.remove('playing');
+            }
+        }
+    }
 
     function loadTrack(index) {
         if (index === currentTrackIndex) {
@@ -751,7 +767,7 @@
         audioPlayer.load();
         audioPlayer.play();
         
-        // Обновление интерфейса
+        // Обновление интерфейса и анимации
         updatePlayButton(true);
         updateTrackList();
         updateFavoriteButton();
@@ -776,6 +792,7 @@
         if (playIcon) {
             playIcon.className = isPlaying ? 'fas fa-pause' : 'fas fa-play';
         }
+        updateCoverArtAnimation(isPlaying); // Управление анимацией
     }
 
     function playNext() {
@@ -903,7 +920,7 @@
         switchLanguage(currentLanguage);
         
         // Установка начального громкости
-        if (volumeSlider) volumeSlider.value = audioPlayer.volume = 1;
+        if (volumeSlider) audioPlayer.volume = volumeSlider.value = 1;
 
         // Если есть избранные, обновляем кнопку
         updateFavoriteButton();
