@@ -1997,7 +1997,7 @@
     }
 
     // ===================================================
-    // АУДИО ПЛЕЕР
+    // АУДИО ПЛЕЕР - ОСНОВНЫЕ ИСПРАВЛЕНИЯ
     // ===================================================
     const audioPlayer = document.getElementById('global-audio-player');
     const playBtn = document.getElementById('main-play-btn');
@@ -2431,7 +2431,7 @@
     ];
 
     function formatTime(seconds) {
-        if (isNaN(seconds)) return "0:00";
+        if (isNaN(seconds) || seconds === Infinity) return "0:00";
         const minutes = Math.floor(seconds / 60);
         const secs = Math.floor(seconds % 60);
         return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
@@ -2446,7 +2446,11 @@
         // Обновляем название трека в плеере
         trackTitleDisplay.textContent = track.title;
         audioPlayer.src = track.src;
-        audioPlayer.load();
+        
+        // Сбрасываем прогресс и время
+        progressBar.value = 0;
+        currentTimeDisplay.textContent = "0:00";
+        durationDisplay.textContent = "0:00";
         
         // Обновляем обложку
         if (track.cover) {
@@ -2462,15 +2466,33 @@
         updateTrackList();
         updateFavoriteButton();
         
-        // Пытаемся воспроизвести
-        const playPromise = audioPlayer.play();
-        if (playPromise !== undefined) {
-            playPromise.then(_ => {
-                playIcon.className = 'fas fa-pause';
-            }).catch(error => {
-                console.error("Ошибка воспроизведения:", error);
-            });
-        }
+        // Ждем загрузки метаданных перед воспроизведением
+        audioPlayer.addEventListener('loadedmetadata', function onMetadataLoad() {
+            // Обновляем длительность трека
+            if (audioPlayer.duration && !isNaN(audioPlayer.duration)) {
+                durationDisplay.textContent = formatTime(audioPlayer.duration);
+            }
+            
+            // Удаляем обработчик, чтобы он не вызывался снова
+            audioPlayer.removeEventListener('loadedmetadata', onMetadataLoad);
+        }, { once: true });
+        
+        audioPlayer.addEventListener('canplay', function onCanPlay() {
+            // Пытаемся воспроизвести
+            const playPromise = audioPlayer.play();
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    playIcon.className = 'fas fa-pause';
+                }).catch(error => {
+                    console.error("Ошибка воспроизведения:", error);
+                });
+            }
+            
+            // Удаляем обработчик
+            audioPlayer.removeEventListener('canplay', onCanPlay);
+        }, { once: true });
+        
+        audioPlayer.load();
         
         // Прокручиваем к плееру на мобильных
         if (window.innerWidth <= 768) {
@@ -2490,8 +2512,14 @@
         }
         
         if (audioPlayer.paused) {
-            audioPlayer.play();
-            playIcon.className = 'fas fa-pause';
+            const playPromise = audioPlayer.play();
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    playIcon.className = 'fas fa-pause';
+                }).catch(error => {
+                    console.error("Ошибка воспроизведения:", error);
+                });
+            }
         } else {
             audioPlayer.pause();
             playIcon.className = 'fas fa-play';
@@ -2940,7 +2968,7 @@
     }
 
     // ===================================================
-    // ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ
+    // ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ - ОСНОВНЫЕ ИСПРАВЛЕНИЯ
     // ===================================================
     document.addEventListener('DOMContentLoaded', () => {
         // Создаем частицы фона
@@ -2966,38 +2994,47 @@
         updateFavoritesList();
         updateFavoriteButton();
         
-        // Инициализируем обработчики аудио - ОСНОВНЫЕ ИСПРАВЛЕНИЯ ЗДЕСЬ
+        // ===================================================
+        // ОСНОВНЫЕ ИСПРАВЛЕНИЯ ДЛЯ АУДИО
+        // ===================================================
+        
+        // Обновление прогресса и времени при воспроизведении
         audioPlayer.addEventListener('timeupdate', () => {
             const currentTime = audioPlayer.currentTime;
             const duration = audioPlayer.duration;
             
-            if (duration && !isNaN(duration)) {
+            // Обновляем текущее время
+            currentTimeDisplay.textContent = formatTime(currentTime);
+            
+            // Обновляем ползунок прогресса
+            if (duration && !isNaN(duration) && duration > 0) {
                 const progress = (currentTime / duration) * 100;
                 progressBar.value = progress;
-            }
-            
-            currentTimeDisplay.textContent = formatTime(currentTime);
-            if (duration && !isNaN(duration)) {
-                durationDisplay.textContent = formatTime(duration);
+                
+                // Обновляем общее время (на случай, если оно изменилось)
+                if (durationDisplay.textContent === "0:00" || durationDisplay.textContent === "NaN:NaN") {
+                    durationDisplay.textContent = formatTime(duration);
+                }
             }
         });
         
+        // Обновление общей длительности при загрузке метаданных
         audioPlayer.addEventListener('loadedmetadata', () => {
-            if (audioPlayer.duration && !isNaN(audioPlayer.duration)) {
+            if (audioPlayer.duration && !isNaN(audioPlayer.duration) && audioPlayer.duration > 0) {
                 durationDisplay.textContent = formatTime(audioPlayer.duration);
             }
         });
         
-        // Обработчик для ползунка прогресса - ИСПРАВЛЕНО
+        // Обработчик для ползунка прогресса
         progressBar.addEventListener('input', function() {
             const duration = audioPlayer.duration;
-            if (duration && !isNaN(duration)) {
+            if (duration && !isNaN(duration) && duration > 0) {
                 const newTime = (this.value / 100) * duration;
                 audioPlayer.currentTime = newTime;
             }
         });
         
-        // Обработчик для ползунка громкости - ИСПРАВЛЕНО
+        // Обработчик для ползунка громкости
         volumeSlider.addEventListener('input', function() {
             const volume = parseFloat(this.value);
             audioPlayer.volume = volume;
@@ -3020,6 +3057,11 @@
                     icon.style.color = '#00ffff';
                 });
             }
+        });
+        
+        // Воспроизведение следующего трека при завершении
+        audioPlayer.addEventListener('ended', () => {
+            playNext();
         });
         
         // Инициализируем громкость
