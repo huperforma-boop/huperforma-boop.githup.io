@@ -19,6 +19,7 @@
             --text-color: #fff;
             --secondary-text: #e0e0e0;
             --transition-speed: 0.2s; /* Добавлена переменная для плавности */
+            --warning-color: #ff9500; /* Цвет для предупреждений о трафике */
         }
 
         * {
@@ -89,6 +90,10 @@
             text-shadow: 0 0 10px rgba(0, 122, 255, 0.8);
         }
 
+        .language-switcher {
+            position: relative;
+        }
+
         .language-switcher button {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
@@ -125,6 +130,10 @@
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             transition: transform 0.4s ease-out; /* Плавное изменение размера/формы */
+            touch-action: pan-y; /* Разрешаем вертикальный скролл на обложке */
+            position: relative;
+            user-select: none;
+            -webkit-user-select: none;
         }
         
         /* Анимация обложки при воспроизведении */
@@ -144,6 +153,41 @@
             height: 100%;
             object-fit: cover;
             transition: transform 0.3s ease-out;
+            pointer-events: none; /* Чтобы не мешало жестам */
+        }
+        
+        /* Индикатор жестов */
+        .gesture-indicator {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 16px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 5;
+        }
+        
+        .gesture-indicator.show {
+            opacity: 1;
+        }
+        
+        .gesture-arrow {
+            font-size: 2.5rem;
+            margin: 0 15px;
+            color: var(--accent-color);
+            opacity: 0.9;
+            animation: bounce 0.5s infinite alternate;
+        }
+        
+        @keyframes bounce {
+            from { transform: translateX(0); }
+            to { transform: translateX(10px); }
         }
         
         /* ИНФОРМАЦИЯ О ТРЕКЕ */
@@ -274,6 +318,145 @@
             box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
         }
         
+        /* ===== РЕЖИМ ЭКОНОМИИ ТРАФИКА ===== */
+        .data-saver-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px 15px;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .data-saver-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .data-saver-info i {
+            color: var(--warning-color);
+            font-size: 1.2rem;
+        }
+        
+        .data-saver-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .data-saver-quality {
+            font-size: 0.8rem;
+            color: var(--secondary-text);
+            margin-top: 2px;
+        }
+        
+        /* Стиль для переключателя (toggle switch) */
+        .data-saver-toggle {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+        
+        .data-saver-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .data-saver-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.2);
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .data-saver-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .data-saver-slider {
+            background-color: var(--accent-color);
+        }
+        
+        input:checked + .data-saver-slider:before {
+            transform: translateX(24px);
+        }
+        
+        /* Выбор качества в выпадающем меню */
+        .quality-dropdown {
+            position: relative;
+            margin-top: 10px;
+        }
+        
+        .quality-options {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            backdrop-filter: blur(15px);
+            z-index: 20;
+            margin-top: 5px;
+            padding: 10px;
+        }
+        
+        .quality-options.show {
+            display: block;
+        }
+        
+        .quality-option {
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .quality-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .quality-option.active {
+            background: rgba(0, 122, 255, 0.2);
+            color: var(--accent-color);
+        }
+        
+        /* Иконка сетевого статуса */
+        .network-status {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            color: var(--secondary-text);
+            margin-top: 5px;
+        }
+        
+        .network-status.online i {
+            color: #34c759; /* Зеленый для онлайн */
+        }
+        
+        .network-status.offline i {
+            color: #ff3b30; /* Красный для оффлайн */
+        }
+        
         /* ===== СПИСОК ПЕСЕН ===== */
         .playlist-item {
             display: flex;
@@ -363,6 +546,33 @@
             transform: scale(0.9);
         }
         
+        /* ===== ДРОПДАУН ЯЗЫКА ===== */
+        .lang-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            z-index: 10;
+            padding: 10px;
+            min-width: 150px;
+            display: none;
+        }
+        
+        .lang-option {
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .lang-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .lang-option.active {
+            background: rgba(0, 122, 255, 0.2);
+            color: var(--accent-color);
+        }
+        
     </style>
 </head>
 <body>
@@ -380,7 +590,7 @@
                     <span id="current-lang-text">Русский</span> <i class="fas fa-chevron-down"></i>
                 </button>
                 
-                <div class="glass-card lang-dropdown" id="lang-dropdown" style="display: none; position: absolute; right: 10px; z-index: 10; padding: 10px; min-width: 150px;">
+                <div class="glass-card lang-dropdown" id="lang-dropdown">
                     <div class="lang-option" onclick="switchLanguage('kk', event)">🇰🇿 Қазақша</div>
                     <div class="lang-option active" onclick="switchLanguage('ru', event)">🇷🇺 Русский</div>
                     <div class="lang-option" onclick="switchLanguage('en', event)">🇺🇸 English</div>
@@ -395,6 +605,10 @@
             <audio id="global-audio-player" src="" preload="metadata"></audio>
 
             <div class="cover-art" id="cover-art-container">
+                <div class="gesture-indicator" id="gesture-indicator">
+                    <i class="fas fa-arrow-left gesture-arrow"></i>
+                    <i class="fas fa-arrow-right gesture-arrow"></i>
+                </div>
                 <img id="track-cover" src="" alt="Track Cover" style="display: block;">
             </div>
 
@@ -430,6 +644,49 @@
             <button class="control-btn" id="main-favorite-btn" onclick="toggleFavorite()" style="margin-top: 10px;">
                  <i class="far fa-heart"></i>
             </button>
+            
+            <!-- ===== РЕЖИМ ЭКОНОМИИ ТРАФИКА ===== -->
+            <div class="data-saver-container">
+                <div class="data-saver-info">
+                    <i class="fas fa-wifi"></i>
+                    <div>
+                        <div class="data-saver-label" data-lang-key="dataSaver">Экономия трафика</div>
+                        <div class="data-saver-quality" id="current-quality-label">Высокое качество</div>
+                        <div class="network-status" id="network-status">
+                            <i class="fas fa-circle"></i>
+                            <span data-lang-key="online">Онлайн</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <label class="data-saver-toggle">
+                    <input type="checkbox" id="data-saver-toggle">
+                    <span class="data-saver-slider"></span>
+                </label>
+            </div>
+            
+            <!-- Выбор качества (появляется при включенном режиме экономии) -->
+            <div class="quality-dropdown" id="quality-dropdown" style="display: none;">
+                <div class="glass-card quality-options" id="quality-options">
+                    <div class="quality-option active" onclick="changeQuality('high')">
+                        <div>Высокое качество</div>
+                        <small>320 кбит/с • Быстрая сеть</small>
+                    </div>
+                    <div class="quality-option" onclick="changeQuality('medium')">
+                        <div>Среднее качество</div>
+                        <small>192 кбит/с • Экономия трафика</small>
+                    </div>
+                    <div class="quality-option" onclick="changeQuality('low')">
+                        <div>Низкое качество</div>
+                        <small>96 кбит/с • Медленная сеть</small>
+                    </div>
+                    <div class="quality-option" onclick="changeQuality('auto')">
+                        <div>Автоматически</div>
+                        <small>Адаптируется под скорость сети</small>
+                    </div>
+                </div>
+            </div>
+            
         </div>
 
         <div class="glass-card">
@@ -461,10 +718,25 @@
     let currentTrackIndex = -1;
     let favorites = JSON.parse(localStorage.getItem('audioPlayerFavorites')) || [];
     
-    // ПЕРЕВОДЫ
+    // Настройки качества (экономия трафика)
+    let audioQuality = localStorage.getItem('audioQuality') || 'high'; // high, medium, low, auto
+    let dataSaverEnabled = localStorage.getItem('dataSaverEnabled') === 'true' || false;
+    
+    // Для жестов
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchEndX = 0;
+    let touchEndY = 0;
+    let lastTapTime = 0;
+    let doubleTapTimeout = null;
+    
+    // Состояние сети
+    let isOnline = navigator.onLine;
+    
+    // ПЕРЕВОДЫ (добавлены новые ключи)
     const translations = {
         ru: {
-            "title": "UMIT Плеер", // ИЗМЕНЕНО для логотипа
+            "title": "UMIT Плеер",
             "selectTrack": "Выберите трек",
             "lyrics": "Текст песни",
             "songsList": "Список песен",
@@ -482,10 +754,19 @@
             "removed": "Удалено!",
             "lyricsTitle": "Текст песни: ",
             "author1": "Қабыкенов Сағыныш",
-            "author2": "Рамазанов Төреғали"
+            "author2": "Рамазанов Төреғали",
+            "dataSaver": "Экономия трафика",
+            "online": "Онлайн",
+            "offline": "Оффлайн",
+            "qualityHigh": "Высокое качество",
+            "qualityMedium": "Среднее качество",
+            "qualityLow": "Низкое качество",
+            "qualityAuto": "Автоматически",
+            "swipeHint": "Свайп влево/вправо для переключения треков",
+            "doubleTapHint": "Двойной тап для паузы/воспроизведения"
         },
         kk: {
-            "title": "UMIT Плеєрі", // ИЗМЕНЕНО для логотипа
+            "title": "UMIT Плеєрі",
             "selectTrack": "Тректі таңдаңыз",
             "lyrics": "Мәтін",
             "songsList": "Өлеңдер Тізімі:",
@@ -503,10 +784,19 @@
             "removed": "Жойылды!",
             "lyricsTitle": "Ән мәтіні: ",
             "author1": "Қабыкенов Сағыныш",
-            "author2": "Рамазанов Төреғали"
+            "author2": "Рамазанов Төреғали",
+            "dataSaver": "Трафик үнемдеу",
+            "online": "Желіде",
+            "offline": "Желіден тыс",
+            "qualityHigh": "Жоғары сапа",
+            "qualityMedium": "Орташа сапа",
+            "qualityLow": "Төмен сапа",
+            "qualityAuto": "Автоматты",
+            "swipeHint": "Тректерді ауыстыру үшін солға/оңға сырғытыңыз",
+            "doubleTapHint": "Тоқтату/жалғастыру үшін екі рет түртіңіз"
         },
         en: {
-            "title": "UMIT Player", // ИЗМЕНЕНО для логотипа
+            "title": "UMIT Player",
             "selectTrack": "Select a track",
             "lyrics": "Lyrics",
             "songsList": "Songs List:",
@@ -524,10 +814,19 @@
             "removed": "Removed!",
             "lyricsTitle": "Lyrics for: ",
             "author1": "Kabikenov Sagynysh",
-            "author2": "Ramazanov Toreghali"
+            "author2": "Ramazanov Toreghali",
+            "dataSaver": "Data Saver",
+            "online": "Online",
+            "offline": "Offline",
+            "qualityHigh": "High quality",
+            "qualityMedium": "Medium quality",
+            "qualityLow": "Low quality",
+            "qualityAuto": "Auto",
+            "swipeHint": "Swipe left/right to switch tracks",
+            "doubleTapHint": "Double tap to pause/play"
         },
         fr: {
-            "title": "UMIT Lecteur", // ИЗМЕНЕНО для логотипа
+            "title": "UMIT Lecteur",
             "selectTrack": "Sélectionnez une piste",
             "lyrics": "Paroles",
             "songsList": "Liste des Chansons:",
@@ -545,10 +844,19 @@
             "removed": "Supprimé!",
             "lyricsTitle": "Paroles de: ",
             "author1": "Kabikenov Sagynysh",
-            "author2": "Ramazanov Toreghali"
+            "author2": "Ramazanov Toreghali",
+            "dataSaver": "Économiseur de données",
+            "online": "En ligne",
+            "offline": "Hors ligne",
+            "qualityHigh": "Haute qualité",
+            "qualityMedium": "Qualité moyenne",
+            "qualityLow": "Basse qualité",
+            "qualityAuto": "Auto",
+            "swipeHint": "Glissez à gauche/droite pour changer de piste",
+            "doubleTapHint": "Double tapez pour mettre en pause/jouer"
         },
         zh: {
-            "title": "UMIT 播放器", // ИЗМЕНЕНО для логотипа
+            "title": "UMIT 播放器",
             "selectTrack": "选择曲目",
             "lyrics": "歌词",
             "songsList": "歌曲列表:",
@@ -566,24 +874,143 @@
             "removed": "已删除!",
             "lyricsTitle": "歌词: ",
             "author1": "Кабыкенов Сагыныш",
-            "author2": "拉马扎诺夫·托雷加利"
+            "author2": "拉马扎诺夫·托雷加利",
+            "dataSaver": "流量节省程序",
+            "online": "在线",
+            "offline": "离线",
+            "qualityHigh": "高质量",
+            "qualityMedium": "中等质量",
+            "qualityLow": "低质量",
+            "qualityAuto": "自动",
+            "swipeHint": "向左/右滑动切换曲目",
+            "doubleTapHint": "双击暂停/播放"
         }
     };
 
-    // 10 МУЗЫКАЛЬНЫХ ТРЕКОВ И ИХ КАРТИНКИ
+    // 10 МУЗЫКАЛЬНЫХ ТРЕКОВ С РАЗНЫМИ КАЧЕСТВАМИ (пример структуры)
     const tracks = [
         // Треки от Қабыкенов Сағыныш (1-8)
-        { titleKey: "song1", src: "orta_juz_audio.mp3", cover: "orta_juz.jpg", id: 0, author: "author1", lyrics: "Текст песни 1 (Орта жүз) \n\n" },
-        { titleKey: "song2", src: "jarylgap_batyr_audio.mp3", cover: "jarylgap_batyr.jpg", id: 1, author: "author1", lyrics: "Текст песни 2 (Жарылғап батыр) \n\n" },
-        { titleKey: "song3", src: "tegimnin_ruhy_audio.mp3", cover: "tegimnin_ruhy.jpg", id: 2, author: "author1", lyrics: "Текст песни 3 (Тегімнің рухы) \n\n" },
-        { titleKey: "song4", src: "Kalzhyr.mp3", cover: "Kalzhyr.jpg", id: 3, author: "author1", lyrics: "Текст песни 4 (Қалжыр) \n\n" },
-        { titleKey: "song5", src: "Kalzhyr2.mp3", cover: "Kalzhyr2.jpg", id: 4, author: "author1", lyrics: "Текст песни 5 (Қалжыр2) \n\n" },
-        { titleKey: "song6", src: "Wedding_fog.mp3", cover: "Wedding_fog.jpg", id: 5, author: "author1", lyrics: "Текст песни 6 (Wedding_fog) \n\n" },
-        { titleKey: "song7", src: "Wedding_fog2.mp3", cover: "Wedding_fog2.jpg", id: 6, author: "author1", lyrics: "Текст песни 7 (Wedding_fog2) \n\n" },
-        { titleKey: "song8", src: "Along_the_roads.mp3", cover: "Along_the_roads.jpg", id: 7, author: "author1", lyrics: "Текст песни 8 (Along_the_roads) \n\n" },
+        { 
+            titleKey: "song1", 
+            src: {
+                high: "orta_juz_audio.mp3",
+                medium: "orta_juz_audio_medium.mp3", // В реальности нужно иметь файлы разных качеств
+                low: "orta_juz_audio_low.mp3"
+            },
+            cover: "orta_juz.jpg", 
+            id: 0, 
+            author: "author1", 
+            lyrics: "Текст песни 1 (Орта жүз) \n\n" 
+        },
+        { 
+            titleKey: "song2", 
+            src: {
+                high: "jarylgap_batyr_audio.mp3",
+                medium: "jarylgap_batyr_audio_medium.mp3",
+                low: "jarylgap_batyr_audio_low.mp3"
+            },
+            cover: "jarylgap_batyr.jpg", 
+            id: 1, 
+            author: "author1", 
+            lyrics: "Текст песни 2 (Жарылғап батыр) \n\n" 
+        },
+        { 
+            titleKey: "song3", 
+            src: {
+                high: "tegimnin_ruhy_audio.mp3",
+                medium: "tegimnin_ruhy_audio_medium.mp3",
+                low: "tegimnin_ruhy_audio_low.mp3"
+            },
+            cover: "tegimnin_ruhy.jpg", 
+            id: 2, 
+            author: "author1", 
+            lyrics: "Текст песни 3 (Тегімнің рухы) \n\n" 
+        },
+        { 
+            titleKey: "song4", 
+            src: {
+                high: "Kalzhyr.mp3",
+                medium: "Kalzhyr_medium.mp3",
+                low: "Kalzhyr_low.mp3"
+            },
+            cover: "Kalzhyr.jpg", 
+            id: 3, 
+            author: "author1", 
+            lyrics: "Текст песни 4 (Қалжыр) \n\n" 
+        },
+        { 
+            titleKey: "song5", 
+            src: {
+                high: "Kalzhyr2.mp3",
+                medium: "Kalzhyr2_medium.mp3",
+                low: "Kalzhyr2_low.mp3"
+            },
+            cover: "Kalzhyr2.jpg", 
+            id: 4, 
+            author: "author1", 
+            lyrics: "Текст песни 5 (Қалжыр2) \n\n" 
+        },
+        { 
+            titleKey: "song6", 
+            src: {
+                high: "Wedding_fog.mp3",
+                medium: "Wedding_fog_medium.mp3",
+                low: "Wedding_fog_low.mp3"
+            },
+            cover: "Wedding_fog.jpg", 
+            id: 5, 
+            author: "author1", 
+            lyrics: "Текст песни 6 (Wedding_fog) \n\n" 
+        },
+        { 
+            titleKey: "song7", 
+            src: {
+                high: "Wedding_fog2.mp3",
+                medium: "Wedding_fog2_medium.mp3",
+                low: "Wedding_fog2_low.mp3"
+            },
+            cover: "Wedding_fog2.jpg", 
+            id: 6, 
+            author: "author1", 
+            lyrics: "Текст песни 7 (Wedding_fog2) \n\n" 
+        },
+        { 
+            titleKey: "song8", 
+            src: {
+                high: "Along_the_roads.mp3",
+                medium: "Along_the_roads_medium.mp3",
+                low: "Along_the_roads_low.mp3"
+            },
+            cover: "Along_the_roads.jpg", 
+            id: 7, 
+            author: "author1", 
+            lyrics: "Текст песни 8 (Along_the_roads) \n\n" 
+        },
         // Треки от Рамазанов Төреғали (9-10)
-        { titleKey: "song9", src: "Koktem_audio.mp3", cover: "Koktem.jpg", id: 8, author: "author2", lyrics: "Текст песни 9 (Көктем) \n\n" },
-        { titleKey: "song10", src: "Tuğan_tūyıs_baqytym.mp3", cover: "Tūğan_tūyıs_baqytym.jpg", id: 9, author: "author2", lyrics: "Текст песни 10 (Туған туыс бақытым) \n\n" },
+        { 
+            titleKey: "song9", 
+            src: {
+                high: "Koktem_audio.mp3",
+                medium: "Koktem_audio_medium.mp3",
+                low: "Koktem_audio_low.mp3"
+            },
+            cover: "Koktem.jpg", 
+            id: 8, 
+            author: "author2", 
+            lyrics: "Текст песни 9 (Көктем) \n\n" 
+        },
+        { 
+            titleKey: "song10", 
+            src: {
+                high: "Tuğan_tūyıs_baqytym.mp3",
+                medium: "Tuğan_tūyıs_baqytym_medium.mp3",
+                low: "Tuğan_tūyıs_baqytym_low.mp3"
+            },
+            cover: "Tūğan_tūyıs_baqytym.jpg", 
+            id: 9, 
+            author: "author2", 
+            lyrics: "Текст песни 10 (Туған туыс бақытым) \n\n" 
+        },
     ];
 
 
@@ -648,11 +1075,14 @@
              document.getElementById('current-track-author').textContent = "UMIT Project"; 
         }
         
+        // Обновляем подписи качества
+        updateQualityLabels();
+        
         closeLangDropdown();
     }
     
     function toggleLangDropdown(event) {
-        event.stopPropagation();
+        if (event) event.stopPropagation();
         const dropdown = document.getElementById('lang-dropdown');
         dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
     }
@@ -729,13 +1159,13 @@
     const trackTitleDisplay = document.getElementById('current-track-title');
     const trackAuthorDisplay = document.getElementById('current-track-author');
     const coverImage = document.getElementById('track-cover');
-    const coverArtContainer = document.getElementById('cover-art-container'); // Добавлено для анимации
+    const coverArtContainer = document.getElementById('cover-art-container');
     const volumeSlider = document.getElementById('volume-slider');
     const progressBar = document.getElementById('progress-bar');
     const currentTimeDisplay = document.getElementById('current-time');
     const durationDisplay = document.getElementById('duration');
     const mainFavBtn = document.getElementById('main-favorite-btn');
-    
+
     // Новая функция для управления анимацией обложки
     function updateCoverArtAnimation(isPlaying) {
          if (coverArtContainer) {
@@ -745,6 +1175,36 @@
                 coverArtContainer.classList.remove('playing');
             }
         }
+    }
+
+    // Функция для получения URL трека в зависимости от качества
+    function getTrackUrl(track, quality = null) {
+        const targetQuality = quality || audioQuality;
+        
+        // Если режим "auto", определяем качество по состоянию сети
+        let finalQuality = targetQuality;
+        if (targetQuality === 'auto') {
+            if (!isOnline) {
+                finalQuality = 'low';
+            } else if (dataSaverEnabled) {
+                finalQuality = 'medium';
+            } else {
+                finalQuality = 'high';
+            }
+        }
+        
+        // Если включен режим экономии трафика, понижаем качество
+        if (dataSaverEnabled && finalQuality === 'high') {
+            finalQuality = 'medium';
+        }
+        
+        // Возвращаем URL соответствующего качества
+        if (track.src[finalQuality]) {
+            return track.src[finalQuality];
+        }
+        
+        // Если запрошенное качество не найдено, возвращаем высокое качество как запасной вариант
+        return track.src.high || track.src; // Для совместимости со старой структурой
     }
 
     function loadTrack(index) {
@@ -757,8 +1217,11 @@
         const track = tracks[index];
         const authorName = translations[currentLanguage][track.author];
         
+        // Получаем URL в зависимости от качества
+        const trackUrl = getTrackUrl(track);
+        
         // Обновление данных
-        audioPlayer.src = track.src;
+        audioPlayer.src = trackUrl;
         trackTitleDisplay.textContent = translations[currentLanguage][track.titleKey];
         trackAuthorDisplay.textContent = authorName; // Устанавливаем имя автора
         coverImage.src = track.cover;
@@ -771,6 +1234,12 @@
         updatePlayButton(true);
         updateTrackList();
         updateFavoriteButton();
+        
+        // Показываем подсказку о жестах при первой загрузке
+        if (!localStorage.getItem('gestureHintShown')) {
+            showGestureHint();
+            localStorage.setItem('gestureHintShown', 'true');
+        }
     }
 
     function togglePlay() {
@@ -851,6 +1320,353 @@
         mainFavBtn.querySelector('i').className = isFavorited ? 'fas fa-heart' : 'far fa-heart';
         mainFavBtn.style.color = isFavorited ? 'var(--accent-color)' : 'var(--text-color)';
     }
+
+    // ===================================================
+    // КАСТОМНЫЕ ЖЕСТЫ
+    // ===================================================
+    
+    function initGestureControls() {
+        const cover = document.getElementById('cover-art-container');
+        const gestureIndicator = document.getElementById('gesture-indicator');
+        
+        // Обработчик начала касания
+        cover.addEventListener('touchstart', function(e) {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+            
+            // Для двойного тапа
+            const currentTime = new Date().getTime();
+            const tapLength = currentTime - lastTapTime;
+            
+            if (tapLength < 300 && tapLength > 0) {
+                // Двойной тап обнаружен
+                clearTimeout(doubleTapTimeout);
+                togglePlay();
+                
+                // Визуальная обратная связь
+                cover.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    cover.style.transform = 'scale(1)';
+                }, 150);
+            }
+            
+            lastTapTime = currentTime;
+        }, { passive: true });
+        
+        // Обработчик перемещения (для визуальной обратной связи)
+        cover.addEventListener('touchmove', function(e) {
+            if (!touchStartX) return;
+            
+            const touchX = e.touches[0].clientX;
+            const diffX = touchX - touchStartX;
+            
+            // Небольшой визуальный эффект при свайпе
+            if (Math.abs(diffX) > 10) {
+                cover.style.transform = `translateX(${diffX * 0.2}px)`;
+            }
+        }, { passive: true });
+        
+        // Обработчик окончания касания
+        cover.addEventListener('touchend', function(e) {
+            if (!touchStartX) return;
+            
+            touchEndX = e.changedTouches[0].clientX;
+            touchEndY = e.changedTouches[0].clientY;
+            
+            const diffX = touchEndX - touchStartX;
+            const diffY = touchEndY - touchStartY;
+            
+            // Сброс трансформации
+            cover.style.transform = 'translateX(0)';
+            
+            // Определяем свайп (горизонтальный с минимальной дистанцией 50px)
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                if (diffX > 0) {
+                    // Свайп вправо - предыдущий трек
+                    playPrevious();
+                    
+                    // Визуальная обратная связь
+                    showSwipeFeedback('right');
+                } else {
+                    // Свайп влево - следующий трек
+                    playNext();
+                    
+                    // Визуальная обратная связь
+                    showSwipeFeedback('left');
+                }
+                
+                // Предотвращаем клик по обложке после свайпа
+                e.preventDefault();
+            }
+            
+            // Сброс значений
+            touchStartX = 0;
+            touchStartY = 0;
+        }, { passive: false });
+        
+        // Также добавляем поддержку мыши для десктопов (для тестирования)
+        cover.addEventListener('mousedown', function(e) {
+            touchStartX = e.clientX;
+            touchStartY = e.clientY;
+            
+            const currentTime = new Date().getTime();
+            const tapLength = currentTime - lastTapTime;
+            
+            if (tapLength < 300 && tapLength > 0) {
+                clearTimeout(doubleTapTimeout);
+                togglePlay();
+                
+                cover.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    cover.style.transform = 'scale(1)';
+                }, 150);
+            }
+            
+            lastTapTime = currentTime;
+        });
+        
+        cover.addEventListener('mouseup', function(e) {
+            if (!touchStartX) return;
+            
+            touchEndX = e.clientX;
+            touchEndY = e.clientY;
+            
+            const diffX = touchEndX - touchStartX;
+            const diffY = touchEndY - touchStartY;
+            
+            cover.style.transform = 'translateX(0)';
+            
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                if (diffX > 0) {
+                    playPrevious();
+                    showSwipeFeedback('right');
+                } else {
+                    playNext();
+                    showSwipeFeedback('left');
+                }
+            }
+            
+            touchStartX = 0;
+            touchStartY = 0;
+        });
+    }
+    
+    // Функция для показа визуальной обратной связи при свайпе
+    function showSwipeFeedback(direction) {
+        const gestureIndicator = document.getElementById('gesture-indicator');
+        const arrows = gestureIndicator.querySelectorAll('.gesture-arrow');
+        
+        // Подсвечиваем соответствующую стрелку
+        arrows.forEach(arrow => {
+            arrow.style.color = 'var(--accent-color)';
+            arrow.style.opacity = '1';
+        });
+        
+        gestureIndicator.classList.add('show');
+        
+        // Скрываем через 500 мс
+        setTimeout(() => {
+            gestureIndicator.classList.remove('show');
+            arrows.forEach(arrow => {
+                arrow.style.color = '';
+                arrow.style.opacity = '0.9';
+            });
+        }, 500);
+    }
+    
+    // Показать подсказку о жестах
+    function showGestureHint() {
+        const gestureIndicator = document.getElementById('gesture-indicator');
+        gestureIndicator.classList.add('show');
+        
+        // Скрываем через 3 секунды
+        setTimeout(() => {
+            gestureIndicator.classList.remove('show');
+        }, 3000);
+    }
+
+    // ===================================================
+    // РЕЖИМ ЭКОНОМИИ ТРАФИКА
+    // ===================================================
+    
+    function initDataSaverControls() {
+        const dataSaverToggle = document.getElementById('data-saver-toggle');
+        const qualityDropdown = document.getElementById('quality-dropdown');
+        
+        // Устанавливаем начальное состояние переключателя
+        if (dataSaverToggle) {
+            dataSaverToggle.checked = dataSaverEnabled;
+            
+            // Обработчик изменения переключателя
+            dataSaverToggle.addEventListener('change', function() {
+                dataSaverEnabled = this.checked;
+                localStorage.setItem('dataSaverEnabled', dataSaverEnabled);
+                
+                // Показываем или скрываем выбор качества
+                if (dataSaverEnabled) {
+                    qualityDropdown.style.display = 'block';
+                    
+                    // Если качество было "high", автоматически меняем на "medium"
+                    if (audioQuality === 'high') {
+                        changeQuality('medium');
+                    }
+                } else {
+                    qualityDropdown.style.display = 'none';
+                    
+                    // Возвращаем высокое качество, если было "auto"
+                    if (audioQuality === 'auto') {
+                        changeQuality('high');
+                    }
+                }
+                
+                // Перезагружаем текущий трек с новым качеством, если он воспроизводится
+                if (currentTrackIndex !== -1 && !audioPlayer.paused) {
+                    reloadCurrentTrackWithNewQuality();
+                }
+                
+                updateQualityLabels();
+            });
+        }
+        
+        // Инициализация состояния выбора качества
+        if (dataSaverEnabled) {
+            qualityDropdown.style.display = 'block';
+        }
+        
+        // Инициализация выбранного качества
+        const qualityOptions = document.querySelectorAll('.quality-option');
+        qualityOptions.forEach(option => {
+            if (option.textContent.includes(getQualityDisplayName(audioQuality))) {
+                option.classList.add('active');
+            } else {
+                option.classList.remove('active');
+            }
+        });
+    }
+    
+    // Функция изменения качества
+    function changeQuality(quality) {
+        audioQuality = quality;
+        localStorage.setItem('audioQuality', quality);
+        
+        // Обновляем активный пункт в меню
+        const qualityOptions = document.querySelectorAll('.quality-option');
+        qualityOptions.forEach(option => {
+            option.classList.remove('active');
+            
+            // Сравниваем по основному тексту (первая строка)
+            const optionText = option.querySelector('div').textContent.trim();
+            if (optionText === getQualityDisplayName(quality)) {
+                option.classList.add('active');
+            }
+        });
+        
+        // Если трек играет, перезагружаем его с новым качеством
+        if (currentTrackIndex !== -1 && !audioPlayer.paused) {
+            reloadCurrentTrackWithNewQuality();
+        }
+        
+        updateQualityLabels();
+    }
+    
+    // Перезагрузить текущий трек с новым качеством
+    function reloadCurrentTrackWithNewQuality() {
+        if (currentTrackIndex === -1) return;
+        
+        const track = tracks[currentTrackIndex];
+        const trackUrl = getTrackUrl(track);
+        const wasPlaying = !audioPlayer.paused;
+        const currentTime = audioPlayer.currentTime;
+        
+        // Сохраняем состояние воспроизведения
+        audioPlayer.pause();
+        
+        // Меняем источник
+        audioPlayer.src = trackUrl;
+        audioPlayer.load();
+        audioPlayer.currentTime = currentTime;
+        
+        // Возобновляем воспроизведение, если оно было
+        if (wasPlaying) {
+            audioPlayer.play().catch(e => {
+                console.log("Автовоспроизведение не удалось:", e);
+            });
+        }
+    }
+    
+    // Обновить текстовые метки качества
+    function updateQualityLabels() {
+        const qualityLabel = document.getElementById('current-quality-label');
+        if (qualityLabel) {
+            qualityLabel.textContent = getQualityDisplayName(audioQuality);
+        }
+    }
+    
+    // Получить отображаемое имя качества
+    function getQualityDisplayName(quality) {
+        const qualityNames = {
+            'high': translations[currentLanguage].qualityHigh,
+            'medium': translations[currentLanguage].qualityMedium,
+            'low': translations[currentLanguage].qualityLow,
+            'auto': translations[currentLanguage].qualityAuto
+        };
+        
+        return qualityNames[quality] || qualityNames['high'];
+    }
+    
+    // Мониторинг состояния сети
+    function initNetworkMonitoring() {
+        const networkStatus = document.getElementById('network-status');
+        
+        function updateNetworkStatus() {
+            isOnline = navigator.onLine;
+            
+            if (networkStatus) {
+                if (isOnline) {
+                    networkStatus.className = 'network-status online';
+                    networkStatus.innerHTML = `<i class="fas fa-circle"></i><span>${translations[currentLanguage].online}</span>`;
+                } else {
+                    networkStatus.className = 'network-status offline';
+                    networkStatus.innerHTML = `<i class="fas fa-circle"></i><span>${translations[currentLanguage].offline}</span>`;
+                    
+                    // При потере соединения автоматически переключаемся на низкое качество
+                    if (audioQuality !== 'low') {
+                        changeQuality('low');
+                    }
+                }
+            }
+            
+            // При восстановлении соединения, если было "auto", переключаем обратно
+            if (isOnline && audioQuality === 'auto' && !dataSaverEnabled) {
+                changeQuality('high');
+            }
+        }
+        
+        // Инициализация и слушатели событий
+        updateNetworkStatus();
+        window.addEventListener('online', updateNetworkStatus);
+        window.addEventListener('offline', updateNetworkStatus);
+    }
+    
+    // Показать меню выбора качества
+    function showQualityMenu() {
+        const qualityOptions = document.getElementById('quality-options');
+        if (qualityOptions) {
+            qualityOptions.classList.toggle('show');
+        }
+    }
+    
+    // Закрыть меню качества при клике вне его
+    document.addEventListener('click', function(event) {
+        const qualityOptions = document.getElementById('quality-options');
+        const qualityDropdown = document.getElementById('quality-dropdown');
+        
+        if (qualityOptions && qualityOptions.classList.contains('show') && 
+            !qualityOptions.contains(event.target) && 
+            (!qualityDropdown || !qualityDropdown.contains(event.target))) {
+            qualityOptions.classList.remove('show');
+        }
+    });
 
     // ===================================================
     // ТЕКСТ ПЕСНИ (МОДАЛЬНОЕ ОКНО)
@@ -934,6 +1750,27 @@
             // При первой загрузке показываем дефолтного автора UMIT Project, 
             // так как автор загруженного трека не актуален до нажатия Play
             document.getElementById('current-track-author').textContent = "UMIT Project";
+        }
+        
+        // Инициализация жестов
+        initGestureControls();
+        
+        // Инициализация режима экономии трафика
+        initDataSaverControls();
+        
+        // Инициализация мониторинга сети
+        initNetworkMonitoring();
+        
+        // Добавляем обработчик клика на заголовок качества для открытия меню
+        const qualityLabel = document.getElementById('current-quality-label');
+        if (qualityLabel) {
+            qualityLabel.style.cursor = 'pointer';
+            qualityLabel.addEventListener('click', function(e) {
+                if (dataSaverEnabled) {
+                    showQualityMenu();
+                    e.stopPropagation();
+                }
+            });
         }
     });
 
