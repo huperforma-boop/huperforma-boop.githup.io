@@ -2090,7 +2090,7 @@
 
 Айласы асқан батыр, тек қана күшбен емес,
 Абылай ханның қасында ақылға салып істеген.
-Қан тау жорығында Бетbак арқылы қол бастап,
+Қан тау жорығында Бетбак арқылы қол бастап,
 Қон тайшыны қоршап, қазаққа келтірген бостанық.
 Байғозы батырмен бірге, барлаушы болып алда жүрген,
 "Көзге түспей, шөлдетпей" – деп, екі керілдік берген.
@@ -2473,32 +2473,18 @@
         updateTrackList();
         updateFavoriteButton();
         
-        // Загружаем трек и пытаемся воспроизвести
+        // Загружаем трек
         audioPlayer.load();
         
-        // Устанавливаем обработчики для загрузки метаданных
+        // Устанавливаем обработчик для загрузки метаданных
         const onLoadedMetadata = () => {
             // Обновляем длительность трека
             if (audioPlayer.duration && !isNaN(audioPlayer.duration)) {
                 durationDisplay.textContent = formatTime(audioPlayer.duration);
             }
-            
-            // Пытаемся воспроизвести
-            const playPromise = audioPlayer.play();
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    playIcon.className = 'fas fa-pause';
-                }).catch(error => {
-                    console.log("Автовоспроизведение заблокировано:", error);
-                    playIcon.className = 'fas fa-play';
-                });
-            }
-            
-            // Удаляем обработчик
-            audioPlayer.removeEventListener('loadedmetadata', onLoadedMetadata);
         };
         
-        audioPlayer.addEventListener('loadedmetadata', onLoadedMetadata);
+        audioPlayer.addEventListener('loadedmetadata', onLoadedMetadata, { once: true });
         
         // Если метаданные уже загружены, вызываем функцию сразу
         if (audioPlayer.readyState >= 1) {
@@ -3006,23 +2992,21 @@
         updateFavoriteButton();
         
         // ===================================================
-        // ОБРАБОТЧИКИ ДЛЯ АУДИО ПЛЕЕРА
+        // ОСНОВНЫЕ ОБРАБОТЧИКИ ДЛЯ АУДИО
         // ===================================================
         
         // Обновление прогресса при воспроизведении
         audioPlayer.addEventListener('timeupdate', () => {
-            if (!isSeeking) {
-                const currentTime = audioPlayer.currentTime;
-                const duration = audioPlayer.duration;
-                
-                // Обновляем текущее время
-                currentTimeDisplay.textContent = formatTime(currentTime);
-                
-                // Обновляем ползунок прогресса
-                if (duration && !isNaN(duration) && duration > 0) {
-                    const progress = (currentTime / duration) * 100;
-                    progressBar.value = progress;
-                }
+            const currentTime = audioPlayer.currentTime;
+            const duration = audioPlayer.duration;
+            
+            // Обновляем текущее время
+            currentTimeDisplay.textContent = formatTime(currentTime);
+            
+            // Обновляем ползунок прогресса
+            if (duration && !isNaN(duration) && duration > 0) {
+                const progress = (currentTime / duration) * 100;
+                progressBar.value = progress;
             }
         });
         
@@ -3042,18 +3026,13 @@
             playIcon.className = 'fas fa-play';
         });
         
-        // Обработчик для ползунка прогресса
+        // Обработчик для ползунка прогресса - перемотка
         progressBar.addEventListener('input', function() {
-            isSeeking = true;
-        });
-        
-        progressBar.addEventListener('change', function() {
             const duration = audioPlayer.duration;
             if (duration && !isNaN(duration) && duration > 0) {
                 const newTime = (this.value / 100) * duration;
                 audioPlayer.currentTime = newTime;
             }
-            isSeeking = false;
         });
         
         // Обработчик для ползунка громкости
