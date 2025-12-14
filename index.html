@@ -2012,7 +2012,6 @@
 
     let currentTrackIndex = -1;
     let favorites = JSON.parse(localStorage.getItem('audioPlayerFavorites')) || [];
-    let isSeeking = false;
     
     const tracks = [
         { 
@@ -2206,7 +2205,7 @@
 Әр тасыңда – ата-бабам мекені,
 Жүрегімнің жылуысың осы маңда. 
 Оң жақ Қалжыр, Тақыр, Шеңгелдім, 
-Бірге өскен құрбы-құрдас, достарым. 
+Бірге өскен құрбы  құрдас, достарым. 
 Мейіріміңе бөлендім, тербелдім,  
 Шығысымның ай астындағы аспаны.
 
@@ -2438,17 +2437,11 @@
         return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
     }
 
-    // ===================================================
-    // ФУНКЦИИ ДЛЯ УПРАВЛЕНИЯ АУДИО
-    // ===================================================
     function loadTrack(index) {
         if (index < 0 || index >= tracks.length) return;
         
         currentTrackIndex = index;
         const track = tracks[index];
-        
-        // Останавливаем текущее воспроизведение
-        audioPlayer.pause();
         
         // Обновляем название трека в плеере
         trackTitleDisplay.textContent = track.title;
@@ -2473,23 +2466,33 @@
         updateTrackList();
         updateFavoriteButton();
         
-        // Загружаем трек
-        audioPlayer.load();
-        
-        // Устанавливаем обработчик для загрузки метаданных
-        const onLoadedMetadata = () => {
+        // Ждем загрузки метаданных перед воспроизведением
+        audioPlayer.addEventListener('loadedmetadata', function onMetadataLoad() {
             // Обновляем длительность трека
             if (audioPlayer.duration && !isNaN(audioPlayer.duration)) {
                 durationDisplay.textContent = formatTime(audioPlayer.duration);
             }
-        };
+            
+            // Удаляем обработчик, чтобы он не вызывался снова
+            audioPlayer.removeEventListener('loadedmetadata', onMetadataLoad);
+        }, { once: true });
         
-        audioPlayer.addEventListener('loadedmetadata', onLoadedMetadata, { once: true });
+        audioPlayer.addEventListener('canplay', function onCanPlay() {
+            // Пытаемся воспроизвести
+            const playPromise = audioPlayer.play();
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    playIcon.className = 'fas fa-pause';
+                }).catch(error => {
+                    console.error("Ошибка воспроизведения:", error);
+                });
+            }
+            
+            // Удаляем обработчик
+            audioPlayer.removeEventListener('canplay', onCanPlay);
+        }, { once: true });
         
-        // Если метаданные уже загружены, вызываем функцию сразу
-        if (audioPlayer.readyState >= 1) {
-            onLoadedMetadata();
-        }
+        audioPlayer.load();
         
         // Прокручиваем к плееру на мобильных
         if (window.innerWidth <= 768) {
@@ -2511,7 +2514,7 @@
         if (audioPlayer.paused) {
             const playPromise = audioPlayer.play();
             if (playPromise !== undefined) {
-                playPromise.then(() => {
+                playPromise.then(_ => {
                     playIcon.className = 'fas fa-pause';
                 }).catch(error => {
                     console.error("Ошибка воспроизведения:", error);
@@ -2748,7 +2751,7 @@
     }
 
     // ===================================================
-    // ТЕКСТ ПЕСЕН (LYRICS)
+    // ТЕКСТ ПЕСЕН (LYRICS) - УЛУЧШЕННАЯ ВЕРСИЯ
     // ===================================================
     function showLyricsModal(trackIndex) {
         const track = tracks[trackIndex];
@@ -2965,7 +2968,7 @@
     }
 
     // ===================================================
-    // ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ
+    // ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ - ОСНОВНЫЕ ИСПРАВЛЕНИЯ
     // ===================================================
     document.addEventListener('DOMContentLoaded', () => {
         // Создаем частицы фона
@@ -2992,10 +2995,10 @@
         updateFavoriteButton();
         
         // ===================================================
-        // ОСНОВНЫЕ ОБРАБОТЧИКИ ДЛЯ АУДИО
+        // ОСНОВНЫЕ ИСПРАВЛЕНИЯ ДЛЯ АУДИО
         // ===================================================
         
-        // Обновление прогресса при воспроизведении
+        // Обновление прогресса и времени при воспроизведении
         audioPlayer.addEventListener('timeupdate', () => {
             const currentTime = audioPlayer.currentTime;
             const duration = audioPlayer.duration;
@@ -3007,6 +3010,11 @@
             if (duration && !isNaN(duration) && duration > 0) {
                 const progress = (currentTime / duration) * 100;
                 progressBar.value = progress;
+                
+                // Обновляем общее время (на случай, если оно изменилось)
+                if (durationDisplay.textContent === "0:00" || durationDisplay.textContent === "NaN:NaN") {
+                    durationDisplay.textContent = formatTime(duration);
+                }
             }
         });
         
@@ -3017,16 +3025,7 @@
             }
         });
         
-        // Изменение состояния воспроизведения
-        audioPlayer.addEventListener('play', () => {
-            playIcon.className = 'fas fa-pause';
-        });
-        
-        audioPlayer.addEventListener('pause', () => {
-            playIcon.className = 'fas fa-play';
-        });
-        
-        // Обработчик для ползунка прогресса - перемотка
+        // Обработчик для ползунка прогресса
         progressBar.addEventListener('input', function() {
             const duration = audioPlayer.duration;
             if (duration && !isNaN(duration) && duration > 0) {
