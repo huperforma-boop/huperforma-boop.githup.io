@@ -544,7 +544,7 @@
     let lastTapTime = 0;
     let doubleTapTimeout = null;
     
-    // ПЕРЕВОДЫ (убраны ключи, связанные с режимом экономии трафика)
+    // ПЕРЕВОДЫ (УЧАСТОК С НОВЫМИ ИЗМЕНЕНИЯМИ)
     const translations = {
         ru: {
             "title": "UMIT Плеер",
@@ -561,6 +561,7 @@
             "song8": "Along_the_roads",
             "song9": "Көктем",
             "song10": "Туған туыс бақытым",
+            "song11": "Анашым", // ДОБАВЛЕН НОВЫЙ ТРЕК
             "added": "Добавлено!",
             "removed": "Удалено!",
             "lyricsTitle": "Текст песни: ",
@@ -584,6 +585,7 @@
             "song8": "Along_the_roads",
             "song9": "Көктем",
             "song10": "Туған туыс бақытым",
+            "song11": "Анашым", // ДОБАВЛЕН НОВЫЙ ТРЕК
             "added": "Қосылды!",
             "removed": "Жойылды!",
             "lyricsTitle": "Ән мәтіні: ",
@@ -607,6 +609,7 @@
             "song8": "Along_the_roads",
             "song9": "Spring",
             "song10": "My Native Happiness",
+            "song11": "Anashym", // ДОБАВЛЕН НОВЫЙ ТРЕК
             "added": "Added!",
             "removed": "Removed!",
             "lyricsTitle": "Lyrics for: ",
@@ -630,6 +633,7 @@
             "song8": "Along_the_roads",
             "song9": "Printemps",
             "song10": "Mon Bonheur Natal",
+            "song11": "Anashym", // ДОБАВЛЕН НОВЫЙ ТРЕК
             "added": "Ajouté!",
             "removed": "Supprimé!",
             "lyricsTitle": "Paroles de: ",
@@ -653,6 +657,7 @@
             "song8": "Along_the_roads",
             "song9": "春天",
             "song10": "我的原生幸福",
+            "song11": "阿纳希姆", // ДОБАВЛЕН НОВЫЙ ТРЕК
             "added": "已添加!",
             "removed": "已删除!",
             "lyricsTitle": "歌词: ",
@@ -663,7 +668,7 @@
         }
     };
 
-    // 10 МУЗЫКАЛЬНЫХ ТРЕКОВ (упрощенная структура без разных качеств)
+    // МУЗЫКАЛЬНЫЕ ТРЕКИ (УЧАСТОК С НОВЫМИ ИЗМЕНЕНИЯМИ)
     const tracks = [
         // Треки от Қабыкенов Сағыныш (1-8)
         { 
@@ -730,12 +735,21 @@
             author: "author1", 
             lyrics: "Текст песни 8 (Along_the_roads) \n\n" 
         },
-        // Треки от Рамазанов Төреғали (9-10)
+        // НОВЫЙ ТРЕК "Анашым" добавлен в конец раздела Кабыкенов Сағыныш
+        { 
+            titleKey: "song11", 
+            src: "Anashym.mp3",
+            cover: "Anashym.jpg", 
+            id: 8, 
+            author: "author1", 
+            lyrics: "Анашым, анашым, сен менің анашым\nКүнделікті өмірдегі арманым\nАнашым, анашым, сен менің анашым\nҚазағымның гүлі, нұрым, жаным\n\n[Вставьте полный текст песни здесь]" 
+        },
+        // Треки от Рамазанов Төреғали (смещены на 1 позицию из-за нового трека)
         { 
             titleKey: "song9", 
             src: "Koktem_audio.mp3",
             cover: "Koktem.jpg", 
-            id: 8, 
+            id: 9, 
             author: "author2", 
             lyrics: "Текст песни 9 (Көктем) \n\n" 
         },
@@ -743,7 +757,7 @@
             titleKey: "song10", 
             src: "Tuğan_tūyıs_baqytym.mp3",
             cover: "Tūğan_tūyıs_baqytym.jpg", 
-            id: 9, 
+            id: 10, 
             author: "author2", 
             lyrics: "Текст песни 10 (Туған туыс бақытым) \n\n" 
         },
