@@ -3,90 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>UMIT | Мобильный Плеер Glass</title>
+    <title>UMIT | iOS Glass Player</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
-        /* ===== ПЕРЕМЕННЫЕ И СБРОС СТИЛЕЙ ===== */
+        /* ===== СИСТЕМНЫЕ ПЕРЕМЕННЫЕ iOS STYLE ===== */
         :root {
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-shadow: rgba(0, 0, 0, 0.1);
+            --glass-highlight: rgba(255, 255, 255, 0.05);
+            
             --primary-color: #ffffff;
-            --accent-color: #007aff; /* iOS Blue */
-            --background: #1c1c1e; /* Dark iOS background */
-            --text-color: #fff;
-            --secondary-text: #e0e0e0;
-            --transition-speed: 0.2s; /* Добавлена переменная для плавности */
+            --accent-color: #007AFF; /* iOS Blue */
+            --accent-light: rgba(0, 122, 255, 0.15);
+            --background: linear-gradient(135deg, #0C0C0C 0%, #1C1C1E 50%, #2C2C2E 100%);
+            --background-solid: #000000;
+            --text-color: rgba(255, 255, 255, 0.95);
+            --secondary-text: rgba(255, 255, 255, 0.6);
+            --tertiary-text: rgba(255, 255, 255, 0.4);
+            
+            --transition-speed: 0.3s;
+            --transition-timing: cubic-bezier(0.4, 0.0, 0.2, 1);
+            --ios-transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            --ios-border-radius: 16px;
+            --ios-large-border-radius: 22px;
+            
+            --status-bar-height: 44px;
+            --safe-area-inset-bottom: env(safe-area-inset-bottom, 20px);
         }
 
+        /* ===== БАЗОВЫЕ СТИЛИ И РЕСЕТ ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        html {
+            height: 100%;
+            overflow-x: hidden;
+            overscroll-behavior: none;
         }
 
         body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--background);
+            font-family: -apple-system, BlinkMacSystemFont, 'Montserrat', 'Segoe UI', sans-serif;
+            background: var(--background);
+            background-color: var(--background-solid);
             color: var(--text-color);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding: 20px 10px;
-            /* Гибкий фон - градиент */
-            background: linear-gradient(135deg, #1c1c1e 0%, #000000 100%);
+            padding: 0;
+            margin: 0;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        /* ===== ОСНОВНОЙ КОНТЕЙНЕР (МОБИЛЬНЫЙ ВИД) ===== */
+        /* iOS Status Bar Simulation */
+        .ios-status-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--status-bar-height);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .ios-time {
+            flex: 1;
+            text-align: center;
+        }
+
+        .ios-right-icons {
+            display: flex;
+            gap: 6px;
+            font-size: 13px;
+        }
+
+        /* ===== ОСНОВНОЙ КОНТЕЙНЕР (iOS СТИЛЬ) ===== */
         .mobile-container {
             width: 100%;
-            max-width: 420px;
-            margin-top: 20px;
+            max-width: 430px;
+            margin-top: calc(var(--status-bar-height) + 16px);
+            padding: 0 16px 40px;
+            position: relative;
+            z-index: 1;
         }
 
-        /* ===== ЭЛЕМЕНТЫ GLASSMORPHISM ===== */
+        /* ===== iOS GLASSMORPHISM КАРТОЧКИ ===== */
         .glass-card {
-            background: var(--glass-bg);
-            border-radius: 20px;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.07) 0%,
+                rgba(255, 255, 255, 0.04) 100%);
+            border-radius: var(--ios-large-border-radius);
             border: 1px solid var(--glass-border);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            box-shadow: 0 4px 60px rgba(0, 0, 0, 0.3);
-            padding: 20px;
+            backdrop-filter: blur(30px) saturate(180%);
+            -webkit-backdrop-filter: blur(30px) saturate(180%);
+            box-shadow: 
+                0 4px 24px rgba(0, 0, 0, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+            padding: 22px;
             margin-bottom: 20px;
-            transition: box-shadow var(--transition-speed); /* Плавный переход для тени */
+            transition: var(--ios-transition);
+            position: relative;
+            overflow: hidden;
         }
         
-        .glass-card:hover {
-            box-shadow: 0 8px 80px rgba(0, 0, 0, 0.4); /* Эффект при наведении/фокусе */
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.1) 50%, 
+                transparent 100%);
+            z-index: 2;
+        }
+        
+        .glass-card:hover, .glass-card:active {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.05);
         }
 
-        /* ===== ШАПКА И ЛОГОТИП UMIT ===== */
+        /* ===== ШАПКА И ЛОГОТИП ===== */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
-            margin-bottom: 10px;
+            padding: 12px 0 18px;
+            margin-bottom: 4px;
+            position: relative;
         }
 
         .logo-title {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 1.5rem;
+            gap: 12px;
+            font-size: 1.6rem;
             font-weight: 700;
             color: var(--primary-color);
+            letter-spacing: -0.5px;
+            position: relative;
         }
         
         .logo-title i {
             color: var(--accent-color);
-            font-size: 1.8rem;
-            text-shadow: 0 0 10px rgba(0, 122, 255, 0.8);
+            font-size: 1.9rem;
+            text-shadow: 0 0 20px rgba(0, 122, 255, 0.6);
+            filter: drop-shadow(0 0 8px rgba(0, 122, 255, 0.4));
+            transition: transform 0.5s var(--transition-timing);
+        }
+        
+        .logo-title:hover i {
+            transform: rotate(15deg) scale(1.1);
         }
 
         .language-switcher {
@@ -94,68 +187,97 @@
         }
 
         .language-switcher button {
-            background: var(--glass-bg);
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.1) 0%,
+                rgba(255, 255, 255, 0.05) 100%);
             border: 1px solid var(--glass-border);
             color: var(--text-color);
-            padding: 8px 12px;
-            border-radius: 10px;
+            padding: 10px 14px;
+            border-radius: 12px;
             cursor: pointer;
-            font-size: 0.9rem;
-            transition: background var(--transition-speed), transform var(--transition-speed);
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: var(--ios-transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 0.3px;
         }
 
         .language-switcher button:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.03);
         }
         
         .language-switcher button:active {
-            transform: scale(0.95);
+            transform: scale(0.97);
+            transition-duration: 0.1s;
         }
 
-        /* ===== ПЛЕЕР ===== */
+        /* ===== ОСНОВНОЙ ПЛЕЕР ===== */
         .player-card {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
+            gap: 24px;
+            padding: 24px;
         }
 
-        /* ОБЛОЖКА */
-        .cover-art {
+        /* iOS СТИЛЬ ОБЛОЖКИ С ПАРАЛЛАКС ЭФФЕКТОМ */
+        .cover-art-container {
             width: 100%;
             max-width: 300px;
             height: 300px;
-            border-radius: 16px;
+            border-radius: 18px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            transition: transform 0.4s ease-out; /* Плавное изменение размера/формы */
-            touch-action: pan-y; /* Разрешаем вертикальный скролл на обложке */
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.05);
+            transition: all 0.5s var(--transition-timing);
+            touch-action: pan-y;
             position: relative;
             user-select: none;
             -webkit-user-select: none;
+            transform-style: preserve-3d;
+            perspective: 1000px;
         }
         
-        /* Анимация обложки при воспроизведении */
-        .cover-art.playing {
-            box-shadow: 0 0 40px var(--accent-color);
-            /* Добавим эффект вращения/пульсации */
-            animation: pulse-cover 2s infinite alternate; 
+        .cover-art-container.playing {
+            box-shadow: 
+                0 25px 80px rgba(0, 122, 255, 0.3),
+                0 0 0 1px rgba(0, 122, 255, 0.2);
+            animation: float-cover 3s ease-in-out infinite alternate;
         }
 
-        @keyframes pulse-cover {
-            from { transform: scale(1); box-shadow: 0 0 30px rgba(0, 122, 255, 0.5); }
-            to { transform: scale(1.02); box-shadow: 0 0 50px rgba(0, 122, 255, 0.8); }
+        @keyframes float-cover {
+            0% { transform: translateY(0px) rotateX(0deg) rotateY(0deg); }
+            100% { transform: translateY(-10px) rotateX(1deg) rotateY(1deg); }
         }
 
-        .cover-art img {
+        @keyframes rotate-cover {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .cover-art {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.3s ease-out;
-            pointer-events: none; /* Чтобы не мешало жестам */
+            transition: transform 0.8s var(--transition-timing);
+            will-change: transform;
+            backface-visibility: hidden;
         }
         
-        /* Индикатор жестов */
+        .cover-art-container.playing .cover-art {
+            animation: soft-rotate 20s linear infinite;
+        }
+        
+        @keyframes soft-rotate {
+            0% { transform: scale(1.05) rotate(0deg); }
+            100% { transform: scale(1.05) rotate(360deg); }
+        }
+        
+        /* ИНДИКАТОР ЖЕСТОВ */
         .gesture-indicator {
             position: absolute;
             top: 0;
@@ -165,277 +287,750 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: rgba(0, 0, 0, 0.7);
-            border-radius: 16px;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(10px);
+            border-radius: 18px;
             opacity: 0;
-            transition: opacity 0.3s;
-            z-index: 5;
+            transition: opacity 0.4s var(--transition-timing);
+            z-index: 10;
+            pointer-events: none;
         }
         
         .gesture-indicator.show {
             opacity: 1;
         }
         
-        .gesture-arrow {
-            font-size: 2.5rem;
-            margin: 0 15px;
-            color: var(--accent-color);
-            opacity: 0.9;
-            animation: bounce 0.5s infinite alternate;
+        .gesture-hint {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
         }
         
-        @keyframes bounce {
+        .gesture-arrows {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .gesture-arrow {
+            font-size: 2.2rem;
+            color: var(--accent-color);
+            opacity: 0.9;
+            filter: drop-shadow(0 0 8px rgba(0, 122, 255, 0.5));
+        }
+        
+        .left-arrow {
+            animation: bounce-left 1.2s infinite alternate var(--transition-timing);
+        }
+        
+        .right-arrow {
+            animation: bounce-right 1.2s infinite alternate var(--transition-timing);
+        }
+        
+        @keyframes bounce-left {
             from { transform: translateX(0); }
-            to { transform: translateX(10px); }
+            to { transform: translateX(-15px); }
+        }
+        
+        @keyframes bounce-right {
+            from { transform: translateX(0); }
+            to { transform: translateX(15px); }
+        }
+        
+        .gesture-text {
+            font-size: 0.9rem;
+            color: var(--secondary-text);
+            text-align: center;
+            max-width: 80%;
+            line-height: 1.4;
         }
         
         /* ИНФОРМАЦИЯ О ТРЕКЕ */
         .track-info {
             text-align: center;
             width: 100%;
-            /* Плавный переход для текста */
-            transition: opacity 0.3s ease; 
+            transition: opacity 0.3s var(--transition-timing);
+            padding: 0 10px;
         }
         
         #current-track-title {
-            font-size: 1.6rem;
+            font-size: 1.7rem;
             font-weight: 700;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
+            letter-spacing: -0.3px;
+            line-height: 1.2;
+            background: linear-gradient(90deg, #fff 0%, #a5d8ff 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            transition: all 0.3s var(--transition-timing);
         }
         
         #current-track-author {
-            font-size: 1rem;
+            font-size: 1.05rem;
             color: var(--secondary-text);
+            font-weight: 500;
+            letter-spacing: 0.2px;
         }
 
-        /* ПРОГРЕСС И ВРЕМЯ */
+        /* ПРОГРЕСС-БАР iOS СТИЛЬ */
         .progress-container {
             display: flex;
             align-items: center;
             width: 100%;
-            gap: 10px;
-            margin-top: 10px;
+            gap: 12px;
+            margin-top: 8px;
+            padding: 0 5px;
         }
 
         .time-display {
             font-size: 0.85rem;
-            color: var(--secondary-text);
-            min-width: 35px;
+            color: var(--tertiary-text);
+            min-width: 38px;
+            font-variant-numeric: tabular-nums;
+            font-weight: 500;
         }
 
         #progress-bar {
             flex-grow: 1;
-            height: 5px;
+            height: 4px;
             -webkit-appearance: none;
             appearance: none;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 2px;
             cursor: pointer;
+            overflow: hidden;
+            outline: none;
+            transition: height 0.2s var(--transition-timing);
         }
         
-        /* Стилизация ползунка прогресс-бара */
+        #progress-bar:hover, #progress-bar:active {
+            height: 6px;
+        }
+        
         #progress-bar::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 12px;
-            height: 12px;
+            width: 0;
+            height: 0;
             border-radius: 50%;
-            background: var(--accent-color); /* Акцентный цвет для лучшей видимости */
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-            transition: background var(--transition-speed);
+            background: var(--accent-color);
+            box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.3);
+            transition: all 0.2s var(--transition-timing);
+            cursor: grab;
         }
         
-        #progress-bar::-webkit-slider-thumb:active {
-            width: 14px; /* Увеличение при нажатии */
+        #progress-bar:hover::-webkit-slider-thumb {
+            width: 14px;
             height: 14px;
+            box-shadow: 0 0 0 6px rgba(0, 122, 255, 0.4);
+        }
+        
+        #progress-bar:active::-webkit-slider-thumb {
+            width: 16px;
+            height: 16px;
+            box-shadow: 0 0 0 8px rgba(0, 122, 255, 0.5);
+            cursor: grabbing;
+        }
+        
+        #progress-bar::-moz-range-thumb {
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: var(--accent-color);
+            border: none;
+            box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.3);
+            transition: all 0.2s var(--transition-timing);
+            cursor: grab;
+        }
+        
+        #progress-bar:hover::-moz-range-thumb {
+            width: 14px;
+            height: 14px;
+            box-shadow: 0 0 0 6px rgba(0, 122, 255, 0.4);
         }
 
-        /* ОСНОВНЫЕ КНОПКИ УПРАВЛЕНИЯ */
+        /* iOS КНОПКИ УПРАВЛЕНИЯ */
         .main-controls {
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
             align-items: center;
             width: 100%;
-            max-width: 300px;
-            margin-top: 15px;
+            max-width: 320px;
+            margin-top: 10px;
+            padding: 0 5px;
         }
 
         .control-btn {
-            width: 50px;
-            height: 50px;
+            width: 52px;
+            height: 52px;
             border-radius: 50%;
-            background: var(--glass-bg);
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.1) 0%,
+                rgba(255, 255, 255, 0.05) 100%);
             border: 1px solid var(--glass-border);
             color: var(--text-color);
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             cursor: pointer;
-            transition: all var(--transition-speed) ease;
+            transition: var(--ios-transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .control-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, 
+                rgba(255, 255, 255, 0.15) 0%, 
+                transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s var(--transition-timing);
         }
 
         .control-btn:active {
-            transform: scale(0.85); /* Более выраженное сжатие */
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+            transform: scale(0.88);
+            transition-duration: 0.1s;
+        }
+        
+        .control-btn:active::before {
+            opacity: 1;
         }
         
         .control-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.2);
         }
 
         .control-btn.play-pause {
-            width: 70px;
-            height: 70px;
+            width: 74px;
+            height: 74px;
             background: var(--accent-color);
             color: var(--primary-color);
             border: none;
-            font-size: 1.5rem;
-            box-shadow: 0 5px 20px rgba(0, 122, 255, 0.5);
+            font-size: 1.6rem;
+            box-shadow: 
+                0 10px 30px rgba(0, 122, 255, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+            z-index: 2;
+        }
+        
+        .control-btn.play-pause:hover {
+            box-shadow: 
+                0 15px 40px rgba(0, 122, 255, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.15);
+            transform: scale(1.05);
         }
         
         .control-btn.play-pause:active {
-            transform: scale(0.9);
-            box-shadow: 0 3px 15px rgba(0, 122, 255, 0.8);
+            box-shadow: 
+                0 8px 25px rgba(0, 122, 255, 0.6),
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+            transform: scale(0.92);
+        }
+        
+        .control-btn.play-pause::before {
+            background: radial-gradient(circle at center, 
+                rgba(255, 255, 255, 0.3) 0%, 
+                transparent 70%);
         }
 
-        /* ГРОМКОСТЬ */
+        /* РЕГУЛЯТОР ГРОМКОСТИ iOS */
         .volume-container {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             width: 100%;
-            padding: 10px 0;
-            opacity: 0.9; /* Повышенная непрозрачность */
+            padding: 15px 0 5px;
+            opacity: 1;
         }
         
-        /* Стилизация ползунка громкости */
+        .volume-icon {
+            color: var(--secondary-text);
+            font-size: 1.1rem;
+            min-width: 24px;
+            text-align: center;
+        }
+        
+        #volume-slider {
+            flex-grow: 1;
+            height: 4px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            outline: none;
+            transition: height 0.2s var(--transition-timing);
+        }
+        
+        #volume-slider:hover {
+            height: 6px;
+        }
+        
         #volume-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 12px;
-            height: 12px;
+            width: 0;
+            height: 0;
             border-radius: 50%;
             background: var(--primary-color);
-            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2);
+            transition: all 0.2s var(--transition-timing);
+            cursor: pointer;
         }
         
-        /* ===== СПИСОК ПЕСЕН ===== */
+        #volume-slider:hover::-webkit-slider-thumb {
+            width: 14px;
+            height: 14px;
+            box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.25);
+        }
+
+        /* КНОПКА ИЗБРАННОГО */
+        #main-favorite-btn {
+            margin-top: 5px;
+            transition: all 0.4s var(--transition-timing);
+            position: relative;
+        }
+        
+        #main-favorite-btn.favorited {
+            color: #FF2D55; /* iOS Red/Pink */
+            transform: scale(1.1);
+        }
+        
+        #main-favorite-btn.favorited i {
+            text-shadow: 0 0 15px rgba(255, 45, 85, 0.6);
+            filter: drop-shadow(0 0 5px rgba(255, 45, 85, 0.4));
+        }
+        
+        /* ЭФФЕКТ ПУЛЬСАЦИИ ДЛЯ ИЗБРАННОГО */
+        @keyframes pulse-favorite {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .favorite-pulse {
+            animation: pulse-favorite 0.5s var(--transition-timing);
+        }
+
+        /* ===== СПИСОК ПЕСЕН iOS СТИЛЬ ===== */
+        .playlist-header {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+            padding-left: 4px;
+            letter-spacing: -0.3px;
+            background: linear-gradient(90deg, #fff 0%, #d1d1d6 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .playlist-items {
+            max-height: 50vh;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-right: 4px;
+        }
+        
+        .playlist-items::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .playlist-items::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 2px;
+        }
+        
+        .playlist-items::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+        }
+
+        .playlist-author-header {
+            font-size: 0.95rem;
+            color: var(--tertiary-text);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 20px 0 12px 4px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
         .playlist-item {
             display: flex;
             align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 16px 12px;
+            border-radius: 12px;
             cursor: pointer;
-            transition: background 0.1s, transform 0.1s; /* Добавлен transform для гибкости */
-        }
-
-        .playlist-item:last-child {
-            border-bottom: none;
+            transition: var(--ios-transition);
+            margin-bottom: 4px;
+            position: relative;
+            overflow: hidden;
         }
         
-        .playlist-item:active {
-            background: rgba(255, 255, 255, 0.1);
-            transform: scale(0.98); /* Небольшой эффект нажатия */
+        .playlist-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                rgba(0, 122, 255, 0) 0%,
+                rgba(0, 122, 255, 0.05) 50%,
+                rgba(0, 122, 255, 0) 100%);
+            transform: translateX(-100%);
+            transition: transform 0.6s var(--transition-timing);
+        }
+        
+        .playlist-item:hover::before {
+            transform: translateX(100%);
         }
 
+        .playlist-item:active {
+            background: rgba(255, 255, 255, 0.05);
+            transform: scale(0.99);
+            transition-duration: 0.1s;
+        }
+
+        .playlist-item.playing {
+            background: rgba(0, 122, 255, 0.08);
+            border: 1px solid rgba(0, 122, 255, 0.15);
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.1);
+        }
+        
         .playlist-item.playing .item-title {
             color: var(--accent-color);
             font-weight: 600;
         }
         
+        .item-index {
+            font-size: 0.9rem;
+            color: var(--tertiary-text);
+            font-variant-numeric: tabular-nums;
+            min-width: 28px;
+            font-weight: 500;
+        }
+        
         .item-details {
             flex-grow: 1;
             padding: 0 15px;
-            /* Обеспечиваем, что при длинном названии не будет проблем */
-            min-width: 0; 
+            min-width: 0;
         }
         
-        /* ===== ТЕКСТ ПЕСНИ (МОДАЛЬНОЕ ОКНО) - АНИМАЦИЯ ===== */
+        .item-title {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: var(--text-color);
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: color 0.2s var(--transition-timing);
+        }
+        
+        .item-author {
+            font-size: 0.85rem;
+            color: var(--secondary-text);
+        }
+        
+        .item-duration {
+            font-size: 0.85rem;
+            color: var(--tertiary-text);
+            font-variant-numeric: tabular-nums;
+            min-width: 40px;
+            text-align: right;
+            font-weight: 500;
+        }
+
+        /* ===== ТЕКСТ ПЕСНИ (iOS МОДАЛЬНОЕ) ===== */
         .lyrics-modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            z-index: 100;
-            display: none;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            z-index: 2000;
+            display: flex;
             justify-content: center;
             align-items: flex-end;
             opacity: 0;
-            transition: opacity 0.3s ease; /* Плавное появление фона */
+            pointer-events: none;
+            transition: opacity 0.4s var(--transition-timing);
         }
         
         .lyrics-modal.show {
-            display: flex;
             opacity: 1;
+            pointer-events: all;
         }
 
         .lyrics-content-card {
             width: 100%;
             max-width: 500px;
-            height: 80%;
-            background: var(--glass-bg);
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
-            padding: 30px 20px;
+            height: 85%;
+            background: linear-gradient(180deg, 
+                rgba(40, 40, 40, 0.9) 0%,
+                rgba(28, 28, 30, 0.95) 100%);
+            border-top-left-radius: 28px;
+            border-top-right-radius: 28px;
+            padding: 30px 24px;
+            padding-bottom: calc(30px + var(--safe-area-inset-bottom));
             overflow-y: auto;
             position: relative;
             transform: translateY(100%);
-            transition: transform 0.3s ease-out; /* Плавное движение вверх */
+            transition: transform 0.5s var(--transition-timing);
+            box-shadow: 0 -10px 60px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: none;
         }
         
         .lyrics-modal.show .lyrics-content-card {
              transform: translateY(0);
         }
         
+        .lyrics-drag-handle {
+            width: 36px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
         .lyrics-close-btn {
-            position: sticky;
-            top: 0;
-            float: right;
-            background: var(--accent-color); /* Изменен цвет для лучшей видимости */
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 10px;
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 14px;
+            border-radius: 12px;
             cursor: pointer;
             z-index: 10;
-            transition: transform var(--transition-speed);
+            transition: var(--ios-transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .lyrics-close-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.05);
         }
         
         .lyrics-close-btn:active {
-            transform: scale(0.9);
+            transform: scale(0.95);
+            transition-duration: 0.1s;
         }
         
-        /* ===== ДРОПДАУН ЯЗЫКА ===== */
+        #lyrics-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 40px 0 20px;
+            color: var(--text-color);
+            line-height: 1.3;
+        }
+        
+        #lyrics-text {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--secondary-text);
+            white-space: pre-line;
+            padding-bottom: 40px;
+        }
+        
+        #lyrics-text::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        #lyrics-text::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 2px;
+        }
+        
+        #lyrics-text::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+        }
+
+        /* ===== ДРОПДАУН ЯЗЫКА iOS ===== */
         .lang-dropdown {
             position: absolute;
-            top: 100%;
+            top: calc(100% + 8px);
             right: 0;
-            z-index: 10;
-            padding: 10px;
-            min-width: 150px;
+            z-index: 100;
+            min-width: 180px;
             display: none;
+            animation: dropdown-appear 0.3s var(--transition-timing);
+            box-shadow: 
+                0 10px 40px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.05);
+        }
+        
+        @keyframes dropdown-appear {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .lang-option {
-            padding: 8px 12px;
-            border-radius: 8px;
+            padding: 14px 16px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: var(--ios-transition);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+        }
+        
+        .lang-option:not(:last-child) {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
         
         .lang-option:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
         }
         
         .lang-option.active {
-            background: rgba(0, 122, 255, 0.2);
+            background: rgba(0, 122, 255, 0.1);
             color: var(--accent-color);
         }
         
+        .lang-flag {
+            font-size: 1.2rem;
+        }
+
+        /* ===== АДАПТИВНЫЕ СТИЛИ ДЛЯ МОБИЛЬНЫХ ===== */
+        @media (max-width: 480px) {
+            .mobile-container {
+                padding: 0 14px 30px;
+                margin-top: calc(var(--status-bar-height) + 12px);
+            }
+            
+            .glass-card {
+                padding: 20px;
+                border-radius: 20px;
+            }
+            
+            .cover-art-container {
+                max-width: 280px;
+                height: 280px;
+            }
+            
+            .control-btn {
+                width: 48px;
+                height: 48px;
+            }
+            
+            .control-btn.play-pause {
+                width: 68px;
+                height: 68px;
+            }
+            
+            #current-track-title {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .mobile-container {
+                padding: 0 12px 25px;
+            }
+            
+            .cover-art-container {
+                max-width: 260px;
+                height: 260px;
+            }
+            
+            .logo-title {
+                font-size: 1.4rem;
+            }
+            
+            .logo-title i {
+                font-size: 1.6rem;
+            }
+            
+            .control-btn {
+                width: 44px;
+                height: 44px;
+                font-size: 1rem;
+            }
+            
+            .control-btn.play-pause {
+                width: 64px;
+                height: 64px;
+                font-size: 1.4rem;
+            }
+        }
+
+        /* ===== LOADING STATES ===== */
+        .loading-spinner {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            z-index: 5;
+        }
+        
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        .cover-art-container.loading .loading-spinner {
+            display: block;
+        }
+
+        /* ===== iOS HOME INDICATOR ===== */
+        .home-indicator {
+            position: fixed;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 134px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 3px;
+            z-index: 9999;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
+
+    <!-- iOS Status Bar -->
+    <div class="ios-status-bar">
+        <div class="ios-left-icons">
+            <i class="fas fa-signal"></i>
+        </div>
+        <div class="ios-time" id="current-time-display">9:41</div>
+        <div class="ios-right-icons">
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
 
     <div class="mobile-container">
         
@@ -451,11 +1046,21 @@
                 </button>
                 
                 <div class="glass-card lang-dropdown" id="lang-dropdown">
-                    <div class="lang-option" onclick="switchLanguage('kk', event)">🇰🇿 Қазақша</div>
-                    <div class="lang-option active" onclick="switchLanguage('ru', event)">🇷🇺 Русский</div>
-                    <div class="lang-option" onclick="switchLanguage('en', event)">🇺🇸 English</div>
-                    <div class="lang-option" onclick="switchLanguage('fr', event)">🇫🇷 Français</div>
-                    <div class="lang-option" onclick="switchLanguage('zh', event)">🇨🇳 简体中文</div>
+                    <div class="lang-option" onclick="switchLanguage('kk', event)">
+                        <span class="lang-flag">🇰🇿</span> Қазақша
+                    </div>
+                    <div class="lang-option active" onclick="switchLanguage('ru', event)">
+                        <span class="lang-flag">🇷🇺</span> Русский
+                    </div>
+                    <div class="lang-option" onclick="switchLanguage('en', event)">
+                        <span class="lang-flag">🇺🇸</span> English
+                    </div>
+                    <div class="lang-option" onclick="switchLanguage('fr', event)">
+                        <span class="lang-flag">🇫🇷</span> Français
+                    </div>
+                    <div class="lang-option" onclick="switchLanguage('zh', event)">
+                        <span class="lang-flag">🇨🇳</span> 简体中文
+                    </div>
                 </div>
             </div>
         </div>
@@ -464,12 +1069,19 @@
             
             <audio id="global-audio-player" src="" preload="metadata"></audio>
 
-            <div class="cover-art" id="cover-art-container">
+            <div class="cover-art-container" id="cover-art-container">
+                <div class="loading-spinner"></div>
                 <div class="gesture-indicator" id="gesture-indicator">
-                    <i class="fas fa-arrow-left gesture-arrow"></i>
-                    <i class="fas fa-arrow-right gesture-arrow"></i>
+                    <div class="gesture-hint">
+                        <div class="gesture-arrows">
+                            <i class="fas fa-arrow-left gesture-arrow left-arrow"></i>
+                            <i class="fas fa-arrow-right gesture-arrow right-arrow"></i>
+                        </div>
+                        <div class="gesture-text" data-lang-key="swipeHint">Свайп влево/вправо для переключения треков</div>
+                        <div class="gesture-text" data-lang-key="doubleTapHint">Двойной тап для паузы/воспроизведения</div>
+                    </div>
                 </div>
-                <img id="track-cover" src="" alt="Track Cover" style="display: block;">
+                <img id="track-cover" class="cover-art" src="" alt="Track Cover">
             </div>
 
             <div class="track-info">
@@ -496,12 +1108,12 @@
             </div>
             
             <div class="volume-container">
-                <i class="fas fa-volume-down"></i>
+                <i class="fas fa-volume-down volume-icon"></i>
                 <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="1">
-                <i class="fas fa-volume-up"></i>
+                <i class="fas fa-volume-up volume-icon"></i>
             </div>
             
-            <button class="control-btn" id="main-favorite-btn" onclick="toggleFavorite()" style="margin-top: 10px;">
+            <button class="control-btn" id="main-favorite-btn" onclick="toggleFavorite()">
                  <i class="far fa-heart"></i>
             </button>
             
@@ -510,13 +1122,19 @@
         <div class="glass-card">
             <h3 class="playlist-header" data-lang-key="songsList">Список песен</h3>
             <div id="main-playlist-items" class="playlist-items">
-                </div>
+                <!-- Динамически заполняется -->
+            </div>
         </div>
 
     </div>
 
+    <!-- iOS Home Indicator -->
+    <div class="home-indicator"></div>
+
+    <!-- Lyrics Modal -->
     <div class="lyrics-modal" id="lyrics-modal" onclick="closeLyricsModal()">
         <div class="lyrics-content-card" onclick="event.stopPropagation()">
+            <div class="lyrics-drag-handle"></div>
             <button class="lyrics-close-btn" onclick="closeLyricsModal()">
                 <i class="fas fa-times"></i>
             </button>
@@ -525,768 +1143,900 @@
         </div>
     </div>
 
+    <script>
+        // ===================================================
+        // ИНИЦИАЛИЗАЦИЯ И ДАННЫЕ
+        // ===================================================
 
-<script>
-    // ===================================================
-    // ДАННЫЕ И ИНИЦИАЛИЗАЦИЯ
-    // ===================================================
-
-    // Определяем текущий язык (по умолчанию Русский)
-    let currentLanguage = localStorage.getItem('language') || 'ru';
-    let currentTrackIndex = -1;
-    let favorites = JSON.parse(localStorage.getItem('audioPlayerFavorites')) || [];
-    
-    // Для жестов
-    let touchStartX = 0;
-    let touchStartY = 0;
-    let touchEndX = 0;
-    let touchEndY = 0;
-    let lastTapTime = 0;
-    let doubleTapTimeout = null;
-    
-    // ПЕРЕВОДЫ (УЧАСТОК С НОВЫМИ ИЗМЕНЕНИЯМИ)
-    const translations = {
-        ru: {
-            "title": "UMIT Плеер",
-            "selectTrack": "Выберите трек",
-            "lyrics": "Текст песни",
-            "songsList": "Список песен",
-            "song1": "Орта жүз",
-            "song2": "Жарылғап батыр",
-            "song3": "Тегімнің рухы",
-            "song4": "Қалжыр",
-            "song5": "Қалжыр2",
-            "song6": "Wedding_fog",
-            "song7": "Wedding_fog2",
-            "song8": "Along_the_roads",
-            "song9": "Көктем",
-            "song10": "Туған туыс бақытым",
-            "song11": "Анашым", // ДОБАВЛЕН НОВЫЙ ТРЕК
-            "added": "Добавлено!",
-            "removed": "Удалено!",
-            "lyricsTitle": "Текст песни: ",
-            "author1": "Қабыкенов Сағыныш",
-            "author2": "Рамазанов Төреғали",
-            "swipeHint": "Свайп влево/вправо для переключения треков",
-            "doubleTapHint": "Двойной тап для паузы/воспроизведения"
-        },
-        kk: {
-            "title": "UMIT Плеєрі",
-            "selectTrack": "Тректі таңдаңыз",
-            "lyrics": "Мәтін",
-            "songsList": "Өлеңдер Тізімі:",
-            "song1": "Орта жүз",
-            "song2": "Жарылғап батыр",
-            "song3": "Тегімнің рухы",
-            "song4": "Қалжыр",
-            "song5": "Қалжыр2",
-            "song6": "Wedding_fog",
-            "song7": "Wedding_fog2",
-            "song8": "Along_the_roads",
-            "song9": "Көктем",
-            "song10": "Туған туыс бақытым",
-            "song11": "Анашым", // ДОБАВЛЕН НОВЫЙ ТРЕК
-            "added": "Қосылды!",
-            "removed": "Жойылды!",
-            "lyricsTitle": "Ән мәтіні: ",
-            "author1": "Қабыкенов Сағыныш",
-            "author2": "Рамазанов Төреғали",
-            "swipeHint": "Тректерді ауыстыру үшін солға/оңға сырғытыңыз",
-            "doubleTapHint": "Тоқтату/жалғастыру үшін екі рет түртіңіз"
-        },
-        en: {
-            "title": "UMIT Player",
-            "selectTrack": "Select a track",
-            "lyrics": "Lyrics",
-            "songsList": "Songs List:",
-            "song1": "Middle Zhuz",
-            "song2": "Zharylghap Batyr",
-            "song3": "Spirit of My Lineage",
-            "song4": "Kalzhyr",
-            "song5": "Kalzhyr2",
-            "song6": "Wedding_fog",
-            "song7": "Wedding_fog2",
-            "song8": "Along_the_roads",
-            "song9": "Spring",
-            "song10": "My Native Happiness",
-            "song11": "Anashym", // ДОБАВЛЕН НОВЫЙ ТРЕК
-            "added": "Added!",
-            "removed": "Removed!",
-            "lyricsTitle": "Lyrics for: ",
-            "author1": "Kabikenov Sagynysh",
-            "author2": "Ramazanov Toreghali",
-            "swipeHint": "Swipe left/right to switch tracks",
-            "doubleTapHint": "Double tap to pause/play"
-        },
-        fr: {
-            "title": "UMIT Lecteur",
-            "selectTrack": "Sélectionnez une piste",
-            "lyrics": "Paroles",
-            "songsList": "Liste des Chansons:",
-            "song1": "Juz du Milieu",
-            "song2": "Zharylghap Batyr",
-            "song3": "Esprit de Ma Lignée",
-            "song4": "Kalzhyr",
-            "song5": "Kalzhyr2",
-            "song6": "Wedding_fog",
-            "song7": "Wedding_fog2",
-            "song8": "Along_the_roads",
-            "song9": "Printemps",
-            "song10": "Mon Bonheur Natal",
-            "song11": "Anashym", // ДОБАВЛЕН НОВЫЙ ТРЕК
-            "added": "Ajouté!",
-            "removed": "Supprimé!",
-            "lyricsTitle": "Paroles de: ",
-            "author1": "Kabikenov Sagynysh",
-            "author2": "Ramazanov Toreghali",
-            "swipeHint": "Glissez à gauche/droite pour changer de piste",
-            "doubleTapHint": "Double tapez pour mettre en pause/jouer"
-        },
-        zh: {
-            "title": "UMIT 播放器",
-            "selectTrack": "选择曲目",
-            "lyrics": "歌词",
-            "songsList": "歌曲列表:",
-            "song1": "中玉兹",
-            "song2": "扎里尔哈普·巴蒂尔",
-            "song3": "我的血统精神",
-            "song4": "卡尔日尔",
-            "song5": "卡尔日尔2",
-            "song6": "Wedding_fog",
-            "song7": "Wedding_fog2",
-            "song8": "Along_the_roads",
-            "song9": "春天",
-            "song10": "我的原生幸福",
-            "song11": "阿纳希姆", // ДОБАВЛЕН НОВЫЙ ТРЕК
-            "added": "已添加!",
-            "removed": "已删除!",
-            "lyricsTitle": "歌词: ",
-            "author1": "Кабыкенов Сагыныш",
-            "author2": "拉马扎诺夫·托雷加利",
-            "swipeHint": "向左/右滑动切换曲目",
-            "doubleTapHint": "双击暂停/播放"
-        }
-    };
-
-    // МУЗЫКАЛЬНЫЕ ТРЕКИ (УЧАСТОК С НОВЫМИ ИЗМЕНЕНИЯМИ)
-    const tracks = [
-        // Треки от Қабыкенов Сағыныш (1-8)
-        { 
-            titleKey: "song1", 
-            src: "orta_juz_audio.mp3",
-            cover: "orta_juz.jpg", 
-            id: 0, 
-            author: "author1", 
-            lyrics: "Текст песни 1 (Орта жүз) \n\n" 
-        },
-        { 
-            titleKey: "song2", 
-            src: "jarylgap_batyr_audio.mp3",
-            cover: "jarylgap_batyr.jpg", 
-            id: 1, 
-            author: "author1", 
-            lyrics: "Текст песни 2 (Жарылғап батыр) \n\n" 
-        },
-        { 
-            titleKey: "song3", 
-            src: "tegimnin_ruhy_audio.mp3",
-            cover: "tegimnin_ruhy.jpg", 
-            id: 2, 
-            author: "author1", 
-            lyrics: "Текст песни 3 (Тегімнің рухы) \n\n" 
-        },
-        { 
-            titleKey: "song4", 
-            src: "Kalzhyr.mp3",
-            cover: "Kalzhyr.jpg", 
-            id: 3, 
-            author: "author1", 
-            lyrics: "Текст песни 4 (Қалжыр) \n\n" 
-        },
-        { 
-            titleKey: "song5", 
-            src: "Kalzhyr2.mp3",
-            cover: "Kalzhyr2.jpg", 
-            id: 4, 
-            author: "author1", 
-            lyrics: "Текст песни 5 (Қалжыр2) \n\n" 
-        },
-        { 
-            titleKey: "song6", 
-            src: "Wedding_fog.mp3",
-            cover: "Wedding_fog.jpg", 
-            id: 5, 
-            author: "author1", 
-            lyrics: "Текст песни 6 (Wedding_fog) \n\n" 
-        },
-        { 
-            titleKey: "song7", 
-            src: "Wedding_fog2.mp3",
-            cover: "Wedding_fog2.jpg", 
-            id: 6, 
-            author: "author1", 
-            lyrics: "Текст песни 7 (Wedding_fog2) \n\n" 
-        },
-        { 
-            titleKey: "song8", 
-            src: "Along_the_roads.mp3",
-            cover: "Along_the_roads.jpg", 
-            id: 7, 
-            author: "author1", 
-            lyrics: "Текст песни 8 (Along_the_roads) \n\n" 
-        },
-        // НОВЫЙ ТРЕК "Анашым" добавлен в конец раздела Кабыкенов Сағыныш
-        { 
-            titleKey: "song11", 
-            src: "Anashym.mp3",
-            cover: "Anashym.jpg", 
-            id: 8, 
-            author: "author1", 
-            lyrics: "Анашым, анашым, сен менің анашым\nКүнделікті өмірдегі арманым\nАнашым, анашым, сен менің анашым\nҚазағымның гүлі, нұрым, жаным\n\n[Вставьте полный текст песни здесь]" 
-        },
-        // Треки от Рамазанов Төреғали (смещены на 1 позицию из-за нового трека)
-        { 
-            titleKey: "song9", 
-            src: "Koktem_audio.mp3",
-            cover: "Koktem.jpg", 
-            id: 9, 
-            author: "author2", 
-            lyrics: "Текст песни 9 (Көктем) \n\n" 
-        },
-        { 
-            titleKey: "song10", 
-            src: "Tuğan_tūyıs_baqytym.mp3",
-            cover: "Tūğan_tūyıs_baqytym.jpg", 
-            id: 10, 
-            author: "author2", 
-            lyrics: "Текст песни 10 (Туған туыс бақытым) \n\n" 
-        },
-    ];
-
-
-    // ===================================================
-    // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
-    // ===================================================
-
-    function formatTime(seconds) {
-        if (isNaN(seconds) || seconds < 0) return "0:00";
-        const minutes = Math.floor(seconds / 60);
-        const remainingSeconds = Math.floor(seconds % 60);
-        return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
-    }
-
-    // ===================================================
-    // ЯЗЫК
-    // ===================================================
-
-    function switchLanguage(lang, event) {
-        currentLanguage = lang;
-        localStorage.setItem('language', lang);
+        // Текущее состояние
+        let currentLanguage = localStorage.getItem('language') || 'ru';
+        let currentTrackIndex = -1;
+        let favorites = JSON.parse(localStorage.getItem('audioPlayerFavorites')) || [];
+        let isPlaying = false;
         
-        // Обновление кнопок
-        document.querySelectorAll('.lang-dropdown .lang-option').forEach(option => {
-            option.classList.remove('active');
-        });
-        if (event && event.target.classList.contains('lang-option')) event.target.classList.add('active');
+        // Для жестов
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchEndX = 0;
+        let touchEndY = 0;
+        let lastTapTime = 0;
+        let doubleTapTimeout = null;
+        
+        // Обновление времени в статус-баре
+        function updateStatusBarTime() {
+            const now = new Date();
+            const timeString = now.getHours().toString().padStart(2, '0') + ':' + 
+                              now.getMinutes().toString().padStart(2, '0');
+            document.getElementById('current-time-display').textContent = timeString;
+        }
+        
+        // Запускаем обновление времени
+        updateStatusBarTime();
+        setInterval(updateStatusBarTime, 60000);
 
-        // Обновление текста
-        document.querySelectorAll('[data-lang-key]').forEach(element => {
-            const key = element.getAttribute('data-lang-key');
-            if (translations[lang] && translations[lang][key]) {
-                element.textContent = translations[lang][key];
+        // ПЕРЕВОДЫ
+        const translations = {
+            ru: {
+                "title": "UMIT Плеер",
+                "selectTrack": "Выберите трек",
+                "lyrics": "Текст песни",
+                "songsList": "Список песен",
+                "song1": "Орта жүз",
+                "song2": "Жарылғап батыр",
+                "song3": "Тегімнің рухы",
+                "song4": "Қалжыр",
+                "song5": "Қалжыр2",
+                "song6": "Wedding_fog",
+                "song7": "Wedding_fog2",
+                "song8": "Along_the_roads",
+                "song9": "Көктем",
+                "song10": "Туған туыс бақытым",
+                "song11": "Анашым",
+                "added": "Добавлено!",
+                "removed": "Удалено!",
+                "lyricsTitle": "Текст песни: ",
+                "author1": "Қабыкенов Сағыныш",
+                "author2": "Рамазанов Төреғали",
+                "swipeHint": "Свайп влево/вправо для переключения треков",
+                "doubleTapHint": "Двойной тап для паузы/воспроизведения"
+            },
+            kk: {
+                "title": "UMIT Плеєрі",
+                "selectTrack": "Тректі таңдаңыз",
+                "lyrics": "Мәтін",
+                "songsList": "Өлеңдер Тізімі:",
+                "song1": "Орта жүз",
+                "song2": "Жарылғап батыр",
+                "song3": "Тегімнің рухы",
+                "song4": "Қалжыр",
+                "song5": "Қалжыр2",
+                "song6": "Wedding_fog",
+                "song7": "Wedding_fog2",
+                "song8": "Along_the_roads",
+                "song9": "Көктем",
+                "song10": "Туған туыс бақытым",
+                "song11": "Анашым",
+                "added": "Қосылды!",
+                "removed": "Жойылды!",
+                "lyricsTitle": "Ән мәтіні: ",
+                "author1": "Қабыкенов Сағыныш",
+                "author2": "Рамазанов Төреғали",
+                "swipeHint": "Тректерді ауыстыру үшін солға/оңға сырғытыңыз",
+                "doubleTapHint": "Тоқтату/жалғастыру үшін екі рет түртіңіз"
+            },
+            en: {
+                "title": "UMIT Player",
+                "selectTrack": "Select a track",
+                "lyrics": "Lyrics",
+                "songsList": "Songs List:",
+                "song1": "Middle Zhuz",
+                "song2": "Zharylghap Batyr",
+                "song3": "Spirit of My Lineage",
+                "song4": "Kalzhyr",
+                "song5": "Kalzhyr2",
+                "song6": "Wedding_fog",
+                "song7": "Wedding_fog2",
+                "song8": "Along_the_roads",
+                "song9": "Spring",
+                "song10": "My Native Happiness",
+                "song11": "Anashym",
+                "added": "Added!",
+                "removed": "Removed!",
+                "lyricsTitle": "Lyrics for: ",
+                "author1": "Kabikenov Sagynysh",
+                "author2": "Ramazanov Toreghali",
+                "swipeHint": "Swipe left/right to switch tracks",
+                "doubleTapHint": "Double tap to pause/play"
+            },
+            fr: {
+                "title": "UMIT Lecteur",
+                "selectTrack": "Sélectionnez une piste",
+                "lyrics": "Paroles",
+                "songsList": "Liste des Chansons:",
+                "song1": "Juz du Milieu",
+                "song2": "Zharylghap Batyr",
+                "song3": "Esprit de Ma Lignée",
+                "song4": "Kalzhyr",
+                "song5": "Kalzhyr2",
+                "song6": "Wedding_fog",
+                "song7": "Wedding_fog2",
+                "song8": "Along_the_roads",
+                "song9": "Printemps",
+                "song10": "Mon Bonheur Natal",
+                "song11": "Anashym",
+                "added": "Ajouté!",
+                "removed": "Supprimé!",
+                "lyricsTitle": "Paroles de: ",
+                "author1": "Kabikenov Sagynysh",
+                "author2": "Ramazanov Toreghali",
+                "swipeHint": "Glissez à gauche/droite pour changer de piste",
+                "doubleTapHint": "Double tapez pour mettre en pause/jouer"
+            },
+            zh: {
+                "title": "UMIT 播放器",
+                "selectTrack": "选择曲目",
+                "lyrics": "歌词",
+                "songsList": "歌曲列表:",
+                "song1": "中玉兹",
+                "song2": "扎里尔哈普·巴蒂尔",
+                "song3": "我的血统精神",
+                "song4": "卡尔日尔",
+                "song5": "卡尔日尔2",
+                "song6": "Wedding_fog",
+                "song7": "Wedding_fog2",
+                "song8": "Along_the_roads",
+                "song9": "春天",
+                "song10": "我的原生幸福",
+                "song11": "阿纳希姆",
+                "added": "已添加!",
+                "removed": "已删除!",
+                "lyricsTitle": "歌词: ",
+                "author1": "Кабыкенов Сагыныш",
+                "author2": "拉马扎诺夫·托雷加利",
+                "swipeHint": "向左/右滑动切换曲目",
+                "doubleTapHint": "双击暂停/播放"
             }
-        });
-        
-        // Обновление кнопки языка
-        const currentLangDisplay = document.getElementById('current-lang-text');
-        if (currentLangDisplay) {
-            // Устанавливаем отображаемое название языка (например, "Русский")
-            const langNameMap = {
-                'kk': 'Қазақша',
-                'ru': 'Русский',
-                'en': 'English',
-                'fr': 'Français',
-                'zh': '简体中文'
-            };
-            currentLangDisplay.textContent = langNameMap[lang] || 'Language';
+        };
+
+        // МУЗЫКАЛЬНЫЕ ТРЕКИ
+        const tracks = [
+            { 
+                titleKey: "song1", 
+                src: "orta_juz_audio.mp3",
+                cover: "orta_juz.jpg", 
+                id: 0, 
+                author: "author1", 
+                lyrics: "Текст песни 1 (Орта жүз) \n\n" 
+            },
+            { 
+                titleKey: "song2", 
+                src: "jarylgap_batyr_audio.mp3",
+                cover: "jarylgap_batyr.jpg", 
+                id: 1, 
+                author: "author1", 
+                lyrics: "Текст песни 2 (Жарылғап батыр) \n\n" 
+            },
+            { 
+                titleKey: "song3", 
+                src: "tegimnin_ruhy_audio.mp3",
+                cover: "tegimnin_ruhy.jpg", 
+                id: 2, 
+                author: "author1", 
+                lyrics: "Текст песни 3 (Тегімнің рухы) \n\n" 
+            },
+            { 
+                titleKey: "song4", 
+                src: "Kalzhyr.mp3",
+                cover: "Kalzhyr.jpg", 
+                id: 3, 
+                author: "author1", 
+                lyrics: "Текст песни 4 (Қалжыр) \n\n" 
+            },
+            { 
+                titleKey: "song5", 
+                src: "Kalzhyr2.mp3",
+                cover: "Kalzhyr2.jpg", 
+                id: 4, 
+                author: "author1", 
+                lyrics: "Текст песни 5 (Қалжыр2) \n\n" 
+            },
+            { 
+                titleKey: "song6", 
+                src: "Wedding_fog.mp3",
+                cover: "Wedding_fog.jpg", 
+                id: 5, 
+                author: "author1", 
+                lyrics: "Текст песни 6 (Wedding_fog) \n\n" 
+            },
+            { 
+                titleKey: "song7", 
+                src: "Wedding_fog2.mp3",
+                cover: "Wedding_fog2.jpg", 
+                id: 6, 
+                author: "author1", 
+                lyrics: "Текст песни 7 (Wedding_fog2) \n\n" 
+            },
+            { 
+                titleKey: "song8", 
+                src: "Along_the_roads.mp3",
+                cover: "Along_the_roads.jpg", 
+                id: 7, 
+                author: "author1", 
+                lyrics: "Текст песни 8 (Along_the_roads) \n\n" 
+            },
+            { 
+                titleKey: "song11", 
+                src: "Anashym.mp3",
+                cover: "Anashym.jpg", 
+                id: 8, 
+                author: "author1", 
+                lyrics: "Анашым, анашым, сен менің анашым\nКүнделікті өмірдегі арманым\nАнашым, анашым, сен менің анашым\nҚазағымның гүлі, нұрым, жаным\n\n[Вставьте полный текст песни здесь]" 
+            },
+            { 
+                titleKey: "song9", 
+                src: "Koktem_audio.mp3",
+                cover: "Koktem.jpg", 
+                id: 9, 
+                author: "author2", 
+                lyrics: "Текст песни 9 (Көктем) \n\n" 
+            },
+            { 
+                titleKey: "song10", 
+                src: "Tuğan_tūyıs_baqytym.mp3",
+                cover: "Tūğan_tūyıs_baqytym.jpg", 
+                id: 10, 
+                author: "author2", 
+                lyrics: "Текст песни 10 (Туған туыс бақытым) \n\n" 
+            },
+        ];
+
+        // ===================================================
+        // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+        // ===================================================
+
+        function formatTime(seconds) {
+            if (isNaN(seconds) || seconds < 0) return "0:00";
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = Math.floor(seconds % 60);
+            return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
         }
-        
-        // Перерисовываем список треков, чтобы обновить названия и заголовки авторов
-        updateTrackList();
-        
-        // Если трек выбран, обновляем его заголовок и автора
-        if (currentTrackIndex !== -1) {
-            const track = tracks[currentTrackIndex];
-            document.getElementById('current-track-title').textContent = translations[currentLanguage][track.titleKey];
-            document.getElementById('current-track-author').textContent = translations[currentLanguage][track.author];
-        } else {
-             document.getElementById('current-track-title').textContent = translations[currentLanguage].selectTrack;
-             // Обновление автора на UMIT Project после смены языка
-             document.getElementById('current-track-author').textContent = "UMIT Project"; 
+
+        function showNotification(message) {
+            // Создаем уведомление
+            const notification = document.createElement('div');
+            notification.className = 'glass-card';
+            notification.style.position = 'fixed';
+            notification.style.top = '80px';
+            notification.style.left = '50%';
+            notification.style.transform = 'translateX(-50%)';
+            notification.style.zIndex = '9999';
+            notification.style.padding = '12px 20px';
+            notification.style.minWidth = '200px';
+            notification.style.textAlign = 'center';
+            notification.style.opacity = '0';
+            notification.style.transition = 'opacity 0.3s, transform 0.3s';
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Анимация появления
+            setTimeout(() => {
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateX(-50%) translateY(0)';
+            }, 10);
+            
+            // Автоматическое скрытие через 2 секунды
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(-50%) translateY(-10px)';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 2000);
         }
-        
-        closeLangDropdown();
-    }
-    
-    function toggleLangDropdown(event) {
-        if (event) event.stopPropagation();
-        const dropdown = document.getElementById('lang-dropdown');
-        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-    }
-    
-    function closeLangDropdown() {
-        document.getElementById('lang-dropdown').style.display = 'none';
-    }
-    
-    // Закрытие дропдауна при клике вне его
-    document.addEventListener('click', function(event) {
-        const dropdown = document.getElementById('lang-dropdown');
-        const langBtn = document.getElementById('lang-btn');
-        if (dropdown && dropdown.style.display === 'block' && !dropdown.contains(event.target) && (!langBtn || !langBtn.contains(event.target))) {
+
+        // ===================================================
+        // СИСТЕМА ЯЗЫКОВ
+        // ===================================================
+
+        function switchLanguage(lang, event) {
+            currentLanguage = lang;
+            localStorage.setItem('language', lang);
+            
+            // Обновление активного элемента в выпадающем списке
+            document.querySelectorAll('.lang-dropdown .lang-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            if (event && event.target.classList.contains('lang-option')) {
+                event.target.classList.add('active');
+            } else if (event && event.target.closest('.lang-option')) {
+                event.target.closest('.lang-option').classList.add('active');
+            }
+            
+            // Обновление текста на странице
+            document.querySelectorAll('[data-lang-key]').forEach(element => {
+                const key = element.getAttribute('data-lang-key');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            
+            // Обновление кнопки языка
+            const currentLangDisplay = document.getElementById('current-lang-text');
+            if (currentLangDisplay) {
+                const langNameMap = {
+                    'kk': 'Қазақша',
+                    'ru': 'Русский',
+                    'en': 'English',
+                    'fr': 'Français',
+                    'zh': '简体中文'
+                };
+                currentLangDisplay.textContent = langNameMap[lang] || 'Language';
+            }
+            
+            // Перерисовываем список треков
+            updateTrackList();
+            
+            // Если трек выбран, обновляем его заголовок и автора
+            if (currentTrackIndex !== -1) {
+                const track = tracks[currentTrackIndex];
+                document.getElementById('current-track-title').textContent = translations[currentLanguage][track.titleKey];
+                document.getElementById('current-track-author').textContent = translations[currentLanguage][track.author];
+            } else {
+                 document.getElementById('current-track-title').textContent = translations[currentLanguage].selectTrack;
+                 document.getElementById('current-track-author').textContent = "UMIT Project"; 
+            }
+            
             closeLangDropdown();
         }
-    });
-
-    // ===================================================
-    // СПИСОК ТРЕКОВ (ПЕРЕРИСОВКА)
-    // ===================================================
-
-    function updateTrackList() {
-        const playlistContainer = document.getElementById('main-playlist-items');
-        playlistContainer.innerHTML = '';
-
-        let currentAuthorKey = null;
-
-        tracks.forEach((track, index) => {
-            const authorKey = track.author;
-            
-            // Если автор изменился или это первый трек, добавляем заголовок автора
-            if (authorKey !== currentAuthorKey) {
-                const authorTitle = translations[currentLanguage][authorKey];
-                const authorHeader = document.createElement('h4');
-                authorHeader.className = 'playlist-author-header';
-                authorHeader.textContent = authorTitle;
-                playlistContainer.appendChild(authorHeader);
-                currentAuthorKey = authorKey;
+        
+        function toggleLangDropdown(event) {
+            if (event) event.stopPropagation();
+            const dropdown = document.getElementById('lang-dropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+        
+        function closeLangDropdown() {
+            document.getElementById('lang-dropdown').style.display = 'none';
+        }
+        
+        // Закрытие дропдауна при клике вне его
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('lang-dropdown');
+            const langBtn = document.getElementById('lang-btn');
+            if (dropdown && dropdown.style.display === 'block' && !dropdown.contains(event.target) && (!langBtn || !langBtn.contains(event.target))) {
+                closeLangDropdown();
             }
-
-            const trackTitle = translations[currentLanguage][track.titleKey];
-            const item = document.createElement('div');
-            item.className = 'playlist-item';
-            if (index === currentTrackIndex) {
-                item.classList.add('playing');
-            }
-            
-            // Имитация длительности, т.к. аудио не загружено
-            const durationPlaceholder = index % 3 === 0 ? "3:49" : (index % 3 === 1 ? "2:34" : "2:16");
-            
-            item.innerHTML = `
-                <div class="item-index">${index + 1}</div>
-                <div class="item-details" onclick="loadTrack(${index})">
-                    <div class="item-title">${trackTitle}</div>
-                </div>
-                <div class="item-duration">${durationPlaceholder}</div>
-                <button class="control-btn" style="width: 40px; height: 40px; margin-left: 10px;" onclick="openLyricsModal(${index}, event)">
-                    <i class="fas fa-file-lines"></i>
-                </button>
-            `;
-            
-            playlistContainer.appendChild(item);
         });
-    }
 
+        // ===================================================
+        // СПИСОК ТРЕКОВ
+        // ===================================================
 
-    // ===================================================
-    // АУДИО ПЛЕЕР И АНИМАЦИЯ
-    // ===================================================
-    
-    const audioPlayer = document.getElementById('global-audio-player');
-    const playBtn = document.getElementById('main-play-btn');
-    const playIcon = playBtn ? playBtn.querySelector('i') : null;
-    const trackTitleDisplay = document.getElementById('current-track-title');
-    const trackAuthorDisplay = document.getElementById('current-track-author');
-    const coverImage = document.getElementById('track-cover');
-    const coverArtContainer = document.getElementById('cover-art-container');
-    const volumeSlider = document.getElementById('volume-slider');
-    const progressBar = document.getElementById('progress-bar');
-    const currentTimeDisplay = document.getElementById('current-time');
-    const durationDisplay = document.getElementById('duration');
-    const mainFavBtn = document.getElementById('main-favorite-btn');
+        function updateTrackList() {
+            const playlistContainer = document.getElementById('main-playlist-items');
+            playlistContainer.innerHTML = '';
 
-    // Новая функция для управления анимацией обложки
-    function updateCoverArtAnimation(isPlaying) {
-         if (coverArtContainer) {
-            if (isPlaying) {
-                coverArtContainer.classList.add('playing');
-            } else {
-                coverArtContainer.classList.remove('playing');
-            }
-        }
-    }
+            let currentAuthorKey = null;
 
-    function loadTrack(index) {
-        if (index === currentTrackIndex) {
-            togglePlay(); // Если нажали на текущий трек, просто переключаем воспроизведение
-            return;
-        }
-
-        currentTrackIndex = index;
-        const track = tracks[index];
-        const authorName = translations[currentLanguage][track.author];
-        
-        // Обновление данных
-        audioPlayer.src = track.src;
-        trackTitleDisplay.textContent = translations[currentLanguage][track.titleKey];
-        trackAuthorDisplay.textContent = authorName; // Устанавливаем имя автора
-        coverImage.src = track.cover;
-        
-        // Сброс и запуск
-        audioPlayer.load();
-        audioPlayer.play();
-        
-        // Обновление интерфейса и анимации
-        updatePlayButton(true);
-        updateTrackList();
-        updateFavoriteButton();
-        
-        // Показываем подсказку о жестах при первой загрузке
-        if (!localStorage.getItem('gestureHintShown')) {
-            showGestureHint();
-            localStorage.setItem('gestureHintShown', 'true');
-        }
-    }
-
-    function togglePlay() {
-        if (currentTrackIndex === -1) {
-            loadTrack(0); // Загружаем первый трек, если ничего не выбрано
-            return;
-        }
-        
-        if (audioPlayer.paused) {
-            audioPlayer.play();
-            updatePlayButton(true);
-        } else {
-            audioPlayer.pause();
-            updatePlayButton(false);
-        }
-    }
-    
-    function updatePlayButton(isPlaying) {
-        if (playIcon) {
-            playIcon.className = isPlaying ? 'fas fa-pause' : 'fas fa-play';
-        }
-        updateCoverArtAnimation(isPlaying); // Управление анимацией
-    }
-
-    function playNext() {
-        if (currentTrackIndex === -1) {
-            loadTrack(0);
-            return;
-        }
-        let nextIndex = currentTrackIndex + 1;
-        if (nextIndex >= tracks.length) nextIndex = 0;
-        loadTrack(nextIndex);
-    } 
-
-    function playPrevious() {
-        if (currentTrackIndex === -1) {
-            loadTrack(tracks.length - 1); // Начать с последнего, если ничего не выбрано
-            return;
-        }
-        if (audioPlayer.currentTime < 3 && currentTrackIndex > 0) {
-            let prevIndex = currentTrackIndex - 1;
-            loadTrack(prevIndex);
-        } else {
-            audioPlayer.currentTime = 0; // Начать сначала, если проиграно > 3 секунд
-        }
-    }
-    
-    // ===================================================
-    // ИЗБРАННОЕ
-    // ===================================================
-
-    function toggleFavorite() {
-        if (currentTrackIndex === -1) return;
-        const trackId = tracks[currentTrackIndex].id;
-        const index = favorites.indexOf(trackId);
-
-        if (index === -1) {
-            favorites.push(trackId);
-        } else {
-            favorites.splice(index, 1);
-        }
-        
-        localStorage.setItem('audioPlayerFavorites', JSON.stringify(favorites));
-        updateFavoriteButton();
-    }
-    
-    function updateFavoriteButton() {
-        if (!mainFavBtn) return;
-        
-        if (currentTrackIndex === -1) {
-             mainFavBtn.querySelector('i').className = 'far fa-heart';
-             mainFavBtn.style.color = 'var(--text-color)';
-             return;
-        }
-        const trackId = tracks[currentTrackIndex].id;
-        const isFavorited = favorites.includes(trackId);
-        
-        mainFavBtn.querySelector('i').className = isFavorited ? 'fas fa-heart' : 'far fa-heart';
-        mainFavBtn.style.color = isFavorited ? 'var(--accent-color)' : 'var(--text-color)';
-    }
-
-    // ===================================================
-    // КАСТОМНЫЕ ЖЕСТЫ
-    // ===================================================
-    
-    function initGestureControls() {
-        const cover = document.getElementById('cover-art-container');
-        const gestureIndicator = document.getElementById('gesture-indicator');
-        
-        // Обработчик начала касания
-        cover.addEventListener('touchstart', function(e) {
-            touchStartX = e.touches[0].clientX;
-            touchStartY = e.touches[0].clientY;
-            
-            // Для двойного тапа
-            const currentTime = new Date().getTime();
-            const tapLength = currentTime - lastTapTime;
-            
-            if (tapLength < 300 && tapLength > 0) {
-                // Двойной тап обнаружен
-                clearTimeout(doubleTapTimeout);
-                togglePlay();
+            tracks.forEach((track, index) => {
+                const authorKey = track.author;
                 
-                // Визуальная обратная связь
-                cover.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    cover.style.transform = 'scale(1)';
-                }, 150);
-            }
-            
-            lastTapTime = currentTime;
-        }, { passive: true });
-        
-        // Обработчик перемещения (для визуальной обратной связи)
-        cover.addEventListener('touchmove', function(e) {
-            if (!touchStartX) return;
-            
-            const touchX = e.touches[0].clientX;
-            const diffX = touchX - touchStartX;
-            
-            // Небольшой визуальный эффект при свайпе
-            if (Math.abs(diffX) > 10) {
-                cover.style.transform = `translateX(${diffX * 0.2}px)`;
-            }
-        }, { passive: true });
-        
-        // Обработчик окончания касания
-        cover.addEventListener('touchend', function(e) {
-            if (!touchStartX) return;
-            
-            touchEndX = e.changedTouches[0].clientX;
-            touchEndY = e.changedTouches[0].clientY;
-            
-            const diffX = touchEndX - touchStartX;
-            const diffY = touchEndY - touchStartY;
-            
-            // Сброс трансформации
-            cover.style.transform = 'translateX(0)';
-            
-            // Определяем свайп (горизонтальный с минимальной дистанцией 50px)
-            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
-                if (diffX > 0) {
-                    // Свайп вправо - предыдущий трек
-                    playPrevious();
-                    
-                    // Визуальная обратная связь
-                    showSwipeFeedback('right');
-                } else {
-                    // Свайп влево - следующий трек
-                    playNext();
-                    
-                    // Визуальная обратная связь
-                    showSwipeFeedback('left');
+                // Если автор изменился или это первый трек, добавляем заголовок автора
+                if (authorKey !== currentAuthorKey) {
+                    const authorTitle = translations[currentLanguage][authorKey];
+                    const authorHeader = document.createElement('h4');
+                    authorHeader.className = 'playlist-author-header';
+                    authorHeader.textContent = authorTitle;
+                    playlistContainer.appendChild(authorHeader);
+                    currentAuthorKey = authorKey;
+                }
+
+                const trackTitle = translations[currentLanguage][track.titleKey];
+                const authorName = translations[currentLanguage][track.author];
+                const item = document.createElement('div');
+                item.className = 'playlist-item';
+                if (index === currentTrackIndex) {
+                    item.classList.add('playing');
                 }
                 
-                // Предотвращаем клик по обложке после свайпа
-                e.preventDefault();
-            }
-            
-            // Сброс значений
-            touchStartX = 0;
-            touchStartY = 0;
-        }, { passive: false });
-        
-        // Также добавляем поддержку мыши для десктопов (для тестирования)
-        cover.addEventListener('mousedown', function(e) {
-            touchStartX = e.clientX;
-            touchStartY = e.clientY;
-            
-            const currentTime = new Date().getTime();
-            const tapLength = currentTime - lastTapTime;
-            
-            if (tapLength < 300 && tapLength > 0) {
-                clearTimeout(doubleTapTimeout);
-                togglePlay();
+                // Имитация длительности
+                const durationPlaceholder = index % 3 === 0 ? "3:49" : (index % 3 === 1 ? "2:34" : "2:16");
                 
-                cover.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    cover.style.transform = 'scale(1)';
-                }, 150);
-            }
-            
-            lastTapTime = currentTime;
-        });
-        
-        cover.addEventListener('mouseup', function(e) {
-            if (!touchStartX) return;
-            
-            touchEndX = e.clientX;
-            touchEndY = e.clientY;
-            
-            const diffX = touchEndX - touchStartX;
-            const diffY = touchEndY - touchStartY;
-            
-            cover.style.transform = 'translateX(0)';
-            
-            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
-                if (diffX > 0) {
-                    playPrevious();
-                    showSwipeFeedback('right');
-                } else {
-                    playNext();
-                    showSwipeFeedback('left');
-                }
-            }
-            
-            touchStartX = 0;
-            touchStartY = 0;
-        });
-    }
-    
-    // Функция для показа визуальной обратной связи при свайпе
-    function showSwipeFeedback(direction) {
-        const gestureIndicator = document.getElementById('gesture-indicator');
-        const arrows = gestureIndicator.querySelectorAll('.gesture-arrow');
-        
-        // Подсвечиваем соответствующую стрелку
-        arrows.forEach(arrow => {
-            arrow.style.color = 'var(--accent-color)';
-            arrow.style.opacity = '1';
-        });
-        
-        gestureIndicator.classList.add('show');
-        
-        // Скрываем через 500 мс
-        setTimeout(() => {
-            gestureIndicator.classList.remove('show');
-            arrows.forEach(arrow => {
-                arrow.style.color = '';
-                arrow.style.opacity = '0.9';
+                item.innerHTML = `
+                    <div class="item-index">${index + 1}</div>
+                    <div class="item-details" onclick="loadTrack(${index})">
+                        <div class="item-title">${trackTitle}</div>
+                        <div class="item-author">${authorName}</div>
+                    </div>
+                    <div class="item-duration">${durationPlaceholder}</div>
+                    <button class="control-btn" style="width: 40px; height: 40px; margin-left: 10px;" onclick="openLyricsModal(${index}, event)">
+                        <i class="fas fa-file-lines"></i>
+                    </button>
+                `;
+                
+                playlistContainer.appendChild(item);
             });
-        }, 500);
-    }
-    
-    // Показать подсказку о жестах
-    function showGestureHint() {
-        const gestureIndicator = document.getElementById('gesture-indicator');
-        gestureIndicator.classList.add('show');
+        }
+
+        // ===================================================
+        // АУДИО ПЛЕЕР
+        // ===================================================
         
-        // Скрываем через 3 секунды
-        setTimeout(() => {
-            gestureIndicator.classList.remove('show');
-        }, 3000);
-    }
+        const audioPlayer = document.getElementById('global-audio-player');
+        const playBtn = document.getElementById('main-play-btn');
+        const playIcon = playBtn ? playBtn.querySelector('i') : null;
+        const trackTitleDisplay = document.getElementById('current-track-title');
+        const trackAuthorDisplay = document.getElementById('current-track-author');
+        const coverImage = document.getElementById('track-cover');
+        const coverArtContainer = document.getElementById('cover-art-container');
+        const volumeSlider = document.getElementById('volume-slider');
+        const progressBar = document.getElementById('progress-bar');
+        const currentTimeDisplay = document.getElementById('current-time');
+        const durationDisplay = document.getElementById('duration');
+        const mainFavBtn = document.getElementById('main-favorite-btn');
 
-    // ===================================================
-    // ТЕКСТ ПЕСНИ (МОДАЛЬНОЕ ОКНО)
-    // ===================================================
-    
-    function openLyricsModal(index, event) {
-        if (event) event.stopPropagation();
-        const modal = document.getElementById('lyrics-modal');
-        const track = tracks[index];
-        
-        document.getElementById('lyrics-title').textContent = translations[currentLanguage].lyricsTitle + translations[currentLanguage][track.titleKey];
-        document.getElementById('lyrics-text').textContent = track.lyrics || "Текст не найден. \n\n (Файл index.html содержит только заглушки. Если вам нужен настоящий текст, вставьте его в поле 'lyrics' для каждого трека в JS-массиве.)";
-        modal.classList.add('show');
-    }
-    
-    function closeLyricsModal() {
-        const modal = document.getElementById('lyrics-modal');
-        modal.classList.remove('show');
-    }
+        function loadTrack(index) {
+            if (index === currentTrackIndex && isPlaying) {
+                togglePlay(); // Если нажали на текущий воспроизводимый трек, просто переключаем воспроизведение
+                return;
+            }
 
-    // ===================================================
-    // ОБРАБОТЧИКИ СОБЫТИЙ АУДИО
-    // ===================================================
-
-    // Обновление прогресс-бара и времени
-    audioPlayer.addEventListener('timeupdate', () => {
-        const currentTime = audioPlayer.currentTime;
-        const duration = audioPlayer.duration;
-        
-        if (progressBar) progressBar.value = (currentTime / duration) * 100 || 0;
-        if (currentTimeDisplay) currentTimeDisplay.textContent = formatTime(currentTime);
-    });
-    
-    // Обновление общей длительности
-    audioPlayer.addEventListener('loadedmetadata', () => {
-        if (durationDisplay) durationDisplay.textContent = formatTime(audioPlayer.duration);
-        if (progressBar) progressBar.value = 0;
-        if (currentTimeDisplay) currentTimeDisplay.textContent = "0:00";
-    });
-
-    // Автоматическое переключение на следующий трек
-    audioPlayer.addEventListener('ended', () => {
-        playNext();
-    });
-
-    // Перемотка
-    if (progressBar) {
-        progressBar.addEventListener('input', () => {
-            const duration = audioPlayer.duration;
-            audioPlayer.currentTime = (progressBar.value / 100) * duration;
-        });
-    }
-
-    // Регулятор громкости
-    if (volumeSlider) {
-        volumeSlider.addEventListener('input', () => {
-            audioPlayer.volume = volumeSlider.value;
-        });
-    }
-
-    // ===================================================
-    // ИНИЦИАЛИЗАЦИЯ
-    // ===================================================
-
-    document.addEventListener('DOMContentLoaded', () => {
-        // Установка начального языка и загрузка списка
-        switchLanguage(currentLanguage);
-        
-        // Установка начального громкости
-        if (volumeSlider) audioPlayer.volume = volumeSlider.value = 1;
-
-        // Если есть избранные, обновляем кнопку
-        updateFavoriteButton();
-        
-        // Загружаем первый трек для отображения обложки/данных
-        if (tracks.length > 0) {
-            loadTrack(0);
-            audioPlayer.pause();
-            updatePlayButton(false);
+            // Показать индикатор загрузки
+            coverArtContainer.classList.add('loading');
             
-            // При первой загрузке показываем дефолтного автора UMIT Project, 
-            // так как автор загруженного трека не актуален до нажатия Play
-            document.getElementById('current-track-author').textContent = "UMIT Project";
+            currentTrackIndex = index;
+            const track = tracks[index];
+            const authorName = translations[currentLanguage][track.author];
+            
+            // Плавное обновление данных
+            setTimeout(() => {
+                audioPlayer.src = track.src;
+                trackTitleDisplay.textContent = translations[currentLanguage][track.titleKey];
+                trackAuthorDisplay.textContent = authorName;
+                
+                // Плавная смена обложки
+                coverImage.style.opacity = '0';
+                setTimeout(() => {
+                    coverImage.src = track.cover;
+                    coverImage.onload = () => {
+                        coverImage.style.opacity = '1';
+                        coverArtContainer.classList.remove('loading');
+                    };
+                }, 200);
+                
+                // Сброс и запуск
+                audioPlayer.load();
+                audioPlayer.play();
+                
+                // Обновление интерфейса
+                updatePlayButton(true);
+                updateTrackList();
+                updateFavoriteButton();
+                isPlaying = true;
+                
+                // Показываем подсказку о жестах при первой загрузке
+                if (!localStorage.getItem('gestureHintShown')) {
+                    showGestureHint();
+                    localStorage.setItem('gestureHintShown', 'true');
+                }
+            }, 150);
+        }
+
+        function togglePlay() {
+            if (currentTrackIndex === -1) {
+                loadTrack(0); // Загружаем первый трек, если ничего не выбрано
+                return;
+            }
+            
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+                updatePlayButton(true);
+                isPlaying = true;
+            } else {
+                audioPlayer.pause();
+                updatePlayButton(false);
+                isPlaying = false;
+            }
         }
         
-        // Инициализация жестов
-        initGestureControls();
-    });
+        function updatePlayButton(isPlaying) {
+            if (playIcon) {
+                // Плавная смена иконки
+                playIcon.style.transform = 'scale(0.8)';
+                setTimeout(() => {
+                    playIcon.className = isPlaying ? 'fas fa-pause' : 'fas fa-play';
+                    playIcon.style.transform = 'scale(1)';
+                }, 100);
+            }
+            
+            // Анимация обложки
+            if (coverArtContainer) {
+                if (isPlaying) {
+                    coverArtContainer.classList.add('playing');
+                } else {
+                    coverArtContainer.classList.remove('playing');
+                }
+            }
+        }
 
-</script>
+        function playNext() {
+            if (currentTrackIndex === -1) {
+                loadTrack(0);
+                return;
+            }
+            let nextIndex = currentTrackIndex + 1;
+            if (nextIndex >= tracks.length) nextIndex = 0;
+            loadTrack(nextIndex);
+        } 
+
+        function playPrevious() {
+            if (currentTrackIndex === -1) {
+                loadTrack(tracks.length - 1);
+                return;
+            }
+            if (audioPlayer.currentTime < 3 && currentTrackIndex > 0) {
+                let prevIndex = currentTrackIndex - 1;
+                loadTrack(prevIndex);
+            } else {
+                audioPlayer.currentTime = 0; // Начать сначала, если проиграно > 3 секунд
+                audioPlayer.play();
+            }
+        }
+        
+        // ===================================================
+        // ИЗБРАННОЕ
+        // ===================================================
+
+        function toggleFavorite() {
+            if (currentTrackIndex === -1) return;
+            const trackId = tracks[currentTrackIndex].id;
+            const index = favorites.indexOf(trackId);
+            let added = false;
+
+            if (index === -1) {
+                favorites.push(trackId);
+                added = true;
+                showNotification(translations[currentLanguage].added);
+            } else {
+                favorites.splice(index, 1);
+                showNotification(translations[currentLanguage].removed);
+            }
+            
+            localStorage.setItem('audioPlayerFavorites', JSON.stringify(favorites));
+            updateFavoriteButton(added);
+        }
+        
+        function updateFavoriteButton(added) {
+            if (!mainFavBtn) return;
+            
+            if (currentTrackIndex === -1) {
+                 mainFavBtn.querySelector('i').className = 'far fa-heart';
+                 mainFavBtn.classList.remove('favorited');
+                 mainFavBtn.classList.remove('favorite-pulse');
+                 return;
+            }
+            
+            const trackId = tracks[currentTrackIndex].id;
+            const isFavorited = favorites.includes(trackId);
+            
+            if (isFavorited) {
+                mainFavBtn.querySelector('i').className = 'fas fa-heart';
+                mainFavBtn.classList.add('favorited');
+                if (added) {
+                    mainFavBtn.classList.add('favorite-pulse');
+                    setTimeout(() => {
+                        mainFavBtn.classList.remove('favorite-pulse');
+                    }, 500);
+                }
+            } else {
+                mainFavBtn.querySelector('i').className = 'far fa-heart';
+                mainFavBtn.classList.remove('favorited');
+                mainFavBtn.classList.remove('favorite-pulse');
+            }
+        }
+
+        // ===================================================
+        // ЖЕСТЫ И ИНТЕРАКТИВ
+        // ===================================================
+        
+        function initGestureControls() {
+            const cover = document.getElementById('cover-art-container');
+            const gestureIndicator = document.getElementById('gesture-indicator');
+            
+            // Обработчик начала касания
+            cover.addEventListener('touchstart', function(e) {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+                
+                // Для двойного тапа
+                const currentTime = new Date().getTime();
+                const tapLength = currentTime - lastTapTime;
+                
+                if (tapLength < 300 && tapLength > 0) {
+                    // Двойной тап обнаружен
+                    clearTimeout(doubleTapTimeout);
+                    togglePlay();
+                    
+                    // Визуальная обратная связь
+                    cover.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        cover.style.transform = 'scale(1)';
+                    }, 150);
+                }
+                
+                lastTapTime = currentTime;
+            }, { passive: true });
+            
+            // Обработчик перемещения (для визуальной обратной связи)
+            cover.addEventListener('touchmove', function(e) {
+                if (!touchStartX) return;
+                
+                const touchX = e.touches[0].clientX;
+                const diffX = touchX - touchStartX;
+                
+                // Небольшой визуальный эффект при свайпе
+                if (Math.abs(diffX) > 10) {
+                    cover.style.transform = `translateX(${diffX * 0.2}px) scale(0.98)`;
+                }
+            }, { passive: true });
+            
+            // Обработчик окончания касания
+            cover.addEventListener('touchend', function(e) {
+                if (!touchStartX) return;
+                
+                touchEndX = e.changedTouches[0].clientX;
+                touchEndY = e.changedTouches[0].clientY;
+                
+                const diffX = touchEndX - touchStartX;
+                const diffY = touchEndY - touchStartY;
+                
+                // Сброс трансформации
+                cover.style.transform = 'translateX(0) scale(1)';
+                
+                // Определяем свайп (горизонтальный с минимальной дистанцией 50px)
+                if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                    if (diffX > 0) {
+                        // Свайп вправо - предыдущий трек
+                        playPrevious();
+                        showSwipeFeedback('right');
+                    } else {
+                        // Свайп влево - следующий трек
+                        playNext();
+                        showSwipeFeedback('left');
+                    }
+                }
+                
+                // Сброс значений
+                touchStartX = 0;
+                touchStartY = 0;
+            }, { passive: false });
+            
+            // Также добавляем поддержку мыши для десктопов
+            cover.addEventListener('mousedown', function(e) {
+                touchStartX = e.clientX;
+                touchStartY = e.clientY;
+                
+                const currentTime = new Date().getTime();
+                const tapLength = currentTime - lastTapTime;
+                
+                if (tapLength < 300 && tapLength > 0) {
+                    clearTimeout(doubleTapTimeout);
+                    togglePlay();
+                    
+                    cover.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        cover.style.transform = 'scale(1)';
+                    }, 150);
+                }
+                
+                lastTapTime = currentTime;
+            });
+            
+            cover.addEventListener('mousemove', function(e) {
+                if (!touchStartX) return;
+                
+                const touchX = e.clientX;
+                const diffX = touchX - touchStartX;
+                
+                if (Math.abs(diffX) > 10) {
+                    cover.style.transform = `translateX(${diffX * 0.2}px) scale(0.98)`;
+                }
+            });
+            
+            cover.addEventListener('mouseup', function(e) {
+                if (!touchStartX) return;
+                
+                touchEndX = e.clientX;
+                touchEndY = e.clientY;
+                
+                const diffX = touchEndX - touchStartX;
+                const diffY = touchEndY - touchStartY;
+                
+                cover.style.transform = 'translateX(0) scale(1)';
+                
+                if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                    if (diffX > 0) {
+                        playPrevious();
+                        showSwipeFeedback('right');
+                    } else {
+                        playNext();
+                        showSwipeFeedback('left');
+                    }
+                }
+                
+                touchStartX = 0;
+                touchStartY = 0;
+            });
+            
+            // Убираем выделение при двойном тапе
+            cover.addEventListener('touchend', function(e) {
+                if (e.cancelable) e.preventDefault();
+            }, { passive: false });
+        }
+        
+        function showSwipeFeedback(direction) {
+            const gestureIndicator = document.getElementById('gesture-indicator');
+            const leftArrow = document.querySelector('.left-arrow');
+            const rightArrow = document.querySelector('.right-arrow');
+            
+            // Подсвечиваем соответствующую стрелку
+            if (direction === 'left') {
+                leftArrow.style.color = '#FF2D55';
+                leftArrow.style.filter = 'drop-shadow(0 0 12px rgba(255, 45, 85, 0.7))';
+            } else {
+                rightArrow.style.color = '#FF2D55';
+                rightArrow.style.filter = 'drop-shadow(0 0 12px rgba(255, 45, 85, 0.7))';
+            }
+            
+            gestureIndicator.classList.add('show');
+            
+            // Скрываем через 500 мс
+            setTimeout(() => {
+                gestureIndicator.classList.remove('show');
+                leftArrow.style.color = '';
+                rightArrow.style.color = '';
+                leftArrow.style.filter = '';
+                rightArrow.style.filter = '';
+            }, 500);
+        }
+        
+        function showGestureHint() {
+            const gestureIndicator = document.getElementById('gesture-indicator');
+            gestureIndicator.classList.add('show');
+            
+            // Скрываем через 4 секунды
+            setTimeout(() => {
+                gestureIndicator.classList.remove('show');
+            }, 4000);
+        }
+
+        // ===================================================
+        // ТЕКСТ ПЕСНИ
+        // ===================================================
+        
+        function openLyricsModal(index, event) {
+            if (event) event.stopPropagation();
+            const modal = document.getElementById('lyrics-modal');
+            const track = tracks[index];
+            
+            document.getElementById('lyrics-title').textContent = translations[currentLanguage].lyricsTitle + translations[currentLanguage][track.titleKey];
+            document.getElementById('lyrics-text').textContent = track.lyrics || "Текст не найден. \n\n (Файл index.html содержит только заглушки. Если вам нужен настоящий текст, вставьте его в поле 'lyrics' для каждого трека в JS-массиве.)";
+            modal.classList.add('show');
+            
+            // Блокируем скролл основного контента
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeLyricsModal() {
+            const modal = document.getElementById('lyrics-modal');
+            modal.classList.remove('show');
+            
+            // Разблокируем скролл
+            setTimeout(() => {
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        // ===================================================
+        // ОБРАБОТЧИКИ АУДИО
+        // ===================================================
+
+        // Обновление прогресс-бара и времени
+        audioPlayer.addEventListener('timeupdate', () => {
+            const currentTime = audioPlayer.currentTime;
+            const duration = audioPlayer.duration;
+            
+            if (progressBar) progressBar.value = (currentTime / duration) * 100 || 0;
+            if (currentTimeDisplay) currentTimeDisplay.textContent = formatTime(currentTime);
+        });
+        
+        // Обновление общей длительности
+        audioPlayer.addEventListener('loadedmetadata', () => {
+            if (durationDisplay) durationDisplay.textContent = formatTime(audioPlayer.duration);
+            if (progressBar) progressBar.value = 0;
+            if (currentTimeDisplay) currentTimeDisplay.textContent = "0:00";
+        });
+
+        // Автоматическое переключение на следующий трек
+        audioPlayer.addEventListener('ended', () => {
+            playNext();
+        });
+
+        // Перемотка
+        if (progressBar) {
+            progressBar.addEventListener('input', () => {
+                const duration = audioPlayer.duration;
+                audioPlayer.currentTime = (progressBar.value / 100) * duration;
+            });
+        }
+
+        // Регулятор громкости
+        if (volumeSlider) {
+            volumeSlider.addEventListener('input', () => {
+                audioPlayer.volume = volumeSlider.value;
+            });
+        }
+
+        // ===================================================
+        // ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ
+        // ===================================================
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Установка начального языка и загрузка списка
+            switchLanguage(currentLanguage);
+            
+            // Установка начального громкости
+            if (volumeSlider) audioPlayer.volume = volumeSlider.value = 1;
+
+            // Если есть избранные, обновляем кнопку
+            updateFavoriteButton();
+            
+            // Загружаем первый трек для отображения обложки/данных
+            if (tracks.length > 0) {
+                currentTrackIndex = 0;
+                const track = tracks[0];
+                coverImage.src = track.cover;
+                trackTitleDisplay.textContent = translations[currentLanguage][track.titleKey];
+                trackAuthorDisplay.textContent = "UMIT Project";
+                updateTrackList();
+                updateFavoriteButton();
+            }
+            
+            // Инициализация жестов
+            initGestureControls();
+            
+            // Предзагрузка первой обложки для плавного отображения
+            if (tracks.length > 0) {
+                const img = new Image();
+                img.src = tracks[0].cover;
+            }
+            
+            // Оптимизация для мобильных: предотвращаем масштабирование при фокусе на инпутах
+            document.addEventListener('touchstart', function(e) {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+        });
+
+        // Предотвращаем контекстное меню на обложке
+        document.getElementById('cover-art-container').addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // Анимация при загрузке страницы
+        window.addEventListener('load', function() {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
+            
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
 </body>
 </html>
