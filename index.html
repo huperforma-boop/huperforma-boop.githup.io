@@ -390,6 +390,36 @@
         .lyrics-close-btn:active {
             transform: scale(0.9);
         }
+
+        /* ======== КОММЕНТАРИИ ======== */
+        .comment-section h3 { margin-bottom: 12px; font-size: 1.2rem; }
+        .comment-register {
+            display: flex; gap: 8px; margin-bottom: 12px;
+        }
+        .comment-register input {
+            flex: 1; padding: 10px 14px; border-radius: 12px; border: 1px solid var(--glass-border);
+            background: var(--glass-bg); color: var(--text-color); font-size: 1rem;
+        }
+        .comment-register button {
+            padding: 10px 18px; border-radius: 12px; border: none;
+            background: var(--accent-color); color: #fff; font-weight: 600; cursor: pointer;
+            transition: transform .15s ease;
+        }
+        .comment-register button:active { transform: scale(.95); }
+
+        .comment-list {
+            max-height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px;
+        }
+        .comment-item {
+            background: rgba(255,255,255,.07); border-radius: 12px; padding: 10px 14px; font-size: .95rem;
+            line-height: 1.35;
+        }
+        .comment-author {
+            font-weight: 600; color: var(--accent-color); margin-bottom: 4px;
+        }
+        .comment-text {
+            color: var(--secondary-text);
+        }
     </style>
 </head>
 <body>
@@ -469,6 +499,21 @@
             <h3 class="playlist-header" data-lang-key="songsList">Список песен</h3>
             <div id="main-playlist-items" class="playlist-items"></div>
         </div>
+
+        <!-- ===== КОММЕНТАРИИ ===== -->
+        <div class="glass-card comment-section">
+            <h3>Комментарии</h3>
+            <div class="comment-register">
+                <input id="comment-name" placeholder="Ваше имя" maxlength="24">
+                <button onclick="registerUser()">Войти</button>
+            </div>
+            <div class="comment-list" id="comment-list"></div>
+            <div id="comment-input-area" style="display:none; margin-top: 12px;">
+                <textarea id="comment-text" rows="2" placeholder="Напишите комментарий..." maxlength="200"></textarea>
+                <button onclick="sendComment()" style="margin-top: 8px; width: 100%;">Отправить</button>
+            </div>
+        </div>
+
     </div>
 
     <!-- МОДАЛЬНОЕ ОКНО ТЕКСТА -->
@@ -489,6 +534,10 @@
         let currentLanguage = localStorage.getItem('language') || 'ru';
         let currentTrackIndex = -1;
         let favorites = JSON.parse(localStorage.getItem('audioPlayerFavorites')) || [];
+
+        /* ===== Добавлено для комментариев ===== */
+        let currentUser = localStorage.getItem('umitUsername') || '';
+        let comments = JSON.parse(localStorage.getItem('umitComments')) || [];
 
         const translations = {
             ru: {
@@ -762,6 +811,50 @@
         }
 
         /* ===================================================
+           КОММЕНТАРИИ
+        =================================================== */
+        function registerUser(){
+            const name = document.getElementById('comment-name').value.trim();
+            if(!name){ alert('Введите имя!'); return; }
+            currentUser = name;
+            localStorage.setItem('umitUsername', name);
+            document.getElementById('comment-name').value = '';
+            document.querySelector('.comment-register').style.display = 'none';
+            document.getElementById('comment-input-area').style.display = 'block';
+            renderComments();
+        }
+        function sendComment(){
+            const text = document.getElementById('comment-text').value.trim();
+            if(!text){ alert('Введите текст!'); return; }
+            comments.unshift({user: currentUser, text, time: Date.now()});
+            localStorage.setItem('umitComments', JSON.stringify(comments));
+            document.getElementById('comment-text').value = '';
+            renderComments();
+        }
+        function renderComments(){
+            const list = document.getElementById('comment-list');
+            list.innerHTML = '';
+            if(comments.length === 0){
+                list.innerHTML = '<div style="color:var(--secondary-text);font-size:.9rem;">Пока нет комментариев. Будьте первым!</div>';
+                return;
+            }
+            comments.forEach(c=>{
+                const div = document.createElement('div');
+                div.className = 'comment-item';
+                div.innerHTML = `<div class="comment-author">${c.user}</div><div class="comment-text">${c.text}</div>`;
+                list.appendChild(div);
+            });
+        }
+        /* проверяем, зареган ли юзер при старте */
+        function initComments(){
+            if(currentUser){
+                document.querySelector('.comment-register').style.display = 'none';
+                document.getElementById('comment-input-area').style.display = 'block';
+            }
+            renderComments();
+        }
+
+        /* ===================================================
            СОБЫТИЯ АУДИО
         =================================================== */
         audio.addEventListener('timeupdate', () => {
@@ -786,6 +879,7 @@
             updateFavoriteButton();
             if (tracks.length) { loadTrack(0); audio.pause(); updatePlayButton(false); authorEl.textContent = "UMIT Project"; }
             initGestures();
+            initComments();
         });
     </script>
 </body>
