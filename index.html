@@ -16,26 +16,106 @@
     }
 
     body {
-      background: #0a0a0f;
       font-family: 'Inter', sans-serif;
-      color: #efeff1;
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 24px;
+      transition: background-color 0.3s ease, color 0.2s;
     }
 
-    /* основная карточка – достаточно широкая, не сжатая */
+    /* Базовые переменные (фиолетовая тема по умолчанию) */
+    body.theme-amethyst {
+      --bg-body: #0a0a0f;
+      --bg-player: rgba(18, 18, 26, 0.95);
+      --text-primary: #efeff1;
+      --text-secondary: #aaa;
+      --accent: #b03cff;
+      --accent-grad-start: #b03cff;
+      --accent-grad-end: #9b2ce8;
+      --border-light: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(176, 60, 255, 0.3);
+      --btn-bg: rgba(255, 255, 255, 0.05);
+      --slider-bg: #2c2c34;
+      --scrollbar: #b03cff;
+      --glow: rgba(176, 60, 255, 0.5);
+    }
+    body.theme-moonlight {
+      --bg-body: #e8eef2;
+      --bg-player: rgba(245, 248, 250, 0.95);
+      --text-primary: #1a1a2c;
+      --text-secondary: #4a5568;
+      --accent: #2c7da0;
+      --accent-grad-start: #2c7da0;
+      --accent-grad-end: #1f5e7e;
+      --border-light: rgba(0, 0, 0, 0.08);
+      --border-focus: rgba(44, 125, 160, 0.3);
+      --btn-bg: rgba(0, 0, 0, 0.05);
+      --slider-bg: #cbd5e0;
+      --scrollbar: #2c7da0;
+      --glow: rgba(44, 125, 160, 0.5);
+    }
+    body.theme-nightshade {
+      --bg-body: #03030a;
+      --bg-player: rgba(5, 5, 12, 0.96);
+      --text-primary: #e2e2e8;
+      --text-secondary: #8889a0;
+      --accent: #ff6b6b;
+      --accent-grad-start: #ff6b6b;
+      --accent-grad-end: #e04e4e;
+      --border-light: rgba(255, 255, 255, 0.05);
+      --border-focus: rgba(255, 107, 107, 0.3);
+      --btn-bg: rgba(255, 255, 255, 0.03);
+      --slider-bg: #222230;
+      --scrollbar: #ff6b6b;
+      --glow: rgba(255, 107, 107, 0.5);
+    }
+    body.theme-cloud {
+      --bg-body: #d9dde3;
+      --bg-player: rgba(230, 235, 240, 0.95);
+      --text-primary: #2d3748;
+      --text-secondary: #5a6a7a;
+      --accent: #718096;
+      --accent-grad-start: #718096;
+      --accent-grad-end: #4a5568;
+      --border-light: rgba(0, 0, 0, 0.06);
+      --border-focus: rgba(113, 128, 150, 0.3);
+      --btn-bg: rgba(0, 0, 0, 0.04);
+      --slider-bg: #bdc1c9;
+      --scrollbar: #718096;
+      --glow: rgba(113, 128, 150, 0.5);
+    }
+    body.theme-forest {
+      --bg-body: #1a2f1f;
+      --bg-player: rgba(25, 45, 30, 0.95);
+      --text-primary: #e6f2e8;
+      --text-secondary: #b0c4b0;
+      --accent: #6fbf4c;
+      --accent-grad-start: #6fbf4c;
+      --accent-grad-end: #4e9c2c;
+      --border-light: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(111, 191, 76, 0.3);
+      --btn-bg: rgba(255, 255, 255, 0.05);
+      --slider-bg: #2e4a2e;
+      --scrollbar: #6fbf4c;
+      --glow: rgba(111, 191, 76, 0.5);
+    }
+
+    body {
+      background: var(--bg-body);
+      color: var(--text-primary);
+    }
+
     .player {
       max-width: 560px;
       width: 100%;
-      background: rgba(18, 18, 26, 0.95);
+      background: var(--bg-player);
       backdrop-filter: blur(24px);
       border-radius: 44px;
       padding: 28px 26px 32px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border-light);
       transition: all 0.2s;
     }
 
@@ -45,62 +125,69 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 28px;
+      gap: 12px;
     }
     .logo {
       font-weight: 700;
       font-size: 1.3rem;
-      background: linear-gradient(135deg, #b03cff, #9b2ce8);
+      background: linear-gradient(135deg, var(--accent-grad-start), var(--accent-grad-end));
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
       letter-spacing: -0.3px;
     }
-    #langBtn {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #ddd;
-      padding: 6px 14px;
+    .lang-theme-buttons {
+      display: flex;
+      gap: 8px;
+    }
+    #langBtn, #themeBtn {
+      background: var(--btn-bg);
+      border: 1px solid var(--border-light);
+      color: var(--text-secondary);
+      padding: 6px 12px;
       border-radius: 40px;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 500;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       transition: 0.2s;
     }
-    #langBtn:hover { background: rgba(176, 60, 255, 0.2); }
-    .chevron { font-size: 0.7rem; transition: transform 0.2s; }
-    #langBtn.open .chevron { transform: rotate(180deg); }
+    #langBtn:hover, #themeBtn:hover { background: var(--border-focus); color: var(--accent); }
+    .chevron, .theme-chevron { font-size: 0.65rem; transition: transform 0.2s; }
+    #langBtn.open .chevron, #themeBtn.open .theme-chevron { transform: rotate(180deg); }
 
-    /* дропдаун языка (копия из предыдущего) */
-    #langDd {
+    /* дропдауны */
+    .dropdown {
       position: fixed;
       z-index: 9999;
-      background: #1a1a24;
-      border: 1px solid rgba(176, 60, 255, 0.3);
+      background: var(--bg-player);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-focus);
       border-radius: 20px;
       padding: 8px;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
       transform: scale(0.92) translateY(-8px);
       opacity: 0;
       pointer-events: none;
       transition: 0.2s;
     }
-    #langDd.open {
+    .dropdown.open {
       transform: scale(1) translateY(0);
       opacity: 1;
       pointer-events: all;
     }
-    .lang-opt {
+    .dropdown-option {
       padding: 8px 16px;
       border-radius: 14px;
       cursor: pointer;
       font-size: 0.8rem;
       white-space: nowrap;
+      color: var(--text-primary);
     }
-    .lang-opt:hover { background: rgba(176, 60, 255, 0.2); }
-    .lang-opt.active { background: rgba(176, 60, 255, 0.3); color: #b03cff; }
+    .dropdown-option:hover { background: var(--border-focus); }
+    .dropdown-option.active { background: var(--accent); color: white; }
 
     /* обложка + инфо */
     .media-row {
@@ -136,13 +223,13 @@
       overflow: hidden;
       text-overflow: ellipsis;
       margin-bottom: 6px;
+      color: var(--text-primary);
     }
     .track-author {
       font-size: 0.9rem;
-      color: #aaa;
+      color: var(--text-secondary);
     }
 
-    /* прогресс + время */
     .progress-row {
       display: flex;
       align-items: center;
@@ -151,7 +238,7 @@
     }
     .time-lbl {
       font-size: 0.75rem;
-      color: #aaa;
+      color: var(--text-secondary);
       font-variant-numeric: tabular-nums;
       min-width: 40px;
     }
@@ -160,27 +247,25 @@
       flex: 1;
       height: 5px;
       -webkit-appearance: none;
-      background: #2c2c34;
+      background: var(--slider-bg);
       border-radius: 5px;
     }
     input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
       width: 15px;
       height: 15px;
-      background: #fff;
+      background: var(--accent);
       border-radius: 50%;
       cursor: pointer;
-      box-shadow: 0 0 8px rgba(176, 60, 255, 0.6);
+      box-shadow: 0 0 8px var(--glow);
     }
     #progress-bar {
-      background: linear-gradient(to right, #b03cff var(--pct, 0%), #2c2c34 var(--pct, 0%));
+      background: linear-gradient(to right, var(--accent) var(--pct, 0%), var(--slider-bg) var(--pct, 0%));
     }
     #volume-slider {
-      background: linear-gradient(to right, #b03cff var(--vpct, 100%), #2c2c34 var(--vpct, 100%));
+      background: linear-gradient(to right, var(--accent) var(--vpct, 100%), var(--slider-bg) var(--vpct, 100%));
     }
 
-    /* === НОВЫЕ РЯДЫ КНОПОК === */
-    /* основные кнопки (prev, play, next) – крупные, ровно по центру */
     .main-controls {
       display: flex;
       justify-content: center;
@@ -191,7 +276,7 @@
     .main-btn {
       background: none;
       border: none;
-      color: #ddd;
+      color: var(--text-secondary);
       font-size: 1.5rem;
       width: 58px;
       height: 58px;
@@ -204,16 +289,13 @@
     }
     .main-btn:active { transform: scale(0.94); }
     .main-btn.play {
-      background: #b03cff;
+      background: var(--accent);
       color: white;
       font-size: 1.8rem;
       width: 72px;
       height: 72px;
-      box-shadow: 0 6px 18px rgba(176, 60, 255, 0.5);
+      box-shadow: 0 6px 18px var(--glow);
     }
-    .main-btn.play:hover { box-shadow: 0 8px 24px rgba(176, 60, 255, 0.7); }
-
-    /* дополнительные кнопки (shuffle, repeat, fav) – внизу, компактные */
     .extra-controls {
       display: flex;
       justify-content: center;
@@ -222,9 +304,9 @@
       margin-bottom: 28px;
     }
     .extra-btn {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: #bbb;
+      background: var(--btn-bg);
+      border: 1px solid var(--border-light);
+      color: var(--text-secondary);
       font-size: 1.1rem;
       width: 44px;
       height: 44px;
@@ -237,13 +319,13 @@
       position: relative;
     }
     .extra-btn:active { transform: scale(0.92); }
-    .extra-btn.active { color: #b03cff; border-color: #b03cff; background: rgba(176, 60, 255, 0.1); }
+    .extra-btn.active { color: var(--accent); border-color: var(--accent); background: var(--border-focus); }
     .repeat-badge {
       position: absolute;
       bottom: -2px;
       right: -4px;
-      background: #b03cff;
-      color: #0a0a0f;
+      background: var(--accent);
+      color: var(--bg-body);
       font-size: 0.65rem;
       font-weight: bold;
       width: 16px;
@@ -253,28 +335,25 @@
       align-items: center;
       justify-content: center;
     }
-
-    /* громкость */
     .volume-row {
       display: flex;
       align-items: center;
       gap: 12px;
       margin-bottom: 28px;
     }
-    .vol-ic { color: #aaa; font-size: 0.85rem; width: 24px; }
+    .vol-ic { color: var(--text-secondary); font-size: 0.85rem; width: 24px; }
 
-    /* вкладки плейлиста */
     .playlist-tabs {
       display: flex;
       gap: 28px;
       margin-bottom: 16px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid var(--border-light);
       padding-bottom: 12px;
     }
     .tab-btn {
       background: none;
       border: none;
-      color: #aaa;
+      color: var(--text-secondary);
       font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
@@ -282,8 +361,8 @@
       transition: 0.2s;
     }
     .tab-btn.active {
-      color: #b03cff;
-      border-bottom: 2px solid #b03cff;
+      color: var(--accent);
+      border-bottom: 2px solid var(--accent);
       margin-bottom: -13px;
     }
     #playlistContainer {
@@ -294,7 +373,7 @@
     .author-label {
       font-size: 0.7rem;
       font-weight: 700;
-      color: #b03cff;
+      color: var(--accent);
       text-transform: uppercase;
       letter-spacing: 0.8px;
       margin: 16px 0 8px;
@@ -308,16 +387,16 @@
       cursor: pointer;
       transition: 0.1s;
     }
-    .pl-item:hover { background: rgba(176, 60, 255, 0.08); }
-    .pl-item.playing { background: rgba(176, 60, 255, 0.12); }
-    .pl-item.playing .pl-title { color: #b03cff; font-weight: 600; }
+    .pl-item:hover { background: var(--border-focus); }
+    .pl-item.playing { background: var(--border-focus); }
+    .pl-item.playing .pl-title { color: var(--accent); font-weight: 600; }
     .pl-thumb {
       width: 40px;
       height: 40px;
       border-radius: 12px;
       overflow: hidden;
       flex-shrink: 0;
-      background: #2a2a30;
+      background: var(--slider-bg);
     }
     .pl-thumb img { width: 100%; height: 100%; object-fit: cover; }
     .pl-meta { flex: 1; min-width: 0; }
@@ -327,31 +406,31 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      color: var(--text-primary);
     }
     .pl-dur {
       font-size: 0.7rem;
-      color: #888;
+      color: var(--text-secondary);
       min-width: 40px;
       text-align: right;
     }
     .lyr-btn {
       background: none;
       border: none;
-      color: #888;
+      color: var(--text-secondary);
       font-size: 0.85rem;
       cursor: pointer;
       width: 34px;
       height: 34px;
       border-radius: 10px;
     }
-    .lyr-btn:hover { color: #b03cff; background: rgba(176, 60, 255, 0.1); }
+    .lyr-btn:hover { color: var(--accent); background: var(--border-focus); }
     .empty-fav {
       text-align: center;
       padding: 32px 16px;
-      color: #888;
+      color: var(--text-secondary);
     }
 
-    /* модалка */
     .modal-bg {
       position: fixed;
       inset: 0;
@@ -367,7 +446,7 @@
     }
     .modal-bg.show { opacity: 1; pointer-events: all; }
     .modal-card {
-      background: #1a1a24;
+      background: var(--bg-player);
       border-radius: 32px 32px 0 0;
       width: 100%;
       max-width: 520px;
@@ -384,12 +463,12 @@
     .modal-close {
       background: none;
       border: none;
-      color: #b03cff;
+      color: var(--accent);
       font-size: 1.2rem;
       cursor: pointer;
     }
     #lyrics-text {
-      color: #ccc;
+      color: var(--text-secondary);
       line-height: 1.5;
       white-space: pre-wrap;
     }
@@ -398,7 +477,7 @@
       bottom: 30px;
       left: 50%;
       transform: translateX(-50%) translateY(20px);
-      background: #b03cff;
+      background: var(--accent);
       color: white;
       padding: 8px 20px;
       border-radius: 40px;
@@ -411,16 +490,20 @@
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #b03cff; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb { background: var(--scrollbar); border-radius: 10px; }
   </style>
 </head>
-<body>
+<body class="theme-amethyst">
 
-<div id="langDd"></div>
+<div id="langDd" class="dropdown"></div>
+<div id="themeDd" class="dropdown"></div>
 <div class="player">
   <div class="top-bar">
     <div class="logo">UMIT Player</div>
-    <button id="langBtn"><span id="langLabel">Русский</span> <i class="fas fa-chevron-down chevron"></i></button>
+    <div class="lang-theme-buttons">
+      <button id="langBtn"><span id="langLabel">Русский</span> <i class="fas fa-chevron-down chevron"></i></button>
+      <button id="themeBtn"><span id="themeLabel">Ametist</span> <i class="fas fa-palette theme-chevron"></i></button>
+    </div>
   </div>
 
   <div class="media-row">
@@ -437,14 +520,12 @@
     <span class="time-lbl r" id="durTime">0:00</span>
   </div>
 
-  <!-- основные кнопки: назад, плей/пауза, вперед -->
   <div class="main-controls">
     <button class="main-btn" id="prevBtn"><i class="fas fa-backward-step"></i></button>
     <button class="main-btn play" id="playBtn"><i class="fas fa-play" id="playIcon"></i></button>
     <button class="main-btn" id="nextBtn"><i class="fas fa-forward-step"></i></button>
   </div>
 
-  <!-- дополнительные кнопки: shuffle, repeat, fav -->
   <div class="extra-controls">
     <button class="extra-btn" id="shuffleBtn"><i class="fas fa-shuffle"></i></button>
     <button class="extra-btn" id="repeatBtn"><i class="fas fa-repeat"></i><span id="repeatBadge" class="repeat-badge" style="display: none;">1</span></button>
@@ -495,6 +576,16 @@
       a1:"卡比肯诺夫·萨格尼什", a2:"拉马扎诺夫·托雷加利" }
   };
   const LANG_NAMES = { kk:"Қазақша", ru:"Русский", en:"English", fr:"Français", zh:"简体中文" };
+  
+  // Темы
+  const THEMES = {
+    amethyst: { name: "Ametist", className: "theme-amethyst" },
+    moonlight: { name: "Moonlight", className: "theme-moonlight" },
+    nightshade: { name: "Nightshade", className: "theme-nightshade" },
+    cloud: { name: "Cloud", className: "theme-cloud" },
+    forest: { name: "Forest", className: "theme-forest" }
+  };
+  
   const TRACKS = [
     { tk:"s1", src:"orta_juz_audio.mp3", cover:"orta_juz.jpg", author:"a1", lyrics:"Орта жүз — әсем ән..." },
     { tk:"s2", src:"jarylgap_batyr_audio.mp3", cover:"jarylgap_batyr.jpg", author:"a1", lyrics:"Жарылғап батыр — батырлар жыры..." },
@@ -510,6 +601,7 @@
   ];
 
   let lang = localStorage.getItem('umit_lang') || 'ru';
+  let currentTheme = localStorage.getItem('umit_theme') || 'amethyst';
   let curIdx = -1, shuffle = false, repeatState = 0, currentTab = 'all';
   let favs = JSON.parse(localStorage.getItem('umit_favs') || '[]');
   let durations = {};
@@ -518,12 +610,22 @@
   const fmt = s => isNaN(s) ? '0:00' : `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
   function showToast(msg) { let t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 2000); }
 
-  // сохранение / восстановление
+  // Применение темы
+  function applyTheme() {
+    const theme = THEMES[currentTheme];
+    document.body.className = theme.className;
+    document.getElementById('themeLabel').innerText = theme.name;
+    // обновить градиент прогресса и громкости (они зависят от переменных CSS, но перерисовка через событие)
+    if (prog) prog.style.setProperty('--pct', (prog.value || 0) + '%');
+    if (volSlider) updateVolGrad();
+  }
+
+  // Сохранение состояния (добавляем тему)
   function saveState() {
     if(curIdx<0) return;
     localStorage.setItem('umit_player_state', JSON.stringify({
       curIdx, currentTime: audio.currentTime||0, isPlaying: !audio.paused,
-      volume: audio.volume, shuffle, repeat: repeatState, lang, favs
+      volume: audio.volume, shuffle, repeat: repeatState, lang, favs, theme: currentTheme
     }));
   }
   function restoreState() {
@@ -533,6 +635,8 @@
       let d = JSON.parse(s);
       if(d.lang && I18N[d.lang]) lang = d.lang;
       if(d.favs) favs = d.favs;
+      if(d.theme && THEMES[d.theme]) currentTheme = d.theme;
+      else currentTheme = 'amethyst';
       shuffle = d.shuffle || false;
       repeatState = d.repeat || 0;
       if(d.volume !== undefined) { audio.volume = d.volume; document.getElementById('volume-slider').value = d.volume; updateVolGrad(); }
@@ -555,6 +659,7 @@
       }
       updateShuffleUI();
       updateRepeatUI();
+      applyTheme();
       applyLang();
     } catch(e) {}
   }
@@ -683,25 +788,44 @@
   document.getElementById('favBtn').onclick=toggleFav;
   document.querySelectorAll('.tab-btn').forEach(btn=>btn.onclick=()=>{ currentTab=btn.dataset.tab; document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); renderPlaylist(); });
 
-  // язык
+  // ---------- Выпадающие меню (язык и тема) ----------
   const langBtn = document.getElementById('langBtn'), langDd = document.getElementById('langDd');
+  const themeBtn = document.getElementById('themeBtn'), themeDd = document.getElementById('themeDd');
+  
   function buildLangMenu() {
     langDd.innerHTML = '';
     Object.keys(LANG_NAMES).forEach(code=>{
-      let opt = document.createElement('div'); opt.className='lang-opt'+(lang===code?' active':''); opt.dataset.lang=code;
+      let opt = document.createElement('div'); opt.className='dropdown-option'+(lang===code?' active':''); opt.dataset.lang=code;
       opt.innerHTML = (code==='kk'?'🇰🇿':code==='ru'?'🇷🇺':code==='en'?'🇺🇸':code==='fr'?'🇫🇷':'🇨🇳')+' '+LANG_NAMES[code];
-      opt.onclick = (e)=>{ e.stopPropagation(); lang=code; localStorage.setItem('umit_lang',lang); applyLang(); closeDd(); saveState(); };
+      opt.onclick = (e)=>{ e.stopPropagation(); lang=code; localStorage.setItem('umit_lang',lang); applyLang(); closeDd(langDd, langBtn); saveState(); };
       langDd.appendChild(opt);
     });
   }
-  function posDd(){ let r=langBtn.getBoundingClientRect(); langDd.style.top=r.bottom+8+'px'; langDd.style.right=window.innerWidth-r.right+'px'; }
-  function openDd(){ posDd(); langDd.classList.add('open'); langBtn.classList.add('open'); }
-  function closeDd(){ langDd.classList.remove('open'); langBtn.classList.remove('open'); }
-  langBtn.onclick = (e)=>{ e.stopPropagation(); if(langDd.classList.contains('open')) closeDd(); else openDd(); };
-  document.addEventListener('click', e=>{ if(!langDd.contains(e.target) && e.target!==langBtn) closeDd(); });
-  window.addEventListener('resize',()=>{ if(langDd.classList.contains('open')) posDd(); });
+  function buildThemeMenu() {
+    themeDd.innerHTML = '';
+    Object.keys(THEMES).forEach(key=>{
+      let opt = document.createElement('div'); opt.className='dropdown-option'+(currentTheme===key?' active':''); opt.dataset.theme=key;
+      opt.innerHTML = THEMES[key].name;
+      opt.onclick = (e)=>{ e.stopPropagation(); currentTheme=key; localStorage.setItem('umit_theme',currentTheme); applyTheme(); closeDd(themeDd, themeBtn); saveState(); };
+      themeDd.appendChild(opt);
+    });
+  }
+  function posDd(dd, btn){
+    let r=btn.getBoundingClientRect();
+    dd.style.top=r.bottom+8+'px';
+    dd.style.right=window.innerWidth-r.right+'px';
+    dd.style.left='auto';
+  }
+  function openDd(dd, btn){ posDd(dd, btn); dd.classList.add('open'); btn.classList.add('open'); }
+  function closeDd(dd, btn){ dd.classList.remove('open'); btn.classList.remove('open'); }
+  langBtn.onclick = (e)=>{ e.stopPropagation(); if(langDd.classList.contains('open')) closeDd(langDd, langBtn); else openDd(langDd, langBtn); };
+  themeBtn.onclick = (e)=>{ e.stopPropagation(); if(themeDd.classList.contains('open')) closeDd(themeDd, themeBtn); else openDd(themeDd, themeBtn); };
+  document.addEventListener('click', e=>{ if(!langDd.contains(e.target) && e.target!==langBtn) closeDd(langDd, langBtn); if(!themeDd.contains(e.target) && e.target!==themeBtn) closeDd(themeDd, themeBtn); });
+  window.addEventListener('resize',()=>{ if(langDd.classList.contains('open')) posDd(langDd, langBtn); if(themeDd.classList.contains('open')) posDd(themeDd, themeBtn); });
 
   buildLangMenu();
+  buildThemeMenu();
+  applyTheme();
   applyLang();
   updateVolGrad();
   if(navigator.mediaSession) {
