@@ -1,792 +1,371 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>UMIT | Neon Purple Player</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>UMIT | Player</title>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --bg:#09080f; --surface:#110f1e; --border:rgba(176,60,255,.18);
+      --accent:#b03cff; --accent2:#7b1fff; --glow:rgba(176,60,255,.45);
+      --text:#f0eeff; --muted:#9893b0;
+      --ease:cubic-bezier(.4,0,.2,1); --fast:.18s; --med:.32s;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+      background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(176,60,255,.22) 0%,transparent 70%),
+                 radial-gradient(ellipse 40% 40% at 85% 80%,rgba(100,20,200,.14) 0%,transparent 65%)}
 
-    <!-- Шрифты / иконки -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400 ;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css ">
+    /* ЛЭЙАУТ */
+    .layout{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:24px 16px 48px;display:grid;grid-template-columns:1fr;gap:20px}
 
-    <style>
-        /* ---------- ПЕРЕМЕННЫЕ ---------- */
-        :root {
-            --glass-bg: rgba(26, 26, 36, 0.45);
-            --glass-border: rgba(196, 69, 255, 0.25);
-            --primary-color: #ffffff;
-            --accent-color: #c445ff;          /* неон-фиолетовый */
-            --background: #0f0c1d;
-            --text-color: #ffffff;
-            --secondary-text: #c9c9d0;
-            --transition-speed: 0.35s;
-        }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background: var(--background);
-            color: var(--text-color);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 20px 10px;
-            background: radial-gradient(circle at top, #1c102e 0%, #0f0c1d 100%);
-            overflow-x: hidden;
-        }
-        .mobile-container {
-            width: 100%;
-            max-width: 420px;
-            margin-top: 20px;
-        }
-        .glass-card {
-            background: var(--glass-bg);
-            border-radius: 24px;
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            box-shadow: 0 8px 32px rgba(196, 69, 255, 0.18);
-            padding: 24px;
-            margin-bottom: 24px;
-            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
-        }
-        .glass-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 48px rgba(196, 69, 255, 0.28);
-        }
-        /* хедер */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-        .logo-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            text-shadow: 0 0 10px var(--accent-color);
-        }
-        .logo-title i {
-            color: var(--accent-color);
-            font-size: 1.9rem;
-            filter: drop-shadow(0 0 6px var(--accent-color));
-        }
-        /* языковой переключатель */
-        .language-switcher {
-            position: relative;
-        }
-        #lang-btn {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            color: var(--text-color);
-            padding: 8px 12px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: background var(--transition-speed), transform var(--transition-speed);
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        #lang-btn:active {
-            transform: scale(0.95);
-        }
-        .lang-dropdown {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            z-index: 10;
-            padding: 10px;
-            min-width: 150px;
-            display: none; /* изначально скрыт */
-        }
-        .lang-option {
-            padding: 8px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.2s ease;
-        }
-        .lang-option:hover {
-            background: rgba(196, 69, 255, 0.15);
-        }
-        .lang-option.active {
-            background: rgba(196, 69, 255, 0.25);
-            color: var(--accent-color);
-            font-weight: 600;
-        }
-        /* плеер */
-        .player-card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 22px;
-        }
-        .cover-art {
-            width: 100%;
-            max-width: 300px;
-            height: 300px;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 12px 40px rgba(196, 69, 255, 0.25);
-            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
-            position: relative;
-            user-select: none;
-            -webkit-user-select: none;
-        }
-        .cover-art.playing {
-            animation: pulse-cover 3s infinite alternate;
-        }
-        @keyframes pulse-cover {
-            0%   { transform: scale(1);   box-shadow: 0 0 40px rgba(196, 69, 255, 0.3); }
-            100% { transform: scale(1.03); box-shadow: 0 0 70px rgba(196, 69, 255, 0.6); }
-        }
-        .cover-art img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform var(--transition-speed) ease;
-            pointer-events: none;
-        }
-        .gesture-indicator {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: rgba(15, 12, 29, 0.75);
-            border-radius: 20px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 5;
-        }
-        .gesture-indicator.show {
-            opacity: 1;
-        }
-        .gesture-arrow {
-            font-size: 2.6rem;
-            margin: 0 16px;
-            color: var(--accent-color);
-            filter: drop-shadow(0 0 6px var(--accent-color));
-            animation: bounce 0.55s infinite alternate;
-        }
-        @keyframes bounce {
-            from { transform: translateX(0); }
-            to   { transform: translateX(12px); }
-        }
-        .track-info {
-            text-align: center;
-            width: 100%;
-            transition: opacity var(--transition-speed) ease;
-        }
-        #current-track-title {
-            font-size: 1.7rem;
-            font-weight: 700;
-            margin-bottom: 6px;
-            letter-spacing: 0.5px;
-        }
-        #current-track-author {
-            font-size: 1.05rem;
-            color: var(--secondary-text);
-        }
-        .progress-container {
-            display: flex;
-            align-items: center;
-            width: 100%;
-            gap: 12px;
-            margin-top: 12px;
-        }
-        .time-display {
-            font-size: 0.9rem;
-            color: var(--secondary-text);
-            min-width: 38px;
-        }
-        #progress-bar {
-            flex: 1;
-            height: 6px;
-            -webkit-appearance: none;
-            appearance: none;
-            background: rgba(255, 255, 255, 0.12);
-            border-radius: 3px;
-            outline: none;
-            cursor: pointer;
-            transition: background var(--transition-speed) ease;
-        }
-        #progress-bar::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: var(--accent-color);
-            box-shadow: 0 0 8px var(--accent-color);
-            transition: transform 0.15s ease;
-        }
-        #progress-bar::-webkit-slider-thumb:active {
-            transform: scale(1.3);
-        }
-        .main-controls {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            width: 100%;
-            max-width: 300px;
-            margin-top: 18px;
-        }
-        .control-btn {
-            width: 54px;
-            height: 54px;
-            border-radius: 50%;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            color: var(--text-color);
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all var(--transition-speed) ease;
-            display: grid;
-            place-items: center;
-        }
-        .control-btn:active {
-            transform: scale(0.85);
-            box-shadow: inset 0 0 12px rgba(196, 69, 255, 0.4);
-        }
-        .control-btn:hover {
-            background: rgba(196, 69, 255, 0.15);
-        }
-        .control-btn.play-pause {
-            width: 76px;
-            height: 76px;
-            background: var(--accent-color);
-            color: var(--background);
-            border: none;
-            font-size: 1.6rem;
-            box-shadow: 0 0 24px rgba(196, 69, 255, 0.55);
-        }
-        .control-btn.play-pause:active {
-            transform: scale(0.9);
-            box-shadow: 0 0 32px rgba(196, 69, 255, 0.75);
-        }
-        .volume-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            width: 100%;
-            padding: 10px 0;
-            margin-top: 6px;
-        }
-        #volume-slider {
-            flex: 1;
-            height: 6px;
-            -webkit-appearance: none;
-            appearance: none;
-            background: rgba(255, 255, 255, 0.12);
-            border-radius: 3px;
-            outline: none;
-            cursor: pointer;
-        }
-        #volume-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: var(--primary-color);
-            box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
-            transition: transform 0.15s ease;
-        }
-        #volume-slider::-webkit-slider-thumb:active {
-            transform: scale(1.3);
-        }
-        #main-favorite-btn {
-            margin-top: 14px;
-            transition: color var(--transition-speed) ease, text-shadow var(--transition-speed) ease;
-        }
-        #main-favorite-btn.active i {
-            color: var(--accent-color);
-            text-shadow: 0 0 10px var(--accent-color);
-        }
-        .playlist-item {
-            display: flex;
-            align-items: center;
-            padding: 16px 0;
-            border-bottom: 1px solid rgba(196, 69, 255, 0.15);
-            cursor: pointer;
-            transition: background 0.2s ease, transform 0.2s ease;
-        }
-        .playlist-item:last-child {
-            border-bottom: none;
-        }
-        .playlist-item:active {
-            background: rgba(196, 69, 255, 0.1);
-            transform: scale(0.98);
-        }
-        .playlist-item.playing .item-title {
-            color: var(--accent-color);
-            font-weight: 600;
-            text-shadow: 0 0 8px var(--accent-color);
-        }
-        .item-details {
-            flex: 1;
-            padding: 0 16px;
-            min-width: 0;
-        }
-        .item-title {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            transition: color var(--transition-speed) ease;
-        }
-        .lyrics-modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(15, 12, 29, 0.85);
-            backdrop-filter: blur(12px);
-            z-index: 100;
-            display: none;
-            justify-content: center;
-            align-items: flex-end;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-        .lyrics-modal.show {
-            display: flex;
-            opacity: 1;
-        }
-        .lyrics-content-card {
-            width: 100%;
-            max-width: 500px;
-            height: 80%;
-            background: var(--glass-bg);
-            border-top-left-radius: 28px;
-            border-top-right-radius: 28px;
-            padding: 32px 24px;
-            overflow-y: auto;
-            transform: translateY(100%);
-            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-        .lyrics-modal.show .lyrics-content-card {
-            transform: translateY(0);
-        }
-        .lyrics-close-btn {
-            position: sticky;
-            top: 0;
-            float: right;
-            background: var(--accent-color);
-            color: #fff;
-            border: none;
-            padding: 10px 14px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: transform 0.15s ease;
-        }
-        .lyrics-close-btn:active {
-            transform: scale(0.9);
-        }
-    </style>
+    /* ХЕДЕР — только opacity, НИКАКИХ transform, чтобы не ломать position:fixed */
+    .header{display:flex;justify-content:space-between;align-items:center;opacity:0;animation:fadeIn .5s var(--ease) .05s forwards}
+    @keyframes fadeIn{to{opacity:1}}
+
+    .logo{display:flex;align-items:center;gap:10px;font-family:'Unbounded',sans-serif;font-size:1.35rem;font-weight:900;letter-spacing:-.5px}
+    .logo-icon{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--accent2),var(--accent));display:grid;place-items:center;font-size:1rem;box-shadow:0 0 20px var(--glow)}
+
+    /* КНОПКА ЯЗЫКА */
+    #langBtn{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text);padding:8px 14px;border-radius:12px;cursor:pointer;font-size:.85rem;font-family:'DM Sans',sans-serif;transition:background var(--fast)}
+    #langBtn:hover{background:rgba(176,60,255,.15)}
+    #langBtn .chevron{font-size:.7rem;color:var(--muted);transition:transform var(--med) var(--ease)}
+    #langBtn.open .chevron{transform:rotate(180deg)}
+
+    /* ДРОПДАУН — ПОРТАЛ, прямой child body, position:fixed, z-index выше всего */
+    #langDd{
+      position:fixed; /* координаты через JS */
+      z-index:99999;
+      min-width:175px;
+      background:rgba(14,11,26,.98);
+      border:1px solid rgba(176,60,255,.3);
+      border-radius:16px;padding:8px;
+      box-shadow:0 24px 64px rgba(0,0,0,.85),0 0 0 1px rgba(176,60,255,.1);
+      transform-origin:top right;
+      transform:scale(.88) translateY(-10px);
+      opacity:0;pointer-events:none;
+      transition:transform var(--med) var(--ease),opacity var(--med) var(--ease);
+    }
+    #langDd.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all}
+    .lang-opt{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;cursor:pointer;font-size:.9rem;white-space:nowrap;transition:background var(--fast)}
+    .lang-opt:hover{background:rgba(176,60,255,.18)}
+    .lang-opt:active{background:rgba(176,60,255,.3)}
+    .lang-opt.active{background:rgba(176,60,255,.22);color:var(--accent);font-weight:600}
+
+    /* КАРТОЧКА */
+    .card{background:rgba(17,15,30,.65);border:1px solid var(--border);border-radius:24px;backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);box-shadow:0 4px 40px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.05);padding:24px;opacity:0;animation:fadeIn .5s var(--ease) forwards}
+    .card:nth-of-type(1){animation-delay:.12s}
+    .card:nth-of-type(2){animation-delay:.22s}
+
+    /* ПЛЕЕР */
+    .player-card{display:flex;flex-direction:column;align-items:center;gap:20px}
+
+    /* ОБЛОЖКА — НЕТ will-change:transform чтобы не создавать stacking context */
+    .cover-wrap{width:100%;max-width:280px;aspect-ratio:1;border-radius:22px;overflow:hidden;position:relative;cursor:grab;touch-action:pan-y;box-shadow:0 12px 50px rgba(0,0,0,.6);transition:box-shadow var(--med) var(--ease)}
+    .cover-wrap.playing{animation:coverPulse 4s ease-in-out infinite alternate}
+    @keyframes coverPulse{from{box-shadow:0 12px 50px rgba(176,60,255,.35)}to{box-shadow:0 20px 70px rgba(176,60,255,.65)}}
+    .cover-wrap img{width:100%;height:100%;object-fit:cover;pointer-events:none;display:block}
+
+    .swipe-hint{position:absolute;inset:0;border-radius:22px;display:flex;justify-content:space-between;align-items:center;padding:0 20px;background:rgba(9,8,15,.7);opacity:0;pointer-events:none;transition:opacity .25s}
+    .swipe-hint.show{opacity:1}
+    .sw-arr{font-size:2rem;color:var(--accent);filter:drop-shadow(0 0 8px var(--accent))}
+    .sw-arr.l{animation:slideL .55s ease-in-out infinite alternate}
+    .sw-arr.r{animation:slideR .55s ease-in-out infinite alternate}
+    @keyframes slideL{to{transform:translateX(-10px)}}
+    @keyframes slideR{to{transform:translateX(10px)}}
+
+    .track-info{text-align:center;width:100%}
+    .track-title{font-family:'Unbounded',sans-serif;font-size:clamp(1.05rem,4vw,1.45rem);font-weight:700;line-height:1.2;margin-bottom:6px;letter-spacing:-.3px}
+    .track-author{font-size:.9rem;color:var(--muted)}
+
+    /* СЛАЙДЕРЫ */
+    .progress-row{display:flex;align-items:center;gap:12px;width:100%}
+    .time-lbl{font-size:.78rem;color:var(--muted);min-width:34px;font-variant-numeric:tabular-nums}
+    .time-lbl.r{text-align:right}
+    input[type=range]{-webkit-appearance:none;appearance:none;background:transparent;cursor:pointer;outline:none;width:100%}
+    input[type=range]::-webkit-slider-runnable-track{height:5px;border-radius:3px;background:rgba(255,255,255,.1)}
+    input[type=range]::-moz-range-track{height:5px;border-radius:3px;background:rgba(255,255,255,.1)}
+    input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--glow);margin-top:-5.5px;transition:transform var(--fast) var(--ease)}
+    input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--accent);border:none}
+    input[type=range]:active::-webkit-slider-thumb{transform:scale(1.35)}
+    #progress-bar{--pct:0%;background:linear-gradient(to right,var(--accent) var(--pct),rgba(255,255,255,.1) var(--pct));border-radius:3px}
+    #volume-slider{--vpct:100%;background:linear-gradient(to right,rgba(255,255,255,.55) var(--vpct),rgba(255,255,255,.1) var(--vpct));border-radius:3px}
+
+    /* КНОПКИ */
+    .controls{display:flex;justify-content:center;align-items:center;gap:14px;width:100%}
+    .ctrl-btn{width:50px;height:50px;border-radius:50%;border:1px solid var(--border);background:rgba(255,255,255,.05);color:var(--text);font-size:1.05rem;cursor:pointer;display:grid;place-items:center;transition:background var(--fast) var(--ease),transform var(--fast) var(--ease)}
+    .ctrl-btn:hover{background:rgba(176,60,255,.15)}
+    .ctrl-btn:active{transform:scale(.88)}
+    .ctrl-btn.play{width:68px;height:68px;background:linear-gradient(135deg,var(--accent2),var(--accent));border:none;color:#fff;font-size:1.4rem;box-shadow:0 0 28px var(--glow)}
+    .ctrl-btn.play:hover{box-shadow:0 0 42px var(--glow)}
+    .ctrl-btn.play:active{transform:scale(.92)}
+    .ctrl-btn.active i{color:var(--accent);filter:drop-shadow(0 0 6px var(--accent))}
+    .volume-row{display:flex;align-items:center;gap:12px;width:100%}
+    .vol-ic{font-size:.9rem;color:var(--muted)}
+
+    /* ПЛЕЙЛИСТ */
+    .pl-header{font-family:'Unbounded',sans-serif;font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:16px}
+    .author-label{display:flex;align-items:center;gap:8px;font-size:.75rem;font-weight:600;color:var(--accent);letter-spacing:.8px;text-transform:uppercase;padding:12px 0 8px}
+    .author-label::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--border),transparent)}
+    .pl-item{display:flex;align-items:center;gap:12px;padding:9px 10px 9px 0;border-radius:14px;cursor:pointer;transition:background var(--fast) var(--ease),transform var(--fast) var(--ease)}
+    .pl-item:hover{background:rgba(176,60,255,.08)}
+    .pl-item:active{transform:scale(.98);background:rgba(176,60,255,.14)}
+    .pl-item.playing{background:rgba(176,60,255,.12)}
+    .pl-item.playing .pl-title{color:var(--accent);font-weight:600}
+    .pl-num{min-width:28px;text-align:center;font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums}
+    .pl-thumb{width:44px;height:44px;border-radius:10px;overflow:hidden;flex-shrink:0;background:rgba(255,255,255,.05)}
+    .pl-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .pl-meta{flex:1;min-width:0}
+    .pl-title{font-size:.9rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color var(--fast)}
+    .pl-dur{font-size:.75rem;color:var(--muted);min-width:34px;text-align:right;font-variant-numeric:tabular-nums}
+    .lyr-btn{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--muted);font-size:.8rem;cursor:pointer;display:grid;place-items:center;flex-shrink:0;transition:background var(--fast),color var(--fast)}
+    .lyr-btn:hover{background:rgba(176,60,255,.2);color:var(--accent)}
+
+    /* МОДАЛ */
+    .modal-bg{position:fixed;inset:0;z-index:50000;background:rgba(9,8,15,.82);backdrop-filter:blur(16px);display:flex;justify-content:center;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity var(--med) var(--ease)}
+    .modal-bg.show{opacity:1;pointer-events:all}
+    .modal-card{width:100%;max-width:520px;max-height:80dvh;background:rgba(16,12,28,.98);border:1px solid var(--border);border-bottom:none;border-radius:28px 28px 0 0;padding:28px 24px 48px;overflow-y:auto;transform:translateY(100%);transition:transform .4s cubic-bezier(.25,1,.5,1)}
+    .modal-bg.show .modal-card{transform:translateY(0)}
+    .modal-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+    .modal-title{font-family:'Unbounded',sans-serif;font-size:1rem;font-weight:700}
+    .modal-close{width:36px;height:36px;border-radius:10px;background:rgba(176,60,255,.2);border:none;color:var(--accent);cursor:pointer;display:grid;place-items:center;font-size:1rem;transition:background var(--fast)}
+    .modal-close:hover{background:rgba(176,60,255,.35)}
+    #lyrics-text{white-space:pre-wrap;line-height:1.85;font-size:.92rem;color:var(--muted)}
+
+    /* ТОСТ */
+    .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(16px);background:linear-gradient(135deg,var(--accent2),var(--accent));color:#fff;padding:10px 22px;border-radius:20px;font-size:.85rem;font-weight:600;opacity:0;pointer-events:none;transition:opacity .25s var(--ease),transform .25s var(--ease);z-index:99998;white-space:nowrap;box-shadow:0 8px 32px rgba(176,60,255,.5)}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+    /* ПК */
+    @media(min-width:640px){
+      .layout{grid-template-columns:1fr 1fr;padding:32px 24px 56px;gap:24px}
+      .header{grid-column:1/-1}
+      .cover-wrap{max-width:240px}
+      .modal-card{border-radius:28px;margin-bottom:32px}
+    }
+    @media(min-width:900px){.cover-wrap{max-width:260px}}
+
+    ::-webkit-scrollbar{width:5px}
+    ::-webkit-scrollbar-track{background:transparent}
+    ::-webkit-scrollbar-thumb{background:rgba(176,60,255,.3);border-radius:3px}
+  </style>
 </head>
 <body>
 
-    <div class="mobile-container">
-        <!-- ХЕДЕР -->
-        <div class="header">
-            <div class="logo-title">
-                <i class="fas fa-headphones-alt"></i>
-                <h1 data-lang-key="title">UMIT Плеер</h1>
-            </div>
+<!-- ДРОПДАУН — прямо в body, вне любого stacking context -->
+<div id="langDd" role="listbox">
+  <div class="lang-opt" data-lang="kk">🇰🇿 Қазақша</div>
+  <div class="lang-opt active" data-lang="ru">🇷🇺 Русский</div>
+  <div class="lang-opt" data-lang="en">🇺🇸 English</div>
+  <div class="lang-opt" data-lang="fr">🇫🇷 Français</div>
+  <div class="lang-opt" data-lang="zh">🇨🇳 简体中文</div>
+</div>
 
-            <div class="language-switcher">
-                <button id="lang-btn">
-                    <span id="current-lang-text">Русский</span>
-                    <i class="fas fa-chevron-down"></i>
-                </button>
+<div class="layout">
+  <header class="header">
+    <div class="logo">
+      <div class="logo-icon"><i class="fas fa-headphones-alt"></i></div>
+      <span data-key="title">UMIT Player</span>
+    </div>
+    <button id="langBtn" aria-haspopup="listbox" aria-expanded="false">
+      <span id="langLabel">Русский</span>
+      <i class="fas fa-chevron-down chevron"></i>
+    </button>
+  </header>
 
-                <div class="glass-card lang-dropdown" id="lang-dropdown">
-                    <div class="lang-option" onclick="switchLanguage('kk', event)">🇰🇿 Қазақша</div>
-                    <div class="lang-option active" onclick="switchLanguage('ru', event)">🇷🇺 Русский</div>
-                    <div class="lang-option" onclick="switchLanguage('en', event)">🇺🇸 English</div>
-                    <div class="lang-option" onclick="switchLanguage('fr', event)">🇫🇷 Français</div>
-                    <div class="lang-option" onclick="switchLanguage('zh', event)">🇨🇳 简体中文</div>
-                </div>
-            </div>
-        </div>
+  <div class="card player-card">
+    <audio id="audio" preload="metadata"></audio>
 
-        <!-- ПЛЕЕР -->
-        <div class="glass-card player-card">
-            <audio id="global-audio-player" src="" preload="metadata"></audio>
-
-            <div class="cover-art" id="cover-art-container">
-                <div class="gesture-indicator" id="gesture-indicator">
-                    <i class="fas fa-arrow-left gesture-arrow"></i>
-                    <i class="fas fa-arrow-right gesture-arrow"></i>
-                </div>
-                <img id="track-cover" src="" alt="Track Cover">
-            </div>
-
-            <div class="track-info">
-                <h2 id="current-track-title" data-lang-key="selectTrack">Выберите трек</h2>
-                <p id="current-track-author">UMIT Project</p>
-            </div>
-
-            <div class="progress-container">
-                <span id="current-time" class="time-display">0:00</span>
-                <input type="range" id="progress-bar" value="0" min="0" max="100" step="0.1">
-                <span id="duration" class="time-display">0:00</span>
-            </div>
-
-            <div class="main-controls">
-                <button class="control-btn" onclick="playPrevious()">
-                    <i class="fas fa-backward"></i>
-                </button>
-                <button class="control-btn play-pause" id="main-play-btn" onclick="togglePlay()">
-                    <i class="fas fa-play"></i>
-                </button>
-                <button class="control-btn" onclick="playNext()">
-                    <i class="fas fa-forward"></i>
-                </button>
-            </div>
-
-            <div class="volume-container">
-                <i class="fas fa-volume-down"></i>
-                <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="1">
-                <i class="fas fa-volume-up"></i>
-            </div>
-
-            <button class="control-btn" id="main-favorite-btn" onclick="toggleFavorite()" style="margin-top: 12px;">
-                <i class="far fa-heart"></i>
-            </button>
-        </div>
-
-        <!-- ПЛЕЙЛИСТ -->
-        <div class="glass-card">
-            <h3 class="playlist-header" data-lang-key="songsList">Список песен</h3>
-            <div id="main-playlist-items" class="playlist-items"></div>
-        </div>
+    <div class="cover-wrap" id="coverWrap">
+      <img id="coverImg" src="" alt="cover">
+      <div class="swipe-hint" id="swipeHint">
+        <i class="fas fa-chevron-left sw-arr l"></i>
+        <i class="fas fa-chevron-right sw-arr r"></i>
+      </div>
     </div>
 
-    <!-- МОДАЛЬНОЕ ОКНО ТЕКСТА -->
-    <div class="lyrics-modal" id="lyrics-modal" onclick="closeLyricsModal()">
-        <div class="lyrics-content-card" onclick="event.stopPropagation()">
-            <button class="lyrics-close-btn" onclick="closeLyricsModal()">
-                <i class="fas fa-times"></i>
-            </button>
-            <h3 id="lyrics-title">Текст песни</h3>
-            <p id="lyrics-text">Текст загружается...</p>
-        </div>
+    <div class="track-info">
+      <div class="track-title" id="trackTitle" data-key="selectTrack">Выберите трек</div>
+      <div class="track-author" id="trackAuthor">UMIT Project</div>
     </div>
 
-    <script>
-        /* ===================================================
-           ДАННЫЕ / ЯЗЫКИ
-        =================================================== */
-        let currentLanguage = localStorage.getItem('language') || 'ru';
-        let currentTrackIndex = -1;
-        let favorites = JSON.parse(localStorage.getItem('audioPlayerFavorites')) || [];
+    <div class="progress-row">
+      <span class="time-lbl" id="curTime">0:00</span>
+      <input type="range" id="progress-bar" value="0" min="0" max="100" step="0.01">
+      <span class="time-lbl r" id="durTime">0:00</span>
+    </div>
 
-        const translations = {
-            ru: {
-                title: "UMIT Плеер",
-                selectTrack: "Выберите трек",
-                lyrics: "Текст песни",
-                songsList: "Список песен",
-                song1: "Орта жүз", song2: "Жарылғап батыр", song3: "Тегімнің рухы",
-                song4: "Қалжыр", song5: "Қалжыр2", song6: "Wedding_fog",
-                song7: "Wedding_fog2", song8: "Along_the_roads", song9: "Көктем",
-                song10: "Туған туыс бақытым", song11: "Анашым",
-                added: "Добавлено!", removed: "Удалено!",
-                lyricsTitle: "Текст песни: ",
-                author1: "Қабыкенов Сағыныш", author2: "Рамазанов Төреғали"
-            },
-            kk: {
-                title: "UMIT Плеєрі", selectTrack: "Тректі таңдаңыз", lyrics: "Мәтін",
-                songsList: "Өлеңдер Тізімі:", song1: "Орта жүз", song2: "Жарылғап батыр",
-                song3: "Тегімнің рухы", song4: "Қалжыр", song5: "Қалжыр2",
-                song6: "Wedding_fog", song7: "Wedding_fog2", song8: "Along_the_roads",
-                song9: "Көктем", song10: "Туған туыс бақытым", song11: "Анашым",
-                added: "Қосылды!", removed: "Жойылды!",
-                lyricsTitle: "Ән мәтіні: ", author1: "Қабыкенов Сағыныш", author2: "Рамазанов Төреғали"
-            },
-            en: {
-                title: "UMIT Player", selectTrack: "Select a track", lyrics: "Lyrics",
-                songsList: "Songs List:", song1: "Middle Zhuz", song2: "Zharylghap Batyr",
-                song3: "Spirit of My Lineage", song4: "Kalzhyr", song5: "Kalzhyr2",
-                song6: "Wedding_fog", song7: "Wedding_fog2", song8: "Along_the_roads",
-                song9: "Spring", song10: "My Native Happiness", song11: "Anashym",
-                added: "Added!", removed: "Removed!",
-                lyricsTitle: "Lyrics for: ", author1: "Kabikenov Sagynysh", author2: "Ramazanov Toreghali"
-            },
-            fr: {
-                title: "UMIT Lecteur", selectTrack: "Sélectionnez une piste", lyrics: "Paroles",
-                songsList: "Liste des Chansons:", song1: "Juz du Milieu", song2: "Zharylghap Batyr",
-                song3: "Esprit de Ma Lignée", song4: "Kalzhyr", song5: "Kalzhyr2",
-                song6: "Wedding_fog", song7: "Wedding_fog2", song8: "Along_the_roads",
-                song9: "Printemps", song10: "Mon Bonheur Natal", song11: "Anashym",
-                added: "Ajouté!", removed: "Supprimé!",
-                lyricsTitle: "Paroles de: ", author1: "Kabikenov Sagynysh", author2: "Ramazanov Toreghali"
-            },
-            zh: {
-                title: "UMIT 播放器", selectTrack: "选择曲目", lyrics: "歌词",
-                songsList: "歌曲列表:", song1: "中玉兹", song2: "扎里尔哈普·巴蒂尔",
-                song3: "我的血统精神", song4: "卡尔日尔", song5: "卡尔日尔2",
-                song6: "Wedding_fog", song7: "Wedding_fog2", song8: "Along_the_roads",
-                song9: "春天", song10: "我的原生幸福", song11: "阿纳希姆",
-                added: "已添加!", removed: "已删除!",
-                lyricsTitle: "歌词: ", author1: "Кабыкенов Сагыныш", author2: "拉马扎诺夫·托雷加利"
-            }
-        };
+    <div class="controls">
+      <button class="ctrl-btn" id="shuffleBtn" title="Shuffle"><i class="fas fa-shuffle"></i></button>
+      <button class="ctrl-btn" onclick="playPrev()"><i class="fas fa-backward-step"></i></button>
+      <button class="ctrl-btn play" id="playBtn" onclick="togglePlay()"><i class="fas fa-play" id="playIcon"></i></button>
+      <button class="ctrl-btn" onclick="playNext()"><i class="fas fa-forward-step"></i></button>
+      <button class="ctrl-btn" id="favBtn" onclick="toggleFav()"><i class="far fa-heart"></i></button>
+    </div>
 
-        const tracks = [
-            { titleKey: "song1", src: "orta_juz_audio.mp3", cover: "orta_juz.jpg", id: 0, author: "author1", lyrics: "Текст песни 1 (Орта жүз) \n\n" },
-            { titleKey: "song2", src: "jarylgap_batyr_audio.mp3", cover: "jarylgap_batyr.jpg", id: 1, author: "author1", lyrics: "Текст песни 2 (Жарылғап батыр) \n\n" },
-            { titleKey: "song3", src: "tegimnin_ruhy_audio.mp3", cover: "tegimnin_ruhy.jpg", id: 2, author: "author1", lyrics: "Текст песни 3 (Тегімнің рухы) \n\n" },
-            { titleKey: "song4", src: "Kalzhyr.mp3", cover: "Kalzhyr.jpg", id: 3, author: "author1", lyrics: "Текст песни 4 (Қалжыр) \n\n" },
-            { titleKey: "song5", src: "Kalzhyr2.mp3", cover: "Kalzhyr2.jpg", id: 4, author: "author1", lyrics: "Текст песни 5 (Қалжыр2) \n\n" },
-            { titleKey: "song6", src: "Wedding_fog.mp3", cover: "Wedding_fog.jpg", id: 5, author: "author1", lyrics: "Текст песни 6 (Wedding_fog) \n\n" },
-            { titleKey: "song7", src: "Wedding_fog2.mp3", cover: "Wedding_fog2.jpg", id: 6, author: "author1", lyrics: "Текст песни 7 (Wedding_fog2) \n\n" },
-            { titleKey: "song8", src: "Along_the_roads.mp3", cover: "Along_the_roads.jpg", id: 7, author: "author1", lyrics: "Текст песни 8 (Along_the_roads) \n\n" },
-            { titleKey: "song11", src: "Anashym.mp3", cover: "Anashym.jpg", id: 8, author: "author1", lyrics: "Анашым, анашым, сен менің анашым...\n\n[полный текст]" },
-            { titleKey: "song9", src: "Koktem_audio.mp3", cover: "Koktem.jpg", id: 9, author: "author2", lyrics: "Текст песни 9 (Көктем) \n\n" },
-            { titleKey: "song10", src: "Tuğan_tūyıs_baqytym.mp3", cover: "Tūğan_tūyıs_baqytym.jpg", id: 10, author: "author2", lyrics: "Текст песни 10 (Туған туыс бақытым) \n\n" }
-        ];
+    <div class="volume-row">
+      <i class="fas fa-volume-off vol-ic"></i>
+      <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="1">
+      <i class="fas fa-volume-high vol-ic"></i>
+    </div>
+  </div>
 
-        /* ===================================================
-           УТИЛИТЫ
-        =================================================== */
-        function formatTime(sec) {
-            if (isNaN(sec) || sec < 0) return "0:00";
-            const m = Math.floor(sec / 60);
-            const s = Math.floor(sec % 60);
-            return `${m}:${s < 10 ? '0' : ''}${s}`;
-        }
+  <div class="card">
+    <div class="pl-header" data-key="songsList">Список песен</div>
+    <div id="playlist"></div>
+  </div>
+</div>
 
-        /* ===================================================
-           ЯЗЫК
-        =================================================== */
-        function switchLanguage(lang, e) {
-            if (e) e.stopPropagation();
-            currentLanguage = lang;
-            localStorage.setItem('language', lang);
-            document.querySelectorAll('.lang-dropdown .lang-option').forEach(opt => opt.classList.remove('active'));
-            if (e && e.target.classList.contains('lang-option')) e.target.classList.add('active');
+<div class="toast" id="toast"></div>
 
-            document.querySelectorAll('[data-lang-key]').forEach(el => {
-                const key = el.getAttribute('data-lang-key');
-                if (translations[lang][key]) el.textContent = translations[lang][key];
-            });
-            const langNameMap = { kk: 'Қазақша', ru: 'Русский', en: 'English', fr: 'Français', zh: '简体中文' };
-            document.getElementById('current-lang-text').textContent = langNameMap[lang] || 'Language';
+<div class="modal-bg" id="modalBg" onclick="closeModal()">
+  <div class="modal-card" onclick="event.stopPropagation()">
+    <div class="modal-hdr">
+      <div class="modal-title" id="modalTitle">Текст песни</div>
+      <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div id="lyrics-text">...</div>
+  </div>
+</div>
 
-            updateTrackList();
-            if (currentTrackIndex !== -1) {
-                const t = tracks[currentTrackIndex];
-                document.getElementById('current-track-title').textContent = translations[lang][t.titleKey];
-                document.getElementById('current-track-author').textContent = translations[lang][t.author];
-            } else {
-                document.getElementById('current-track-title').textContent = translations[lang].selectTrack;
-                document.getElementById('current-track-author').textContent = "UMIT Project";
-            }
-            closeLangDropdown();
-        }
-        function toggleLangDropdown(e) {
-            if (e) e.stopPropagation();
-            const d = document.getElementById('lang-dropdown');
-            d.style.display = d.style.display === 'block' ? 'none' : 'block';
-        }
-        function closeLangDropdown() {
-            document.getElementById('lang-dropdown').style.display = 'none';
-        }
-        /* клик вне дропдауна – закрыть */
-        document.addEventListener('click', e => {
-            const d = document.getElementById('lang-dropdown');
-            const b = document.getElementById('lang-btn');
-            if (d && d.style.display === 'block' && !d.contains(e.target) && (!b || !b.contains(e.target))) closeLangDropdown();
-        });
-        /* клик по самой кнопке (стрелка) – не закрывать сразу */
-        document.getElementById('lang-btn').addEventListener('click', e => {
-            e.stopPropagation();
-            toggleLangDropdown();
-        });
+<script>
+const I18N={
+  ru:{title:"UMIT Плеер",selectTrack:"Выберите трек",songsList:"Список песен",lyricsFor:"Текст: ",s1:"Орта жүз",s2:"Жарылғап батыр",s3:"Тегімнің рухы",s4:"Қалжыр",s5:"Қалжыр 2",s6:"Wedding Fog",s7:"Wedding Fog 2",s8:"Along the Roads",s9:"Анашым",s10:"Көктем",s11:"Туған туыс бақытым",a1:"Қабыкенов Сағыныш",a2:"Рамазанов Төреғали",added:"Добавлено ♥",removed:"Удалено"},
+  kk:{title:"UMIT Плеєрі",selectTrack:"Тректі таңдаңыз",songsList:"Өлеңдер тізімі",lyricsFor:"Ән мәтіні: ",s1:"Орта жүз",s2:"Жарылғап батыр",s3:"Тегімнің рухы",s4:"Қалжыр",s5:"Қалжыр 2",s6:"Wedding Fog",s7:"Wedding Fog 2",s8:"Along the Roads",s9:"Анашым",s10:"Көктем",s11:"Туған туыс бақытым",a1:"Қабыкенов Сағыныш",a2:"Рамазанов Төреғали",added:"Қосылды ♥",removed:"Жойылды"},
+  en:{title:"UMIT Player",selectTrack:"Select a track",songsList:"Songs list",lyricsFor:"Lyrics: ",s1:"Middle Zhuz",s2:"Zharylghap Batyr",s3:"Spirit of My Lineage",s4:"Kalzhyr",s5:"Kalzhyr 2",s6:"Wedding Fog",s7:"Wedding Fog 2",s8:"Along the Roads",s9:"Anashym",s10:"Spring",s11:"My Native Happiness",a1:"Kabikenov Sagynysh",a2:"Ramazanov Toreghali",added:"Added ♥",removed:"Removed"},
+  fr:{title:"UMIT Lecteur",selectTrack:"Choisissez une piste",songsList:"Liste des chansons",lyricsFor:"Paroles : ",s1:"Juz du Milieu",s2:"Zharylghap Batyr",s3:"Esprit de ma lignée",s4:"Kalzhyr",s5:"Kalzhyr 2",s6:"Wedding Fog",s7:"Wedding Fog 2",s8:"Along the Roads",s9:"Anashym",s10:"Printemps",s11:"Mon bonheur natal",a1:"Kabikenov Sagynysh",a2:"Ramazanov Toreghali",added:"Ajouté ♥",removed:"Supprimé"},
+  zh:{title:"UMIT 播放器",selectTrack:"选择曲目",songsList:"歌曲列表",lyricsFor:"歌词：",s1:"中玉兹",s2:"扎里尔哈普·巴蒂尔",s3:"我的血统精神",s4:"卡尔日尔",s5:"卡尔日尔2",s6:"婚礼雾",s7:"婚礼雾2",s8:"沿途",s9:"阿纳希姆",s10:"春天",s11:"我的原生幸福",a1:"卡比肯诺夫·萨格尼什",a2:"拉马扎诺夫·托雷加利",added:"已添加 ♥",removed:"已删除"},
+};
+const LANG_NAMES={kk:"Қазақша",ru:"Русский",en:"English",fr:"Français",zh:"简体中文"};
+const TRACKS=[
+  {tk:"s1",src:"orta_juz_audio.mp3",cover:"orta_juz.jpg",author:"a1",lyrics:"Орта жүз — мәтін..."},
+  {tk:"s2",src:"jarylgap_batyr_audio.mp3",cover:"jarylgap_batyr.jpg",author:"a1",lyrics:"Жарылғап батыр — мәтін..."},
+  {tk:"s3",src:"tegimnin_ruhy_audio.mp3",cover:"tegimnin_ruhy.jpg",author:"a1",lyrics:"Тегімнің рухы — мәтін..."},
+  {tk:"s4",src:"Kalzhyr.mp3",cover:"Kalzhyr.jpg",author:"a1",lyrics:"Қалжыр — мәтін..."},
+  {tk:"s5",src:"Kalzhyr2.mp3",cover:"Kalzhyr2.jpg",author:"a1",lyrics:"Қалжыр 2 — мәтін..."},
+  {tk:"s6",src:"Wedding_fog.mp3",cover:"Wedding_fog.jpg",author:"a1",lyrics:"Wedding Fog lyrics..."},
+  {tk:"s7",src:"Wedding_fog2.mp3",cover:"Wedding_fog2.jpg",author:"a1",lyrics:"Wedding Fog 2 lyrics..."},
+  {tk:"s8",src:"Along_the_roads.mp3",cover:"Along_the_roads.jpg",author:"a1",lyrics:"Along the roads lyrics..."},
+  {tk:"s9",src:"Anashym.mp3",cover:"Anashym.jpg",author:"a1",lyrics:"Анашым, анашым, сен менің анашым..."},
+  {tk:"s10",src:"Koktem_audio.mp3",cover:"Koktem.jpg",author:"a2",lyrics:"Көктем — мәтін..."},
+  {tk:"s11",src:"Tuğan_tūyıs_baqytym.mp3",cover:"Tūğan_tūyıs_baqytym.jpg",author:"a2",lyrics:"Туған туыс бақытым — мәтін..."},
+];
 
-        /* ===================================================
-           ПЛЕЙЛИСТ
-        =================================================== */
-        function updateTrackList() {
-            const cont = document.getElementById('main-playlist-items');
-            cont.innerHTML = '';
-            let curAuth = null;
-            tracks.forEach((tr, idx) => {
-                if (tr.author !== curAuth) {
-                    const h = document.createElement('h4');
-                    h.className = 'playlist-author-header';
-                    h.textContent = translations[currentLanguage][tr.author];
-                    cont.appendChild(h);
-                    curAuth = tr.author;
-                }
-                const div = document.createElement('div');
-                div.className = 'playlist-item' + (idx === currentTrackIndex ? ' playing' : '');
-                div.innerHTML = `
-                    <div class="item-index">${idx + 1}</div>
-                    <div class="item-details" onclick="loadTrack(${idx})">
-                        <div class="item-title">${translations[currentLanguage][tr.titleKey]}</div>
-                    </div>
-                    <div class="item-duration">${idx % 3 === 0 ? "3:49" : idx % 3 === 1 ? "2:34" : "2:16"}</div>
-                    <button class="control-btn" style="width:40px;height:40px;margin-left:10px;" onclick="openLyricsModal(${idx},event)">
-                        <i class="fas fa-file-lines"></i>
-                    </button>
-                `;
-                cont.appendChild(div);
-            });
-        }
+let lang=localStorage.getItem('umit_lang')||'ru', curIdx=-1, shuffle=false;
+let favs=JSON.parse(localStorage.getItem('umit_favs')||'[]'), durations={};
 
-        /* ===================================================
-           АУДИО-ПЛЕЕР
-        =================================================== */
-        const audio = document.getElementById('global-audio-player');
-        const playBtn = document.getElementById('main-play-btn');
-        const playIcon = playBtn.querySelector('i');
-        const cover = document.getElementById('cover-art-container');
-        const coverImg = document.getElementById('track-cover');
-        const titleEl = document.getElementById('current-track-title');
-        const authorEl = document.getElementById('current-track-author');
-        const prog = document.getElementById('progress-bar');
-        const curTime = document.getElementById('current-time');
-        const dur = document.getElementById('duration');
-        const vol = document.getElementById('volume-slider');
-        const favBtn = document.getElementById('main-favorite-btn');
+const T=()=>I18N[lang];
+const fmt=s=>isNaN(s)||s<0?'0:00':`${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
 
-        function updatePlayButton(playing) {
-            playIcon.className = playing ? 'fas fa-pause' : 'fas fa-play';
-            cover.classList.toggle('playing', playing);
-        }
-        function loadTrack(idx) {
-            if (idx === currentTrackIndex) { togglePlay(); return; }
-            currentTrackIndex = idx;
-            const t = tracks[idx];
-            audio.src = t.src;
-            titleEl.textContent = translations[currentLanguage][t.titleKey];
-            authorEl.textContent = translations[currentLanguage][t.author];
-            coverImg.src = t.cover;
-            audio.load();
-            audio.play();
-            updatePlayButton(true);
-            updateTrackList();
-            updateFavoriteButton();
-        }
-        function togglePlay() {
-            if (currentTrackIndex === -1) { loadTrack(0); return; }
-            if (audio.paused) { audio.play(); updatePlayButton(true); }
-            else { audio.pause(); updatePlayButton(false); }
-        }
-        function playNext() {
-            if (currentTrackIndex === -1) { loadTrack(0); return; }
-            let next = currentTrackIndex + 1; if (next >= tracks.length) next = 0;
-            loadTrack(next);
-        }
-        function playPrevious() {
-            if (currentTrackIndex === -1) { loadTrack(tracks.length - 1); return; }
-            if (audio.currentTime < 3 && currentTrackIndex > 0) { let prev = currentTrackIndex - 1; loadTrack(prev); }
-            else { audio.currentTime = 0; }
-        }
+function showToast(msg){const e=document.getElementById('toast');e.textContent=msg;e.classList.add('show');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('show'),2000)}
 
-        /* ===================================================
-           ИЗБРАННОЕ
-        =================================================== */
-        function toggleFavorite() {
-            if (currentTrackIndex === -1) return;
-            const id = tracks[currentTrackIndex].id;
-            const i = favorites.indexOf(id);
-            if (i === -1) favorites.push(id); else favorites.splice(i, 1);
-            localStorage.setItem('audioPlayerFavorites', JSON.stringify(favorites));
-            updateFavoriteButton();
-        }
-        function updateFavoriteButton() {
-            if (!favBtn) return;
-            if (currentTrackIndex === -1) { favBtn.querySelector('i').className = 'far fa-heart'; favBtn.classList.remove('active'); return; }
-            const id = tracks[currentTrackIndex].id;
-            const liked = favorites.includes(id);
-            favBtn.querySelector('i').className = liked ? 'fas fa-heart' : 'far fa-heart';
-            favBtn.classList.toggle('active', liked);
-        }
+/* ЯЗЫК */
+function applyLang(){
+  document.querySelectorAll('[data-key]').forEach(el=>{if(T()[el.dataset.key])el.textContent=T()[el.dataset.key]});
+  document.getElementById('langLabel').textContent=LANG_NAMES[lang];
+  document.querySelectorAll('.lang-opt').forEach(o=>o.classList.toggle('active',o.dataset.lang===lang));
+  buildPlaylist();
+  if(curIdx>=0){document.getElementById('trackTitle').textContent=T()[TRACKS[curIdx].tk];document.getElementById('trackAuthor').textContent=T()[TRACKS[curIdx].author]}
+}
 
-        /* ===================================================
-           ЖЕСТЫ
-        =================================================== */
-        function initGestures() {
-            const c = cover;
-            let startX = 0, startY = 0, endX = 0, endY = 0, lastTap = 0;
-            function handleStart(e) {
-                const x = e.touches ? e.touches[0].clientX : e.clientX;
-                const y = e.touches ? e.touches[0].clientY : e.clientY;
-                startX = x; startY = y;
-                const now = new Date().getTime();
-                const tapLen = now - lastTap;
-                if (tapLen < 300 && tapLen > 0) { togglePlay(); c.style.transform = 'scale(0.95)'; setTimeout(() => c.style.transform = 'scale(1)', 150); }
-                lastTap = now;
-            }
-            function handleEnd(e) {
-                endX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
-                endY = e.changedTouches ? e.changedTouches[0].clientY : e.clientY;
-                const dx = endX - startX, dy = endY - startY;
-                c.style.transform = 'translateX(0)';
-                if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
-                    if (dx > 0) playPrevious(); else playNext();
-                }
-                startX = 0; startY = 0;
-            }
-            c.addEventListener('touchstart', handleStart, { passive: true });
-            c.addEventListener('touchend', handleEnd, { passive: false });
-            c.addEventListener('mousedown', handleStart);
-            c.addEventListener('mouseup', handleEnd);
-        }
+/* ДРОПДАУН */
+const langBtn=document.getElementById('langBtn'), langDd=document.getElementById('langDd');
 
-        /* ===================================================
-           ТЕКСТ ПЕСНИ
-        =================================================== */
-        function openLyricsModal(idx, e) {
-            if (e) e.stopPropagation();
-            const modal = document.getElementById('lyrics-modal');
-            const t = tracks[idx];
-            document.getElementById('lyrics-title').textContent = translations[currentLanguage].lyricsTitle + translations[currentLanguage][t.titleKey];
-            document.getElementById('lyrics-text').textContent = t.lyrics || "Текст не найден.";
-            modal.classList.add('show');
-        }
-        function closeLyricsModal() {
-            document.getElementById('lyrics-modal').classList.remove('show');
-        }
+function posDd(){
+  const r=langBtn.getBoundingClientRect();
+  langDd.style.top=(r.bottom+8)+'px';
+  langDd.style.right=(document.documentElement.clientWidth-r.right)+'px';
+  langDd.style.left='auto';
+}
+function openDd(){posDd();langDd.classList.add('open');langBtn.classList.add('open');langBtn.setAttribute('aria-expanded','true')}
+function closeDd(){langDd.classList.remove('open');langBtn.classList.remove('open');langBtn.setAttribute('aria-expanded','false')}
 
-        /* ===================================================
-           СОБЫТИЯ АУДИО
-        =================================================== */
-        audio.addEventListener('timeupdate', () => {
-            prog.value = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
-            curTime.textContent = formatTime(audio.currentTime);
-        });
-        audio.addEventListener('loadedmetadata', () => {
-            dur.textContent = formatTime(audio.duration);
-        });
-        audio.addEventListener('ended', playNext);
-        prog.addEventListener('input', () => {
-            audio.currentTime = (prog.value / 100) * audio.duration;
-        });
-        vol.addEventListener('input', () => audio.volume = vol.value);
+langBtn.addEventListener('click',e=>{e.stopPropagation();langDd.classList.contains('open')?closeDd():openDd()});
+document.addEventListener('click',e=>{if(!langDd.contains(e.target)&&e.target!==langBtn)closeDd()});
+window.addEventListener('resize',()=>{if(langDd.classList.contains('open'))posDd()});
+window.addEventListener('scroll',()=>{if(langDd.classList.contains('open'))posDd()},{passive:true});
+langDd.querySelectorAll('.lang-opt').forEach(o=>o.addEventListener('click',e=>{e.stopPropagation();lang=o.dataset.lang;localStorage.setItem('umit_lang',lang);applyLang();closeDd()}));
 
-        /* ===================================================
-           СТАРТ
-        =================================================== */
-        document.addEventListener('DOMContentLoaded', () => {
-            switchLanguage(currentLanguage);
-            audio.volume = vol.value;
-            updateFavoriteButton();
-            if (tracks.length) { loadTrack(0); audio.pause(); updatePlayButton(false); authorEl.textContent = "UMIT Project"; }
-            initGestures();
-        });
-    </script>
+/* ПЛЕЙЛИСТ */
+function buildPlaylist(){
+  const cont=document.getElementById('playlist'); cont.innerHTML=''; let lastA=null;
+  TRACKS.forEach((tr,i)=>{
+    if(tr.author!==lastA){const l=document.createElement('div');l.className='author-label';l.textContent=T()[tr.author];cont.appendChild(l);lastA=tr.author}
+    const item=document.createElement('div');
+    item.className='pl-item'+(i===curIdx?' playing':'');
+    item.innerHTML=`<span class="pl-num">${i+1}</span><div class="pl-thumb"><img src="${tr.cover}" alt="" loading="lazy"></div><div class="pl-meta"><div class="pl-title">${T()[tr.tk]}</div></div><span class="pl-dur" id="dur-${i}">${durations[i]!=null?fmt(durations[i]):'—:——'}</span><button class="lyr-btn" data-i="${i}"><i class="fas fa-file-lines"></i></button>`;
+    item.addEventListener('click',e=>{if(!e.target.closest('.lyr-btn'))loadTrack(i)});
+    item.querySelector('.lyr-btn').addEventListener('click',e=>{e.stopPropagation();openModal(i)});
+    cont.appendChild(item);
+  });
+}
+
+/* АУДИО */
+const audio=document.getElementById('audio'), playIcon=document.getElementById('playIcon');
+const coverImg=document.getElementById('coverImg'), coverWrap=document.getElementById('coverWrap');
+const prog=document.getElementById('progress-bar'), volSlider=document.getElementById('volume-slider');
+const curTimeEl=document.getElementById('curTime'), durTimeEl=document.getElementById('durTime');
+
+function setPlaying(on){playIcon.className=on?'fas fa-pause':'fas fa-play';coverWrap.classList.toggle('playing',on)}
+
+function loadTrack(idx){
+  if(idx===curIdx){togglePlay();return}
+  curIdx=idx; const tr=TRACKS[idx];
+  audio.src=tr.src; coverImg.src=tr.cover;
+  document.getElementById('trackTitle').textContent=T()[tr.tk];
+  document.getElementById('trackAuthor').textContent=T()[tr.author];
+  prog.value=0; prog.style.setProperty('--pct','0%');
+  curTimeEl.textContent='0:00'; durTimeEl.textContent=durations[idx]!=null?fmt(durations[idx]):'0:00';
+  audio.load(); audio.play().catch(()=>{}); setPlaying(true); buildPlaylist(); updateFavBtn();
+}
+
+function togglePlay(){if(curIdx<0){loadTrack(0);return}if(audio.paused){audio.play();setPlaying(true)}else{audio.pause();setPlaying(false)}}
+
+function playNext(){
+  let n=shuffle?(()=>{let x;do{x=Math.floor(Math.random()*TRACKS.length)}while(x===curIdx&&TRACKS.length>1);return x})():(curIdx<0?0:(curIdx+1)%TRACKS.length);
+  loadTrack(n);
+}
+function playPrev(){if(curIdx<0){loadTrack(TRACKS.length-1);return}if(audio.currentTime>3){audio.currentTime=0;return}loadTrack((curIdx-1+TRACKS.length)%TRACKS.length)}
+
+audio.addEventListener('timeupdate',()=>{if(!audio.duration)return;const p=(audio.currentTime/audio.duration)*100;prog.value=p;prog.style.setProperty('--pct',p.toFixed(2)+'%');curTimeEl.textContent=fmt(audio.currentTime)});
+audio.addEventListener('loadedmetadata',()=>{durTimeEl.textContent=fmt(audio.duration);if(curIdx>=0&&audio.duration){durations[curIdx]=audio.duration;const e=document.getElementById('dur-'+curIdx);if(e)e.textContent=fmt(audio.duration)}});
+audio.addEventListener('ended',playNext);
+prog.addEventListener('input',()=>{if(audio.duration){audio.currentTime=(prog.value/100)*audio.duration;prog.style.setProperty('--pct',prog.value+'%')}});
+volSlider.addEventListener('input',()=>{audio.volume=volSlider.value;volSlider.style.setProperty('--vpct',(volSlider.value*100).toFixed(1)+'%')});
+
+TRACKS.forEach((tr,i)=>{const a=new Audio();a.preload='metadata';a.src=tr.src;a.addEventListener('loadedmetadata',()=>{durations[i]=a.duration;const e=document.getElementById('dur-'+i);if(e)e.textContent=fmt(a.duration)},{once:true})});
+
+document.getElementById('shuffleBtn').addEventListener('click',function(){shuffle=!shuffle;this.classList.toggle('active',shuffle)});
+
+function toggleFav(){if(curIdx<0)return;const i=favs.indexOf(curIdx);if(i<0){favs.push(curIdx);showToast(T().added)}else{favs.splice(i,1);showToast(T().removed)}localStorage.setItem('umit_favs',JSON.stringify(favs));updateFavBtn()}
+function updateFavBtn(){const btn=document.getElementById('favBtn'),liked=favs.includes(curIdx);btn.querySelector('i').className=liked?'fas fa-heart':'far fa-heart';btn.classList.toggle('active',liked)}
+
+/* ЖЕСТЫ */
+(function(){
+  const wrap=document.getElementById('coverWrap'),hint=document.getElementById('swipeHint');
+  let sx=0,sy=0,dragging=false,lastTap=0;
+  function onStart(e){const pt=e.touches?e.touches[0]:e;sx=pt.clientX;sy=pt.clientY;dragging=true;const now=Date.now();if(now-lastTap<280)togglePlay();lastTap=now;hint.classList.add('show')}
+  function onMove(e){if(!dragging)return;const pt=e.touches?e.touches[0]:e,dx=pt.clientX-sx,dy=Math.abs(pt.clientY-sy);if(Math.abs(dx)>dy)wrap.style.transform=`translateX(${dx*.3}px)`}
+  function onEnd(e){if(!dragging)return;dragging=false;hint.classList.remove('show');wrap.style.transition='transform .25s cubic-bezier(.4,0,.2,1)';wrap.style.transform='';setTimeout(()=>wrap.style.transition='',260);const pt=e.changedTouches?e.changedTouches[0]:e,dx=pt.clientX-sx,dy=Math.abs(pt.clientY-sy);if(Math.abs(dx)>55&&Math.abs(dx)>dy)dx>0?playPrev():playNext()}
+  wrap.addEventListener('touchstart',onStart,{passive:true});
+  wrap.addEventListener('touchmove',onMove,{passive:true});
+  wrap.addEventListener('touchend',onEnd,{passive:true});
+  wrap.addEventListener('mousedown',onStart);
+  wrap.addEventListener('mousemove',e=>{if(e.buttons)onMove(e)});
+  wrap.addEventListener('mouseup',onEnd);
+})();
+
+function openModal(idx){const tr=TRACKS[idx];document.getElementById('modalTitle').textContent=T().lyricsFor+T()[tr.tk];document.getElementById('lyrics-text').textContent=tr.lyrics||'—';document.getElementById('modalBg').classList.add('show')}
+function closeModal(){document.getElementById('modalBg').classList.remove('show')}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();if(e.target.tagName==='INPUT')return;if(e.code==='Space'){e.preventDefault();togglePlay()}if(e.code==='ArrowRight')playNext();if(e.code==='ArrowLeft')playPrev()});
+
+applyLang();
+audio.volume=1;
+volSlider.style.setProperty('--vpct','100%');
+</script>
 </body>
 </html>
