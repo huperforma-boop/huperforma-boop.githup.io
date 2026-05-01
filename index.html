@@ -557,19 +557,19 @@
   // ---------- I18N ----------
   const I18N = {
     ru: { songsList:"📋 Все песни", favTab:"❤️ Избранное", lyricsTitle:"Текст песни", added:"Добавлено ♥", removed:"Удалено", emptyFav:"Нет избранных треков",
-      s1:"Орта жүз", s2:"Жарылғап батыр", s3:"Тегімнің рухы", s4:"Қалжыр", s5:"Қалжыр 2", s6:"Wedding Fog", s7:"Wedding Fog 2", s8:"Along the Roads", s9:"Анашым", s10:"Көктем", s11:"Туған туыс бақытым",
+      s1:"Орта жүз", s2:"Жарылғап батыр", s3:"Тегімнің рухы", s4:"Қалжыр", s5:"Қалжыр 2", s6:"Wedding Fog", s7:"Wedding Fog 2", s8:"Along the Roads", s9:"Анашым", s10:"Көктем", s11:"Туған туыс бақытым", s12:"Жарыма",
       a1:"Қабыкенов Сағыныш", a2:"Рамазанов Төреғали" },
     kk: { songsList:"📋 Барлық әндер", favTab:"❤️ Таңдаулылар", lyricsTitle:"Ән мәтіні", added:"Қосылды ♥", removed:"Жойылды", emptyFav:"Таңдаулы әндер жоқ",
-      s1:"Орта жүз", s2:"Жарылғап батыр", s3:"Тегімнің рухы", s4:"Қалжыр", s5:"Қалжыр 2", s6:"Wedding Fog", s7:"Wedding Fog 2", s8:"Along the Roads", s9:"Анашым", s10:"Көктем", s11:"Туған туыс бақытым",
+      s1:"Орта жүз", s2:"Жарылғап батыр", s3:"Тегімнің рухы", s4:"Қалжыр", s5:"Қалжыр 2", s6:"Wedding Fog", s7:"Wedding Fog 2", s8:"Along the Roads", s9:"Анашым", s10:"Көктем", s11:"Туған туыс бақытым", s12:"Жарыма",
       a1:"Қабыкенов Сағыныш", a2:"Рамазанов Төреғали" },
     en: { songsList:"📋 All songs", favTab:"❤️ Favorites", lyricsTitle:"Lyrics", added:"Added ♥", removed:"Removed", emptyFav:"No favorite tracks",
-      s1:"Middle Zhuz", s2:"Zharylghap Batyr", s3:"Spirit of My Lineage", s4:"Kalzhyr", s5:"Kalzhyr 2", s6:"Wedding Fog", s7:"Wedding Fog 2", s8:"Along the Roads", s9:"Anashym", s10:"Spring", s11:"My Native Happiness",
+      s1:"Middle Zhuz", s2:"Zharylghap Batyr", s3:"Spirit of My Lineage", s4:"Kalzhyr", s5:"Kalzhyr 2", s6:"Wedding Fog", s7:"Wedding Fog 2", s8:"Along the Roads", s9:"Anashym", s10:"Spring", s11:"My Native Happiness", s12:"Zharima",
       a1:"Kabikenov Sagynysh", a2:"Ramazanov Toreghali" },
     fr: { songsList:"📋 Toutes les chansons", favTab:"❤️ Favoris", lyricsTitle:"Paroles", added:"Ajouté ♥", removed:"Supprimé", emptyFav:"Aucun favori",
-      s1:"Juz du Milieu", s2:"Zharylghap Batyr", s3:"Esprit de ma lignée", s4:"Kalzhyr", s5:"Kalzhyr 2", s6:"Wedding Fog", s7:"Wedding Fog 2", s8:"Along the Roads", s9:"Anashym", s10:"Printemps", s11:"Mon bonheur natal",
+      s1:"Juz du Milieu", s2:"Zharylghap Batyr", s3:"Esprit de ma lignée", s4:"Kalzhyr", s5:"Kalzhyr 2", s6:"Wedding Fog", s7:"Wedding Fog 2", s8:"Along the Roads", s9:"Anashym", s10:"Printemps", s11:"Mon bonheur natal", s12:"Zharima",
       a1:"Kabikenov Sagynysh", a2:"Ramazanov Toreghali" },
     zh: { songsList:"📋 所有歌曲", favTab:"❤️ 收藏", lyricsTitle:"歌词", added:"已添加 ♥", removed:"已删除", emptyFav:"暂无收藏歌曲",
-      s1:"中玉兹", s2:"扎里尔哈普·巴蒂尔", s3:"我的血统精神", s4:"卡尔日尔", s5:"卡尔日尔2", s6:"婚礼雾", s7:"婚礼雾2", s8:"沿途", s9:"阿纳希姆", s10:"春天", s11:"我的原生幸福",
+      s1:"中玉兹", s2:"扎里尔哈普·巴蒂尔", s3:"我的血统精神", s4:"卡尔日尔", s5:"卡尔日尔2", s6:"婚礼雾", s7:"婚礼雾2", s8:"沿途", s9:"阿纳希姆", s10:"春天", s11:"我的原生幸福", s12:"扎里马",
       a1:"卡比肯诺夫·萨格尼什", a2:"拉马扎诺夫·托雷加利" }
   };
   const LANG_NAMES = { kk:"Қазақша", ru:"Русский", en:"English", fr:"Français", zh:"简体中文" };
@@ -594,7 +594,8 @@
     { tk:"s8", src:"Along_the_roads.mp3", cover:"Along_the_roads.jpg", author:"a1", lyrics:"Along the roads..." },
     { tk:"s9", src:"Anashym.mp3", cover:"Anashym.jpg", author:"a1", lyrics:"Анашым, анашым..." },
     { tk:"s10", src:"Koktem_audio.mp3", cover:"Koktem.jpg", author:"a2", lyrics:"Көктем әні..." },
-    { tk:"s11", src:"Tuğan_tūyıs_baqytym.mp3", cover:"Tūğan_tūyıs_baqytym.jpg", author:"a2", lyrics:"Туған туыс бақытым..." }
+    { tk:"s11", src:"Tuğan_tūyıs_baqytym.mp3", cover:"Tūğan_tūyıs_baqytym.jpg", author:"a2", lyrics:"Туған туыс бақытым..." },
+    { tk:"s12", src:"zharyma.mp3", cover:"zharyma.jpg", author:"a2", lyrics:"Сен маған өкпелеме асыл жарым,\nЖанымның аяғам жоқ асылдарын.\nТағдырға мың рахмет - сен болмасаң,\nЖайқалмай кетер ме еді - жасыл бағым.\n\nОйлайсың отбасының жарасымын,\nТөгіліп бойыңдағы бар асылың.\nСен егер бағаласаң болмысымды,\nМен сенің жанарыңның қарасымын.\n\nБар әлі байқағанға балаңдығым,\nКей кезде өкпелетіп алам күнім.\nБілесің жоқ екенін қиянатым,\nЖәне де жоқ екенін жамандығым.\n\nҮй ортақ, бір шаңырақ аясында,\nШашымызды ақ қырау боясында.\nАқындық жүрекпенен сезсең егер,\nШіркінай тірлік тәтті тоясыңба.." }
   ];
 
   let lang = localStorage.getItem('umit_lang') || 'ru';
@@ -613,18 +614,14 @@
     document.body.className = theme.className;
     document.getElementById('themeLabel').innerText = theme.name;
     // обновить активный пункт в меню тем
-    if (themeDd) {
-      const options = themeDd.querySelectorAll('.dropdown-option');
-      options.forEach(opt => {
-        if (opt.dataset.theme === currentTheme) opt.classList.add('active');
-        else opt.classList.remove('active');
-      });
-    }
+    document.querySelectorAll('#themeDd .dropdown-option').forEach(opt => {
+      if (opt.dataset.theme === currentTheme) opt.classList.add('active');
+      else opt.classList.remove('active');
+    });
     if (prog) prog.style.setProperty('--pct', (prog.value || 0) + '%');
     if (volSlider) updateVolGrad();
   }
 
-  // Сохранение состояния
   function saveState() {
     if(curIdx<0) return;
     localStorage.setItem('umit_player_state', JSON.stringify({
@@ -766,11 +763,7 @@
 
   function applyLang() {
     document.getElementById('langLabel').innerText = LANG_NAMES[lang];
-    const langOptions = langDd.querySelectorAll('.dropdown-option');
-    langOptions.forEach(opt => {
-      if (opt.dataset.lang === lang) opt.classList.add('active');
-      else opt.classList.remove('active');
-    });
+    document.querySelectorAll('.lang-opt').forEach(o=>o.classList.toggle('active',o.dataset.lang===lang));
     document.querySelectorAll('[data-key]').forEach(el => { let k=el.dataset.key; if(T()[k]) el.innerText = T()[k]; });
     if(curIdx>=0) {
       document.getElementById('trackTitle').innerText = T()[TRACKS[curIdx].tk];
