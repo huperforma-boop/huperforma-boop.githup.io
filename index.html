@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>UMIT | Минималистичный плеер</title>
+  <title>UMIT | Компактный плеер</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
@@ -13,6 +13,7 @@
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
     }
+
     body {
       background: #0a0a0f;
       font-family: 'Inter', sans-serif;
@@ -21,18 +22,23 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 20px;
+      padding: 24px;
     }
+
+    /* основная карточка – достаточно широкая, не сжатая */
     .player {
       max-width: 560px;
       width: 100%;
-      background: rgba(16, 16, 22, 0.9);
+      background: rgba(18, 18, 26, 0.95);
       backdrop-filter: blur(24px);
-      border-radius: 40px;
-      padding: 24px;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 44px;
+      padding: 28px 26px 32px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.2s;
     }
+
+    /* верхняя панель */
     .top-bar {
       display: flex;
       justify-content: space-between;
@@ -41,38 +47,40 @@
     }
     .logo {
       font-weight: 700;
-      font-size: 1.2rem;
-      background: linear-gradient(135deg, #b03cff, #7b1fff);
+      font-size: 1.3rem;
+      background: linear-gradient(135deg, #b03cff, #9b2ce8);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
       letter-spacing: -0.3px;
     }
     #langBtn {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      color: #ccc;
-      padding: 6px 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #ddd;
+      padding: 6px 14px;
       border-radius: 40px;
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       font-weight: 500;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       transition: 0.2s;
     }
-    #langBtn:hover { background: rgba(176,60,255,0.2); }
-    .chevron { font-size: 0.65rem; transition: transform 0.2s; }
+    #langBtn:hover { background: rgba(176, 60, 255, 0.2); }
+    .chevron { font-size: 0.7rem; transition: transform 0.2s; }
     #langBtn.open .chevron { transform: rotate(180deg); }
+
+    /* дропдаун языка (копия из предыдущего) */
     #langDd {
       position: fixed;
       z-index: 9999;
       background: #1a1a24;
-      border: 1px solid rgba(176,60,255,0.3);
+      border: 1px solid rgba(176, 60, 255, 0.3);
       border-radius: 20px;
       padding: 8px;
-      box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
       transform: scale(0.92) translateY(-8px);
       opacity: 0;
       pointer-events: none;
@@ -89,25 +97,25 @@
       cursor: pointer;
       font-size: 0.8rem;
       white-space: nowrap;
-      transition: 0.1s;
     }
-    .lang-opt:hover { background: rgba(176,60,255,0.2); }
-    .lang-opt.active { background: rgba(176,60,255,0.3); color: #b03cff; }
+    .lang-opt:hover { background: rgba(176, 60, 255, 0.2); }
+    .lang-opt.active { background: rgba(176, 60, 255, 0.3); color: #b03cff; }
 
+    /* обложка + инфо */
     .media-row {
       display: flex;
-      gap: 20px;
+      gap: 22px;
       margin-bottom: 28px;
       align-items: center;
     }
     .cover {
-      width: 88px;
-      height: 88px;
-      border-radius: 20px;
+      width: 96px;
+      height: 96px;
+      border-radius: 24px;
       overflow: hidden;
       flex-shrink: 0;
       background: #2a2a30;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     }
     .cover img {
       width: 100%;
@@ -120,47 +128,48 @@
       min-width: 0;
     }
     .track-title {
-      font-size: 1.35rem;
+      font-size: 1.5rem;
       font-weight: 700;
       letter-spacing: -0.3px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
     .track-author {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       color: #aaa;
     }
 
+    /* прогресс + время */
     .progress-row {
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
     .time-lbl {
-      font-size: 0.7rem;
+      font-size: 0.75rem;
       color: #aaa;
       font-variant-numeric: tabular-nums;
-      min-width: 38px;
+      min-width: 40px;
     }
     .time-lbl.r { text-align: right; }
     input[type="range"] {
       flex: 1;
-      height: 4px;
+      height: 5px;
       -webkit-appearance: none;
       background: #2c2c34;
-      border-radius: 4px;
+      border-radius: 5px;
     }
     input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 14px;
-      height: 14px;
+      width: 15px;
+      height: 15px;
       background: #fff;
       border-radius: 50%;
       cursor: pointer;
-      box-shadow: 0 0 6px rgba(176,60,255,0.5);
+      box-shadow: 0 0 8px rgba(176, 60, 255, 0.6);
     }
     #progress-bar {
       background: linear-gradient(to right, #b03cff var(--pct, 0%), #2c2c34 var(--pct, 0%));
@@ -169,18 +178,53 @@
       background: linear-gradient(to right, #b03cff var(--vpct, 100%), #2c2c34 var(--vpct, 100%));
     }
 
-    .controls {
+    /* === НОВЫЕ РЯДЫ КНОПОК === */
+    /* основные кнопки (prev, play, next) – крупные, ровно по центру */
+    .main-controls {
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 20px;
+      gap: 24px;
+      margin-bottom: 24px;
     }
-    .ctrl-btn {
+    .main-btn {
       background: none;
       border: none;
       color: #ddd;
-      font-size: 1.2rem;
+      font-size: 1.5rem;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .main-btn:active { transform: scale(0.94); }
+    .main-btn.play {
+      background: #b03cff;
+      color: white;
+      font-size: 1.8rem;
+      width: 72px;
+      height: 72px;
+      box-shadow: 0 6px 18px rgba(176, 60, 255, 0.5);
+    }
+    .main-btn.play:hover { box-shadow: 0 8px 24px rgba(176, 60, 255, 0.7); }
+
+    /* дополнительные кнопки (shuffle, repeat, fav) – внизу, компактные */
+    .extra-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 28px;
+      margin-bottom: 28px;
+    }
+    .extra-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #bbb;
+      font-size: 1.1rem;
       width: 44px;
       height: 44px;
       border-radius: 50%;
@@ -188,80 +232,88 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: all 0.15s;
+      transition: 0.15s;
+      position: relative;
     }
-    .ctrl-btn:active { transform: scale(0.92); }
-    .ctrl-btn.play {
+    .extra-btn:active { transform: scale(0.92); }
+    .extra-btn.active { color: #b03cff; border-color: #b03cff; background: rgba(176, 60, 255, 0.1); }
+    .repeat-badge {
+      position: absolute;
+      bottom: -2px;
+      right: -4px;
       background: #b03cff;
-      color: white;
-      font-size: 1.4rem;
-      width: 56px;
-      height: 56px;
-      box-shadow: 0 4px 12px rgba(176,60,255,0.4);
+      color: #0a0a0f;
+      font-size: 0.65rem;
+      font-weight: bold;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .ctrl-btn.active { color: #b03cff; }
-    .ctrl-btn.active i { color: #b03cff; }
 
+    /* громкость */
     .volume-row {
       display: flex;
       align-items: center;
       gap: 12px;
       margin-bottom: 28px;
     }
-    .vol-ic { color: #aaa; font-size: 0.8rem; width: 24px; }
+    .vol-ic { color: #aaa; font-size: 0.85rem; width: 24px; }
 
+    /* вкладки плейлиста */
     .playlist-tabs {
       display: flex;
-      gap: 24px;
+      gap: 28px;
       margin-bottom: 16px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 12px;
     }
     .tab-btn {
       background: none;
       border: none;
-      color: #888;
-      font-size: 0.85rem;
+      color: #aaa;
+      font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
-      transition: 0.2s;
       padding: 4px 0;
+      transition: 0.2s;
     }
     .tab-btn.active {
       color: #b03cff;
       border-bottom: 2px solid #b03cff;
-      margin-bottom: -11px;
-      padding-bottom: 9px;
+      margin-bottom: -13px;
     }
     #playlistContainer {
-      max-height: 280px;
+      max-height: 300px;
       overflow-y: auto;
-      padding-right: 4px;
+      padding-right: 6px;
     }
     .author-label {
       font-size: 0.7rem;
-      font-weight: 600;
+      font-weight: 700;
       color: #b03cff;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin: 12px 0 8px;
+      letter-spacing: 0.8px;
+      margin: 16px 0 8px;
     }
     .pl-item {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 8px 6px;
-      border-radius: 14px;
+      gap: 14px;
+      padding: 8px 8px;
+      border-radius: 16px;
       cursor: pointer;
-      transition: background 0.1s;
+      transition: 0.1s;
     }
-    .pl-item:hover { background: rgba(176,60,255,0.08); }
-    .pl-item.playing { background: rgba(176,60,255,0.12); }
+    .pl-item:hover { background: rgba(176, 60, 255, 0.08); }
+    .pl-item.playing { background: rgba(176, 60, 255, 0.12); }
     .pl-item.playing .pl-title { color: #b03cff; font-weight: 600; }
     .pl-thumb {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
       overflow: hidden;
       flex-shrink: 0;
       background: #2a2a30;
@@ -269,7 +321,7 @@
     .pl-thumb img { width: 100%; height: 100%; object-fit: cover; }
     .pl-meta { flex: 1; min-width: 0; }
     .pl-title {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       font-weight: 500;
       white-space: nowrap;
       overflow: hidden;
@@ -278,31 +330,31 @@
     .pl-dur {
       font-size: 0.7rem;
       color: #888;
-      min-width: 36px;
+      min-width: 40px;
       text-align: right;
     }
     .lyr-btn {
       background: none;
       border: none;
       color: #888;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       cursor: pointer;
-      width: 30px;
-      height: 30px;
-      border-radius: 8px;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
     }
-    .lyr-btn:hover { color: #b03cff; background: rgba(176,60,255,0.1); }
+    .lyr-btn:hover { color: #b03cff; background: rgba(176, 60, 255, 0.1); }
     .empty-fav {
       text-align: center;
       padding: 32px 16px;
       color: #888;
-      font-size: 0.85rem;
     }
 
+    /* модалка */
     .modal-bg {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.8);
+      background: rgba(0, 0, 0, 0.85);
       backdrop-filter: blur(12px);
       display: flex;
       align-items: flex-end;
@@ -312,22 +364,17 @@
       pointer-events: none;
       transition: 0.2s;
     }
-    .modal-bg.show {
-      opacity: 1;
-      pointer-events: all;
-    }
+    .modal-bg.show { opacity: 1; pointer-events: all; }
     .modal-card {
       background: #1a1a24;
-      border-radius: 28px 28px 0 0;
+      border-radius: 32px 32px 0 0;
       width: 100%;
-      max-width: 500px;
+      max-width: 520px;
       padding: 24px;
       transform: translateY(100%);
       transition: 0.3s;
     }
-    .modal-bg.show .modal-card {
-      transform: translateY(0);
-    }
+    .modal-bg.show .modal-card { transform: translateY(0); }
     .modal-hdr {
       display: flex;
       justify-content: space-between;
@@ -343,7 +390,6 @@
     #lyrics-text {
       color: #ccc;
       line-height: 1.5;
-      font-size: 0.9rem;
       white-space: pre-wrap;
     }
     .toast {
@@ -361,13 +407,10 @@
       z-index: 10001;
       pointer-events: none;
     }
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #b03cff; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb { background: #b03cff; border-radius: 10px; }
   </style>
 </head>
 <body>
@@ -380,9 +423,7 @@
   </div>
 
   <div class="media-row">
-    <div class="cover" id="coverWrap">
-      <img id="coverImg" src="" alt="cover">
-    </div>
+    <div class="cover"><img id="coverImg" src="" alt="cover"></div>
     <div class="track-info">
       <div class="track-title" id="trackTitle">Выберите трек</div>
       <div class="track-author" id="trackAuthor">UMIT</div>
@@ -395,13 +436,18 @@
     <span class="time-lbl r" id="durTime">0:00</span>
   </div>
 
-  <div class="controls">
-    <button class="ctrl-btn" id="shuffleBtn"><i class="fas fa-shuffle"></i></button>
-    <button class="ctrl-btn" id="repeatBtn"><i class="fas fa-repeat"></i><span id="repeatBadge" style="display: none; font-size: 10px; margin-left: 2px;">1</span></button>
-    <button class="ctrl-btn" id="prevBtn"><i class="fas fa-backward-step"></i></button>
-    <button class="ctrl-btn play" id="playBtn"><i class="fas fa-play" id="playIcon"></i></button>
-    <button class="ctrl-btn" id="nextBtn"><i class="fas fa-forward-step"></i></button>
-    <button class="ctrl-btn" id="favBtn"><i class="far fa-heart"></i></button>
+  <!-- основные кнопки: назад, плей/пауза, вперед -->
+  <div class="main-controls">
+    <button class="main-btn" id="prevBtn"><i class="fas fa-backward-step"></i></button>
+    <button class="main-btn play" id="playBtn"><i class="fas fa-play" id="playIcon"></i></button>
+    <button class="main-btn" id="nextBtn"><i class="fas fa-forward-step"></i></button>
+  </div>
+
+  <!-- дополнительные кнопки: shuffle, repeat, fav -->
+  <div class="extra-controls">
+    <button class="extra-btn" id="shuffleBtn"><i class="fas fa-shuffle"></i></button>
+    <button class="extra-btn" id="repeatBtn"><i class="fas fa-repeat"></i><span id="repeatBadge" class="repeat-badge" style="display: none;">1</span></button>
+    <button class="extra-btn" id="favBtn"><i class="far fa-heart"></i></button>
   </div>
 
   <div class="volume-row">
@@ -429,37 +475,37 @@
 <div class="toast" id="toast"></div>
 
 <script>
-  // ========== i18n ==========
+  // ---------- I18N ----------
   const I18N = {
-    ru: { title:"UMIT Плеер", selectTrack:"Выберите трек", songsList:"📋 Все песни", favTab:"❤️ Избранное", lyricsTitle:"Текст песни", added:"Добавлено ♥", removed:"Удалено", emptyFav:"Нет избранных треков",
+    ru: { songsList:"📋 Все песни", favTab:"❤️ Избранное", lyricsTitle:"Текст песни", added:"Добавлено ♥", removed:"Удалено", emptyFav:"Нет избранных треков",
       s1:"Орта жүз", s2:"Жарылғап батыр", s3:"Тегімнің рухы", s4:"Қалжыр", s5:"Қалжыр 2", s6:"Wedding Fog", s7:"Wedding Fog 2", s8:"Along the Roads", s9:"Анашым", s10:"Көктем", s11:"Туған туыс бақытым",
       a1:"Қабыкенов Сағыныш", a2:"Рамазанов Төреғали" },
-    kk: { title:"UMIT Плеєрі", selectTrack:"Тректі таңдаңыз", songsList:"📋 Барлық әндер", favTab:"❤️ Таңдаулылар", lyricsTitle:"Ән мәтіні", added:"Қосылды ♥", removed:"Жойылды", emptyFav:"Таңдаулы әндер жоқ",
+    kk: { songsList:"📋 Барлық әндер", favTab:"❤️ Таңдаулылар", lyricsTitle:"Ән мәтіні", added:"Қосылды ♥", removed:"Жойылды", emptyFav:"Таңдаулы әндер жоқ",
       s1:"Орта жүз", s2:"Жарылғап батыр", s3:"Тегімнің рухы", s4:"Қалжыр", s5:"Қалжыр 2", s6:"Wedding Fog", s7:"Wedding Fog 2", s8:"Along the Roads", s9:"Анашым", s10:"Көктем", s11:"Туған туыс бақытым",
       a1:"Қабыкенов Сағыныш", a2:"Рамазанов Төреғали" },
-    en: { title:"UMIT Player", selectTrack:"Select a track", songsList:"📋 All songs", favTab:"❤️ Favorites", lyricsTitle:"Lyrics", added:"Added ♥", removed:"Removed", emptyFav:"No favorite tracks",
+    en: { songsList:"📋 All songs", favTab:"❤️ Favorites", lyricsTitle:"Lyrics", added:"Added ♥", removed:"Removed", emptyFav:"No favorite tracks",
       s1:"Middle Zhuz", s2:"Zharylghap Batyr", s3:"Spirit of My Lineage", s4:"Kalzhyr", s5:"Kalzhyr 2", s6:"Wedding Fog", s7:"Wedding Fog 2", s8:"Along the Roads", s9:"Anashym", s10:"Spring", s11:"My Native Happiness",
       a1:"Kabikenov Sagynysh", a2:"Ramazanov Toreghali" },
-    fr: { title:"UMIT Lecteur", selectTrack:"Choisissez une piste", songsList:"📋 Toutes les chansons", favTab:"❤️ Favoris", lyricsTitle:"Paroles", added:"Ajouté ♥", removed:"Supprimé", emptyFav:"Aucun favori",
+    fr: { songsList:"📋 Toutes les chansons", favTab:"❤️ Favoris", lyricsTitle:"Paroles", added:"Ajouté ♥", removed:"Supprimé", emptyFav:"Aucun favori",
       s1:"Juz du Milieu", s2:"Zharylghap Batyr", s3:"Esprit de ma lignée", s4:"Kalzhyr", s5:"Kalzhyr 2", s6:"Wedding Fog", s7:"Wedding Fog 2", s8:"Along the Roads", s9:"Anashym", s10:"Printemps", s11:"Mon bonheur natal",
       a1:"Kabikenov Sagynysh", a2:"Ramazanov Toreghali" },
-    zh: { title:"UMIT 播放器", selectTrack:"选择曲目", songsList:"📋 所有歌曲", favTab:"❤️ 收藏", lyricsTitle:"歌词", added:"已添加 ♥", removed:"已删除", emptyFav:"暂无收藏歌曲",
+    zh: { songsList:"📋 所有歌曲", favTab:"❤️ 收藏", lyricsTitle:"歌词", added:"已添加 ♥", removed:"已删除", emptyFav:"暂无收藏歌曲",
       s1:"中玉兹", s2:"扎里尔哈普·巴蒂尔", s3:"我的血统精神", s4:"卡尔日尔", s5:"卡尔日尔2", s6:"婚礼雾", s7:"婚礼雾2", s8:"沿途", s9:"阿纳希姆", s10:"春天", s11:"我的原生幸福",
       a1:"卡比肯诺夫·萨格尼什", a2:"拉马扎诺夫·托雷加利" }
   };
   const LANG_NAMES = { kk:"Қазақша", ru:"Русский", en:"English", fr:"Français", zh:"简体中文" };
   const TRACKS = [
-    { tk:"s1", src:"orta_juz_audio.mp3", cover:"orta_juz.jpg", author:"a1", lyrics:"Орта жүз — мәтін...\nТекст песни орта жүз." },
-    { tk:"s2", src:"jarylgap_batyr_audio.mp3", cover:"jarylgap_batyr.jpg", author:"a1", lyrics:"Жарылғап батыр — мәтін..." },
-    { tk:"s3", src:"tegimnin_ruhy_audio.mp3", cover:"tegimnin_ruhy.jpg", author:"a1", lyrics:"Тегімнің рухы — мәтін..." },
-    { tk:"s4", src:"Kalzhyr.mp3", cover:"Kalzhyr.jpg", author:"a1", lyrics:"Қалжыр — мәтін..." },
-    { tk:"s5", src:"Kalzhyr2.mp3", cover:"Kalzhyr2.jpg", author:"a1", lyrics:"Қалжыр 2 — мәтін..." },
-    { tk:"s6", src:"Wedding_fog.mp3", cover:"Wedding_fog.jpg", author:"a1", lyrics:"Wedding Fog lyrics..." },
-    { tk:"s7", src:"Wedding_fog2.mp3", cover:"Wedding_fog2.jpg", author:"a1", lyrics:"Wedding Fog 2 lyrics..." },
-    { tk:"s8", src:"Along_the_roads.mp3", cover:"Along_the_roads.jpg", author:"a1", lyrics:"Along the roads lyrics..." },
-    { tk:"s9", src:"Anashym.mp3", cover:"Anashym.jpg", author:"a1", lyrics:"Анашым, анашым, сен менің анашым..." },
-    { tk:"s10", src:"Koktem_audio.mp3", cover:"Koktem.jpg", author:"a2", lyrics:"Көктем — мәтін..." },
-    { tk:"s11", src:"Tuğan_tūyıs_baqytym.mp3", cover:"Tūğan_tūyıs_baqytym.jpg", author:"a2", lyrics:"Туған туыс бақытым — мәтін..." }
+    { tk:"s1", src:"orta_juz_audio.mp3", cover:"orta_juz.jpg", author:"a1", lyrics:"Орта жүз — әсем ән..." },
+    { tk:"s2", src:"jarylgap_batyr_audio.mp3", cover:"jarylgap_batyr.jpg", author:"a1", lyrics:"Жарылғап батыр — батырлар жыры..." },
+    { tk:"s3", src:"tegimnin_ruhy_audio.mp3", cover:"tegimnin_ruhy.jpg", author:"a1", lyrics:"Тегімнің рухы..." },
+    { tk:"s4", src:"Kalzhyr.mp3", cover:"Kalzhyr.jpg", author:"a1", lyrics:"Қалжыр әні..." },
+    { tk:"s5", src:"Kalzhyr2.mp3", cover:"Kalzhyr2.jpg", author:"a1", lyrics:"Қалжыр 2..." },
+    { tk:"s6", src:"Wedding_fog.mp3", cover:"Wedding_fog.jpg", author:"a1", lyrics:"Wedding Fog..." },
+    { tk:"s7", src:"Wedding_fog2.mp3", cover:"Wedding_fog2.jpg", author:"a1", lyrics:"Wedding Fog 2..." },
+    { tk:"s8", src:"Along_the_roads.mp3", cover:"Along_the_roads.jpg", author:"a1", lyrics:"Along the roads..." },
+    { tk:"s9", src:"Anashym.mp3", cover:"Anashym.jpg", author:"a1", lyrics:"Анашым, анашым..." },
+    { tk:"s10", src:"Koktem_audio.mp3", cover:"Koktem.jpg", author:"a2", lyrics:"Көктем әні..." },
+    { tk:"s11", src:"Tuğan_tūyıs_baqytym.mp3", cover:"Tūğan_tūyıs_baqytym.jpg", author:"a2", lyrics:"Туған туыс бақытым..." }
   ];
 
   let lang = localStorage.getItem('umit_lang') || 'ru';
@@ -471,7 +517,7 @@
   const fmt = s => isNaN(s) ? '0:00' : `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
   function showToast(msg) { let t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 2000); }
 
-  // Сохранение состояния
+  // сохранение / восстановление
   function saveState() {
     if(curIdx<0) return;
     localStorage.setItem('umit_player_state', JSON.stringify({
@@ -557,7 +603,7 @@
   function updateRepeatUI() {
     let btn=document.getElementById('repeatBtn'), badge=document.getElementById('repeatBadge');
     btn.classList.remove('active'); badge.style.display='none';
-    if(repeatState===1) { btn.classList.add('active'); badge.style.display='inline'; badge.innerText='1'; }
+    if(repeatState===1) { btn.classList.add('active'); badge.style.display='flex'; badge.innerText='1'; }
     else if(repeatState===2) btn.classList.add('active');
   }
   function cycleRepeat() { repeatState=(repeatState+1)%3; updateRepeatUI(); saveState(); showToast(['Повтор выкл','Повтор трека','Повтор плейлиста'][repeatState]); }
@@ -603,29 +649,20 @@
     }
   }
   function openModal(i) {
-    let tr=TRACKS[i];
-    document.getElementById('lyrics-text').innerText = tr.lyrics||'—';
+    document.getElementById('lyrics-text').innerText = TRACKS[i].lyrics||'—';
     document.getElementById('modalBg').classList.add('show');
   }
   function closeModal() { document.getElementById('modalBg').classList.remove('show'); }
 
   function applyLang() {
-    // Обновляем текст кнопки языка
     document.getElementById('langLabel').innerText = LANG_NAMES[lang];
-    // Обновляем активный класс в дропдауне
     document.querySelectorAll('.lang-opt').forEach(o=>o.classList.toggle('active',o.dataset.lang===lang));
-    // Обновляем все элементы с data-key
-    document.querySelectorAll('[data-key]').forEach(el => {
-      let key = el.dataset.key;
-      if(T()[key]) el.innerText = T()[key];
-    });
-    // Обновляем текущий трек, если он выбран
+    document.querySelectorAll('[data-key]').forEach(el => { let k=el.dataset.key; if(T()[k]) el.innerText = T()[k]; });
     if(curIdx>=0) {
       document.getElementById('trackTitle').innerText = T()[TRACKS[curIdx].tk];
       document.getElementById('trackAuthor').innerText = T()[TRACKS[curIdx].author];
       updateMediaSession();
     }
-    // Перерисовываем плейлист (чтобы обновить названия треков и авторов)
     renderPlaylist();
   }
 
@@ -645,7 +682,7 @@
   document.getElementById('favBtn').onclick=toggleFav;
   document.querySelectorAll('.tab-btn').forEach(btn=>btn.onclick=()=>{ currentTab=btn.dataset.tab; document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); renderPlaylist(); });
 
-  // Language dropdown
+  // язык
   const langBtn = document.getElementById('langBtn'), langDd = document.getElementById('langDd');
   function buildLangMenu() {
     langDd.innerHTML = '';
