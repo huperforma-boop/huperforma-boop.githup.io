@@ -25,7 +25,7 @@
       transition: background-color 0.3s ease, color 0.2s;
     }
 
-    /* ===== ОБЩИЕ ПЕРЕМЕННЫЕ (остальные темы без изменений) ===== */
+    /* ===== ТЕМЫ (полностью рабочие) ===== */
     body.theme-amethyst {
       --bg-body: #0a0a0f;
       --bg-player: rgba(18, 18, 26, 0.95);
@@ -116,8 +116,6 @@
       --vortex-color-2: rgba(78, 156, 44, 0.4);
       --vortex-color-3: rgba(140, 210, 100, 0.3);
     }
-
-    /* ===== ЭКСКЛЮЗИВНАЯ ТЕМА: ЖИДКОЕ СТЕКЛО (ультрареализм) ===== */
     body.theme-liquid-glass {
       --bg-body: rgba(20, 20, 35, 0.3);
       --bg-player: rgba(255, 255, 255, 0.08);
@@ -135,7 +133,6 @@
       --vortex-color-1: rgba(170, 255, 221, 0.7);
       --vortex-color-2: rgba(136, 238, 187, 0.5);
       --vortex-color-3: rgba(200, 255, 220, 0.4);
-      --glass-shine: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 60%);
     }
     body.theme-liquid-glass {
       background: radial-gradient(circle at 30% 40%, rgba(80,100,140,0.4), rgba(20,30,60,0.9));
@@ -166,7 +163,6 @@
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255,255,255,0.5);
       box-shadow: 0 4px 12px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.6);
-      transition: 0.2s;
     }
     body.theme-liquid-glass .main-btn:active,
     body.theme-liquid-glass .extra-btn:active {
@@ -177,12 +173,6 @@
       background: rgba(170,255,221,0.7);
       box-shadow: 0 0 20px rgba(170,255,221,0.8), inset 0 1px 0 rgba(255,255,255,0.8);
     }
-    body.theme-liquid-glass .track-title,
-    body.theme-liquid-glass .track-author {
-      text-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    }
-
-    /* ===== ЭКСКЛЮЗИВНАЯ ТЕМА: 3D DEPTH (выпуклые элементы) ===== */
     body.theme-3d-depth {
       --bg-body: #0a0a14;
       --bg-player: rgba(12, 12, 22, 0.95);
@@ -207,7 +197,6 @@
       animation: depthFloat 3s ease-in-out infinite;
       box-shadow: 0 30px 50px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);
       transform: translateY(0) rotateX(0.5deg) rotateY(0.5deg);
-      transition: transform 0.1s;
     }
     @keyframes depthFloat {
       0% { transform: translateY(0px) rotateX(0.5deg) rotateY(0.5deg); }
@@ -217,13 +206,11 @@
     body.theme-3d-depth .cover {
       transform: translateZ(15px) rotateY(2deg) rotateX(1deg);
       box-shadow: 0 20px 35px rgba(0,0,0,0.5), 0 0 0 2px rgba(255,153,102,0.3);
-      transition: transform 0.2s;
     }
     body.theme-3d-depth .main-btn {
       background: linear-gradient(145deg, #2a2a3c, #1a1a2a);
       box-shadow: 5px 5px 12px rgba(0,0,0,0.5), -2px -2px 5px rgba(255,255,255,0.05);
       transform: translateY(-2px);
-      transition: all 0.1s;
     }
     body.theme-3d-depth .main-btn:active {
       transform: translateY(2px);
@@ -246,7 +233,6 @@
       transform: translateY(1px);
     }
 
-    /* общие стили (без изменений, кроме z-index для анимации) */
     body {
       background: var(--bg-body);
       color: var(--text-primary);
@@ -302,7 +288,6 @@
       display: block;
     }
 
-    /* остальные стили скопированы из предыдущей версии без изменений */
     .top-bar {
       display: flex;
       justify-content: space-between;
@@ -705,7 +690,7 @@
 <div id="themeDd" class="dropdown"></div>
 <div class="player">
   <div class="top-bar">
-    <div class="logo">UMIT Player</div>
+    <div class="logo" data-key="title">UMIT Player</div>
     <div class="lang-theme-buttons">
       <button id="langBtn"><span id="langLabel">Русский</span> <i class="fas fa-chevron-down chevron"></i></button>
       <button id="themeBtn"><span id="themeLabel">Ametist</span> <i class="fas fa-palette theme-chevron"></i></button>
@@ -718,7 +703,7 @@
       <div class="cover"><img id="coverImg" src="" alt="cover"></div>
     </div>
     <div class="track-info">
-      <div class="track-title" id="trackTitle">Выберите трек</div>
+      <div class="track-title" id="trackTitle" data-key="selectTrack">Выберите трек</div>
       <div class="track-author" id="trackAuthor">UMIT</div>
     </div>
   </div>
@@ -766,23 +751,23 @@
 <div class="toast" id="toast"></div>
 
 <script>
-  // i18n и все остальные данные – без изменений (скопированы из предыдущей версии)
+  // -------------------- ПЕРЕВОДЫ --------------------
   const I18N = {
-    ru: { songsList:"📋 Все песни", favTab:"❤️ Избранное", lyricsTitle:"Текст песни", added:"Добавлено ♥", removed:"Удалено", emptyFav:"Нет избранных треков",
+    ru: { title:"UMIT Player", selectTrack:"Выберите трек", songsList:"📋 Все песни", favTab:"❤️ Избранное", lyricsTitle:"Текст песни", added:"Добавлено ♥", removed:"Удалено", emptyFav:"Нет избранных треков",
       s1:"Орта жүз", s2:"Жарылғап батыр", s3:"Тегімнің рухы", s4:"Қалжыр", s5:"Қалжыр 2", s6:"Wedding Fog", s7:"Wedding Fog 2", s8:"Along the Roads", s9:"Анашым", s10:"Көктем", s11:"Туған туыс бақытым", s12:"Жарыма", s13:"TENGRI 👑",
-      a1:"Қабыкенов Сағыныш", a2:"Рамазанов Төреғали"},
-    kk: { songsList:"📋 Барлық әндер", favTab:"❤️ Таңдаулылар", lyricsTitle:"Ән мәтіні", added:"Қосылды ♥", removed:"Жойылды", emptyFav:"Таңдаулы әндер жоқ",
+      a1:"Қабыкенов Сағыныш", a2:"Рамазанов Төреғали" },
+    kk: { title:"UMIT Плеєрі", selectTrack:"Тректі таңдаңыз", songsList:"📋 Барлық әндер", favTab:"❤️ Таңдаулылар", lyricsTitle:"Ән мәтіні", added:"Қосылды ♥", removed:"Жойылды", emptyFav:"Таңдаулы әндер жоқ",
       s1:"Орта жүз", s2:"Жарылғап батыр", s3:"Тегімнің рухы", s4:"Қалжыр", s5:"Қалжыр 2", s6:"Wedding Fog", s7:"Wedding Fog 2", s8:"Along the Roads", s9:"Анашым", s10:"Көктем", s11:"Туған туыс бақытым", s12:"Жарыма", s13:"TENGRI 👑",
-      a1:"Қабыкенов Сағыныш", a2:"Рамазанов Төреғали"},
-    en: { songsList:"📋 All songs", favTab:"❤️ Favorites", lyricsTitle:"Lyrics", added:"Added ♥", removed:"Removed", emptyFav:"No favorite tracks",
+      a1:"Қабыкенов Сағыныш", a2:"Рамазанов Төреғали" },
+    en: { title:"UMIT Player", selectTrack:"Select a track", songsList:"📋 All songs", favTab:"❤️ Favorites", lyricsTitle:"Lyrics", added:"Added ♥", removed:"Removed", emptyFav:"No favorite tracks",
       s1:"Middle Zhuz", s2:"Zharylghap Batyr", s3:"Spirit of My Lineage", s4:"Kalzhyr", s5:"Kalzhyr 2", s6:"Wedding Fog", s7:"Wedding Fog 2", s8:"Along the Roads", s9:"Anashym", s10:"Spring", s11:"My Native Happiness", s12:"Zharima", s13:"TENGRI 👑",
-      a1:"Kabikenov Sagynysh", a2:"Ramazanov Toreghali"},
-    fr: { songsList:"📋 Toutes les chansons", favTab:"❤️ Favoris", lyricsTitle:"Paroles", added:"Ajouté ♥", removed:"Supprimé", emptyFav:"Aucun favori",
+      a1:"Kabikenov Sagynysh", a2:"Ramazanov Toreghali" },
+    fr: { title:"UMIT Lecteur", selectTrack:"Choisissez une piste", songsList:"📋 Toutes les chansons", favTab:"❤️ Favoris", lyricsTitle:"Paroles", added:"Ajouté ♥", removed:"Supprimé", emptyFav:"Aucun favori",
       s1:"Juz du Milieu", s2:"Zharylghap Batyr", s3:"Esprit de ma lignée", s4:"Kalzhyr", s5:"Kalzhyr 2", s6:"Wedding Fog", s7:"Wedding Fog 2", s8:"Along the Roads", s9:"Anashym", s10:"Printemps", s11:"Mon bonheur natal", s12:"Zharima", s13:"TENGRI 👑",
-      a1:"Kabikenov Sagynysh", a2:"Ramazanov Toreghali"},
-    zh: { songsList:"📋 所有歌曲", favTab:"❤️ 收藏", lyricsTitle:"歌词", added:"已添加 ♥", removed:"已删除", emptyFav:"暂无收藏歌曲",
+      a1:"Kabikenov Sagynysh", a2:"Ramazanov Toreghali" },
+    zh: { title:"UMIT 播放器", selectTrack:"选择曲目", songsList:"📋 所有歌曲", favTab:"❤️ 收藏", lyricsTitle:"歌词", added:"已添加 ♥", removed:"已删除", emptyFav:"暂无收藏歌曲",
       s1:"中玉兹", s2:"扎里尔哈普·巴蒂尔", s3:"我的血统精神", s4:"卡尔日尔", s5:"卡尔日尔2", s6:"婚礼雾", s7:"婚礼雾2", s8:"沿途", s9:"阿纳希姆", s10:"春天", s11:"我的原生幸福", s12:"扎里马", s13:"TENGRI 👑",
-      a1:"卡比肯诺夫·萨格尼什", a2:"拉马扎诺夫·托雷加利"}
+      a1:"卡比肯诺夫·萨格尼什", a2:"拉马扎诺夫·托雷加利" }
   };
   const LANG_NAMES = { kk:"Қазақша", ru:"Русский", en:"English", fr:"Français", zh:"简体中文" };
   
@@ -808,8 +793,8 @@
     { tk:"s9", src:"Anashym.mp3", cover:"Anashym.jpg", author:"a1", lyrics:"Анашым, анашым..." },
     { tk:"s10", src:"Koktem_audio.mp3", cover:"Koktem.jpg", author:"a2", lyrics:"Көктем әні..." },
     { tk:"s11", src:"Tuğan_tūyıs_baqytym.mp3", cover:"Tūğan_tūyıs_baqytym.jpg", author:"a2", lyrics:"Туған туыс бақытым..." },
-    { tk:"s12", src:"zharyma.mp3", cover:"zharyma.jpg", author:"a2", lyrics:"Сен маған өкпелеме асыл жарым,\nЖанымның аяғам жоқ асылдарын.\nТағдырға мың рахмет - сен болмасаң,\nЖайқалмай кетер ме еді - жасыл бағым.\n\nОйлайсың отбасының жарасымын,\nТөгіліп бойыңдағы бар асылың.\nСен егер бағаласаң болмысымды,\nМен сенің жанарыңның қарасымын.\n\nБар әлі байқағанға балаңдығым,\nКей кезде өкпелетіп алам күнім.\nБілесің жоқ екенін қиянатым,\nЖәне де жоқ екенін жамандығым.\n\nҮй ортақ, бір шаңырақ аясында,\nШашымызды ақ қырау боясында.\nАқындық жүрекпенен сезсең егер,\nШіркінай тірлік тәтті тоясыңба.."},
-    { tk:"s13", src:"tengri.mp3", cover:"tengri.jpg", author:"a1", lyrics:"Көк аспанда тұрсың сен, Тәңірім,\nЖарық нұрың төгіліп, жерді жылытқан.\nҚайра Қанның оты сенде жанған,\nЖер мен суды, отты жаратып берген.\nБабаларым саған қарап бата алған,\nҚазақтың жолы ашық болсын деп.\n\nО, Көк Тәңірім, күш бер бізге!\nРухымызды биікке көтер, жарық ет!\nҰмай ана қорғасын ұрпағымызды,\nОт-судың рақымы бізге жетсін!\nО, Көк Тәңірім, күш бер бізге!\nРухымызды биікке көтер, жарық ет!\nҰмай ана қорғасын ұрпағымызды,\nОт-судың рақымы бізге жетсін!\n\nҰмай ана – анамыздың бейнесі,\nБалаға бақыт, құнар сыйлайсың.\nОт – ошақтың жылы жүрегі,\nСу – таза ағын, өмірдің көзі.\nЖер-Су бірге тұрып, даланы күзетеді,\nТәңірінің құдіреті бәрін байланыстырған.\n\nО, Көк Тәңірім, күш бер бізге!\nРухымызды биікке көтер, жарық ет!\nҰмай ана қорғасын ұрпағымызды,\nОт-судың рақымы бізге жетсін!\nО, Көк Тәңірім, күш бер бізге!\nРухымызды биікке көтер, жарық ет!\nҰмай ана қорғасын ұрпағымызды,\nОт-судың рақымы бізге жетсін!\n\nЭрлік тұр қараңғыда, төмен әлемде,\nӨлімнің иесі, бірақ сен жоғарыдасың.\nТағдырды билеп, жолымызды ашасың,\nЖігер беріп, жеңіске жеткізесің.\nБабалар саған жалбарынып, ту көтерген,\nЕркіндіктің отын сен жағып берген.\n\nО, Көк Тәңірім, күш бер бізге!\nРухымызды биікке көтер, жарық ет!\nҰмай ана қорғасын ұрпағымызды,\nОт-судың рақымы бізге жетсін!\nО, Көк Тәңірім, күш бер бізге!\nРухымызды биікке көтер, жарық ет!\nҰмай ана қорғасын ұрпағымызды,\nОт-судың рақымы бізге жетсін!"}
+    { tk:"s12", src:"zharyma.mp3", cover:"zharyma.jpg", author:"a2", lyrics:"Сен маған өкпелеме асыл жарым,\nЖанымның аяғам жоқ асылдарын.\nТағдырға мың рахмет - сен болмасаң,\nЖайқалмай кетер ме еді - жасыл бағым.\n\nОйлайсың отбасының жарасымын,\nТөгіліп бойыңдағы бар асылың.\nСен егер бағаласаң болмысымды,\nМен сенің жанарыңның қарасымын.\n\nБар әлі байқағанға балаңдығым,\nКей кезде өкпелетіп алам күнім.\nБілесің жоқ екенін қиянатым,\nЖәне де жоқ екенін жамандығым.\n\nҮй ортақ, бір шаңырақ аясында,\nШашымызды ақ қырау боясында.\nАқындық жүрекпенен сезсең егер,\nШіркінай тірлік тәтті тоясыңба.." },
+    { tk:"s13", src:"tengri.mp3", cover:"tengri.jpg", author:"a1", lyrics:"Көк аспанда тұрсың сен, Тәңірім,\nЖарық нұрың төгіліп, жерді жылытқан.\nҚайра Қанның оты сенде жанған,\nЖер мен суды, отты жаратып берген.\nБабаларым саған қарап бата алған,\nҚазақтың жолы ашық болсын деп.\n\nО, Көк Тәңірім, күш бер бізге!\nРухымызды биікке көтер, жарық ет!\nҰмай ана қорғасын ұрпағымызды,\nОт-судың рақымы бізге жетсін!\nО, Көк Тәңірім, күш бер бізге!\nРухымызды биікке көтер, жарық ет!\nҰмай ана қорғасын ұрпағымызды,\nОт-судың рақымы бізге жетсін!\n\nҰмай ана – анамыздың бейнесі,\nБалаға бақыт, құнар сыйлайсың.\nОт – ошақтың жылы жүрегі,\nСу – таза ағын, өмірдің көзі.\nЖер-Су бірге тұрып, даланы күзетеді,\nТәңірінің құдіреті бәрін байланыстырған.\n\nО, Көк Тәңірім, күш бер бізге!\nРухымызды биікке көтер, жарық ет!\nҰмай ана қорғасын ұрпағымызды,\nОт-судың рақымы бізге жетсін!\nО, Көк Тәңірім, күш бер бізге!\nРухымызды биікке көтер, жарық ет!\nҰмай ана қорғасын ұрпағымызды,\nОт-судың рақымы бізге жетсін!\n\nЭрлік тұр қараңғыда, төмен әлемде,\nӨлімнің иесі, бірақ сен жоғарыдасың.\nТағдырды билеп, жолымызды ашасың,\nЖігер беріп, жеңіске жеткізесің.\nБабалар саған жалбарынып, ту көтерген,\nЕркіндіктің отын сен жағып берген.\n\nО, Көк Тәңірім, күш бер бізге!\nРухымызды биікке көтер, жарық ет!\nҰмай ана қорғасын ұрпағымызды,\nОт-судың рақымы бізге жетсін!\nО, Көк Тәңірім, күш бер бізге!\nРухымызды биікке көтер, жарық ет!\nҰмай ана қорғасын ұрпағымызды,\nОт-судың рақымы бізге жетсін!" }
   ];
 
   let lang = localStorage.getItem('umit_lang') || 'ru';
@@ -822,6 +807,7 @@
   const fmt = s => isNaN(s) ? '0:00' : `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
   function showToast(msg) { let t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 2000); }
 
+  // ---------- canvas вихрь ----------
   const canvas = document.getElementById('vortexCanvas');
   const ctx = canvas.getContext('2d');
   let animFrame = null;
@@ -835,7 +821,7 @@
     return { color1, color2, color3 };
   }
 
-  function drawVortex(isTengri = false) {
+  function drawVortex(isTengri) {
     if (!ctx) return;
     const w = canvas.width, h = canvas.height;
     ctx.clearRect(0, 0, w, h);
@@ -902,47 +888,37 @@
     }
     animFrame = requestAnimationFrame(animate);
   }
-
   function stopVortexAnimation() {
-    if (animFrame) {
-      cancelAnimationFrame(animFrame);
-      animFrame = null;
-    }
+    if (animFrame) { cancelAnimationFrame(animFrame); animFrame = null; }
     if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
-
   function updateVortexBasedOnTrack() {
     const isTengri = curIdx !== -1 && TRACKS[curIdx].tk === 's13';
-    if (isVortexActive && !audio.paused) {
-      startVortexAnimation(isTengri);
-    } else {
-      stopVortexAnimation();
-    }
+    if (isVortexActive && !audio.paused) startVortexAnimation(isTengri);
+    else stopVortexAnimation();
   }
-
   function setVortexState(playing) {
     isVortexActive = playing;
     updateVortexBasedOnTrack();
   }
 
+  // ---------- Применение темы ----------
   function applyTheme() {
     const theme = THEMES[currentTheme];
     document.body.className = theme.className;
     document.getElementById('themeLabel').innerText = theme.name;
     document.querySelectorAll('#themeDd .dropdown-option').forEach(opt => {
-      if (opt.dataset.theme === currentTheme) opt.classList.add('active');
-      else opt.classList.remove('active');
+      opt.classList.toggle('active', opt.dataset.theme === currentTheme);
     });
     if (prog) prog.style.setProperty('--pct', (prog.value || 0) + '%');
     if (volSlider) updateVolGrad();
     if (isVortexActive && !audio.paused) {
       const isTengri = curIdx !== -1 && TRACKS[curIdx].tk === 's13';
       startVortexAnimation(isTengri);
-    } else {
-      stopVortexAnimation();
-    }
+    } else stopVortexAnimation();
   }
 
+  // ---------- Сохранение / восстановление ----------
   function saveState() {
     if(curIdx<0) return;
     localStorage.setItem('umit_player_state', JSON.stringify({
@@ -961,12 +937,12 @@
       else currentTheme = 'amethyst';
       shuffle = d.shuffle || false;
       repeatState = d.repeat || 0;
-      if(d.volume !== undefined) { audio.volume = d.volume; document.getElementById('volume-slider').value = d.volume; updateVolGrad(); }
+      if(d.volume !== undefined) { audio.volume = d.volume; volSlider.value = d.volume; updateVolGrad(); }
       if(d.curIdx>=0 && d.curIdx<TRACKS.length) {
         curIdx = d.curIdx;
         let tr = TRACKS[curIdx];
         audio.src = tr.src;
-        document.getElementById('coverImg').src = tr.cover;
+        coverImg.src = tr.cover;
         document.getElementById('trackTitle').innerText = T()[tr.tk];
         document.getElementById('trackAuthor').innerText = T()[tr.author];
         audio.load();
@@ -1089,11 +1065,20 @@
   }
   function closeModal() { document.getElementById('modalBg').classList.remove('show'); }
 
+  // ---------- Применение языка (исправленное обновление активного класса) ----------
   function applyLang() {
     document.getElementById('langLabel').innerText = LANG_NAMES[lang];
-    document.querySelectorAll('.lang-opt').forEach(o=>o.classList.toggle('active',o.dataset.lang===lang));
-    document.querySelectorAll('[data-key]').forEach(el => { let k=el.dataset.key; if(T()[k]) el.innerText = T()[k]; });
-    if(curIdx>=0) {
+    // обновляем активный класс в меню языка
+    document.querySelectorAll('#langDd .dropdown-option').forEach(opt => {
+      if (opt.dataset.lang === lang) opt.classList.add('active');
+      else opt.classList.remove('active');
+    });
+    // обновляем все текстовые элементы с data-key
+    document.querySelectorAll('[data-key]').forEach(el => {
+      const key = el.dataset.key;
+      if (T()[key] !== undefined) el.innerText = T()[key];
+    });
+    if (curIdx >= 0) {
       document.getElementById('trackTitle').innerText = T()[TRACKS[curIdx].tk];
       document.getElementById('trackAuthor').innerText = T()[TRACKS[curIdx].author];
       updateMediaSession();
@@ -1101,6 +1086,7 @@
     renderPlaylist();
   }
 
+  // ---------- События ----------
   audio.addEventListener('timeupdate',()=>{ if(audio.duration){ let p=audio.currentTime/audio.duration*100; prog.value=p; prog.style.setProperty('--pct',p+'%'); curTimeEl.innerText=fmt(audio.currentTime); } });
   audio.addEventListener('loadedmetadata',()=>{ durTimeEl.innerText=fmt(audio.duration); if(curIdx>=0&&audio.duration) durations[curIdx]=audio.duration; renderPlaylist(); });
   audio.addEventListener('ended',nextTrack);
